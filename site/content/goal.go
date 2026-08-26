@@ -40,7 +40,9 @@ These hold in every chapter. If a change would break one, the change is wrong.
 ## Constraints
 
 - Standard library only. No frameworks, no brokers, no third-party libraries.
-  The one exception is the runner, which is a shell script.
+  The one exception is the runner, a script you are given rather than build.
+- Copies and the proxy are configured only by environment: PEYVA_PORT, and
+  PEYVA_PEERS for the proxy.
 - Runs on one laptop. No containers, no cloud, no deployment.
 - One process until chapter 10, several after it, started by a runner in the
   repo rather than by hand.
@@ -64,9 +66,9 @@ Each appears in the chapter that builds it. Until then it does not exist.
 - Courier: carries out work after a payment clears. Chapter 12.
 - Reconciler: proves the Vault and the Ledger still agree. Chapter 20.
 - Runner: a script that starts a given number of copies, says which are alive,
-  and stops all of them. Chapter 10. A tool for working on peyva, not a part
-  of it, so it is the one thing written for the operating system rather than in
-  the project's language.
+  and stops all of them. Given to you in chapter 10 rather than built. A tool
+  for working on peyva, not a part of it, so it is the one thing written for
+  the operating system rather than in the project's language.
 - Portal: one customer's own wallet, with a switcher for whose. Its menu grows
   a chapter at a time, from chapter 0.
 `

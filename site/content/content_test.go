@@ -1,6 +1,8 @@
 package content
 
 import (
+	"regexp"
+	"strconv"
 	"strings"
 	"testing"
 )
@@ -184,10 +186,63 @@ func TestNoChapterNamesAComponentBeforeItsOwnChapter(t *testing.T) {
 	}
 }
 
-// The long prose fields are Go raw strings, which cannot contain a backtick.
-// A prompt that wants one has to be reworded or the field has to go back to a
-// quoted string with escapes, and the compiler will say so. This says why
-// before someone spends time on it.
+// A chapter may point back at something the reader has built. It may not point
+// forward at a chapter number they have not reached, which reads as a promise
+// the page cannot keep and tells them nothing they can act on now.
+func TestNoChapterPointsAtALaterChapter(t *testing.T) {
+	ref := regexp.MustCompile(`Chapter\s+(\d+)|Ch\.\s*(\d+)`)
+	for _, c := range All {
+		for _, m := range ref.FindAllStringSubmatch(everything(c), -1) {
+			num := m[1]
+			if num == "" {
+				num = m[2]
+			}
+			target, err := strconv.Atoi(num)
+			if err != nil {
+				continue
+			}
+			if target > c.Number {
+				t.Errorf("chapter %d points forward at chapter %d", c.Number, target)
+			}
+		}
+	}
+}
+
+// The spec says a component does not exist until the chapter that builds it, so
+// no chapter may name one earlier. Chapter 4 listed the Ledger among what sits
+// behind the API, three chapters before it was built.
+func TestNoComponentIsNamedBeforeItIsBuilt(t *testing.T) {
+	for name, intro := range componentChapters {
+		word := regexp.MustCompile(`\b` + name + `\b`)
+		for _, c := range All {
+			if c.Number >= intro {
+				continue
+			}
+			if word.MatchString(everything(c)) {
+				t.Errorf("chapter %d names the %s, which is built in chapter %d",
+					c.Number, name, intro)
+			}
+		}
+	}
+}
+
+// everything is every reader-facing string on a chapter, so a check cannot pass
+// only because the text moved to a field it does not look at.
+func everything(c ChapterContent) string {
+	parts := []string{
+		c.Title, c.Subtitle, c.QuickTip, c.HeroCaption,
+		c.BuildIt.Intro, c.BuildIt.Why, c.BuildIt.Prompt,
+		c.BuildIt.UIIntro, c.BuildIt.UIPrompt, c.BreakIt.Intro,
+	}
+	parts = append(parts, c.Intuition...)
+	parts = append(parts, c.UnderTheHood...)
+	parts = append(parts, c.BreakIt.Exercises...)
+	for _, x := range c.Concepts {
+		parts = append(parts, x.Term, x.Description)
+	}
+	return strings.Join(parts, "\n")
+}
+
 // Chapter 10 replaces the single process with several copies behind a proxy.
 // Anything after it that still scopes itself to one process is describing a
 // system the reader stopped running two chapters ago. This has been wrong twice
@@ -222,6 +277,10 @@ func TestNothingAfterScaleOutClaimsOneProcess(t *testing.T) {
 	}
 }
 
+// The long prose fields are Go raw strings, which cannot contain a backtick.
+// A prompt that wants one has to be reworded or the field has to go back to a
+// quoted string with escapes, and the compiler will say so. This says why
+// before someone spends time on it.
 func TestProseFieldsHoldNoBackticks(t *testing.T) {
 	for _, c := range All {
 		fields := map[string]string{

@@ -62,6 +62,11 @@ type PageData struct {
 	SystemPickerHref   string
 	SystemPickerTitle  string
 
+	// RunnerScripts is every operating system's script, rendered on the one
+	// chapter that hands it over. All of them are in the page and the script
+	// shows the selected one, so switching needs no reload and no fetch.
+	RunnerScripts []content.RunnerScript
+
 	// LanguageIsChosenHere is true only on the chapter that owns the picker.
 	// The choice applies to every chapter, so offering it on all of them
 	// invites a switch halfway through, and a reader who moves from Python to

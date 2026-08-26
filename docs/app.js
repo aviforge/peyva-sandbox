@@ -169,21 +169,34 @@
     var select = document.querySelector('[data-system-select]');
     if (!names.length && !select) return;
 
-    function apply(name) {
+    // Every system's script is already in the page, so switching shows one and
+    // hides the rest. Nothing is fetched, which is what lets the site work from
+    // a clone with no network.
+    var blocks = document.querySelectorAll('[data-runner-for]');
+
+    function apply(name, id) {
       Array.prototype.forEach.call(names, function (el) {
         el.textContent = name;
+      });
+      if (!blocks.length || !id) return;
+      Array.prototype.forEach.call(blocks, function (el) {
+        el.hidden = el.getAttribute('data-runner-for') !== id;
       });
     }
 
     var saved = safeGet('peyva:systemName');
-    if (saved && saved.length < 40) apply(saved);
+    var savedID = safeGet('peyva:system');
+    if (saved && saved.length < 40) apply(saved, savedID);
 
     if (!select) return;
 
-    var savedID = safeGet('peyva:system');
     if (savedID && select.querySelector('option[value="' + savedID + '"]')) {
       select.value = savedID;
     }
+    // Nothing saved yet, so the page is showing whichever script the generator
+    // put first. Hide the others so the reader is not handed three.
+    apply(select.options[select.selectedIndex].getAttribute('data-prompt') ||
+      select.options[select.selectedIndex].textContent, select.value);
 
     // The option's own text is the short name for the picker. What goes into a
     // prompt names the shell too, so it is carried on the option rather than
@@ -193,7 +206,7 @@
       var text = option.getAttribute('data-prompt') || option.textContent;
       safeSet('peyva:system', select.value);
       safeSet('peyva:systemName', text);
-      apply(text);
+      apply(text, select.value);
     });
   }
 

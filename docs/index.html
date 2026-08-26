@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>What Are We Building? | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=516fe9fc59">
+<link rel="stylesheet" href="styles.css?v=190601633b">
 </head>
 <body data-chapter-slug="chapter-0">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -194,7 +194,9 @@ These hold in every chapter. If a change would break one, the change is wrong.
 ## Constraints
 
 - Standard library only. No frameworks, no brokers, no third-party libraries.
-  The one exception is the runner, which is a shell script.
+  The one exception is the runner, a script you are given rather than build.
+- Copies and the proxy are configured only by environment: PEYVA_PORT, and
+  PEYVA_PEERS for the proxy.
 - Runs on one laptop. No containers, no cloud, no deployment.
 - One process until chapter 10, several after it, started by a runner in the
   repo rather than by hand.
@@ -218,9 +220,9 @@ Each appears in the chapter that builds it. Until then it does not exist.
 - Courier: carries out work after a payment clears. Chapter 12.
 - Reconciler: proves the Vault and the Ledger still agree. Chapter 20.
 - Runner: a script that starts a given number of copies, says which are alive,
-  and stops all of them. Chapter 10. A tool for working on peyva, not a part
-  of it, so it is the one thing written for the operating system rather than in
-  the project&#39;s language.
+  and stops all of them. Given to you in chapter 10 rather than built. A tool
+  for working on peyva, not a part of it, so it is the one thing written for
+  the operating system rather than in the project&#39;s language.
 - Portal: one customer&#39;s own wallet, with a switcher for whose. Its menu grows
   a chapter at a time, from chapter 0.
 </pre>
@@ -334,9 +336,10 @@ One file. No persistence, no network.
 Done when running it prints alice&#39;s balance and it exits cleanly on Ctrl+C.</pre>
       </div>
       
+      
       <p class="prompt-divider">The portal</p>
       <ul class="lead">
-        <li>The portal starts as one customer&#39;s wallet, with a way to change which customer.</li>
+        <li>The Portal starts as one customer&#39;s wallet, with a way to change which customer.</li>
       </ul>
       <div class="prompt-wrap">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy portal prompt to clipboard" title="Copy portal prompt">
@@ -376,6 +379,6 @@ Done when the page opens on alice holding 100.00 and the switcher shows me bob h
   <p class="quick-tip"><strong>Quick tip:</strong> Every system starts as one honest process. Resist the urge to design for scale you don&#39;t have yet.</p>
 </main>
 </div>
-<script src="app.js?v=832efe4517"></script>
+<script src="app.js?v=ef7f975540"></script>
 </body>
 </html>

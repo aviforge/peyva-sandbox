@@ -188,6 +188,9 @@ func TestSystemChoiceReachesThePromptsThatNeedIt(t *testing.T) {
 		if p.name != "index.html" {
 			num, _ = strconv.Atoi(regexp.MustCompile(`chapter-(\d+)`).FindStringSubmatch(p.name)[1])
 		}
+		// A chapter whose prompt says {os} renders the name in a span. The
+		// chapter that owns the picker shows the select instead, which is the
+		// choice itself rather than a report of it.
 		wantsName := namesASystem(byNumber[num])
 		hasName := strings.Contains(p.body, "data-os-name")
 		if wantsName != hasName {
@@ -205,8 +208,11 @@ func TestSystemChoiceReachesThePromptsThatNeedIt(t *testing.T) {
 			t.Errorf("%s: offers the system picker = %v, want %v", p.name, hasPicker, wantPicker)
 		}
 		if wantPicker {
-			if !wantsName {
-				t.Errorf("%s: offers the picker but names no system", p.name)
+			// Every system's script is present, and exactly one is shown.
+			for _, r := range content.RunnerScripts {
+				if !strings.Contains(p.body, `data-runner-for="`+r.SystemID+`"`) {
+					t.Errorf("%s: carries no runner script for %s", p.name, r.SystemID)
+				}
 			}
 			for _, sys := range content.Systems {
 				if !strings.Contains(p.body, `>`+sys.Name+`</option>`) {
@@ -242,6 +248,12 @@ func TestEachPromptHasItsOwnCopyButton(t *testing.T) {
 		// Chapter 0 also carries the files the reader saves before starting.
 		if num == 0 {
 			want += len(content.SetupFiles)
+		}
+		// The runner chapter carries one script per operating system. Only one
+		// is visible at a time, but all of them are in the page so switching
+		// needs no network.
+		if num == content.RunnerChapter {
+			want += len(content.RunnerScripts)
 		}
 		if got := strings.Count(p.body, "data-copy-prompt"); got != want {
 			t.Errorf("%s: %d copy buttons, want %d", p.name, got, want)

@@ -29,7 +29,7 @@ var Chapter12 = ChapterContent{
 
 	UnderTheHood: []string{
 		"The Teller -> 1. Send message -> Queue -> 2. Consume message -> the Courier -> 3. Perform work (e.g. send notification).",
-		"Messages wait in the queue until a worker picks them up. A worker that pauses only delays the work, but a process that dies still loses it, which is Chapter 13's problem.",
+		"Messages wait in the queue until a worker picks them up. A worker that pauses only delays the work. A process that dies takes the queue with it, and nothing is left to say what was owed.",
 	},
 
 	BuildIt: BuildIt{
@@ -48,7 +48,7 @@ Chapter 10 means several copies now run at once, so say what an in-process queue
 If the standard library genuinely can't express this, say so rather than reaching for a dependency I ruled out. Admitting it is a more useful answer than a guess.
 
 Done when a deliberately slow notification doesn't delay the payment response, and work handed over while the Courier is stopped is delivered once it starts again.`,
-		UIIntro: "The portal stops waiting for work the customer does not care about.",
+		UIIntro: "The Portal stops waiting for work the customer does not care about.",
 		UIPrompt: `The page currently waits for the notification before it responds. Have it show the payment as done the moment the money has moved, and the message as delivered separately once the Courier has sent it.
 
 If plain HTML and CSS cannot show something arriving after the page has loaded without me adding a dependency, say so and tell me what the smallest honest option is. I would rather hear that than find a library in my project.

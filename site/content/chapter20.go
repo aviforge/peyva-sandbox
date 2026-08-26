@@ -20,7 +20,7 @@ var Chapter20 = ChapterContent{
 	},
 
 	Concepts: []ConceptItem{
-		{Term: "Load Balancer", Description: "The Front Door: routes users to available peyva instances."},
+		{Term: "Load Balancer", Description: "The Front Door: routes users to whichever copies of peyva are available."},
 		{Term: "peyva Instances", Description: "The Hosts: stateless, scaled-out copies of the app from Chapter 10."},
 		{Term: "Database & Cache", Description: "The Kitchen and Cold Storage: durable data from Chapter 5, fast lookups from Chapter 11."},
 		{Term: "Queue, Outbox & Workers", Description: "Order Tickets. Asynchronous, reliable work from Chapters 12 and 13."},
@@ -50,7 +50,7 @@ Where the code doesn't match how a real payments system would do it, say so plai
 
 Done when the Reconciler reports no discrepancies on a healthy system, reports the exact gap after I kill the process mid-payment, and your restatement and mine agree.`,
 		UIIntro: "The whole portal, explained back to you.",
-		UIPrompt: `Before touching it, describe the portal back to me: every screen, what a customer can do on each, and which component answers it. Use your own words, not mine.
+		UIPrompt: `Before touching it, describe the Portal back to me: every screen, what a customer can do on each, and which component answers it. Use your own words, not mine.
 
 Where your description and mine differ, one of us has misunderstood the system. Say which parts you are unsure of.
 
@@ -62,7 +62,7 @@ Done when someone who has never seen peyva can use it without being told how.`,
 	BreakIt: BreakIt{
 		Intro: "Break one piece deliberately and confirm the rest of the system absorbs it gracefully, the way earlier chapters promised.",
 		Exercises: []string{
-			"Kill one instance mid-traffic. The load balancer routes around it (Ch. 10). Nothing is lost.",
+			"Kill one copy mid-traffic. The load balancer routes around it (Ch. 10). Nothing is lost.",
 			"Disconnect the replica. Writes are refused, reads keep working (Ch. 16's CP choice).",
 			"Send the exact same transfer twice. Bob is paid once, not twice (Ch. 8's idempotency, still holding under the full system's weight).",
 		},

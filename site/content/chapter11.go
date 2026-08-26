@@ -45,8 +45,8 @@ Once it works, review your own implementation as if you were trying to make it s
 Report what you found as a list, fix it, then run that same review again on the fixed version. Keep going until a review turns up nothing, and tell me how many rounds it took.
 
 Done when a repeated enquiry is served from cache, a payment makes the next enquiry show the new balance, and you've told me which staleness bug your first attempt had.`,
-		UIIntro: "The portal stops looking like a first draft.",
-		UIPrompt: `Now make the portal presentable.
+		UIIntro: "The Portal stops looking like a first draft.",
+		UIPrompt: `Now make the Portal presentable.
 
 Judge what you have against these, one at a time: whose wallet this is never has to be guessed at; the menu makes it obvious where the customer is and what else they can do; it reads at a glance on a phone; money is aligned and always shows two decimals; the balance is the most prominent thing on its own screen; every action says what happened; nothing shifts as data loads; it is legible in both light and dark.
 

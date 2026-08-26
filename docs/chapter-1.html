@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Inside One Computer | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=516fe9fc59">
+<link rel="stylesheet" href="styles.css?v=190601633b">
 </head>
 <body data-chapter-slug="chapter-1">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -205,6 +205,7 @@ I know Go but I&#39;ve never looked at a process from the outside. Skip the expl
 Done when I can state the process id and its memory use, and explain in one sentence why nothing survives a restart.</pre>
       </div>
       
+      
     </section>
 
     <section class="block break-it">
@@ -213,7 +214,7 @@ Done when I can state the process id and its memory use, and explain in one sent
         <li>Processes are isolated from each other. Prove it.</li>
       </ul>
       <ul>
-        <li>Start two copies of peyva at once. Each gets its own PID and its own memory. They don&#39;t share the account held in memory.</li><li>Kill one with Ctrl&#43;C. The other keeps running untouched.</li><li>That isolation is why Chapter 10 needs a load balancer once there&#39;s more than one instance to route between.</li>
+        <li>Start two copies of peyva at once. Each gets its own PID and its own memory. They don&#39;t share the account held in memory.</li><li>Kill one with Ctrl&#43;C. The other keeps running untouched.</li><li>That isolation is also what makes it possible to run several copies of peyva at once, each in its own memory, without them treading on each other.</li>
       </ul>
     </section>
   </div>
@@ -221,6 +222,6 @@ Done when I can state the process id and its memory use, and explain in one sent
   <p class="quick-tip"><strong>Quick tip:</strong> Right now, everything peyva needs is inside this one computer.</p>
 </main>
 </div>
-<script src="app.js?v=832efe4517"></script>
+<script src="app.js?v=ef7f975540"></script>
 </body>
 </html>

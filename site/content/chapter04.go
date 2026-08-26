@@ -29,7 +29,7 @@ var Chapter04 = ChapterContent{
 
 	UnderTheHood: []string{
 		"Client sends 'Request: POST /transfer {...}' to peyva's API; peyva sends back 'Response: 200 OK {...}'.",
-		"Behind the API sit the Teller (decides what to do), the Vault (where balances live), and the Ledger (the record of every transfer).",
+		"Behind the API sit the Teller, which decides what to do, and the Vault, which is the only thing that changes a balance.",
 		"The caller never learns how peyva stores a balance, only what to send and what comes back.",
 	},
 
@@ -80,7 +80,7 @@ Done when those four cases each produce exactly what is written above, and switc
 		Exercises: []string{
 			"Send a body that is not JSON at all. Expect 400 Bad Request, not a crash.",
 			"Send a request missing the 'amount' field. Expect 400, with a clear reason.",
-			"Send duplicate requests back to back. peyva has no way yet to tell they're the same transfer. That's Chapter 8's problem.",
+			"Send duplicate requests back to back. Both go through, and peyva has no way yet to tell they were meant to be one payment.",
 		},
 	},
 }

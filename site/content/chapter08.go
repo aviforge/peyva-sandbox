@@ -45,7 +45,7 @@ Then make the Teller recognise a repeat: the caller supplies a reference with th
 Then go back over the list you wrote and tell me, case by case, which ones your design now handles and which it doesn't. Include what happens if two requests carrying the same brand-new reference arrive at the same instant.
 
 Done when the same reference twice pays once, two different references pay twice, and both duplicate responses are byte-identical.`,
-		UIIntro: "The portal stops punishing an impatient customer.",
+		UIIntro: "The Portal stops punishing an impatient customer.",
 		UIPrompt: `A customer who taps send twice must not pay twice. Send attaches the same reference to a resubmission of the same form, and shows the original result rather than a second payment.
 
 Done when double-submitting the form leaves one payment in History, and the page looks the same both times.`,

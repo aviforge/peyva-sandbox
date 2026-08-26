@@ -14,7 +14,7 @@ var Chapter17 = ChapterContent{
 	HeroCaption: "Observability = dashboards + alarms + logs (and traces). It helps us understand the system like a pizza shop watches its kitchen.",
 
 	Intuition: []string{
-		"With instances, replicas, queues, and workers, peyva is no longer one process you can watch print to a terminal.",
+		"With copies, replicas, queues and workers, peyva is no longer one process you can watch print to a terminal.",
 		"A kitchen out of view still needs to show an order's status: boards, alarms, and logs.",
 		"That way problems get caught before customers notice.",
 	},

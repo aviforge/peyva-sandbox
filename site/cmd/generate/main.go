@@ -103,7 +103,9 @@ func run(templatesDir, assetsDir, outDir, indexPath string) error {
 			UIPrompt:      promptHTML(chapter.BuildIt.UIPrompt, defaultSystem),
 			Systems:       content.Systems,
 			SystemName:    defaultSystem.Prompt,
-			SystemMatters: namesASystem(chapter),
+			SystemMatters: namesASystem(chapter) || chapter.Number == content.RunnerChapter,
+
+			RunnerScripts: runnerScriptsFor(chapter.Number),
 
 			SystemIsChosenHere: chapter.Number == systemPicker,
 			SystemPickerHref:   fmt.Sprintf("chapter-%d.html", systemPicker),
@@ -284,22 +286,24 @@ func namesASystem(c content.ChapterContent) bool {
 		strings.Contains(c.BuildIt.UIPrompt, osPlaceholder)
 }
 
-// systemPickerChapter is the first chapter that asks for something system
-// specific, and is worked out from the prompts rather than named here so that
-// moving the runner moves the picker with it.
+// systemPickerChapter is where the reader chooses their operating system: the
+// chapter that hands over the runner script.
 //
-// The choice sits there rather than in setup because nothing before it cares:
-// a reader on chapter 10 who needs a different shell can change it in front of
-// the prompt that uses it, instead of being sent back eleven chapters. It
-// returns -1 when no prompt names a system, which leaves the picker off every
-// page rather than stranding it on chapter 0.
+// The choice sits there rather than in setup because nothing before it cares.
+// A reader on that chapter who needs a different shell changes it in front of
+// the script it produces, instead of being sent back ten chapters.
 func systemPickerChapter() int {
-	for _, c := range content.All {
-		if namesASystem(c) {
-			return c.Number
-		}
+	return content.RunnerChapter
+}
+
+// runnerScriptsFor returns every system's runner script, but only for the
+// chapter that hands it over. The others have no use for it and would only pay
+// its weight.
+func runnerScriptsFor(chapterNumber int) []content.RunnerScript {
+	if chapterNumber != content.RunnerChapter {
+		return nil
 	}
-	return -1
+	return content.RunnerScripts
 }
 
 // setupFor returns the files to save only for the chapter that starts the

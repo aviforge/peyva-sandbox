@@ -8,7 +8,7 @@ var Chapter19 = ChapterContent{
 	Category:   "Operations",
 	Difficulty: "Advanced",
 	EstTime:    "25 min",
-	QuickTip:   "Deploy to one instance first: a health check catching a bad release there is far cheaper than catching it everywhere.",
+	QuickTip:   "Deploy to one copy first: a health check catching a bad release there is far cheaper than catching it everywhere.",
 
 	HeroImage:   "images/chapter-19.webp",
 	HeroCaption: "Great restaurants aren't just built well. They are operated well every day. That's how customers stay happy.",
@@ -21,7 +21,7 @@ var Chapter19 = ChapterContent{
 
 	Concepts: []ConceptItem{
 		{Term: "Health Check", Description: "An endpoint or process that continuously confirms peyva and its dependencies are actually working."},
-		{Term: "Rolling Deployment", Description: "Releasing a new version gradually, instance by instance, instead of all at once."},
+		{Term: "Rolling Deployment", Description: "Releasing a new version gradually, one copy at a time, instead of all at once."},
 		{Term: "Rollback", Description: "Quickly reverting to the previous working version when a new release causes problems."},
 		{Term: "Runbook", Description: "A step-by-step guide for handling a specific, known kind of incident."},
 	},

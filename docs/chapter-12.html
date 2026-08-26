@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Decoupling with Messages: Queues | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=516fe9fc59">
+<link rel="stylesheet" href="styles.css?v=190601633b">
 </head>
 <body data-chapter-slug="chapter-12">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -167,7 +167,7 @@
     <section class="block">
       <h2>3. Under the Hood</h2>
       <ul>
-        <li>The Teller -&gt; 1. Send message -&gt; Queue -&gt; 2. Consume message -&gt; the Courier -&gt; 3. Perform work (e.g. send notification).</li><li>Messages wait in the queue until a worker picks them up. A worker that pauses only delays the work, but a process that dies still loses it, which is Chapter 13&#39;s problem.</li>
+        <li>The Teller -&gt; 1. Send message -&gt; Queue -&gt; 2. Consume message -&gt; the Courier -&gt; 3. Perform work (e.g. send notification).</li><li>Messages wait in the queue until a worker picks them up. A worker that pauses only delays the work. A process that dies takes the queue with it, and nothing is left to say what was owed.</li>
       </ul>
     </section>
 
@@ -205,9 +205,10 @@ If the standard library genuinely can&#39;t express this, say so rather than rea
 Done when a deliberately slow notification doesn&#39;t delay the payment response, and work handed over while the Courier is stopped is delivered once it starts again.</pre>
       </div>
       
+      
       <p class="prompt-divider">The portal</p>
       <ul class="lead">
-        <li>The portal stops waiting for work the customer does not care about.</li>
+        <li>The Portal stops waiting for work the customer does not care about.</li>
       </ul>
       <div class="prompt-wrap">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy portal prompt to clipboard" title="Copy portal prompt">
@@ -243,6 +244,6 @@ Done when a slow notification does not delay what the customer sees.</pre>
   <p class="quick-tip"><strong>Quick tip:</strong> Only defer work the caller doesn&#39;t actually need to wait for.</p>
 </main>
 </div>
-<script src="app.js?v=832efe4517"></script>
+<script src="app.js?v=ef7f975540"></script>
 </body>
 </html>

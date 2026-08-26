@@ -55,7 +55,7 @@ Done when I can state the process id and its memory use, and explain in one sent
 		Exercises: []string{
 			"Start two copies of peyva at once. Each gets its own PID and its own memory. They don't share the account held in memory.",
 			"Kill one with Ctrl+C. The other keeps running untouched.",
-			"That isolation is why Chapter 10 needs a load balancer once there's more than one instance to route between.",
+			"That isolation is also what makes it possible to run several copies of peyva at once, each in its own memory, without them treading on each other.",
 		},
 	},
 }

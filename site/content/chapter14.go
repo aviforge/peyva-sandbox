@@ -49,7 +49,7 @@ Build it in four stages. Stop after each and tell me it's working before startin
 Distinguish permanent failures from retryable ones. Only permanent failures reverse.
 
 Done when a permanently failing stage two puts the money back, the Ledger shows both the original payment and its reversal, and the payment's record shows every stage it passed through.`,
-		UIIntro: "The portal has to explain a payment that was undone.",
+		UIIntro: "The Portal has to explain a payment that was undone.",
 		UIPrompt: `A reversed payment currently looks like two unrelated rows. Show it as what it is: the original, and the reversal that answers it, tied together.
 
 Build it in stages. First mark a reversed payment as reversed. Then link the two rows. Then say why it was reversed. Stop after each and show me before starting the next.

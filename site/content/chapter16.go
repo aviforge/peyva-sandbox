@@ -47,8 +47,8 @@ Then prune. Eliminate the ones that are unacceptable for money movement specific
 Then implement your recommendation. Treat an unreachable second copy as a partition rather than ignoring it, and keep balance enquiries served from whichever copy is reachable even while payments are refused.
 
 Done when disconnecting the second copy makes payments fail loudly while enquiries still succeed, and reconnecting restores payments with no restart.`,
-		UIIntro: "The portal has to be honest about a balance it is not sure of.",
-		UIPrompt: `When the Vault's copies disagree, the balance the portal shows may be behind.
+		UIIntro: "The Portal has to be honest about a balance it is not sure of.",
+		UIPrompt: `When the Vault's copies disagree, the balance the Portal shows may be behind.
 
 Propose three genuinely different ways for the page to handle that, not three wordings of one. For each, say what a customer believes after reading it, and what they do next. Then recommend one and say what it costs.
 

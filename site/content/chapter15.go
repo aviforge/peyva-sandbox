@@ -8,7 +8,7 @@ var Chapter15 = ChapterContent{
 	Category:   "Reliability",
 	Difficulty: "Advanced",
 	EstTime:    "20 min",
-	QuickTip:   "Async replication means the replica can be briefly behind. That gap is where Chapter 16's tradeoffs live.",
+	QuickTip:   "Async replication means the replica can be briefly behind. Everything you have to decide about a partition lives in that gap.",
 
 	HeroImage:   "images/chapter-15.webp",
 	HeroCaption: "Replication = keep copies of data in multiple places so we can be safe, available and fast.",

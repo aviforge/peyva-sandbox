@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Designing the API | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=516fe9fc59">
+<link rel="stylesheet" href="styles.css?v=190601633b">
 </head>
 <body data-chapter-slug="chapter-4">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -167,7 +167,7 @@
     <section class="block">
       <h2>3. Under the Hood</h2>
       <ul>
-        <li>Client sends &#39;Request: POST /transfer {...}&#39; to peyva&#39;s API; peyva sends back &#39;Response: 200 OK {...}&#39;.</li><li>Behind the API sit the Teller (decides what to do), the Vault (where balances live), and the Ledger (the record of every transfer).</li><li>The caller never learns how peyva stores a balance, only what to send and what comes back.</li>
+        <li>Client sends &#39;Request: POST /transfer {...}&#39; to peyva&#39;s API; peyva sends back &#39;Response: 200 OK {...}&#39;.</li><li>Behind the API sit the Teller, which decides what to do, and the Vault, which is the only thing that changes a balance.</li><li>The caller never learns how peyva stores a balance, only what to send and what comes back.</li>
       </ul>
     </section>
 
@@ -214,6 +214,7 @@ Validate before touching any account. No authentication, no retries, no persiste
 Done when those three requests produce exactly those three responses, and alice&#39;s balance drops by 20 only on the first.</pre>
       </div>
       
+      
       <p class="prompt-divider">The portal</p>
       <ul class="lead">
         <li>The menu gains what a wallet is for: sending money, from whoever the switcher says.</li>
@@ -253,7 +254,7 @@ Done when those four cases each produce exactly what is written above, and switc
         <li>A well-designed API should be hard to misuse. Try to misuse it.</li>
       </ul>
       <ul>
-        <li>Send a body that is not JSON at all. Expect 400 Bad Request, not a crash.</li><li>Send a request missing the &#39;amount&#39; field. Expect 400, with a clear reason.</li><li>Send duplicate requests back to back. peyva has no way yet to tell they&#39;re the same transfer. That&#39;s Chapter 8&#39;s problem.</li>
+        <li>Send a body that is not JSON at all. Expect 400 Bad Request, not a crash.</li><li>Send a request missing the &#39;amount&#39; field. Expect 400, with a clear reason.</li><li>Send duplicate requests back to back. Both go through, and peyva has no way yet to tell they were meant to be one payment.</li>
       </ul>
     </section>
   </div>
@@ -261,6 +262,6 @@ Done when those four cases each produce exactly what is written above, and switc
   <p class="quick-tip"><strong>Quick tip:</strong> Validate before you touch any data. Reject bad requests instead of guessing what the caller meant.</p>
 </main>
 </div>
-<script src="app.js?v=832efe4517"></script>
+<script src="app.js?v=ef7f975540"></script>
 </body>
 </html>

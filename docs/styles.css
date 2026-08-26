@@ -458,6 +458,16 @@ body {
   flex-wrap: wrap;
 }
 
+.runner-path {
+  margin: 0 0 6px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.runner-script[hidden] {
+  display: none;
+}
+
 .system-locked {
   margin: 0 0 14px;
   font-size: 13px;

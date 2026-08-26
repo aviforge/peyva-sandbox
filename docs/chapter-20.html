@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Putting It All Together | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=516fe9fc59">
+<link rel="stylesheet" href="styles.css?v=190601633b">
 </head>
 <body data-chapter-slug="chapter-20">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -160,7 +160,7 @@
     <section class="block">
       <h2>2. Concepts</h2>
       <ul class="concepts">
-        <li><strong>Load Balancer</strong>. The Front Door: routes users to available peyva instances.</li><li><strong>peyva Instances</strong>. The Hosts: stateless, scaled-out copies of the app from Chapter 10.</li><li><strong>Database &amp; Cache</strong>. The Kitchen and Cold Storage: durable data from Chapter 5, fast lookups from Chapter 11.</li><li><strong>Queue, Outbox &amp; Workers</strong>. Order Tickets. Asynchronous, reliable work from Chapters 12 and 13.</li><li><strong>Reconciler</strong>. The Till Count: proves the Vault and the Ledger still agree, and names any account where they don&#39;t.</li>
+        <li><strong>Load Balancer</strong>. The Front Door: routes users to whichever copies of peyva are available.</li><li><strong>peyva Instances</strong>. The Hosts: stateless, scaled-out copies of the app from Chapter 10.</li><li><strong>Database &amp; Cache</strong>. The Kitchen and Cold Storage: durable data from Chapter 5, fast lookups from Chapter 11.</li><li><strong>Queue, Outbox &amp; Workers</strong>. Order Tickets. Asynchronous, reliable work from Chapters 12 and 13.</li><li><strong>Reconciler</strong>. The Till Count: proves the Vault and the Ledger still agree, and names any account where they don&#39;t.</li>
       </ul>
     </section>
 
@@ -205,6 +205,7 @@ Where the code doesn&#39;t match how a real payments system would do it, say so 
 Done when the Reconciler reports no discrepancies on a healthy system, reports the exact gap after I kill the process mid-payment, and your restatement and mine agree.</pre>
       </div>
       
+      
       <p class="prompt-divider">The portal</p>
       <ul class="lead">
         <li>The whole portal, explained back to you.</li>
@@ -220,7 +221,7 @@ One customer's wallet at a time, never everyone's at once. A switcher at the top
 New work joins the menu.
 The goal and invariants are in peyva/goal.md.</span>
 
-Before touching it, describe the portal back to me: every screen, what a customer can do on each, and which component answers it. Use your own words, not mine.
+Before touching it, describe the Portal back to me: every screen, what a customer can do on each, and which component answers it. Use your own words, not mine.
 
 Where your description and mine differ, one of us has misunderstood the system. Say which parts you are unsure of.
 
@@ -237,7 +238,7 @@ Done when someone who has never seen peyva can use it without being told how.</p
         <li>Break one piece deliberately and confirm the rest of the system absorbs it gracefully, the way earlier chapters promised.</li>
       </ul>
       <ul>
-        <li>Kill one instance mid-traffic. The load balancer routes around it (Ch. 10). Nothing is lost.</li><li>Disconnect the replica. Writes are refused, reads keep working (Ch. 16&#39;s CP choice).</li><li>Send the exact same transfer twice. Bob is paid once, not twice (Ch. 8&#39;s idempotency, still holding under the full system&#39;s weight).</li>
+        <li>Kill one copy mid-traffic. The load balancer routes around it (Ch. 10). Nothing is lost.</li><li>Disconnect the replica. Writes are refused, reads keep working (Ch. 16&#39;s CP choice).</li><li>Send the exact same transfer twice. Bob is paid once, not twice (Ch. 8&#39;s idempotency, still holding under the full system&#39;s weight).</li>
       </ul>
     </section>
   </div>
@@ -245,6 +246,6 @@ Done when someone who has never seen peyva can use it without being told how.</p
   <p class="quick-tip"><strong>Quick tip:</strong> No single piece makes a system reliable: only how they cooperate under load and failure.</p>
 </main>
 </div>
-<script src="app.js?v=832efe4517"></script>
+<script src="app.js?v=ef7f975540"></script>
 </body>
 </html>

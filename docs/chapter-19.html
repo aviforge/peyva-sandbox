@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Operating in Production | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=516fe9fc59">
+<link rel="stylesheet" href="styles.css?v=190601633b">
 </head>
 <body data-chapter-slug="chapter-19">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -160,7 +160,7 @@
     <section class="block">
       <h2>2. Concepts</h2>
       <ul class="concepts">
-        <li><strong>Health Check</strong>. An endpoint or process that continuously confirms peyva and its dependencies are actually working.</li><li><strong>Rolling Deployment</strong>. Releasing a new version gradually, instance by instance, instead of all at once.</li><li><strong>Rollback</strong>. Quickly reverting to the previous working version when a new release causes problems.</li><li><strong>Runbook</strong>. A step-by-step guide for handling a specific, known kind of incident.</li>
+        <li><strong>Health Check</strong>. An endpoint or process that continuously confirms peyva and its dependencies are actually working.</li><li><strong>Rolling Deployment</strong>. Releasing a new version gradually, one copy at a time, instead of all at once.</li><li><strong>Rollback</strong>. Quickly reverting to the previous working version when a new release causes problems.</li><li><strong>Runbook</strong>. A step-by-step guide for handling a specific, known kind of incident.</li>
       </ul>
     </section>
 
@@ -217,6 +217,7 @@ Every command runs on <span data-os-name>Windows, in PowerShell</span>. Every li
 Done when deploying a deliberately broken version to one copy fails its health check before the other two are touched, and the runbook&#39;s Fix section reverts it without improvisation.</pre>
       </div>
       
+      
     </section>
 
     <section class="block break-it">
@@ -230,9 +231,9 @@ Done when deploying a deliberately broken version to one copy fails its health c
     </section>
   </div>
 
-  <p class="quick-tip"><strong>Quick tip:</strong> Deploy to one instance first: a health check catching a bad release there is far cheaper than catching it everywhere.</p>
+  <p class="quick-tip"><strong>Quick tip:</strong> Deploy to one copy first: a health check catching a bad release there is far cheaper than catching it everywhere.</p>
 </main>
 </div>
-<script src="app.js?v=832efe4517"></script>
+<script src="app.js?v=ef7f975540"></script>
 </body>
 </html>

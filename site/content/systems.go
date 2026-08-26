@@ -23,8 +23,13 @@ type System struct {
 // when it fails to run.
 const DefaultSystem = "windows"
 
+// Windows appears twice on purpose. PowerShell is the better shell, but many
+// corporate machines ship with an execution policy that refuses to run a .ps1
+// at all, and a reader who cannot run the script has no way past the chapter.
+// A batch file is worse to read and always allowed.
 var Systems = []System{
-	{ID: "windows", Name: "Windows", Prompt: "Windows, in PowerShell"},
+	{ID: "windows", Name: "Windows (PowerShell)", Prompt: "Windows, in PowerShell"},
+	{ID: "windows-bat", Name: "Windows (batch)", Prompt: "Windows, in a batch file"},
 	{ID: "macos", Name: "macOS", Prompt: "macOS, in bash or zsh"},
 	{ID: "linux", Name: "Linux", Prompt: "Linux, in bash"},
 }

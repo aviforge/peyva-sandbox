@@ -116,6 +116,22 @@
 
 {{.Prompt}}</pre>
       </div>
+      {{if .RunnerScripts}}
+      <p class="prompt-divider">The runner</p>
+      <ul class="lead">
+        <li>Save this beside your code. It starts the copies, says which are alive, and stops them all. Set the two commands at the top to how your project starts.</li>
+      </ul>
+      {{range .RunnerScripts}}
+      <div class="prompt-wrap runner-script" data-runner-for="{{.SystemID}}">
+        <p class="runner-path"><code>{{.Path}}</code></p>
+        <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy the runner script to clipboard" title="Copy the runner script">
+          <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+        </button>
+        <pre class="prompt">{{.Content}}</pre>
+      </div>
+      {{end}}
+      {{end}}
       {{if .Chapter.BuildIt.UIPrompt}}
       <p class="prompt-divider">The portal</p>
       <ul class="lead">

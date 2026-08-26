@@ -182,6 +182,64 @@
       </ul>
       <p class="technique"><span class="technique-name">Zero-shot prompting</span>. No examples, no reasoning scaffold, no role: just the instruction. The task has one obvious shape, so scaffolding would cost tokens and buy nothing. Every technique after this is a departure from this baseline, which is why it comes first.</p>
       <p class="technique-source">Documented in The Prompt Report: Zero-Shot</p>
+      
+      <p class="prompt-divider">The spec</p>
+      <ul class="lead">
+        <li>Save this as <code>peyva/goal.md</code> before you start. Every prompt after this one points at it instead of repeating the goal.</li>
+      </ul>
+      <div class="prompt-wrap">
+        <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy the spec to clipboard" title="Copy the spec">
+          <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+        </button>
+        <pre class="prompt"># peyva
+
+A peer-to-peer wallet. Alice sends Bob $20, and the money arrives exactly once.
+
+## What it must do
+
+- Hold an account for each user: a handle, an owner and an amount.
+- Move money between accounts on request.
+- Answer what an account holds, and how it came to hold it.
+- Let a customer open an account, send money to a handle, and read their
+  history, from a page rather than a command line.
+
+## What must never happen
+
+These hold in every chapter. If a change would break one, the change is wrong.
+
+- Money is never created and never lost. Every debit has a matching credit.
+- No balance goes negative.
+- No payment is applied twice, however many times it is submitted.
+- Only the Vault changes a balance. Nothing else writes one.
+- Every movement of money is recorded. The balance is the answer, the record is
+  the proof.
+
+## Constraints
+
+- Standard library only. No frameworks, no brokers, no third-party libraries.
+- One process on a laptop. One user. No deployment.
+- Code lives in peyva/&lt;component&gt;/, one folder per component.
+- Money is exact: a decimal type, or integer minor units where the language has
+  none. Never floating point. Two decimal places.
+- The portal is plain HTML and CSS. No build step, no dependencies.
+- Structure is earned. A component appears when a problem needs it, not before.
+
+## Components
+
+Each appears in the chapter that builds it. Until then it does not exist.
+
+- Vault: holds every account and what is in it. Chapter 0.
+- Gateway: takes requests from outside. Chapter 2.
+- Teller: handles one payment end to end, and is the only thing that moves
+  money. Chapter 4.
+- Ledger: the append-only record behind every balance. Chapter 7.
+- Courier: carries out work after a payment clears. Chapter 12.
+- Reconciler: proves the Vault and the Ledger still agree. Chapter 20.
+- Portal: what a customer sees and uses. Grows from chapter 0.
+</pre>
+      </div>
+      
       <div class="prompt-wrap">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy prompt to clipboard" title="Copy prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
@@ -195,6 +253,8 @@ The goal and invariants are in peyva/goal.md.</span>
 Build the Vault. The component that holds accounts and what&#39;s in them. Nothing else is allowed to change a balance.
 
 An account is a handle, an owner and an amount. Seed two: alice holding 100, bob holding 0. Print the Vault&#39;s contents on startup, run until interrupted, then print a shutdown message.
+
+peyva/goal.md holds the goal and the rules money must never break. Read it first.
 
 One file. No persistence, no network.
 

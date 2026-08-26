@@ -76,6 +76,7 @@ func run(templatesDir, assetsDir, outDir, indexPath string) error {
 			AssetPrefix:   prefix,
 			LanguageLine:  languageLine(defaultLanguage, chapter.Number),
 			UILine:        uiLine(defaultLanguage),
+			GoalSpec:      goalSpecFor(chapter.Number),
 			Languages:     content.Languages,
 
 			LanguageIsChosenHere: chapter.Number == languagePickerChapter,
@@ -199,6 +200,15 @@ func uiLine(l content.Language) template.HTML {
 	line += "\nIt lives in peyva/portal/. Anything it needs from the server is " + name + ", standard library only."
 	line += "\nThe goal and invariants are in peyva/goal.md."
 	return template.HTML(line)
+}
+
+// goalSpecFor returns the spec only for the chapter that starts the project.
+// Every other chapter points at peyva/goal.md, which the reader saved here.
+func goalSpecFor(chapterNumber int) string {
+	if chapterNumber != languagePickerChapter {
+		return ""
+	}
+	return content.GoalSpec
 }
 
 func fileExists(path string) bool {

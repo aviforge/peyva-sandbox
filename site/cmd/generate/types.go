@@ -26,7 +26,11 @@ type PageData struct {
 
 	// UILine is the portal prompt preamble, rendered only where a chapter has
 	// portal work.
-	UILine    template.HTML
+	UILine template.HTML
+
+	// GoalSpec is rendered on the chapter that starts the project, with a copy
+	// button, so a reader never leaves the site to fetch it.
+	GoalSpec  string
 	Languages []content.Language
 
 	// LanguageIsChosenHere is true only on the chapter that owns the picker.

@@ -175,7 +175,12 @@ func TestEachPromptHasItsOwnCopyButton(t *testing.T) {
 			num, _ = strconv.Atoi(regexp.MustCompile(`chapter-(\d+)`).FindStringSubmatch(p.name)[1])
 		}
 		if byNumber[num].BuildIt.UIPrompt != "" {
-			want = 2
+			want++
+		}
+		// Chapter 0 also carries the spec the reader saves before starting, so
+		// it has three copyable blocks rather than two.
+		if num == 0 {
+			want++
 		}
 		if got := strings.Count(p.body, "data-copy-prompt"); got != want {
 			t.Errorf("%s: %d copy buttons, want %d", p.name, got, want)
@@ -252,6 +257,35 @@ func TestPortalPromptsComeWithAnIntro(t *testing.T) {
 		}
 		if c.BuildIt.UIPrompt != "" && !strings.Contains(c.BuildIt.UIPrompt, "Done when") {
 			t.Errorf("chapter %d: portal prompt has no 'Done when' line", c.Number)
+		}
+	}
+}
+
+// The spec is rendered into chapter 0 rather than kept as a file, so a reader
+// following the published site never has to leave it to fetch anything. It
+// carries the invariants, which no prompt states and nothing else would tell
+// an assistant.
+func TestChapterZeroCarriesTheSpec(t *testing.T) {
+	for _, p := range renderedPages(t) {
+		// Match the divider element, not the words. "The spec" also matches
+		// chapter 17's "The specific story of what happened".
+		hasSpec := strings.Contains(p.body, `<p class="prompt-divider">The spec</p>`)
+		if p.isCh0 != hasSpec {
+			t.Errorf("%s: renders the spec = %v, want %v", p.name, hasSpec, p.isCh0)
+		}
+		if !p.isCh0 {
+			continue
+		}
+		for _, line := range []string{
+			"Money is never created and never lost",
+			"No balance goes negative",
+			"No payment is applied twice",
+			"Only the Vault changes a balance",
+			"peyva/goal.md",
+		} {
+			if !strings.Contains(p.body, line) {
+				t.Errorf("chapter 0 spec is missing %q", line)
+			}
 		}
 	}
 }

@@ -7,9 +7,9 @@ honest layer at a time.
 `docs/index.html` from a clone. Nothing to install or build.
 
 Each chapter ends with a prompt you hand to your own AI assistant rather than
-code to copy. Copy [goal.md](goal.md) to `peyva/goal.md` before you start: it
-holds the goal, the rules money must never break, and the constraints, and
-every prompt points at it. Chapter 0 asks which language you want to build in, and every
+code to copy. Chapter 0 gives you a spec to save as `peyva/goal.md`, holding
+the goal, the rules money must never break, and the constraints. Every prompt
+after that points at it. Chapter 0 asks which language you want to build in, and every
 prompt after it asks for that one, so what you build in chapter 12 still fits
 what you built in chapter 4.
 
@@ -81,12 +81,12 @@ nothing fits together.
 
 ## Layout
 
-    goal.md                    the spec: goal, invariants, constraints
     docs/                      the published site, served by Pages as the root
     docs/index.html            entry point, so a bare / lands on chapter 0
     docs/images                the chapter illustrations
     site/content               chapter text, as Go values
     site/content/languages.go  the languages the picker offers
+    site/content/goal.go       the spec chapter 0 hands the reader
     site/templates             page and sidebar templates
     site/assets                CSS and JS
     site/cmd                   the generator

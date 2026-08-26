@@ -40,6 +40,7 @@ var Chapter00 = ChapterContent{
 		Source:    "The Prompt Report: Zero-Shot",
 		Prompt: "Build the Vault. The component that holds accounts and what's in them. Nothing else is allowed to change a balance.\n\n" +
 			"An account is a handle, an owner and an amount. Seed two: alice holding 100, bob holding 0. Print the Vault's contents on startup, run until interrupted, then print a shutdown message.\n\n" +
+			"peyva/goal.md holds the goal and the rules money must never break. Read it first.\n\n" +
 			"One file. No persistence, no network.\n\n" +
 			"Done when running it prints alice's balance and it exits cleanly on Ctrl+C.",
 		UIIntro:  "The portal shows a balance, from a file you open yourself.",

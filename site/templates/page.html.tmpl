@@ -40,7 +40,13 @@
 
   {{if .Setup}}
   <section class="block setup">
-    <h2>Setup <span class="badge">Once</span></h2>
+    <h2>Setup <span class="badge">Once</span>
+        <label class="language-picker">Running on
+          <select class="language-select" data-system-select aria-label="Operating system the runner script is written for">
+            {{range .Systems}}<option value="{{.ID}}" data-prompt="{{.Prompt}}">{{.Name}}</option>{{end}}
+          </select>
+        </label>
+    </h2>
     <ul class="lead">
       <li>Two files, saved before you write a line of code.</li>
       <li>They are why every prompt in this book is a few lines rather than a page: the goal and the rules live in the project, so a prompt only has to say what changes.</li>
@@ -97,6 +103,7 @@
             </select>
           </label>{{else}}<span class="language-locked">Building in <b data-language-name>{{.LanguageName}}</b>, <a href="{{.AssetPrefix}}chapter-0.html">change in Chapter 0</a></span>{{end}}
       </h2>
+      {{if and .SystemMatters (not .Setup)}}<p class="system-locked">Written for <b data-os-name>{{.SystemName}}</b>. <a href="{{.AssetPrefix}}chapter-0.html">Change in Chapter 0</a></p>{{end}}
       <ul class="lead">
         <li>{{.Chapter.BuildIt.Intro}}</li>
       </ul>
@@ -109,7 +116,7 @@
         </button>
         <pre class="prompt"><span class="prompt-lang" data-prompt-lang>{{.LanguageLine}}</span>
 
-{{.Chapter.BuildIt.Prompt}}</pre>
+{{.Prompt}}</pre>
       </div>
       {{if .Chapter.BuildIt.UIPrompt}}
       <p class="prompt-divider">The portal</p>
@@ -123,7 +130,7 @@
         </button>
         <pre class="prompt"><span class="prompt-lang" data-prompt-lang>{{.UILine}}</span>
 
-{{.Chapter.BuildIt.UIPrompt}}</pre>
+{{.UIPrompt}}</pre>
       </div>
       {{end}}
     </section>

@@ -160,6 +160,43 @@
     });
   }
 
+  // The operating system only changes the runner script, so unlike the language
+  // it appears in two prompts rather than all twenty-one. Same shape otherwise:
+  // the generator writes the text and wraps the choice in a span, and this only
+  // ever replaces what is inside that span.
+  function initSystem() {
+    var names = document.querySelectorAll('[data-os-name]');
+    var select = document.querySelector('[data-system-select]');
+    if (!names.length && !select) return;
+
+    function apply(name) {
+      Array.prototype.forEach.call(names, function (el) {
+        el.textContent = name;
+      });
+    }
+
+    var saved = safeGet('peyva:systemName');
+    if (saved && saved.length < 40) apply(saved);
+
+    if (!select) return;
+
+    var savedID = safeGet('peyva:system');
+    if (savedID && select.querySelector('option[value="' + savedID + '"]')) {
+      select.value = savedID;
+    }
+
+    // The option's own text is the short name for the picker. What goes into a
+    // prompt names the shell too, so it is carried on the option rather than
+    // rebuilt here, where it would drift from the Go that writes the pages.
+    select.addEventListener('change', function () {
+      var option = select.options[select.selectedIndex];
+      var text = option.getAttribute('data-prompt') || option.textContent;
+      safeSet('peyva:system', select.value);
+      safeSet('peyva:systemName', text);
+      apply(text);
+    });
+  }
+
   function initLanguage() {
     var names = document.querySelectorAll('[data-language-name]');
     if (!names.length) return;
@@ -201,6 +238,7 @@
     initMarkComplete();
     initCopyPrompt();
     initLanguage();
+    initSystem();
     updateProgress();
   });
 })();

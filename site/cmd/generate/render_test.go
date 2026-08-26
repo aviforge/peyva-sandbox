@@ -139,7 +139,7 @@ func TestLanguageControlSitsWithThePromptItGoverns(t *testing.T) {
 			if !strings.Contains(section, "data-language-select") {
 				t.Errorf("%s: chapter 0 should offer the picker in Build It", p.name)
 			}
-			if n := len(optionTag.FindAllString(p.body, -1)); n != len(content.Languages) {
+			if n := len(optionTag.FindAllString(section, -1)); n != len(content.Languages) {
 				t.Errorf("%s: offers %d languages, want %d", p.name, n, len(content.Languages))
 			}
 			if strings.Contains(p.body, "language-locked") {
@@ -156,6 +156,57 @@ func TestLanguageControlSitsWithThePromptItGoverns(t *testing.T) {
 		}
 		if !strings.Contains(section, "chapter-0.html") {
 			t.Errorf("%s: shows the language with no way back to change it", p.name)
+		}
+	}
+}
+
+// The operating system is chosen once, in setup, and reaches the prompts that
+// name one. A chapter whose prompt says {os} and renders it literally hands the
+// reader a script for an operating system called "{os}".
+func TestSystemChoiceReachesThePromptsThatNeedIt(t *testing.T) {
+	byNumber := map[int]content.ChapterContent{}
+	for _, c := range content.All {
+		byNumber[c.Number] = c
+	}
+
+	usesIt := 0
+	for _, c := range content.All {
+		if namesASystem(c) {
+			usesIt++
+		}
+	}
+	if usesIt == 0 {
+		t.Fatal("no chapter uses the placeholder, so the picker changes nothing")
+	}
+
+	for _, p := range renderedPages(t) {
+		if strings.Contains(p.body, osPlaceholder) {
+			t.Errorf("%s: renders %s literally instead of an operating system", p.name, osPlaceholder)
+		}
+
+		num := 0
+		if p.name != "index.html" {
+			num, _ = strconv.Atoi(regexp.MustCompile(`chapter-(\d+)`).FindStringSubmatch(p.name)[1])
+		}
+		wantsName := namesASystem(byNumber[num])
+		hasName := strings.Contains(p.body, "data-os-name")
+		if wantsName != hasName {
+			t.Errorf("%s: names an operating system = %v, want %v", p.name, hasName, wantsName)
+		}
+
+		// Only the setup chapter offers the choice, for the same reason only
+		// chapter 0 offers the language: a script written for one system in
+		// chapter 10 does not start working on another by chapter 19.
+		hasPicker := strings.Contains(p.body, "data-system-select")
+		if p.isCh0 != hasPicker {
+			t.Errorf("%s: offers the system picker = %v, want %v", p.name, hasPicker, p.isCh0)
+		}
+		if p.isCh0 {
+			for _, sys := range content.Systems {
+				if !strings.Contains(p.body, `>`+sys.Name+`</option>`) {
+					t.Errorf("%s: the picker does not offer %s", p.name, sys.Name)
+				}
+			}
 		}
 	}
 }

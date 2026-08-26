@@ -149,7 +149,13 @@
 
   
   <section class="block setup">
-    <h2>Setup <span class="badge">Once</span></h2>
+    <h2>Setup <span class="badge">Once</span>
+        <label class="language-picker">Running on
+          <select class="language-select" data-system-select aria-label="Operating system the runner script is written for">
+            <option value="windows" data-prompt="Windows, in PowerShell">Windows</option><option value="macos" data-prompt="macOS, in bash or zsh">macOS</option><option value="linux" data-prompt="Linux, in bash">Linux</option>
+          </select>
+        </label>
+    </h2>
     <ul class="lead">
       <li>Two files, saved before you write a line of code.</li>
       <li>They are why every prompt in this book is a few lines rather than a page: the goal and the rules live in the project, so a prompt only has to say what changes.</li>
@@ -307,6 +313,7 @@ What follows is about you, not about the code.
             </select>
           </label>
       </h2>
+      
       <ul class="lead">
         <li>Build the Vault: the first component, in its smallest useful form.</li>
       </ul>
@@ -330,7 +337,7 @@ peyva/goal.md holds the goal and the rules money must never break. Read it first
 
 One file. No persistence, no network.
 
-Done when running it prints alice&#39;s balance and it exits cleanly on Ctrl&#43;C.</pre>
+Done when running it prints alice&#39;s balance and it exits cleanly on Ctrl+C.</pre>
       </div>
       
       <p class="prompt-divider">The portal</p>

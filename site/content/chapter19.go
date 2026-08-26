@@ -46,15 +46,17 @@ Format the runbook exactly like this and nothing else:
   One line: how I know I have this problem.
 
   ## Check
-  Numbered shell commands, one per line, with the output that confirms the diagnosis.
+  Numbered commands, one per line, with the output that confirms the diagnosis.
 
   ## Fix
-  Numbered shell commands, one per line, copy-pasteable, no placeholders I have to think about. Anything that starts or stops a copy goes through the runner, not a process ID I have to hunt for.
+  Numbered commands, one per line, copy-pasteable, no placeholders I have to
+  think about. Anything that starts or stops a copy goes through the runner,
+  not a process ID I have to hunt for.
 
   ## Verify
   One command and the exact output that means I'm recovered.
 
-Every line under Check, Fix and Verify is either a command I can paste or an exact output I can compare against. It's 2am and I'm not making judgement calls.
+Every command runs on {os}. Every line under Check, Fix and Verify is either a command I can paste or an exact output I can compare against. It's 2am and I'm not making judgement calls.
 
 Done when deploying a deliberately broken version to one copy fails its health check before the other two are touched, and the runbook's Fix section reverts it without improvisation.`,
 	},

@@ -449,6 +449,21 @@ body {
   margin-bottom: 16px;
 }
 
+/* The setup heading carries the system picker, so it needs the same row
+   behaviour the Build It heading has. */
+.setup h2 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.system-locked {
+  margin: 0 0 14px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
 /* File paths read badly in the small caps the Build It dividers use, so the
    setup dividers keep their own case and sit in the code face instead. */
 .setup .prompt-divider {

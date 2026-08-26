@@ -67,6 +67,7 @@ func run(templatesDir, assetsDir, outDir, indexPath string) error {
 	}
 
 	defaultLanguage := content.LanguageByID(content.DefaultLanguage)
+	defaultSystem := content.SystemByID(content.DefaultSystem)
 	pageData := func(chapter content.ChapterContent, prefix string) PageData {
 		return PageData{
 			Chapter:       chapter,
@@ -78,6 +79,11 @@ func run(templatesDir, assetsDir, outDir, indexPath string) error {
 			UILine:        uiLine(defaultLanguage),
 			Setup:         setupFor(chapter.Number),
 			Languages:     content.Languages,
+			Prompt:        promptHTML(chapter.BuildIt.Prompt, defaultSystem),
+			UIPrompt:      promptHTML(chapter.BuildIt.UIPrompt, defaultSystem),
+			Systems:       content.Systems,
+			SystemName:    defaultSystem.Prompt,
+			SystemMatters: namesASystem(chapter),
 
 			LanguageIsChosenHere: chapter.Number == languagePickerChapter,
 			LanguageName:         defaultLanguage.Name,
@@ -210,6 +216,31 @@ func uiLine(l content.Language) template.HTML {
 	line += "\nNew work joins the menu."
 	line += "\nThe goal and invariants are in peyva/goal.md."
 	return template.HTML(line)
+}
+
+// osPlaceholder is what a prompt writes where the reader's operating system
+// belongs. Only a prompt that genuinely differs between systems uses it: the
+// alternative was a line in all twenty-one preambles about a choice that
+// changes nothing in nineteen of them.
+const osPlaceholder = "{os}"
+
+// promptHTML escapes a prompt and then expands {os} into a span the script can
+// swap, the same way the language preamble works.
+//
+// The escaping happens first and the span is added after, so a prompt is still
+// treated as untrusted text and only this one substitution can introduce
+// markup.
+func promptHTML(prompt string, sys content.System) template.HTML {
+	escaped := template.HTMLEscapeString(prompt)
+	span := `<span data-os-name>` + template.HTMLEscapeString(sys.Prompt) + `</span>`
+	return template.HTML(strings.ReplaceAll(escaped, osPlaceholder, span))
+}
+
+// namesASystem reports whether either of a chapter's prompts asks for something
+// system specific.
+func namesASystem(c content.ChapterContent) bool {
+	return strings.Contains(c.BuildIt.Prompt, osPlaceholder) ||
+		strings.Contains(c.BuildIt.UIPrompt, osPlaceholder)
 }
 
 // setupFor returns the files to save only for the chapter that starts the

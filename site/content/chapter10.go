@@ -44,7 +44,7 @@ Now apply that principle here. Audit the code against it and show me every place
 
 Then fix what you found, make the port configurable, and add a small round-robin reverse proxy in front using only the standard library.
 
-I am not opening four terminals to test this. Write peyva/run, a script for the operating system I am on:
+I am not opening four terminals to test this. Write peyva/run, a script for {os}:
 
   start N  -> N copies on consecutive ports against one Vault, proxy in front,
               every output line tagged with the copy it came from

@@ -64,10 +64,8 @@ type PageData struct {
 	SystemPickerHref   string
 	SystemPickerTitle  string
 
-	// ChapterTokens is what all of a chapter's prompts cost to send, and
-	// CostNote explains why that is the small end of what a chapter costs.
+	// ChapterTokens is what all of a chapter's prompts cost to send.
 	ChapterTokens int
-	CostNote      string
 
 	// RunnerScripts is every operating system's script, rendered on the one
 	// chapter that hands it over. All of them are in the page and the script

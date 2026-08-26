@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>What Are We Building? | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=a934fbe744">
+<link rel="stylesheet" href="styles.css?v=24de05bdc7">
 </head>
 <body data-chapter-slug="chapter-0">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -284,35 +284,6 @@ What follows is about you, not about the code.
 - Give reasoning, trade-offs and alternatives only when I ask for them.
 </pre>
     </div>
-    
-    
-    <p class="prompt-divider">What it costs</p>
-    <pre class="cost-note">Every prompt in this book adds up to about 8062 tokens, across
-all twenty-one chapters. That is not where the money goes.
-
-The cost is the assistant reading your code and writing more of it, which is
-tens of times larger and grows as peyva does. Nothing on this page can measure
-it. Your tool can:
-
-  Claude Code   /cost, or /context for what is loaded right now
-  Codex         the usage line at the end of a turn
-  Copilot       your account&#39;s usage page
-  An API        the usage object on every response
-
-Two things make it cheaper, and you control both.
-
-Caching. Your assistant sends the same opening every turn: its own instructions,
-then goal.md, then the rules file. Charging full price for that each time would
-be absurd, so it does not: a prefix it has seen recently costs a fraction of the
-usual rate. The catch is that the match has to be exact. Editing either file
-halfway through a session throws the cache away, and the next turn pays full
-price for all of it again. Save them once, here, then leave them alone. If you
-do need to change one, do it between chapters rather than mid-chapter.
-
-Context. No prompt here asks the assistant to go through the project first. Each
-one says what it starts from, so it opens the two or three files that turn
-touches instead of all of them. The difference grows with every chapter: by the
-end, reading everything costs more than every prompt in this book put together.</pre>
     
   </section>
   

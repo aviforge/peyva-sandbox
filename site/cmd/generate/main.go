@@ -99,7 +99,6 @@ func run(templatesDir, assetsDir, outDir, indexPath string) error {
 			UILine:        uiLine(defaultLanguage),
 			ThinkingLine:  thinkingLine(),
 			ChapterTokens: chapter.BuildIt.PromptTokens(),
-			CostNote:      costNoteFor(chapter.Number),
 			Setup:         setupFor(chapter.Number),
 			Languages:     content.Languages,
 			Prompts:       promptViews(chapter.BuildIt, defaultSystem),
@@ -338,16 +337,6 @@ func runnerScriptsFor(chapterNumber int) []content.RunnerScript {
 // what the system may never do, and drops everything else.
 func thinkingLine() template.HTML {
 	return template.HTML("The goal and invariants are in peyva/goal.md.")
-}
-
-// costNoteFor returns the note about where tokens go, on the chapter that sets
-// the project up. A reader who learns this at chapter 19 has already paid for
-// nineteen chapters of not knowing.
-func costNoteFor(chapterNumber int) string {
-	if chapterNumber != languagePickerChapter {
-		return ""
-	}
-	return fmt.Sprintf(content.CostNote, content.TotalPromptTokens())
 }
 
 // setupFor returns the files to save only for the chapter that starts the

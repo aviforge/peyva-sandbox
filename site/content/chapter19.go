@@ -36,7 +36,7 @@ var Chapter19 = ChapterContent{
 		Technique: "Structured output formatting",
 		Why:       "A runbook read at 2am has to be commands, not prose. Hand over the exact skeleton you want back, and phrase it as what to produce rather than what to avoid, which is what actually steers the output.",
 		Source:    "Anthropic: Prompting best practices, Control the format of responses",
-		Prompt: `I run three copies of the Gateway and Teller behind a router, each exposing a health endpoint.
+		Prompt: `I start peyva with the runner, which brings up three copies behind the proxy, each exposing a health endpoint.
 
 Add a version string, set at build time, reported by that endpoint. Then write me a rollback runbook.
 
@@ -49,7 +49,7 @@ Format the runbook exactly like this and nothing else:
   Numbered shell commands, one per line, with the output that confirms the diagnosis.
 
   ## Fix
-  Numbered shell commands, one per line, copy-pasteable, no placeholders I have to think about.
+  Numbered shell commands, one per line, copy-pasteable, no placeholders I have to think about. Anything that starts or stops a copy goes through the runner, not a process ID I have to hunt for.
 
   ## Verify
   One command and the exact output that means I'm recovered.
@@ -62,8 +62,8 @@ Done when deploying a deliberately broken version to one copy fails its health c
 	BreakIt: BreakIt{
 		Intro: "Deploy a deliberately broken version and confirm your own process catches it.",
 		Exercises: []string{
-			"Deploy a version with an intentional bug to one instance first. Confirm its health check fails before it reaches every instance.",
-			"Follow your own rollback runbook to revert that one instance: time how long it actually takes.",
+			"Deploy a version with an intentional bug to one copy first. Confirm its health check fails before it reaches the other two.",
+			"Follow your own rollback runbook to revert that one copy, pasting every command rather than improvising, and time how long it actually takes.",
 			"Write a one-paragraph postmortem: what broke, how it was caught, what would prevent it next time.",
 		},
 	},

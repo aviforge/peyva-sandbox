@@ -40,7 +40,9 @@ These hold in every chapter. If a change would break one, the change is wrong.
 ## Constraints
 
 - Standard library only. No frameworks, no brokers, no third-party libraries.
-- One process on a laptop. No deployment.
+- Runs on one laptop. No containers, no cloud, no deployment.
+- One process until chapter 10, several after it, started by a runner in the
+  repo rather than by hand.
 - Code lives in peyva/<component>/, one folder per component.
 - Money is exact: a decimal type, or integer minor units where the language has
   none. Never floating point. Two decimal places.
@@ -60,6 +62,8 @@ Each appears in the chapter that builds it. Until then it does not exist.
 - Ledger: the append-only record behind every balance. Chapter 7.
 - Courier: carries out work after a payment clears. Chapter 12.
 - Reconciler: proves the Vault and the Ledger still agree. Chapter 20.
+- Runner: starts a given number of copies, says which are alive, and stops all
+  of them. Chapter 10. A tool for working on peyva, not a part of it.
 - Portal: one customer's own wallet, with a switcher for whose. Its menu grows
   a chapter at a time, from chapter 0.
 `

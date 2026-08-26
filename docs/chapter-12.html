@@ -195,7 +195,9 @@ The Teller notifies the recipient inline, so the caller waits for that notificat
 
 Build the Courier. The component that carries out work after a payment has cleared. The Teller hands it the notification and returns immediately; the Courier delivers on its own schedule.
 
-Scope: one process on a laptop, one user, no deployment. An in-process queue and a worker. Do not introduce Kafka, RabbitMQ, NATS, Redis, Docker, or any broker or queue library. No retry policies, no dead-letter handling, no backpressure tuning.
+Scope: an in-process queue and a worker, inside each copy. Do not introduce Kafka, RabbitMQ, NATS, Redis, Docker, or any broker or queue library. No retry policies, no dead-letter handling, no backpressure tuning.
+
+Chapter 10 means several copies now run at once, so say what an in-process queue costs when the copy holding it dies with work still in it. Do not fix that here. Name it.
 
 If the standard library genuinely can&#39;t express this, say so rather than reaching for a dependency I ruled out. Admitting it is a more useful answer than a guess.
 

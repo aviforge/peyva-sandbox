@@ -191,7 +191,7 @@ Code in peyva/&lt;component&gt;/, one folder per component.
 Money: exact decimal or integer minor units, never floating point, two decimal places.
 The goal and invariants are in peyva/goal.md.</span>
 
-I run three copies of the Gateway and Teller behind a router, each exposing a health endpoint.
+I start peyva with the runner, which brings up three copies behind the proxy, each exposing a health endpoint.
 
 Add a version string, set at build time, reported by that endpoint. Then write me a rollback runbook.
 
@@ -204,7 +204,7 @@ Format the runbook exactly like this and nothing else:
   Numbered shell commands, one per line, with the output that confirms the diagnosis.
 
   ## Fix
-  Numbered shell commands, one per line, copy-pasteable, no placeholders I have to think about.
+  Numbered shell commands, one per line, copy-pasteable, no placeholders I have to think about. Anything that starts or stops a copy goes through the runner, not a process ID I have to hunt for.
 
   ## Verify
   One command and the exact output that means I&#39;m recovered.
@@ -222,7 +222,7 @@ Done when deploying a deliberately broken version to one copy fails its health c
         <li>Deploy a deliberately broken version and confirm your own process catches it.</li>
       </ul>
       <ul>
-        <li>Deploy a version with an intentional bug to one instance first. Confirm its health check fails before it reaches every instance.</li><li>Follow your own rollback runbook to revert that one instance: time how long it actually takes.</li><li>Write a one-paragraph postmortem: what broke, how it was caught, what would prevent it next time.</li>
+        <li>Deploy a version with an intentional bug to one copy first. Confirm its health check fails before it reaches the other two.</li><li>Follow your own rollback runbook to revert that one copy, pasting every command rather than improvising, and time how long it actually takes.</li><li>Write a one-paragraph postmortem: what broke, how it was caught, what would prevent it next time.</li>
       </ul>
     </section>
   </div>

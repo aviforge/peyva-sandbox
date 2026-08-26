@@ -188,6 +188,40 @@ func TestNoChapterNamesAComponentBeforeItsOwnChapter(t *testing.T) {
 // A prompt that wants one has to be reworded or the field has to go back to a
 // quoted string with escapes, and the compiler will say so. This says why
 // before someone spends time on it.
+// Chapter 10 replaces the single process with several copies behind a proxy.
+// Anything after it that still scopes itself to one process is describing a
+// system the reader stopped running two chapters ago. This has been wrong twice
+// already: the spec said it, and chapter 12 scoped the Courier by it.
+func TestNothingAfterScaleOutClaimsOneProcess(t *testing.T) {
+	const scaleOut = 10
+	for _, c := range All {
+		if c.Number < scaleOut {
+			continue
+		}
+		fields := map[string]string{
+			"Prompt":   c.BuildIt.Prompt,
+			"UIPrompt": c.BuildIt.UIPrompt,
+			"QuickTip": c.QuickTip,
+		}
+		for _, s := range append(append([]string{}, c.Intuition...), c.UnderTheHood...) {
+			fields[s] = s
+		}
+		for name, text := range fields {
+			// "one process can't do that alone" and "what may live inside one
+			// process" are about the limit, not a claim peyva still is one.
+			for _, claim := range []string{"one process on a laptop", "one process, one user"} {
+				if strings.Contains(strings.ToLower(text), claim) {
+					t.Errorf("chapter %d %s scopes peyva to %q, but chapter %d runs several copies",
+						c.Number, name, claim, scaleOut)
+				}
+			}
+		}
+	}
+	if strings.Contains(GoalSpec, "One process on a laptop") {
+		t.Error("the spec scopes peyva to one process, which stops being true at chapter 10")
+	}
+}
+
 func TestProseFieldsHoldNoBackticks(t *testing.T) {
 	for _, c := range All {
 		fields := map[string]string{

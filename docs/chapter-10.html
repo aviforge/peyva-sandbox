@@ -197,11 +197,22 @@ Step back before you look at my code. In a few sentences, state the general prop
 
 Now apply that principle here. Audit the code against it and show me every place it currently fails: anything cached, counted, or held in a package-level variable.
 
-Then fix what you found, make the port configurable so I can run three copies against one Vault, and add a small round-robin reverse proxy in front using only the standard library.
+Then fix what you found, make the port configurable, and add a small round-robin reverse proxy in front using only the standard library.
+
+I am not opening four terminals to test this. Build peyva/run/, in the same language as the rest, standard library only:
+
+  start N  -&gt; N copies on consecutive ports against one Vault, proxy in front,
+              every output line tagged with the copy it came from
+  status   -&gt; which copies are alive, on which ports
+  stop     -&gt; kills every process peyva started, and frees their ports
+
+Ctrl&#43;C on start stops them too. But stop has to work from a second terminal, and after the runner itself has died, or the first crash leaves ports held by processes I have to hunt down by hand. Record what was started somewhere stop can read it back, and have stop clean up that record even when a copy is already gone.
+
+If one copy dies on its own, say so and leave the others running.
 
 No service discovery, no external load balancer, no configuration framework.
 
-Done when ten payments spread across all three copies with correct final balances, and killing one copy mid-traffic fails no request.</pre>
+Done when starting it with three spreads ten payments across all three copies with correct final balances, killing one copy mid-traffic fails no request, and stop leaves nothing of peyva running.</pre>
       </div>
       
     </section>
@@ -212,7 +223,7 @@ Done when ten payments spread across all three copies with correct final balance
         <li>Prove the instances really are interchangeable.</li>
       </ul>
       <ul>
-        <li>Send ten transfer requests through the load balancer and confirm they land on different instances, but all update the same shared balances correctly.</li><li>Kill one instance while traffic is flowing. The load balancer should route around it, and requests keep succeeding.</li><li>This only works because Chapter 5 already moved state into a shared database. A stateful instance couldn&#39;t be killed this safely.</li><li>Push writes through several instances at once and watch them queue behind each other. Scaling out multiplied the instances, not the single Vault they all write to, so the bottleneck moved rather than disappeared.</li>
+        <li>Start three copies with the runner, send ten payments through the proxy, and confirm from the tagged output that they landed on different copies while all updating the same balances.</li><li>Kill one copy while traffic is flowing. The proxy routes around it and requests keep succeeding. Start the runner with one copy instead of three and the same traffic now queues behind a single process.</li><li>This only works because Chapter 5 already moved state into a shared database. A stateful instance couldn&#39;t be killed this safely.</li><li>Push writes through several copies at once and watch them queue behind each other. Scaling out multiplied the copies, not the single Vault they all write to, so the bottleneck moved rather than disappeared.</li><li>Close the terminal without stopping anything, then run stop from a new one. Every copy goes, the ports are free, and starting again works first time.</li>
       </ul>
     </section>
   </div>

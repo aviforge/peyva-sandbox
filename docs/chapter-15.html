@@ -197,6 +197,8 @@ Before designing anything, give me a real-world analogy for keeping a second cop
 
 Now build it. The Vault gets a second copy, written to after each committed payment, and a way to promote it when the primary is unreachable. Keep the copying asynchronous. The caller must never wait for it.
 
+The runner brings the second copy up with everything else, and can cut it off or restore it while the rest keeps running. Testing a replica by renaming its file behind the system&#39;s back proves less than it looks like it does.
+
 Then tell me where your analogy breaks down for real databases, and whether it led you into any mistake in the code you just wrote.
 
 Done when a payment appears in both copies, balance enquiries survive the primary being unavailable, and you can show me the window where a committed payment hasn&#39;t reached the second copy yet.</pre>

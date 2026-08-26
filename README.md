@@ -6,6 +6,15 @@ honest layer at a time.
 **[Read it here](https://aviforge.github.io/peyva-sandbox/)**, or open
 `docs/index.html` from a clone. Nothing to install or build.
 
+Each chapter ends with a prompt you hand to your own AI assistant rather than
+code to copy. Chapter 0 asks which language you want to build in, and every
+prompt after it asks for that one, so what you build in chapter 12 still fits
+what you built in chapter 4.
+
+The choice is offered once, in chapter 0. Later chapters show which language is
+in force and link back there to change it. Twelve are available: Go, Python,
+JavaScript, TypeScript, Java, C#, C++, Rust, Ruby, PHP, Kotlin and Swift.
+
 ## Contents
 
 <!-- toc:start -->
@@ -51,15 +60,29 @@ by relative path, so it only works from the repo root.
 
 `go test ./...` fails from the root: `go.work`, no root module.
 
+### Adding a language
+
+Add an entry to `site/content/languages.go` and regenerate. That is the whole
+change, because no prompt names a language: they describe what the component
+has to do and leave the idiom to the assistant. A test fails if a prompt starts
+naming one, which is what keeps a single entry enough.
+
+The language is written into every page at build time, not added by script. A
+prompt that reaches an assistant without naming a language is worse than one
+naming the wrong language: the assistant picks its own, can pick differently on
+different chapters, and the reader finds out several chapters later when
+nothing fits together.
+
 ## Layout
 
-    docs/            the published site. GitHub Pages serves this as the root
-    docs/index.html  entry point, so a bare / lands on chapter 0
-    docs/images      the chapter illustrations
-    site/content     chapter text, as Go values
-    site/templates   page and sidebar templates
-    site/assets      CSS and JS
-    site/cmd         the generator
+    docs/                      the published site, served by Pages as the root
+    docs/index.html            entry point, so a bare / lands on chapter 0
+    docs/images                the chapter illustrations
+    site/content               chapter text, as Go values
+    site/content/languages.go  the languages the picker offers
+    site/templates             page and sidebar templates
+    site/assets                CSS and JS
+    site/cmd                   the generator
 
 Everything under `docs/` is rewritten by the generator except `docs/images`.
 Those are the only files in the repository that nothing can rebuild, and they

@@ -1,0 +1,55 @@
+package content
+
+var Chapter02 = ChapterContent{
+	Number:     2,
+	Slug:       "chapter-2",
+	Title:      "Finding Peyva (Processes & Ports)",
+	Subtitle:   "To reach someone, you need the right address and the receptionist lets you in.",
+	Category:   "Foundations",
+	Difficulty: "Beginner",
+	EstTime:    "10 min",
+	QuickTip:   "Only one process can own a given port at a time — that's what makes it a reliable address.",
+
+	HeroImage:   "images/chapter-2.webp",
+	HeroCaption: "A process is the running app. A port is the door callers knock on.",
+
+	Intuition: []string{
+		"Your computer runs many programs at once, like an office building holds many teams.",
+		"Reaching one specific program needs an address (127.0.0.1) and a port — something peyva doesn't have yet.",
+		"This chapter gives it a door to knock on.",
+	},
+
+	Concepts: []ConceptItem{
+		{Term: "Process ID (PID)", Description: "A number the OS assigns to identify one running program among many."},
+		{Term: "Port", Description: "A number (like 9310) a process binds to, so the OS knows where to route calls."},
+		{Term: "Binding", Description: "A process claiming a port — only one process can hold it at a time."},
+		{Term: "Loopback (127.0.0.1)", Description: "The address meaning 'this same machine' — used to reach a process running locally."},
+	},
+
+	UnderTheHood: []string{
+		"Every peyva process has a PID and, once it listens, a port — e.g. peyva-api on 9310.",
+		"A client reaches peyva at 127.0.0.1:9310 — address plus port.",
+		"The port is the door; the process behind it decides what happens when someone knocks.",
+	},
+
+	BuildIt: BuildIt{
+		Intro:     "Build the Gateway — the way requests reach the system from outside.",
+		Technique: "Constrain the scope",
+		Why:       "Assistants overengineer by default: extra files, abstractions, flexibility nobody asked for. The remedy is to state the ceiling explicitly — ask for a listener without one and you'll get an HTTP server with routes and JSON.",
+		Source:    "Anthropic — Prompting best practices, Overeagerness",
+		Prompt: "Build the Gateway — the way payment requests reach the system from outside.\n\n" +
+			"For now it does one thing: claim TCP port 9310, accept connections, log one line per connection with the caller's address, then close it.\n\n" +
+			"Do not add HTTP handling, routes, JSON parsing, request or response types, graceful shutdown, or any third-party package. The Gateway only owns a door right now. Everything else arrives in later chapters and would get in the way.\n\n" +
+			"The right amount of complexity is the minimum that does what I just described.\n\n" +
+			"Done when a request to port 9310 makes the Gateway log a connection, and starting a second copy fails with 'address already in use'.",
+	},
+
+	BreakIt: BreakIt{
+		Intro: "Ports can only have one owner at a time — see what happens when two processes want the same door.",
+		Exercises: []string{
+			"Start peyva once — it binds port 9310 successfully.",
+			"Start a second copy while the first is still running. Watch it fail with 'address already in use'.",
+			"Stop the first copy, then start the second again — now it succeeds. The port was free the moment its owner let go.",
+		},
+	},
+}

@@ -4,7 +4,7 @@ var Chapter01 = ChapterContent{
 	Number:     1,
 	Slug:       "chapter-1",
 	Title:      "Inside One Computer",
-	Subtitle:   "The Chapter 0 process has to actually run somewhere — this is where.",
+	Subtitle:   "A running program is one room in a house — the OS is the caretaker, the hardware is the house.",
 	Category:   "Foundations",
 	Difficulty: "Beginner",
 	EstTime:    "10 min",

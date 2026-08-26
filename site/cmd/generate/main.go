@@ -5,6 +5,7 @@ import (
 	"html/template"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"site/content"
 )
@@ -37,6 +38,10 @@ func main() {
 func run(templatesDir, assetsDir, outDir, indexPath string) error {
 	if err := os.MkdirAll(outDir, 0o755); err != nil {
 		return fmt.Errorf("creating output dir: %w", err)
+	}
+
+	if err := requireImages(outDir); err != nil {
+		return err
 	}
 
 	tmpl, err := template.ParseFiles(
@@ -104,6 +109,38 @@ func assetPrefix(pagePath, outDir string) (string, error) {
 		return "", nil
 	}
 	return filepath.ToSlash(rel) + "/", nil
+}
+
+// requireImages refuses to build when the illustrations are not where they
+// should be. They are the one part of the published site nothing can rebuild,
+// so a run that cannot find them is looking at a wiped output directory, not
+// a fresh one.
+//
+// Without this the build would succeed: every chapter would simply render its
+// "image pending" placeholder, and a working site would quietly be replaced by
+// twenty-one empty panels. Nothing reads these files except the browser, so
+// the failure would surface only once it was published.
+func requireImages(outDir string) error {
+	dir := filepath.Join(outDir, "images")
+
+	entries, err := os.ReadDir(dir)
+	if os.IsNotExist(err) {
+		return fmt.Errorf("%s does not exist. It holds the chapter illustrations, "+
+			"which the generator does not create and cannot replace. Restore it with "+
+			"'git checkout -- %s' before building", dir, filepath.ToSlash(dir))
+	}
+	if err != nil {
+		return fmt.Errorf("reading %s: %w", dir, err)
+	}
+
+	for _, e := range entries {
+		if !e.IsDir() && strings.EqualFold(filepath.Ext(e.Name()), ".webp") {
+			return nil
+		}
+	}
+	return fmt.Errorf("%s holds no .webp files. The chapter illustrations are missing "+
+		"and the generator cannot replace them. Restore them with 'git checkout -- %s' "+
+		"before building", dir, filepath.ToSlash(dir))
 }
 
 func fileExists(path string) bool {

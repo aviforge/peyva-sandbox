@@ -63,5 +63,8 @@ by relative path, so it only works from the repo root.
 
 Everything under `docs/` is rewritten by the generator except `docs/images`.
 Those are the only files in the repository that nothing can rebuild, and they
-live there because GitHub Pages publishes `docs/` and nothing outside it. Do
-not delete the folder to force a clean build.
+live there because GitHub Pages publishes `docs/` and nothing outside it.
+
+The generator reads that folder and never writes to it. If it is missing the
+build stops rather than publishing a site of empty panels, so deleting `docs/`
+to force a clean build fails loudly instead of quietly.

@@ -53,9 +53,15 @@ by relative path, so it only works from the repo root.
 
 ## Layout
 
-    docs/           the published site — GitHub Pages serves this as the root
-    docs/index.html entry point, so a bare / lands on chapter 0
-    site/content    chapter text, as Go values
-    site/templates  page and sidebar templates
-    site/assets     source images, CSS and JS
-    site/cmd        the generator
+    docs/            the published site. GitHub Pages serves this as the root
+    docs/index.html  entry point, so a bare / lands on chapter 0
+    docs/images      the chapter illustrations
+    site/content     chapter text, as Go values
+    site/templates   page and sidebar templates
+    site/assets      CSS and JS
+    site/cmd         the generator
+
+Everything under `docs/` is rewritten by the generator except `docs/images`.
+Those are the only files in the repository that nothing can rebuild, and they
+live there because GitHub Pages publishes `docs/` and nothing outside it. Do
+not delete the folder to force a clean build.

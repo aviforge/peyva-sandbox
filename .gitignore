@@ -1,2 +1,7 @@
 site/dist/
 docs/superpowers/
+
+# Draft images. copyImages used to keep subfolders out of the published
+# site; now that the images live in docs/ they would be published, so keep
+# work in progress untracked instead.
+docs/images/_*/

@@ -5,14 +5,31 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
+
+	"site/content"
 )
 
 // testRun renders into a fresh temp root, returning the docs dir the pages
 // land in and the path of the index.html that fronts them.
+//
+// The hero images are seeded first because the generator no longer copies
+// them. They are checked in under the output directory, so a run that finds
+// none renders every chapter with the "image pending" placeholder instead.
 func testRun(t *testing.T) (outDir, indexPath string) {
 	t.Helper()
 	outDir = filepath.Join(t.TempDir(), "docs")
 	indexPath = filepath.Join(outDir, "index.html")
+
+	imagesDir := filepath.Join(outDir, "images")
+	if err := os.MkdirAll(imagesDir, 0o755); err != nil {
+		t.Fatalf("creating fixture images dir: %v", err)
+	}
+	for _, c := range content.All {
+		name := filepath.Base(filepath.FromSlash(c.HeroImage))
+		if err := os.WriteFile(filepath.Join(imagesDir, name), []byte("fake-webp"), 0o644); err != nil {
+			t.Fatalf("writing fixture hero %s: %v", name, err)
+		}
+	}
 
 	if err := run(filepath.Join("..", "..", "templates"), filepath.Join("..", "..", "assets"), outDir, indexPath); err != nil {
 		t.Fatalf("run: %v", err)
@@ -81,32 +98,6 @@ func TestRunWritesIndexBesideTheChaptersItFronts(t *testing.T) {
 	// directory above its assets, which 404s once docs/ is the site root.
 	if strings.Contains(body, `"docs/`) {
 		t.Error(`index.html still references assets via a "docs/" prefix`)
-	}
-}
-
-func TestCopyImagesOnlyCopiesFlatWebPs(t *testing.T) {
-	srcDir := t.TempDir()
-	dstDir := filepath.Join(t.TempDir(), "images")
-
-	if err := os.WriteFile(filepath.Join(srcDir, "chapter-0.webp"), []byte("fake-webp"), 0o644); err != nil {
-		t.Fatalf("writing fixture webp: %v", err)
-	}
-	if err := os.Mkdir(filepath.Join(srcDir, "_pending"), 0o755); err != nil {
-		t.Fatalf("creating fixture subdir: %v", err)
-	}
-	if err := os.WriteFile(filepath.Join(srcDir, "_pending", "draft.webp"), []byte("fake-webp"), 0o644); err != nil {
-		t.Fatalf("writing fixture draft webp: %v", err)
-	}
-
-	if err := copyImages(srcDir, dstDir); err != nil {
-		t.Fatalf("copyImages: %v", err)
-	}
-
-	if _, err := os.Stat(filepath.Join(dstDir, "chapter-0.webp")); err != nil {
-		t.Errorf("expected chapter-0.webp to be copied: %v", err)
-	}
-	if _, err := os.Stat(filepath.Join(dstDir, "_pending")); err == nil {
-		t.Error("expected _pending subdirectory to NOT be copied, but it was")
 	}
 }
 

@@ -5,7 +5,6 @@ import (
 	"html/template"
 	"os"
 	"path/filepath"
-	"strings"
 
 	"site/content"
 )
@@ -28,9 +27,13 @@ func main() {
 }
 
 // run renders every chapter into outDir and writes the site's entry point to
-// indexPath. indexPath sits outside outDir — at the repo root — so a reader
-// browsing a clone meets index.html before anything else, which is why it is
-// rendered with its own asset prefix rather than copied from outDir.
+// indexPath. The entry point is rendered rather than copied from a chapter
+// page, because its asset prefix depends on where it sits relative to outDir,
+// which assetPrefix works out.
+//
+// Images are not copied here. They live in outDir already, checked in beside
+// the pages that serve them, because GitHub Pages publishes outDir alone and
+// nothing outside it is reachable.
 func run(templatesDir, assetsDir, outDir, indexPath string) error {
 	if err := os.MkdirAll(outDir, 0o755); err != nil {
 		return fmt.Errorf("creating output dir: %w", err)
@@ -61,7 +64,7 @@ func run(templatesDir, assetsDir, outDir, indexPath string) error {
 	pageData := func(chapter content.ChapterContent, prefix string) PageData {
 		return PageData{
 			Chapter:       chapter,
-			HeroAvailable: fileExists(filepath.Join(assetsDir, filepath.FromSlash(chapter.HeroImage))),
+			HeroAvailable: fileExists(filepath.Join(outDir, filepath.FromSlash(chapter.HeroImage))),
 			Roadmap:       roadmap,
 			Labs:          content.Labs,
 			AssetPrefix:   prefix,
@@ -79,9 +82,9 @@ func run(templatesDir, assetsDir, outDir, indexPath string) error {
 		return err
 	}
 
-	// The entry point is the first chapter rendered a second time, rather
-	// than a copy of its page: sitting outside outDir, it needs its own
-	// prefix to reach the assets the copy would have pointed at sideways.
+	// The entry point is the first chapter rendered a second time rather than
+	// copied from its page, so that it can carry whatever asset prefix its own
+	// location calls for.
 	prefix, err := assetPrefix(indexPath, outDir)
 	if err != nil {
 		return err
@@ -140,7 +143,7 @@ func copyAssets(assetsDir, outDir string) error {
 		return fmt.Errorf("writing .nojekyll: %w", err)
 	}
 
-	return copyImages(filepath.Join(assetsDir, "images"), filepath.Join(outDir, "images"))
+	return nil
 }
 
 func copyFile(src, dst string) error {
@@ -150,34 +153,6 @@ func copyFile(src, dst string) error {
 	}
 	if err := os.WriteFile(dst, data, 0o644); err != nil {
 		return fmt.Errorf("writing %s: %w", dst, err)
-	}
-	return nil
-}
-
-// copyImages copies every top-level .webp file directly under srcDir (the
-// flat chapter-<N>.webp convention) into dstDir. It does not recurse into
-// subdirectories, so scratch/draft folders alongside the real assets are
-// never accidentally published.
-func copyImages(srcDir, dstDir string) error {
-	entries, err := os.ReadDir(srcDir)
-	if os.IsNotExist(err) {
-		return nil
-	}
-	if err != nil {
-		return fmt.Errorf("reading %s: %w", srcDir, err)
-	}
-
-	if err := os.MkdirAll(dstDir, 0o755); err != nil {
-		return fmt.Errorf("creating %s: %w", dstDir, err)
-	}
-
-	for _, entry := range entries {
-		if entry.IsDir() || !strings.EqualFold(filepath.Ext(entry.Name()), ".webp") {
-			continue
-		}
-		if err := copyFile(filepath.Join(srcDir, entry.Name()), filepath.Join(dstDir, entry.Name())); err != nil {
-			return err
-		}
 	}
 	return nil
 }

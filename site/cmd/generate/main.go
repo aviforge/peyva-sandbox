@@ -177,6 +177,11 @@ func languageLine(l content.Language, chapterNumber int) template.HTML {
 	// reaches for a dependency the first line just ruled out.
 	line += "\nCode in peyva/&lt;component&gt;/, one folder per component."
 	line += "\nMoney: exact decimal or integer minor units, never floating point, two decimal places."
+	// The constraints stay inline because they are cheap and always present.
+	// The goal and the invariants do not fit in a preamble, and an assistant
+	// that has to infer them reads the whole codebase instead, which costs far
+	// more than the one small file this points at.
+	line += "\nThe goal and invariants are in peyva/goal.md."
 	return template.HTML(line)
 }
 

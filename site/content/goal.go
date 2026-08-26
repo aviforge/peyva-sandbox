@@ -51,8 +51,8 @@ These hold in every chapter. If a change would break one, the change is wrong.
 - Code lives in peyva/<component>/, one folder per component.
 - Money is exact: a decimal type, or integer minor units where the language has
   none. Never floating point. Two decimal places.
-- The portal is plain HTML and CSS. No build step, no dependencies.
-- The portal shows one customer's wallet at a time, never everyone's at once.
+- The Portal is plain HTML and CSS. No build step, no dependencies.
+- The Portal shows one customer's wallet at a time, never everyone's at once.
   A switcher at the top says whose.
 - Structure is earned. A component appears when a problem needs it, not before.
 

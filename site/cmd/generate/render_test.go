@@ -272,6 +272,23 @@ func TestEachPromptHasItsOwnCopyButton(t *testing.T) {
 	}
 }
 
+// The Portal is a component, named like the Vault and the Teller. This checks
+// the rendered page rather than the content, because the two places it was
+// still lowercase were the template's divider and the preamble the generator
+// writes into every portal prompt, neither of which lives in content.
+func TestPortalIsCapitalisedEverywhereItIsNamed(t *testing.T) {
+	// The folder is a path, not the component's name.
+	path := regexp.MustCompile(`peyva/portal/`)
+	for _, p := range renderedPages(t) {
+		body := path.ReplaceAllString(p.body, "")
+		for _, wrong := range []string{"the portal", "The portal", "a portal"} {
+			if strings.Contains(body, wrong) {
+				t.Errorf("%s: writes %q, but Portal is a component name", p.name, wrong)
+			}
+		}
+	}
+}
+
 // Nothing may be fetched at read time. The site has to work from a clone with
 // no network, which is the promise the README makes.
 func TestEveryPageIsSelfContained(t *testing.T) {

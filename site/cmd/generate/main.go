@@ -245,7 +245,7 @@ func languageLine(l content.Language, chapterNumber int) template.HTML {
 // needs no toolchain, so it is the same page whichever language serves it.
 func uiLine(l content.Language) template.HTML {
 	name := `<span data-language-name>` + template.HTMLEscapeString(l.Name) + `</span>`
-	line := "The portal is plain HTML and CSS. No framework, no build step, no dependencies."
+	line := "The Portal is plain HTML and CSS. No framework, no build step, no dependencies."
 	line += "\nIt lives in peyva/portal/. Anything it needs from the server is " + name + ", standard library only."
 	// Without the first half the assistant builds an operator's console: a table
 	// of every account, with everyone's balance on it. That is a different

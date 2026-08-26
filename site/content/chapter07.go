@@ -47,12 +47,12 @@ Before writing code: walk me through what the data looks like if the process die
 Then make those states unreachable, and tell me which of your three scenarios is still possible afterwards, if any.
 
 Done when a completed payment leaves two balanced Ledger entries and updated balances, a forced mid-payment failure leaves neither, and summing alice's Ledger entries equals her Vault balance.`},
-			{Label: "Decide", Portal: true, Thinking: true, Intro: "Settle what a failed payment looks like before there is a screen arguing for it.", Text: `A customer's wallet page shows a balance and can send money. I want to add a history: every movement in and out of their own account.
+			{Label: "Decide", Portal: true, Thinking: true, Intro: "Decide what a failed payment looks like on the page.", Text: `A customer's wallet page shows a balance and can send money. I want to add a history: every movement in and out of their own account.
 
 Before building it, walk me through what that view should show for a payment that failed halfway. Should it appear at all? If it should, how does a customer tell it apart from one that worked?
 
 Done when I know what a half-failed payment looks like on the page, and why.`},
-			{Label: "Portal", Portal: true, Intro: "Then build the view you argued for.", Text: `The Portal shows a balance and can send money, and says nothing about how the balance came to be what it is.
+			{Label: "Portal", Portal: true, Intro: "The history view.", Text: `The Portal shows a balance and can send money, and says nothing about how the balance came to be what it is.
 
 Add History to the menu: every movement in and out of the customer's own account, newest first, each with its reference, amount and the other party. Show a failed payment the way you just described.
 

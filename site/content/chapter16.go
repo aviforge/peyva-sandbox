@@ -39,14 +39,14 @@ var Chapter16 = ChapterContent{
 		Why:       "Branch, evaluate each branch, prune, then commit. Ask for an implementation and you get one design with its reasoning hidden; ask for several scored against stated criteria and the choice comes into the open where you can disagree with it.",
 		Source:    "The Prompt Report: Decomposition, Tree-of-Thought",
 		Prompts: []Prompt{
-			{Label: "Decide", Thinking: true, Intro: "Several strategies scored in the open, so the choice is one you can disagree with.", Text: `A payments system keeps balances in a primary copy that replicates asynchronously to a second copy. I need to decide what it does when the two can't reach each other.
+			{Label: "Decide", Thinking: true, Intro: "Three strategies, pruned to one.", Text: `A payments system keeps balances in a primary copy that replicates asynchronously to a second copy. I need to decide what it does when the two can't reach each other.
 
 Don't write code yet. Propose at least three genuinely distinct strategies for handling the partition: not three variations on one idea. For each, work out what a customer experiences during the partition, what happens to a payment accepted mid-partition, and what manual work recovery needs.
 
 Then prune. Eliminate the ones that are unacceptable for money movement specifically, and say what disqualified each. Recommend one of the survivors, and name the condition that would change your recommendation.
 
 Done when I have three real options, a reason each rejected one was rejected, and a recommendation with the condition that would overturn it.`},
-			{Label: "Build", Intro: "Then build the one you argued for.", Text: `The Vault's primary copy replicates asynchronously to a second copy, and you recommended a strategy for what the Teller does when the two cannot reach each other.
+			{Label: "Build", Intro: "Build the one you recommended.", Text: `The Vault's primary copy replicates asynchronously to a second copy, and you recommended a strategy for what the Teller does when the two cannot reach each other.
 
 Implement that recommendation. Treat an unreachable second copy as a partition rather than ignoring it, and keep balance enquiries served from whichever copy is reachable even while payments are refused.
 

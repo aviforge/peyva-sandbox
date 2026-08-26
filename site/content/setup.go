@@ -26,12 +26,12 @@ type AgentFile struct {
 var SetupFiles = []SetupFile{
 	{
 		Path:    "peyva/goal.md",
-		Purpose: "What the system is for, and what must never happen to money. Every prompt from here on points at it instead of repeating it.",
+		Purpose: "What the system is for, and what must never happen to money.",
 		Content: GoalSpec,
 	},
 	{
 		Path:    "Your assistant's instruction file",
-		Purpose: "How your assistant should work: what it may decide alone, when to stop and ask, and how much to say back. The spec above covers what to build, so this one does not.",
+		Purpose: "How your assistant should work: what it may decide alone, when to stop and ask, and how much to say back.",
 		Content: AgentRules,
 		Names:   AgentFiles,
 	},

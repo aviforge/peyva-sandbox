@@ -49,7 +49,6 @@
     </h2>
     <ul class="lead">
       <li>Two files, saved before you write a line of code.</li>
-      <li>They are why every prompt in this book is a few lines rather than a page: the goal and the rules live in the project, so a prompt only has to say what changes.</li>
     </ul>
     {{range .Setup}}
     <p class="prompt-divider">{{.Path}}</p>
@@ -125,7 +124,7 @@
       {{if .RunnerScripts}}
       <p class="prompt-divider">The runner</p>
       <ul class="lead">
-        <li>Save this beside your code. It starts the copies, says which are alive, and stops them all. Set the two commands at the top to how your project starts.</li>
+        <li>Save this beside your code. Set the two commands at the top to how your project starts.</li>
       </ul>
       {{range .RunnerScripts}}
       <div class="prompt-wrap runner-script" data-runner-for="{{.SystemID}}">

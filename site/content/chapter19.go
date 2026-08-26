@@ -43,7 +43,7 @@ var Chapter19 = ChapterContent{
 		Why:       "A runbook read at 2am has to be commands, not prose. Hand over the exact skeleton you want back, and phrase it as what to produce rather than what to avoid, which is what actually steers the output.",
 		Source:    "Anthropic: Prompting best practices, Control the format of responses",
 		Prompts: []Prompt{
-			{Label: "Config", Intro: "Sort the settings before moving any of them.", Text: `peyva reads settings straight from the environment in several places: the port a copy listens on, the ports the proxy routes between, where the Vault keeps its file.
+			{Label: "Config", Intro: "Sort the settings, then build Config.", Text: `peyva reads settings straight from the environment in several places: the port a copy listens on, the ports the proxy routes between, where the Vault keeps its file.
 
 Build Config: it reads every setting once at startup, checks each one, and hands them over. Nothing else reads the environment after that.
 
@@ -58,7 +58,7 @@ Two decimal places on money is not a setting. Neither is a balance that cannot g
 A missing or nonsense setting means naming it and exiting. Never a default that hides it.
 
 Done when every setting has been sorted with the rule it fell under, and starting without a required one names it and stops.`},
-			{Label: "Runbook", Intro: "Then the thing you read at 2am, in the shape you read it in.", Text: `peyva runs as three copies behind a proxy, each exposing a health endpoint, and Config now supplies every setting.
+			{Label: "Runbook", Intro: "The version string and the rollback runbook.", Text: `peyva runs as three copies behind a proxy, each exposing a health endpoint, and Config now supplies every setting.
 
 Add a version string, set at build time, reported by that health endpoint. Then write me a rollback runbook.
 

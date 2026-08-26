@@ -14,7 +14,7 @@ var Chapter08 = ChapterContent{
 	HeroCaption: "Idempotency = same request (same key) -> same effect (once).",
 
 	Concepts: []ConceptItem{
-		{Term: "Idempotency Key", Description: "A unique ID the client attaches to a request so retries can be recognized as duplicates."},
+		{Term: "Idempotency Key", Description: "A unique ID the client attaches to a request so retries can be recognised as duplicates."},
 		{Term: "Duplicate Request", Description: "The same idempotency key arriving more than once, usually from a retry after a slow or dropped response."},
 		{Term: "Idempotent", Description: "An operation that has the same effect whether it runs once or many times with the same key."},
 		{Term: "Stored Result", Description: "The response saved next to the key, so a repeat returns exactly what the first attempt returned rather than a freshly computed answer."},

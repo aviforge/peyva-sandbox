@@ -19,7 +19,7 @@ var Chapter00 = ChapterContent{
 		{Term: "Balance", Description: "How much an account holds. Must never go negative, be lost, or be double-spent."},
 		{Term: "Vault", Description: "The component holding every account and what's in it. Nothing else is allowed to change a balance."},
 		{Term: "Transfer", Description: "A request to move money between accounts."},
-		{Term: "History", Description: "The record of every transfer. If the balance is the answer, history is the proof."},
+		{Term: "History", Description: "The record of every movement in and out of an account, in the order it happened."},
 	},
 
 	BuildIt: BuildIt{

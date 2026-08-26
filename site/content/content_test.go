@@ -355,6 +355,39 @@ func TestSpecListsComponentsInChapterOrder(t *testing.T) {
 	}
 }
 
+// The book is written in British English. Mixed spelling in one document reads
+// as carelessness, and a reader notices it without being able to name it.
+//
+// Source is exempt: it holds the titles of other people's documents, and a
+// citation keeps its source's spelling. Chapter 6 cites an Anthropic page
+// called Minimizing hallucinations in agentic coding.
+func TestSpellingStaysBritish(t *testing.T) {
+	american := regexp.MustCompile(`\b\w+iz(e|ed|ing|ation)\b|\bcolor\w*\b|\bbehavior\w*\b|\bcenter\w*\b|\banalyz\w+\b`)
+	// Words that end in -ise in both, so -ize is not evidence either way.
+	fine := map[string]bool{
+		"size": true, "sized": true, "sizing": true, "prize": true, "capsize": true,
+	}
+	for _, c := range All {
+		for _, text := range []string{prose(c), promptText(c)} {
+			for _, w := range american.FindAllString(text, -1) {
+				if fine[strings.ToLower(w)] {
+					continue
+				}
+				t.Errorf("chapter %d uses the American %q", c.Number, w)
+			}
+		}
+	}
+	for _, name := range []string{"GoalSpec", "DesignBrief", "AgentRules"} {
+		text := map[string]string{"GoalSpec": GoalSpec, "DesignBrief": DesignBrief, "AgentRules": AgentRules}[name]
+		for _, w := range american.FindAllString(text, -1) {
+			if fine[strings.ToLower(w)] {
+				continue
+			}
+			t.Errorf("%s uses the American %q", name, w)
+		}
+	}
+}
+
 // prose is everything on the page except the prompt bodies.
 func prose(c ChapterContent) string {
 	parts := []string{

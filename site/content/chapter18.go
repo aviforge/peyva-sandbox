@@ -8,14 +8,14 @@ var Chapter18 = ChapterContent{
 	Category:   "Operations",
 	Difficulty: "Advanced",
 	EstTime:    "25 min",
-	QuickTip:   "Authentication proves who's calling; authorization checks what they're allowed to do. You need both.",
+	QuickTip:   "Authentication proves who's calling; authorisation checks what they're allowed to do. You need both.",
 
 	HeroImage:   "images/chapter-18.webp",
 	HeroCaption: "Security is not a feature, it's a foundation. We build it in, not bolt it on.",
 
 	Concepts: []ConceptItem{
 		{Term: "AuthN (Authentication)", Description: "Verifying who someone is. Proving Alice is really Alice."},
-		{Term: "AuthZ (Authorization)", Description: "Checking what an authenticated user is allowed to do, least privilege by default."},
+		{Term: "AuthZ (Authorisation)", Description: "Checking what an authenticated user is allowed to do, least privilege by default."},
 		{Term: "Encryption in Transit", Description: "Protecting data as it travels over the network (TLS), so it can't be read if intercepted."},
 		{Term: "Secrets Management", Description: "Storing credentials and keys securely, never hardcoded in source code."},
 	},

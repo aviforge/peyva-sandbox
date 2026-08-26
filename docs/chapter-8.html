@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Exactly Once (Idempotency) — Peyva Sandbox</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body data-chapter-slug="chapter-8">
+<button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+</button>
+<div class="sidebar-backdrop" data-sidebar-backdrop></div>
+<div class="layout">
+<nav class="sidebar">
+  <div class="brand">
+    <span class="brand-mark">P</span>
+    <div>
+      <div class="brand-name">Peyva Sandbox</div>
+      <div class="brand-tagline">Build it. Break it. Understand why it works.</div>
+    </div>
+  </div>
+  <button type="button" class="theme-toggle" data-theme-toggle aria-label="Toggle theme" title="Toggle theme">
+    <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path></svg>
+    <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+  </button>
+
+  <div class="nav-group-label">Chapters</div>
+  <ul class="chapter-list">
+    
+    
+    <li><a href="chapter-0.html" data-slug="chapter-0">0. What Are We Building?</a></li>
+    
+    
+    
+    <li><a href="chapter-1.html" data-slug="chapter-1">1. Inside One Computer</a></li>
+    
+    
+    
+    <li><a href="chapter-2.html" data-slug="chapter-2">2. Finding Peyva (Processes &amp; Ports)</a></li>
+    
+    
+    
+    <li><a href="chapter-3.html" data-slug="chapter-3">3. Across the Wire (Networking)</a></li>
+    
+    
+    
+    <li><a href="chapter-4.html" data-slug="chapter-4">4. Designing the API</a></li>
+    
+    
+    
+    <li><a href="chapter-5.html" data-slug="chapter-5">5. Storing Money (Databases)</a></li>
+    
+    
+    
+    <li><a href="chapter-6.html" data-slug="chapter-6">6. Finding Things Fast (Indexes)</a></li>
+    
+    
+    
+    <li><a href="chapter-7.html" data-slug="chapter-7">7. Making It Safe (Transactions)</a></li>
+    
+    
+    
+    <li class="active" data-slug="chapter-8">8. Exactly Once (Idempotency)</li>
+    
+    
+    
+    <li><a href="chapter-9.html" data-slug="chapter-9">9. How Big Is PEYVA? (Capacity Estimation)</a></li>
+    
+    
+    
+    <li><a href="chapter-10.html" data-slug="chapter-10">10. Growing the Team: Scale Out</a></li>
+    
+    
+    
+    <li><a href="chapter-11.html" data-slug="chapter-11">11. Sharing Work: Caching</a></li>
+    
+    
+    
+    <li><a href="chapter-12.html" data-slug="chapter-12">12. Decoupling with Messages: Queues</a></li>
+    
+    
+    
+    <li><a href="chapter-13.html" data-slug="chapter-13">13. Reliability Patterns: Transactional Outbox</a></li>
+    
+    
+    
+    <li><a href="chapter-14.html" data-slug="chapter-14">14. Big Changes Safely: Sagas</a></li>
+    
+    
+    
+    <li><a href="chapter-15.html" data-slug="chapter-15">15. Data Copies: Replication</a></li>
+    
+    
+    
+    <li><a href="chapter-16.html" data-slug="chapter-16">16. When Things Fail: CAP / Consistency</a></li>
+    
+    
+    
+    <li><a href="chapter-17.html" data-slug="chapter-17">17. See Everything: Observability</a></li>
+    
+    
+    
+    <li><a href="chapter-18.html" data-slug="chapter-18">18. Lock It Down: Security</a></li>
+    
+    
+    
+    <li><a href="chapter-19.html" data-slug="chapter-19">19. Operating in Production</a></li>
+    
+    
+    
+    <li><a href="chapter-20.html" data-slug="chapter-20">20. Putting It All Together</a></li>
+    
+    
+  </ul>
+
+  <div class="nav-group-label">Labs</div>
+  <ul class="chapter-list">
+    
+    <li class="disabled">Break It on Purpose</li>
+    
+  </ul>
+</nav>
+
+<main class="content">
+  <div class="overall-progress" data-progress>
+    <div class="overall-progress-track">
+      <div class="overall-progress-fill" data-progress-fill></div>
+    </div>
+    <span class="overall-progress-label" data-progress-label>0% complete</span>
+  </div>
+
+  <div class="chapter-header">
+    <button type="button" class="mark-complete" data-mark-complete>Mark chapter as complete</button>
+    <p class="chapter-eyebrow">Chapter 8</p>
+    <h1>Exactly Once (Idempotency)</h1>
+    <p class="chapter-subtitle">Same request, same ID, same result.</p>
+    <div class="tags">
+      <span class="tag">Reliability</span>
+      <span class="tag">Intermediate</span>
+      <span class="tag">20 min</span>
+    </div>
+  </div>
+
+  <figure class="hero-panel">
+    <a class="hero-link" href="images/chapter-8.webp" target="_blank" rel="noopener"><img src="images/chapter-8.webp" alt="Idempotency = same request (same key) -&gt; same effect (once)."></a>
+    <figcaption>Idempotency = same request (same key) -&gt; same effect (once). <a class="hero-expand-hint" href="images/chapter-8.webp" target="_blank" rel="noopener">Click to view full size</a></figcaption>
+  </figure>
+
+  <div class="section-grid">
+    <section class="block">
+      <h2>1. Intuition</h2>
+      <ul>
+        <li>Alice&#39;s phone sends &#39;transfer $20&#39;, the network hiccups, and she taps send again.</li><li>Without protection, peyva would debit her twice.</li><li>An idempotency key is a reference number — if peyva has seen it before, it returns the same result instead of repeating the work.</li>
+      </ul>
+    </section>
+
+    <section class="block">
+      <h2>2. Concepts</h2>
+      <ul class="concepts">
+        <li><strong>Idempotency Key</strong> — A unique ID the client attaches to a request so retries can be recognized as duplicates.</li><li><strong>Duplicate Request</strong> — The same idempotency key arriving more than once — usually from a retry after a slow or dropped response.</li><li><strong>Idempotent</strong> — An operation that has the same effect whether it runs once or many times with the same key.</li>
+      </ul>
+    </section>
+
+    <section class="block">
+      <h2>3. Under the Hood</h2>
+      <ul>
+        <li>peyva checks the key: new -&gt; process and store the result. Duplicate -&gt; return the stored result, unchanged.</li><li>Either way, the client sees the same response — but the money only ever moves once.</li>
+      </ul>
+    </section>
+
+    <section class="block build-it">
+      <h2>4. Build It <span class="badge">Hands-on</span></h2>
+      <ul class="lead">
+        <li>The Teller learns to recognise a payment it has already handled.</li>
+      </ul>
+      <p class="technique"><span class="technique-name">Generated Knowledge Prompting</span> — Have the assistant produce the relevant facts before it uses them. Making it enumerate how duplicates actually arise gives the design somewhere to put each case, instead of you meeting them in production.</p>
+      <p class="technique-source">Documented in The Prompt Report — Generated Knowledge</p>
+      <pre class="prompt">The Teller will move money twice if it receives the same payment request twice — a retry after a timeout is indistinguishable from a genuine second payment.
+
+First, list the distinct ways a duplicate request reaches a payment system in the real world. For each, say whether the caller knows the first attempt succeeded.
+
+Then make the Teller recognise a repeat: the caller supplies a reference with the request, and a reference the Teller has already handled returns the original result without moving money again. Store the reference and its response in the same atomic unit that moves the money — not before, not after.
+
+Then go back over the list you wrote and tell me, case by case, which ones your design now handles and which it doesn&#39;t. Include what happens if two requests carrying the same brand-new reference arrive at the same instant.
+
+Done when the same reference twice pays once, two different references pay twice, and both duplicate responses are byte-identical.</pre>
+    </section>
+
+    <section class="block break-it">
+      <h2>5. Break It <span class="badge badge-danger">Test it</span></h2>
+      <ul class="lead">
+        <li>Simulate exactly the flaky-network scenario idempotency exists for.</li>
+      </ul>
+      <ul>
+        <li>Send the same transfer request twice with the same idempotency key — confirm Bob only receives $20 once, not $40.</li><li>Send it twice with two different keys — this time it really is two separate $20 transfers, as intended.</li><li>Compare the two duplicate responses byte for byte — they&#39;re identical.</li>
+      </ul>
+    </section>
+  </div>
+
+  <p class="quick-tip"><strong>Quick tip:</strong> The client genuinely can&#39;t tell a duplicate response from the real one — that&#39;s the point.</p>
+</main>
+</div>
+<script src="app.js"></script>
+</body>
+</html>

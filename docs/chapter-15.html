@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Data Copies: Replication — Peyva Sandbox</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body data-chapter-slug="chapter-15">
+<button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+</button>
+<div class="sidebar-backdrop" data-sidebar-backdrop></div>
+<div class="layout">
+<nav class="sidebar">
+  <div class="brand">
+    <span class="brand-mark">P</span>
+    <div>
+      <div class="brand-name">Peyva Sandbox</div>
+      <div class="brand-tagline">Build it. Break it. Understand why it works.</div>
+    </div>
+  </div>
+  <button type="button" class="theme-toggle" data-theme-toggle aria-label="Toggle theme" title="Toggle theme">
+    <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path></svg>
+    <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+  </button>
+
+  <div class="nav-group-label">Chapters</div>
+  <ul class="chapter-list">
+    
+    
+    <li><a href="chapter-0.html" data-slug="chapter-0">0. What Are We Building?</a></li>
+    
+    
+    
+    <li><a href="chapter-1.html" data-slug="chapter-1">1. Inside One Computer</a></li>
+    
+    
+    
+    <li><a href="chapter-2.html" data-slug="chapter-2">2. Finding Peyva (Processes &amp; Ports)</a></li>
+    
+    
+    
+    <li><a href="chapter-3.html" data-slug="chapter-3">3. Across the Wire (Networking)</a></li>
+    
+    
+    
+    <li><a href="chapter-4.html" data-slug="chapter-4">4. Designing the API</a></li>
+    
+    
+    
+    <li><a href="chapter-5.html" data-slug="chapter-5">5. Storing Money (Databases)</a></li>
+    
+    
+    
+    <li><a href="chapter-6.html" data-slug="chapter-6">6. Finding Things Fast (Indexes)</a></li>
+    
+    
+    
+    <li><a href="chapter-7.html" data-slug="chapter-7">7. Making It Safe (Transactions)</a></li>
+    
+    
+    
+    <li><a href="chapter-8.html" data-slug="chapter-8">8. Exactly Once (Idempotency)</a></li>
+    
+    
+    
+    <li><a href="chapter-9.html" data-slug="chapter-9">9. How Big Is PEYVA? (Capacity Estimation)</a></li>
+    
+    
+    
+    <li><a href="chapter-10.html" data-slug="chapter-10">10. Growing the Team: Scale Out</a></li>
+    
+    
+    
+    <li><a href="chapter-11.html" data-slug="chapter-11">11. Sharing Work: Caching</a></li>
+    
+    
+    
+    <li><a href="chapter-12.html" data-slug="chapter-12">12. Decoupling with Messages: Queues</a></li>
+    
+    
+    
+    <li><a href="chapter-13.html" data-slug="chapter-13">13. Reliability Patterns: Transactional Outbox</a></li>
+    
+    
+    
+    <li><a href="chapter-14.html" data-slug="chapter-14">14. Big Changes Safely: Sagas</a></li>
+    
+    
+    
+    <li class="active" data-slug="chapter-15">15. Data Copies: Replication</li>
+    
+    
+    
+    <li><a href="chapter-16.html" data-slug="chapter-16">16. When Things Fail: CAP / Consistency</a></li>
+    
+    
+    
+    <li><a href="chapter-17.html" data-slug="chapter-17">17. See Everything: Observability</a></li>
+    
+    
+    
+    <li><a href="chapter-18.html" data-slug="chapter-18">18. Lock It Down: Security</a></li>
+    
+    
+    
+    <li><a href="chapter-19.html" data-slug="chapter-19">19. Operating in Production</a></li>
+    
+    
+    
+    <li><a href="chapter-20.html" data-slug="chapter-20">20. Putting It All Together</a></li>
+    
+    
+  </ul>
+
+  <div class="nav-group-label">Labs</div>
+  <ul class="chapter-list">
+    
+    <li class="disabled">Break It on Purpose</li>
+    
+  </ul>
+</nav>
+
+<main class="content">
+  <div class="overall-progress" data-progress>
+    <div class="overall-progress-track">
+      <div class="overall-progress-fill" data-progress-fill></div>
+    </div>
+    <span class="overall-progress-label" data-progress-label>0% complete</span>
+  </div>
+
+  <div class="chapter-header">
+    <button type="button" class="mark-complete" data-mark-complete>Mark chapter as complete</button>
+    <p class="chapter-eyebrow">Chapter 15</p>
+    <h1>Data Copies: Replication</h1>
+    <p class="chapter-subtitle">Having copies in multiple places keeps our data safe from fires, theft, or accidents. The copies are kept in sync.</p>
+    <div class="tags">
+      <span class="tag">Reliability</span>
+      <span class="tag">Advanced</span>
+      <span class="tag">20 min</span>
+    </div>
+  </div>
+
+  <figure class="hero-panel">
+    <a class="hero-link" href="images/chapter-15.webp" target="_blank" rel="noopener"><img src="images/chapter-15.webp" alt="Replication = keep copies of data in multiple places so we can be safe, available and fast."></a>
+    <figcaption>Replication = keep copies of data in multiple places so we can be safe, available and fast. <a class="hero-expand-hint" href="images/chapter-15.webp" target="_blank" rel="noopener">Click to view full size</a></figcaption>
+  </figure>
+
+  <div class="section-grid">
+    <section class="block">
+      <h2>1. Intuition</h2>
+      <ul>
+        <li>The Vault is a single file on a single machine — if that disk fails, every balance is gone.</li><li>A bakery that keeps order records in two safes, in two locations, survives a fire in either one.</li><li>Replication keeps copies of peyva&#39;s database in more than one place, so no single failure erases Alice&#39;s balance.</li>
+      </ul>
+    </section>
+
+    <section class="block">
+      <h2>2. Concepts</h2>
+      <ul class="concepts">
+        <li><strong>Primary Database</strong> — The database that accepts writes and is the source of truth.</li><li><strong>Replica</strong> — A copy of the primary&#39;s data, kept in sync, usually in a different location.</li><li><strong>Async Replication</strong> — The replica catches up shortly after the primary writes — fast, but the replica can be briefly behind.</li><li><strong>Promotion</strong> — Turning a replica into the new primary when the original primary fails.</li>
+      </ul>
+    </section>
+
+    <section class="block">
+      <h2>3. Under the Hood</h2>
+      <ul>
+        <li>Write/Update (Order Placed) -&gt; Primary Database (Region A) --replicate (async)--&gt; Replica Database (Region B). The replica can be promoted if the primary fails.</li><li>Normal operation: all copies are in sync. If the primary region fails: a replica is promoted to primary — no downtime, requests keep flowing.</li>
+      </ul>
+    </section>
+
+    <section class="block build-it">
+      <h2>4. Build It <span class="badge">Hands-on</span></h2>
+      <ul class="lead">
+        <li>The Vault learns to keep a spare copy in another place.</li>
+      </ul>
+      <p class="technique"><span class="technique-name">Analogical Prompting</span> — Have the assistant generate its own analogy and reason through it before building. You learn more comparing its analogy to yours than from imposing yours — where the two differ is where one of you is wrong about the design.</p>
+      <p class="technique-source">Documented in The Prompt Report — Thought Generation, Analogical Prompting</p>
+      <pre class="prompt">The Vault keeps everything in one file on one disk. If that disk dies, every balance dies with it.
+
+Before designing anything, give me a real-world analogy for keeping a second copy of records somewhere else — something with no computers in it. Say who writes first, who copies, how far behind the copy runs, and what happens when the original is destroyed. Then name the one part of your analogy that actually matters for this design.
+
+Now build it. The Vault gets a second copy, written to after each committed payment, and a way to promote it when the primary is unreachable. Keep the copying asynchronous — the caller must never wait for it.
+
+Then tell me where your analogy breaks down for real databases, and whether it led you into any mistake in the code you just wrote.
+
+Done when a payment appears in both copies, balance enquiries survive the primary being unavailable, and you can show me the window where a committed payment hasn&#39;t reached the second copy yet.</pre>
+    </section>
+
+    <section class="block break-it">
+      <h2>5. Break It <span class="badge badge-danger">Test it</span></h2>
+      <ul class="lead">
+        <li>Simulate a primary failure and confirm the replica can take over.</li>
+      </ul>
+      <ul>
+        <li>Make a transfer and confirm both of the Vault&#39;s copies reflect the new balance.</li><li>&#39;Fail&#39; the primary — rename or lock its file — and confirm enquiries still succeed against the second copy.</li><li>A transfer committed a split second before the failure might not have reached the replica yet — try to catch that gap.</li>
+      </ul>
+    </section>
+  </div>
+
+  <p class="quick-tip"><strong>Quick tip:</strong> Async replication means the replica can be briefly behind — that gap is where Chapter 16&#39;s tradeoffs live.</p>
+</main>
+</div>
+<script src="app.js"></script>
+</body>
+</html>

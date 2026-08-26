@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Sharing Work: Caching — Peyva Sandbox</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body data-chapter-slug="chapter-11">
+<button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+</button>
+<div class="sidebar-backdrop" data-sidebar-backdrop></div>
+<div class="layout">
+<nav class="sidebar">
+  <div class="brand">
+    <span class="brand-mark">P</span>
+    <div>
+      <div class="brand-name">Peyva Sandbox</div>
+      <div class="brand-tagline">Build it. Break it. Understand why it works.</div>
+    </div>
+  </div>
+  <button type="button" class="theme-toggle" data-theme-toggle aria-label="Toggle theme" title="Toggle theme">
+    <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path></svg>
+    <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+  </button>
+
+  <div class="nav-group-label">Chapters</div>
+  <ul class="chapter-list">
+    
+    
+    <li><a href="chapter-0.html" data-slug="chapter-0">0. What Are We Building?</a></li>
+    
+    
+    
+    <li><a href="chapter-1.html" data-slug="chapter-1">1. Inside One Computer</a></li>
+    
+    
+    
+    <li><a href="chapter-2.html" data-slug="chapter-2">2. Finding Peyva (Processes &amp; Ports)</a></li>
+    
+    
+    
+    <li><a href="chapter-3.html" data-slug="chapter-3">3. Across the Wire (Networking)</a></li>
+    
+    
+    
+    <li><a href="chapter-4.html" data-slug="chapter-4">4. Designing the API</a></li>
+    
+    
+    
+    <li><a href="chapter-5.html" data-slug="chapter-5">5. Storing Money (Databases)</a></li>
+    
+    
+    
+    <li><a href="chapter-6.html" data-slug="chapter-6">6. Finding Things Fast (Indexes)</a></li>
+    
+    
+    
+    <li><a href="chapter-7.html" data-slug="chapter-7">7. Making It Safe (Transactions)</a></li>
+    
+    
+    
+    <li><a href="chapter-8.html" data-slug="chapter-8">8. Exactly Once (Idempotency)</a></li>
+    
+    
+    
+    <li><a href="chapter-9.html" data-slug="chapter-9">9. How Big Is PEYVA? (Capacity Estimation)</a></li>
+    
+    
+    
+    <li><a href="chapter-10.html" data-slug="chapter-10">10. Growing the Team: Scale Out</a></li>
+    
+    
+    
+    <li class="active" data-slug="chapter-11">11. Sharing Work: Caching</li>
+    
+    
+    
+    <li><a href="chapter-12.html" data-slug="chapter-12">12. Decoupling with Messages: Queues</a></li>
+    
+    
+    
+    <li><a href="chapter-13.html" data-slug="chapter-13">13. Reliability Patterns: Transactional Outbox</a></li>
+    
+    
+    
+    <li><a href="chapter-14.html" data-slug="chapter-14">14. Big Changes Safely: Sagas</a></li>
+    
+    
+    
+    <li><a href="chapter-15.html" data-slug="chapter-15">15. Data Copies: Replication</a></li>
+    
+    
+    
+    <li><a href="chapter-16.html" data-slug="chapter-16">16. When Things Fail: CAP / Consistency</a></li>
+    
+    
+    
+    <li><a href="chapter-17.html" data-slug="chapter-17">17. See Everything: Observability</a></li>
+    
+    
+    
+    <li><a href="chapter-18.html" data-slug="chapter-18">18. Lock It Down: Security</a></li>
+    
+    
+    
+    <li><a href="chapter-19.html" data-slug="chapter-19">19. Operating in Production</a></li>
+    
+    
+    
+    <li><a href="chapter-20.html" data-slug="chapter-20">20. Putting It All Together</a></li>
+    
+    
+  </ul>
+
+  <div class="nav-group-label">Labs</div>
+  <ul class="chapter-list">
+    
+    <li class="disabled">Break It on Purpose</li>
+    
+  </ul>
+</nav>
+
+<main class="content">
+  <div class="overall-progress" data-progress>
+    <div class="overall-progress-track">
+      <div class="overall-progress-fill" data-progress-fill></div>
+    </div>
+    <span class="overall-progress-label" data-progress-label>0% complete</span>
+  </div>
+
+  <div class="chapter-header">
+    <button type="button" class="mark-complete" data-mark-complete>Mark chapter as complete</button>
+    <p class="chapter-eyebrow">Chapter 11</p>
+    <h1>Sharing Work: Caching</h1>
+    <p class="chapter-subtitle">Caching is like keeping popular items ready in advance, so we don&#39;t make (or check) everything again.</p>
+    <div class="tags">
+      <span class="tag">System Design</span>
+      <span class="tag">Intermediate</span>
+      <span class="tag">15 min</span>
+    </div>
+  </div>
+
+  <figure class="hero-panel">
+    <a class="hero-link" href="images/chapter-11.webp" target="_blank" rel="noopener"><img src="images/chapter-11.webp" alt="Cache = keep frequently used data nearby, so it&#39;s fast to get back."></a>
+    <figcaption>Cache = keep frequently used data nearby, so it&#39;s fast to get back. <a class="hero-expand-hint" href="images/chapter-11.webp" target="_blank" rel="noopener">Click to view full size</a></figcaption>
+  </figure>
+
+  <div class="section-grid">
+    <section class="block">
+      <h2>1. Intuition</h2>
+      <ul>
+        <li>Alice checks her balance a dozen times a day.</li><li>Each check means another trip to the database — often for data that hasn&#39;t changed.</li><li>A cache is a small, fast store that keeps recent answers ready, the way a café pre-makes a popular drink instead of brewing it fresh every time.</li>
+      </ul>
+    </section>
+
+    <section class="block">
+      <h2>2. Concepts</h2>
+      <ul class="concepts">
+        <li><strong>Cache</strong> — A fast, small store that holds recently or frequently requested data close at hand.</li><li><strong>Cache Hit</strong> — The data was already in the cache — no database call needed, and the answer comes back instantly.</li><li><strong>Cache Miss</strong> — The data wasn&#39;t cached — peyva fetches it from the database and stores it in the cache for next time.</li><li><strong>Invalidation</strong> — Removing or updating a cached value when the underlying data changes, so the cache never lies.</li>
+      </ul>
+    </section>
+
+    <section class="block">
+      <h2>3. Under the Hood</h2>
+      <ul>
+        <li>Request Data (Get Alice&#39;s balance) -&gt; Cache. Cache Hit -&gt; Return Data (fast). Cache Miss -&gt; Fetch from DB and store in cache, then return it.</li><li>A cache trades a little staleness risk for speed — that tradeoff has to be deliberate, not accidental.</li>
+      </ul>
+    </section>
+
+    <section class="block build-it">
+      <h2>4. Build It <span class="badge">Hands-on</span></h2>
+      <ul class="lead">
+        <li>The Vault learns to answer faster — without ever answering wrong.</li>
+      </ul>
+      <p class="technique"><span class="technique-name">Self-Refine</span> — Produce, critique your own output against a stated standard, revise, repeat until the critique comes back empty. A cache bug doesn&#39;t crash — it returns a confident wrong number — so the critique pass catches what a passing test won&#39;t.</p>
+      <p class="technique-source">Documented in The Prompt Report — Self-Criticism, Self-Refine</p>
+      <pre class="prompt">Every balance enquiry hits the Vault&#39;s storage, even when the same balance was read a moment ago and hasn&#39;t changed since.
+
+Add an in-memory cache in front of the Vault&#39;s reads, invalidated whenever a payment changes that account. A map guarded by a mutex is enough — no Redis, no cache library.
+
+Once it works, review your own implementation as if you were trying to make it serve a stale balance. Walk every path that changes a balance and check whether it invalidates. Consider a concurrent read and write, a payment that rolled back, and a payment that touches two accounts at once.
+
+Report what you found as a list, fix it, then run that same review again on the fixed version. Keep going until a review turns up nothing, and tell me how many rounds it took.
+
+Done when a repeated enquiry is served from cache, a payment makes the next enquiry show the new balance, and you&#39;ve told me which staleness bug your first attempt had.</pre>
+    </section>
+
+    <section class="block break-it">
+      <h2>5. Break It <span class="badge badge-danger">Test it</span></h2>
+      <ul class="lead">
+        <li>A cache that&#39;s wrong is worse than no cache at all — prove invalidation actually works.</li>
+      </ul>
+      <ul>
+        <li>Check Alice&#39;s balance twice in a row — the second check should be a cache hit, visibly faster.</li><li>Make a transfer that changes Alice&#39;s balance, then check it again — it must reflect the new balance, not the stale cached one.</li><li>Deliberately skip the invalidation step and repeat the test — watch the cache confidently return the wrong balance. This is why cache invalidation is famously hard.</li>
+      </ul>
+    </section>
+  </div>
+
+  <p class="quick-tip"><strong>Quick tip:</strong> A stale cache is worse than no cache — invalidation matters more than the cache itself.</p>
+</main>
+</div>
+<script src="app.js"></script>
+</body>
+</html>

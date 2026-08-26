@@ -12,6 +12,12 @@ import (
 const (
 	tocStartMarker = "<!-- toc:start -->"
 	tocEndMarker   = "<!-- toc:end -->"
+
+	// chapterBaseURL is where the generated pages are published. The links
+	// have to be absolute: GitHub renders README markdown but serves .html
+	// files as source, so a repo-relative link would show the reader markup
+	// instead of the chapter. Change this in one place if the repo moves.
+	chapterBaseURL = "https://aviforge.github.io/peyva-sandbox/docs/"
 )
 
 // writeREADMETOC rewrites the chapter list between the toc markers in the
@@ -53,9 +59,13 @@ func writeREADMETOC(readmePath string, chapters []content.ChapterContent) error 
 	for _, c := range chapters {
 		block.WriteString("- **")
 		block.WriteString(strconv.Itoa(c.Number))
-		block.WriteString(".** ")
+		block.WriteString(".** [")
 		block.WriteString(c.Title)
-		block.WriteString("\n")
+		block.WriteString("](")
+		block.WriteString(chapterBaseURL)
+		block.WriteString("chapter-")
+		block.WriteString(strconv.Itoa(c.Number))
+		block.WriteString(".html)\n")
 	}
 	block.WriteString(tocEndMarker)
 

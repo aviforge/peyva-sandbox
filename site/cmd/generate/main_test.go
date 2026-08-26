@@ -7,12 +7,22 @@ import (
 	"testing"
 )
 
-func TestRunGeneratesChapterZeroPage(t *testing.T) {
-	outDir := t.TempDir()
+// testRun renders into a fresh temp root, returning the docs dir the pages
+// land in and the path of the root index.html that fronts them.
+func testRun(t *testing.T) (outDir, indexPath string) {
+	t.Helper()
+	rootDir := t.TempDir()
+	outDir = filepath.Join(rootDir, "docs")
+	indexPath = filepath.Join(rootDir, "index.html")
 
-	if err := run(filepath.Join("..", "..", "templates"), filepath.Join("..", "..", "assets"), outDir); err != nil {
+	if err := run(filepath.Join("..", "..", "templates"), filepath.Join("..", "..", "assets"), outDir, indexPath); err != nil {
 		t.Fatalf("run: %v", err)
 	}
+	return outDir, indexPath
+}
+
+func TestRunGeneratesChapterZeroPage(t *testing.T) {
+	outDir, _ := testRun(t)
 
 	pageHTML, err := os.ReadFile(filepath.Join(outDir, "chapter-0.html"))
 	if err != nil {
@@ -26,9 +36,6 @@ func TestRunGeneratesChapterZeroPage(t *testing.T) {
 		}
 	}
 
-	if _, err := os.Stat(filepath.Join(outDir, "index.html")); err != nil {
-		t.Errorf("index.html was not generated: %v", err)
-	}
 	if _, err := os.Stat(filepath.Join(outDir, "styles.css")); err != nil {
 		t.Errorf("styles.css was not copied: %v", err)
 	}
@@ -40,6 +47,37 @@ func TestRunGeneratesChapterZeroPage(t *testing.T) {
 		if strings.Contains(body, unwanted) {
 			t.Errorf("chapter-0.html unexpectedly contains %q — site must be fully self-contained", unwanted)
 		}
+	}
+}
+
+// The root index.html is the repo's front door, so it sits a directory above
+// the pages and assets it references. Everything it points at must therefore
+// be prefixed with docs/, or opening it from a clone renders an unstyled page
+// with no images.
+func TestRunWritesRootIndexPointingIntoDocs(t *testing.T) {
+	outDir, indexPath := testRun(t)
+
+	data, err := os.ReadFile(indexPath)
+	if err != nil {
+		t.Fatalf("reading root index.html: %v", err)
+	}
+	body := string(data)
+
+	for _, want := range []string{
+		`href="docs/styles.css"`,
+		`src="docs/app.js"`,
+		`src="docs/images/chapter-0.webp"`,
+		`href="docs/chapter-1.html"`,
+	} {
+		if !strings.Contains(body, want) {
+			t.Errorf("root index.html missing %q", want)
+		}
+	}
+
+	// A stray copy inside docs/ would be served instead of the root one
+	// whenever Pages resolves a bare directory request.
+	if _, err := os.Stat(filepath.Join(outDir, "index.html")); err == nil {
+		t.Error("index.html was also written into docs/ — the root copy is the only entry point")
 	}
 }
 

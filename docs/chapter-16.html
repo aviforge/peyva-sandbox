@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>When Things Fail: CAP / Consistency — Peyva Sandbox</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body data-chapter-slug="chapter-16">
+<button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+</button>
+<div class="sidebar-backdrop" data-sidebar-backdrop></div>
+<div class="layout">
+<nav class="sidebar">
+  <div class="brand">
+    <span class="brand-mark">P</span>
+    <div>
+      <div class="brand-name">Peyva Sandbox</div>
+      <div class="brand-tagline">Build it. Break it. Understand why it works.</div>
+    </div>
+  </div>
+  <button type="button" class="theme-toggle" data-theme-toggle aria-label="Toggle theme" title="Toggle theme">
+    <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path></svg>
+    <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+  </button>
+
+  <div class="nav-group-label">Chapters</div>
+  <ul class="chapter-list">
+    
+    
+    <li><a href="chapter-0.html" data-slug="chapter-0">0. What Are We Building?</a></li>
+    
+    
+    
+    <li><a href="chapter-1.html" data-slug="chapter-1">1. Inside One Computer</a></li>
+    
+    
+    
+    <li><a href="chapter-2.html" data-slug="chapter-2">2. Finding Peyva (Processes &amp; Ports)</a></li>
+    
+    
+    
+    <li><a href="chapter-3.html" data-slug="chapter-3">3. Across the Wire (Networking)</a></li>
+    
+    
+    
+    <li><a href="chapter-4.html" data-slug="chapter-4">4. Designing the API</a></li>
+    
+    
+    
+    <li><a href="chapter-5.html" data-slug="chapter-5">5. Storing Money (Databases)</a></li>
+    
+    
+    
+    <li><a href="chapter-6.html" data-slug="chapter-6">6. Finding Things Fast (Indexes)</a></li>
+    
+    
+    
+    <li><a href="chapter-7.html" data-slug="chapter-7">7. Making It Safe (Transactions)</a></li>
+    
+    
+    
+    <li><a href="chapter-8.html" data-slug="chapter-8">8. Exactly Once (Idempotency)</a></li>
+    
+    
+    
+    <li><a href="chapter-9.html" data-slug="chapter-9">9. How Big Is PEYVA? (Capacity Estimation)</a></li>
+    
+    
+    
+    <li><a href="chapter-10.html" data-slug="chapter-10">10. Growing the Team: Scale Out</a></li>
+    
+    
+    
+    <li><a href="chapter-11.html" data-slug="chapter-11">11. Sharing Work: Caching</a></li>
+    
+    
+    
+    <li><a href="chapter-12.html" data-slug="chapter-12">12. Decoupling with Messages: Queues</a></li>
+    
+    
+    
+    <li><a href="chapter-13.html" data-slug="chapter-13">13. Reliability Patterns: Transactional Outbox</a></li>
+    
+    
+    
+    <li><a href="chapter-14.html" data-slug="chapter-14">14. Big Changes Safely: Sagas</a></li>
+    
+    
+    
+    <li><a href="chapter-15.html" data-slug="chapter-15">15. Data Copies: Replication</a></li>
+    
+    
+    
+    <li class="active" data-slug="chapter-16">16. When Things Fail: CAP / Consistency</li>
+    
+    
+    
+    <li><a href="chapter-17.html" data-slug="chapter-17">17. See Everything: Observability</a></li>
+    
+    
+    
+    <li><a href="chapter-18.html" data-slug="chapter-18">18. Lock It Down: Security</a></li>
+    
+    
+    
+    <li><a href="chapter-19.html" data-slug="chapter-19">19. Operating in Production</a></li>
+    
+    
+    
+    <li><a href="chapter-20.html" data-slug="chapter-20">20. Putting It All Together</a></li>
+    
+    
+  </ul>
+
+  <div class="nav-group-label">Labs</div>
+  <ul class="chapter-list">
+    
+    <li class="disabled">Break It on Purpose</li>
+    
+  </ul>
+</nav>
+
+<main class="content">
+  <div class="overall-progress" data-progress>
+    <div class="overall-progress-track">
+      <div class="overall-progress-fill" data-progress-fill></div>
+    </div>
+    <span class="overall-progress-label" data-progress-label>0% complete</span>
+  </div>
+
+  <div class="chapter-header">
+    <button type="button" class="mark-complete" data-mark-complete>Mark chapter as complete</button>
+    <p class="chapter-eyebrow">Chapter 16</p>
+    <h1>When Things Fail: CAP / Consistency</h1>
+    <p class="chapter-subtitle">During a network failure, you can keep only two of these three: Consistency, Availability, Partition Tolerance.</p>
+    <div class="tags">
+      <span class="tag">Distributed Systems</span>
+      <span class="tag">Advanced</span>
+      <span class="tag">25 min</span>
+    </div>
+  </div>
+
+  <figure class="hero-panel">
+    <a class="hero-link" href="images/chapter-16.webp" target="_blank" rel="noopener"><img src="images/chapter-16.webp" alt="Different situations call for different trade-offs — peyva has to choose."></a>
+    <figcaption>Different situations call for different trade-offs — peyva has to choose. <a class="hero-expand-hint" href="images/chapter-16.webp" target="_blank" rel="noopener">Click to view full size</a></figcaption>
+  </figure>
+
+  <div class="section-grid">
+    <section class="block">
+      <h2>1. Intuition</h2>
+      <ul>
+        <li>Chapter 15 gave peyva two locations.</li><li>What happens when the network between them goes down and Alice still wants to pay?</li><li>Two branches cut off from each other can&#39;t stay both perfectly accurate and perfectly available — one has to give.</li>
+      </ul>
+    </section>
+
+    <section class="block">
+      <h2>2. Concepts</h2>
+      <ul class="concepts">
+        <li><strong>Consistency (C)</strong> — All users see the same data at the same time.</li><li><strong>Availability (A)</strong> — Every request gets a response — no errors or timeouts.</li><li><strong>Partition Tolerance (P)</strong> — The system keeps working even if parts of it can&#39;t talk to each other.</li><li><strong>CAP Theorem</strong> — During a network partition, you can only keep two of the three guarantees — you must choose.</li>
+      </ul>
+    </section>
+
+    <section class="block">
+      <h2>3. Under the Hood</h2>
+      <ul>
+        <li>CP: choose consistency over availability — peyva rejects requests during a partition to keep data correct.</li><li>AP: choose availability over consistency — peyva keeps serving, even with stale data.</li><li>CA: only possible with no partition — a single region on a normal day.</li><li>peyva&#39;s rule of thumb: CP for money and wallet operations, AP for browsing and notifications — the choice depends on what each request actually needs.</li>
+      </ul>
+    </section>
+
+    <section class="block build-it">
+      <h2>4. Build It <span class="badge">Hands-on</span></h2>
+      <ul class="lead">
+        <li>The Teller learns what to do when the Vault&#39;s two copies can&#39;t reach each other.</li>
+      </ul>
+      <p class="technique"><span class="technique-name">Tree-of-Thought</span> — Branch, evaluate each branch, prune, then commit. Ask for an implementation and you get one design with its reasoning hidden; ask for several scored against stated criteria and the choice comes into the open where you can disagree with it.</p>
+      <p class="technique-source">Documented in The Prompt Report — Decomposition, Tree-of-Thought</p>
+      <pre class="prompt">The Vault&#39;s primary copy replicates asynchronously to a second copy. I need to decide what the Teller does when the two can&#39;t reach each other.
+
+Don&#39;t write code yet. Propose at least three genuinely distinct strategies for handling the partition — not three variations on one idea. For each, work out what a customer experiences during the partition, what happens to a payment accepted mid-partition, and what manual work recovery needs.
+
+Then prune. Eliminate the ones that are unacceptable for money movement specifically, and say what disqualified each. Recommend one of the survivors, and name the condition that would change your recommendation.
+
+Then implement your recommendation. Treat an unreachable second copy as a partition rather than ignoring it, and keep balance enquiries served from whichever copy is reachable even while payments are refused.
+
+Done when disconnecting the second copy makes payments fail loudly while enquiries still succeed, and reconnecting restores payments with no restart.</pre>
+    </section>
+
+    <section class="block break-it">
+      <h2>5. Break It <span class="badge badge-danger">Test it</span></h2>
+      <ul class="lead">
+        <li>Force a partition and confirm peyva picks the trade-off you intended.</li>
+      </ul>
+      <ul>
+        <li>Disconnect the replica from Chapter 15 and attempt a transfer — confirm it&#39;s rejected (CP), not silently applied to only one copy.</li><li>With the replica still disconnected, check a balance — confirm reads still succeed (AP), even though they might be stale.</li><li>Reconnect the replica and confirm transfers succeed again immediately.</li>
+      </ul>
+    </section>
+  </div>
+
+  <p class="quick-tip"><strong>Quick tip:</strong> For money, prefer CP — reject a request rather than show the wrong balance.</p>
+</main>
+</div>
+<script src="app.js"></script>
+</body>
+</html>

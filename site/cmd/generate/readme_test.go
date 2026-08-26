@@ -4,6 +4,7 @@ import (
 	"os"
 	"path/filepath"
 	"strconv"
+	"strings"
 	"testing"
 
 	"site/content"
@@ -60,8 +61,8 @@ func TestWriteREADMETOCReplacesBlockAndPreservesSurroundingProse(t *testing.T) {
 ## Contents
 
 <!-- toc:start -->
-- **0.** First Chapter
-- **1.** Second Chapter
+- **0.** [First Chapter](https://aviforge.github.io/peyva-sandbox/docs/chapter-0.html)
+- **1.** [Second Chapter](https://aviforge.github.io/peyva-sandbox/docs/chapter-1.html)
 <!-- toc:end -->
 
 ## Prerequisites
@@ -138,7 +139,8 @@ func TestWriteREADMETOCListsEveryRegistryChapterInReadingOrder(t *testing.T) {
 
 	want := "<!-- toc:start -->\n"
 	for _, c := range content.All {
-		want += "- **" + strconv.Itoa(c.Number) + ".** " + c.Title + "\n"
+		want += "- **" + strconv.Itoa(c.Number) + ".** [" + c.Title + "](" +
+			chapterBaseURL + "chapter-" + strconv.Itoa(c.Number) + ".html)\n"
 	}
 	want += "<!-- toc:end -->\n"
 
@@ -152,5 +154,28 @@ func TestWriteREADMETOCErrorsWhenFileMissing(t *testing.T) {
 
 	if err := writeREADMETOC(path, fixtureChapters()); err == nil {
 		t.Fatal("expected an error for a missing README, got nil")
+	}
+}
+
+// Every title links to its published chapter page. GitHub renders README
+// markdown but shows .html files as source, so the link has to point at the
+// Pages URL, not at a path inside the repo.
+func TestWriteREADMETOCLinksEachTitleToItsPublishedChapter(t *testing.T) {
+	path := writeFixtureREADME(t, `<!-- toc:start -->
+<!-- toc:end -->
+`)
+
+	if err := writeREADMETOC(path, fixtureChapters()); err != nil {
+		t.Fatalf("writeREADMETOC: %v", err)
+	}
+
+	got := readFile(t, path)
+	for _, want := range []string{
+		"[First Chapter](" + chapterBaseURL + "chapter-0.html)",
+		"[Second Chapter](" + chapterBaseURL + "chapter-1.html)",
+	} {
+		if !strings.Contains(got, want) {
+			t.Errorf("TOC missing link %q; got: %s", want, got)
+		}
 	}
 }

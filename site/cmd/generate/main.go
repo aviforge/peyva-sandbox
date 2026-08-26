@@ -1,6 +1,8 @@
 package main
 
 import (
+	"crypto/sha256"
+	"encoding/hex"
 	"fmt"
 	"html/template"
 	"os"
@@ -66,8 +68,24 @@ func run(templatesDir, assetsDir, outDir, indexPath string) error {
 		return fmt.Errorf("no chapters defined in content.All")
 	}
 
+	styleVersion, err := assetVersion(filepath.Join(assetsDir, "styles.css"))
+	if err != nil {
+		return err
+	}
+	scriptVersion, err := assetVersion(filepath.Join(assetsDir, "app.js"))
+	if err != nil {
+		return err
+	}
+
 	defaultLanguage := content.LanguageByID(content.DefaultLanguage)
 	defaultSystem := content.SystemByID(content.DefaultSystem)
+	systemPicker := systemPickerChapter()
+	systemPickerTitle := ""
+	for _, c := range content.All {
+		if c.Number == systemPicker {
+			systemPickerTitle = c.Title
+		}
+	}
 	pageData := func(chapter content.ChapterContent, prefix string) PageData {
 		return PageData{
 			Chapter:       chapter,
@@ -75,6 +93,8 @@ func run(templatesDir, assetsDir, outDir, indexPath string) error {
 			Roadmap:       roadmap,
 			Labs:          content.Labs,
 			AssetPrefix:   prefix,
+			StyleVersion:  styleVersion,
+			ScriptVersion: scriptVersion,
 			LanguageLine:  languageLine(defaultLanguage, chapter.Number),
 			UILine:        uiLine(defaultLanguage),
 			Setup:         setupFor(chapter.Number),
@@ -84,6 +104,10 @@ func run(templatesDir, assetsDir, outDir, indexPath string) error {
 			Systems:       content.Systems,
 			SystemName:    defaultSystem.Prompt,
 			SystemMatters: namesASystem(chapter),
+
+			SystemIsChosenHere: chapter.Number == systemPicker,
+			SystemPickerHref:   fmt.Sprintf("chapter-%d.html", systemPicker),
+			SystemPickerTitle:  systemPickerTitle,
 
 			LanguageIsChosenHere: chapter.Number == languagePickerChapter,
 			LanguageName:         defaultLanguage.Name,
@@ -109,6 +133,23 @@ func run(templatesDir, assetsDir, outDir, indexPath string) error {
 		return err
 	}
 	return renderPage(tmpl, indexPath, pageData(content.All[0], prefix))
+}
+
+// assetVersion is a short digest of a file's contents, appended to its URL so a
+// browser holding an old copy fetches the new one.
+//
+// GitHub Pages serves the stylesheet and script with caching headers, so a
+// reader who has already opened the site keeps running the previous script
+// after a deploy. That looks exactly like a broken feature rather than a stale
+// file: the page renders the new markup, and the old script does nothing with
+// it.
+func assetVersion(path string) (string, error) {
+	b, err := os.ReadFile(path)
+	if err != nil {
+		return "", fmt.Errorf("hashing %s: %w", path, err)
+	}
+	sum := sha256.Sum256(b)
+	return hex.EncodeToString(sum[:])[:10], nil
 }
 
 // assetPrefix is the URL prefix a page at pagePath needs in order to reach
@@ -241,6 +282,24 @@ func promptHTML(prompt string, sys content.System) template.HTML {
 func namesASystem(c content.ChapterContent) bool {
 	return strings.Contains(c.BuildIt.Prompt, osPlaceholder) ||
 		strings.Contains(c.BuildIt.UIPrompt, osPlaceholder)
+}
+
+// systemPickerChapter is the first chapter that asks for something system
+// specific, and is worked out from the prompts rather than named here so that
+// moving the runner moves the picker with it.
+//
+// The choice sits there rather than in setup because nothing before it cares:
+// a reader on chapter 10 who needs a different shell can change it in front of
+// the prompt that uses it, instead of being sent back eleven chapters. It
+// returns -1 when no prompt names a system, which leaves the picker off every
+// page rather than stranding it on chapter 0.
+func systemPickerChapter() int {
+	for _, c := range content.All {
+		if namesASystem(c) {
+			return c.Number
+		}
+	}
+	return -1
 }
 
 // setupFor returns the files to save only for the chapter that starts the

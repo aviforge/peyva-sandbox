@@ -19,6 +19,11 @@ type PageData struct {
 	Labs          []content.RoadmapEntry
 	AssetPrefix   string
 
+	// StyleVersion and ScriptVersion are content digests appended to the asset
+	// URLs, so a deploy is not invisible to a browser holding a cached copy.
+	StyleVersion  string
+	ScriptVersion string
+
 	// LanguageLine is baked into the page so a prompt is never handed to an
 	// assistant without naming a language. Script swaps it when the reader
 	// chooses; it is never absent.
@@ -48,6 +53,14 @@ type PageData struct {
 	// operating system. The rest never mention one, so telling those readers
 	// which is in force would be noise about a choice that changes nothing.
 	SystemMatters bool
+
+	// SystemIsChosenHere is true on the first chapter that needs a system, which
+	// is the one that offers the picker. Later chapters read the choice, so a
+	// reader cannot get a PowerShell runner in chapter 10 and bash commands to
+	// operate it in chapter 19.
+	SystemIsChosenHere bool
+	SystemPickerHref   string
+	SystemPickerTitle  string
 
 	// LanguageIsChosenHere is true only on the chapter that owns the picker.
 	// The choice applies to every chapter, so offering it on all of them

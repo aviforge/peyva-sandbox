@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Growing the Team: Scale Out | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="styles.css?v=516fe9fc59">
 </head>
 <body data-chapter-slug="chapter-10">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -175,7 +175,11 @@
       <h2>4. Build It <span class="badge">Hands-on</span>
           <span class="language-locked">Building in <b data-language-name>Go</b>, <a href="chapter-0.html">change in Chapter 0</a></span>
       </h2>
-      <p class="system-locked">Written for <b data-os-name>Windows, in PowerShell</b>. <a href="chapter-0.html">Change in Chapter 0</a></p>
+      <p class="system-locked"><label class="language-picker">Script for
+          <select class="language-select" data-system-select aria-label="Operating system the runner script is written for">
+            <option value="windows" data-prompt="Windows, in PowerShell">Windows</option><option value="macos" data-prompt="macOS, in bash or zsh">macOS</option><option value="linux" data-prompt="Linux, in bash">Linux</option>
+          </select>
+        </label></p>
       <ul class="lead">
         <li>Run several Gateways and Tellers side by side, sharing one Vault.</li>
       </ul>
@@ -234,6 +238,6 @@ Done when starting it with three spreads ten payments across all three copies wi
   <p class="quick-tip"><strong>Quick tip:</strong> Instances can only be interchangeable if none of them hold state the others don&#39;t have.</p>
 </main>
 </div>
-<script src="app.js"></script>
+<script src="app.js?v=832efe4517"></script>
 </body>
 </html>

@@ -3,6 +3,7 @@ package main
 import (
 	"os"
 	"path/filepath"
+	"regexp"
 	"strconv"
 	"strings"
 	"testing"
@@ -85,8 +86,9 @@ func TestRunWritesIndexBesideTheChaptersItFronts(t *testing.T) {
 	body := string(data)
 
 	for _, want := range []string{
-		`href="styles.css"`,
-		`src="app.js"`,
+		// The version query is a content digest, so match the path only.
+		`href="styles.css?v=`,
+		`src="app.js?v=`,
 		`src="images/chapter-0.webp"`,
 		`href="chapter-1.html"`,
 	} {
@@ -287,7 +289,10 @@ func TestOnlyTheChoosingPageCarriesTheLanguageList(t *testing.T) {
 		}
 		body := string(b)
 		name := filepath.Base(page)
-		hasOptions := strings.Contains(body, "<option value=")
+		// Scoped to the language select. Chapter 10 offers an operating system
+		// from a second select in the same section, and counting options across
+		// the whole page reads those as languages.
+		hasOptions := strings.Contains(languageSelect.FindString(body), "<option value=")
 		wantsOptions := name == "chapter-0.html" || name == "index.html"
 		if hasOptions != wantsOptions {
 			t.Errorf("%s: carries language options = %v, want %v", name, hasOptions, wantsOptions)
@@ -297,6 +302,10 @@ func TestOnlyTheChoosingPageCarriesTheLanguageList(t *testing.T) {
 		}
 	}
 }
+
+// languageSelect isolates the language control, so a page that also offers an
+// operating system does not have its options counted as languages.
+var languageSelect = regexp.MustCompile(`(?s)<select[^>]*data-language-select.*?</select>`)
 
 // The standing rules travel with every prompt, because a prompt is copied out
 // of the page on its own and nothing else tells the assistant where code goes

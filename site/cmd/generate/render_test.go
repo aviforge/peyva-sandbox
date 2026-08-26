@@ -194,19 +194,29 @@ func TestSystemChoiceReachesThePromptsThatNeedIt(t *testing.T) {
 			t.Errorf("%s: names an operating system = %v, want %v", p.name, hasName, wantsName)
 		}
 
-		// Only the setup chapter offers the choice, for the same reason only
-		// chapter 0 offers the language: a script written for one system in
-		// chapter 10 does not start working on another by chapter 19.
+		// The picker belongs to the first chapter that needs a system, not to
+		// setup: nothing before it cares which one the reader is on. Only that
+		// chapter offers it, for the same reason only chapter 0 offers the
+		// language. A PowerShell runner in chapter 10 with bash commands to
+		// operate it in chapter 19 is worse than either alone.
+		wantPicker := num == systemPickerChapter() && p.name != "index.html"
 		hasPicker := strings.Contains(p.body, "data-system-select")
-		if p.isCh0 != hasPicker {
-			t.Errorf("%s: offers the system picker = %v, want %v", p.name, hasPicker, p.isCh0)
+		if wantPicker != hasPicker {
+			t.Errorf("%s: offers the system picker = %v, want %v", p.name, hasPicker, wantPicker)
 		}
-		if p.isCh0 {
+		if wantPicker {
+			if !wantsName {
+				t.Errorf("%s: offers the picker but names no system", p.name)
+			}
 			for _, sys := range content.Systems {
 				if !strings.Contains(p.body, `>`+sys.Name+`</option>`) {
 					t.Errorf("%s: the picker does not offer %s", p.name, sys.Name)
 				}
 			}
+		}
+		// Every other chapter that names a system has to say where to change it.
+		if wantsName && !wantPicker && !strings.Contains(p.body, "chosen in") {
+			t.Errorf("%s: names a system with no way back to the choice", p.name)
 		}
 	}
 }

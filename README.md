@@ -1,6 +1,6 @@
 # Peyva Sandbox
 
-Distributed systems, taught by building PEYVA — a peer-to-peer wallet — one
+Distributed systems, taught by building PEYVA (a peer-to-peer wallet) one
 honest layer at a time.
 
 **[Read it here](https://aviforge.github.io/peyva-sandbox/)**, or open

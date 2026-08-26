@@ -14,7 +14,7 @@ var Chapter06 = ChapterContent{
 	HeroCaption: "Index = a map for your data. Fast lookups, less scanning.",
 
 	Intuition: []string{
-		"With one wallet, any search is instant.",
+		"With one account, any search is instant.",
 		"With thousands of users, scanning every row is like reading a whole library catalog for one card.",
 		"An index lets peyva jump straight to Alice's record instead.",
 	},
@@ -52,7 +52,7 @@ var Chapter06 = ChapterContent{
 		Intro: "Indexes aren't free — see the tradeoff.",
 		Exercises: []string{
 			"Time a lookup on an indexed column versus a full scan on an unindexed one, on a table with thousands of rows.",
-			"Insert a new wallet — the index updates too, so every write pays a small cost to keep it current.",
+			"Insert a new account — the index updates too, so every write pays a small cost to keep it current.",
 			"Add five indexes to the same table and compare write speed before and after.",
 		},
 	},

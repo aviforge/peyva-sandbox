@@ -20,16 +20,17 @@ var Chapter00 = ChapterContent{
 	},
 
 	Concepts: []ConceptItem{
-		{Term: "User", Description: "A person with an identity in the system. Owns exactly one wallet."},
-		{Term: "Wallet", Description: "A running balance owned by a user — the thing this book protects."},
-		{Term: "Balance", Description: "How much a wallet holds. Must never go negative, be lost, or be double-spent."},
-		{Term: "Transfer", Description: "A request to move money between wallets — the core action of this book."},
+		{Term: "User", Description: "A person with an identity in the system. Owns exactly one account."},
+		{Term: "Account", Description: "One owner and an amount — the thing this book protects."},
+		{Term: "Balance", Description: "How much an account holds. Must never go negative, be lost, or be double-spent."},
+		{Term: "Vault", Description: "The component holding every account and what's in it. Nothing else is allowed to change a balance."},
+		{Term: "Transfer", Description: "A request to move money between accounts — the core action of this book."},
 		{Term: "History", Description: "The record of every transfer. If the balance is the answer, history is the proof."},
 	},
 
 	UnderTheHood: []string{
-		"Today: one process, one wallet, one hardcoded balance, printed to the screen.",
-		"No Front Door, Money Core, Book, or Mailroom yet — those arrive only once a real problem needs them.",
+		"Today: one process, one account, one hardcoded balance, printed to the screen.",
+		"No Gateway, Teller, Ledger, or Courier yet — those arrive only once a real problem needs them.",
 		"A system earns its structure one real problem at a time.",
 	},
 
@@ -47,7 +48,7 @@ var Chapter00 = ChapterContent{
 	BreakIt: BreakIt{
 		Intro: "This is the simplest way a system can fail: turn it off.",
 		Exercises: []string{
-			"Run it with `go run .` — confirm it prints the wallet's starting balance.",
+			"Run it with `go run .` — confirm it prints the account's starting balance.",
 			"Stop it with Ctrl+C, run it again — the balance resets to the hardcoded value.",
 			"Nothing survived — expected today, and exactly the problem Chapter 5 (Storing Money) solves.",
 		},

@@ -30,7 +30,7 @@ var Chapter16 = ChapterContent{
 		"CP: choose consistency over availability — peyva rejects requests during a partition to keep data correct.",
 		"AP: choose availability over consistency — peyva keeps serving, even with stale data.",
 		"CA: only possible with no partition — a single region on a normal day.",
-		"peyva's rule of thumb: CP for money and wallet operations, AP for browsing and notifications — the choice depends on what each request actually needs.",
+		"peyva's rule of thumb: CP for money and account operations, AP for browsing and notifications — the choice depends on what each request actually needs.",
 	},
 
 	BuildIt: BuildIt{

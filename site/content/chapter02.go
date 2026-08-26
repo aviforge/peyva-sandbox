@@ -24,6 +24,7 @@ var Chapter02 = ChapterContent{
 		{Term: "Port", Description: "A number (like 9310) a process binds to, so the OS knows where to route calls."},
 		{Term: "Binding", Description: "A process claiming a port — only one process can hold it at a time."},
 		{Term: "Loopback (127.0.0.1)", Description: "The address meaning 'this same machine' — used to reach a process running locally."},
+		{Term: "Gateway", Description: "The component that holds the port and takes requests from outside — the system's one front door."},
 	},
 
 	UnderTheHood: []string{

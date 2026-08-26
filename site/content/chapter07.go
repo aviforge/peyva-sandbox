@@ -24,6 +24,7 @@ var Chapter07 = ChapterContent{
 		{Term: "BEGIN / COMMIT", Description: "Marks the start and the permanent end of a transaction — nothing is final until COMMIT."},
 		{Term: "Rollback", Description: "Undoing every change in a transaction because one step failed."},
 		{Term: "ACID", Description: "Atomicity, Consistency, Isolation, Durability — the four guarantees a real transaction gives you."},
+		{Term: "Ledger", Description: "The append-only record of every movement of money — the proof behind each balance the Vault reports."},
 	},
 
 	UnderTheHood: []string{
@@ -46,7 +47,7 @@ var Chapter07 = ChapterContent{
 	BreakIt: BreakIt{
 		Intro: "Force a failure partway through and confirm nothing is left half-done.",
 		Exercises: []string{
-			"Deliberately make the credit step fail (e.g. an invalid 'to' wallet) and confirm Alice's debit was rolled back too — her balance is unchanged.",
+			"Deliberately make the credit step fail (e.g. an invalid 'to' account) and confirm Alice's debit was rolled back too — her balance is unchanged.",
 			"Compare this to Chapter 4's version without a transaction, where a mid-transfer crash really would leave Alice debited with no credit to Bob.",
 			"Kill the process between BEGIN and COMMIT (if you can time it) — on restart, the transaction never happened at all.",
 		},

@@ -48,7 +48,7 @@ var Chapter01 = ChapterContent{
 	BreakIt: BreakIt{
 		Intro: "Processes are isolated from each other — prove it.",
 		Exercises: []string{
-			"Start two copies of peyva at once. Each gets its own PID and its own memory — they don't share the wallet variable.",
+			"Start two copies of peyva at once. Each gets its own PID and its own memory — they don't share the account held in memory.",
 			"Kill one with Ctrl+C. The other keeps running untouched.",
 			"That isolation is why Chapter 10 needs a load balancer once there's more than one instance to route between.",
 		},

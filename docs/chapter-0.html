@@ -158,14 +158,14 @@
     <section class="block">
       <h2>2. Concepts</h2>
       <ul class="concepts">
-        <li><strong>User</strong> — A person with an identity in the system. Owns exactly one wallet.</li><li><strong>Wallet</strong> — A running balance owned by a user — the thing this book protects.</li><li><strong>Balance</strong> — How much a wallet holds. Must never go negative, be lost, or be double-spent.</li><li><strong>Transfer</strong> — A request to move money between wallets — the core action of this book.</li><li><strong>History</strong> — The record of every transfer. If the balance is the answer, history is the proof.</li>
+        <li><strong>User</strong> — A person with an identity in the system. Owns exactly one account.</li><li><strong>Account</strong> — One owner and an amount — the thing this book protects.</li><li><strong>Balance</strong> — How much an account holds. Must never go negative, be lost, or be double-spent.</li><li><strong>Vault</strong> — The component holding every account and what&#39;s in it. Nothing else is allowed to change a balance.</li><li><strong>Transfer</strong> — A request to move money between accounts — the core action of this book.</li><li><strong>History</strong> — The record of every transfer. If the balance is the answer, history is the proof.</li>
       </ul>
     </section>
 
     <section class="block">
       <h2>3. Under the Hood</h2>
       <ul>
-        <li>Today: one process, one wallet, one hardcoded balance, printed to the screen.</li><li>No Front Door, Money Core, Book, or Mailroom yet — those arrive only once a real problem needs them.</li><li>A system earns its structure one real problem at a time.</li>
+        <li>Today: one process, one account, one hardcoded balance, printed to the screen.</li><li>No Gateway, Teller, Ledger, or Courier yet — those arrive only once a real problem needs them.</li><li>A system earns its structure one real problem at a time.</li>
       </ul>
     </section>
 
@@ -191,7 +191,7 @@ Done when running it prints alice&#39;s balance and it exits cleanly on Ctrl&#43
         <li>This is the simplest way a system can fail: turn it off.</li>
       </ul>
       <ul>
-        <li>Run it with `go run .` — confirm it prints the wallet&#39;s starting balance.</li><li>Stop it with Ctrl&#43;C, run it again — the balance resets to the hardcoded value.</li><li>Nothing survived — expected today, and exactly the problem Chapter 5 (Storing Money) solves.</li>
+        <li>Run it with `go run .` — confirm it prints the account&#39;s starting balance.</li><li>Stop it with Ctrl&#43;C, run it again — the balance resets to the hardcoded value.</li><li>Nothing survived — expected today, and exactly the problem Chapter 5 (Storing Money) solves.</li>
       </ul>
     </section>
   </div>

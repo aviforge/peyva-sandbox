@@ -125,3 +125,61 @@ func TestChapterNumbersMatchRoadmap(t *testing.T) {
 		}
 	}
 }
+
+// componentChapters maps each named component of the system to the chapter
+// that introduces it. The names were chosen deliberately so the reader builds
+// one architecture across the book rather than twenty-one unrelated exercises.
+var componentChapters = map[string]int{
+	"Vault":      0,
+	"Gateway":    2,
+	"Teller":     4,
+	"Ledger":     7,
+	"Courier":    12,
+	"Reconciler": 20,
+}
+
+// A component named in Build It but absent from Concepts is a word the reader
+// is asked to build without ever being taught. Concepts is where this book
+// defines its vocabulary, so that is where a component has to be introduced —
+// not only inside the prompt, which is written to be copied out of the page.
+func TestEveryComponentIsDefinedInTheConceptsOfItsChapter(t *testing.T) {
+	byNumber := map[int]ChapterContent{}
+	for _, c := range All {
+		byNumber[c.Number] = c
+	}
+
+	for component, number := range componentChapters {
+		chapter, ok := byNumber[number]
+		if !ok {
+			t.Errorf("component %q claims chapter %d, which does not exist", component, number)
+			continue
+		}
+		defined := false
+		for _, concept := range chapter.Concepts {
+			if concept.Term == component {
+				defined = true
+				if concept.Description == "" {
+					t.Errorf("chapter %d: Concept %q has an empty description", number, component)
+				}
+				break
+			}
+		}
+		if !defined {
+			t.Errorf("chapter %d introduces %q in Build It but never defines it in Concepts",
+				number, component)
+		}
+	}
+}
+
+// The component belongs to the chapter that builds it. Defining it earlier
+// spends the name before the reader has anything to attach it to.
+func TestNoChapterNamesAComponentBeforeItsOwnChapter(t *testing.T) {
+	for _, c := range All {
+		for _, concept := range c.Concepts {
+			if intro, ok := componentChapters[concept.Term]; ok && intro != c.Number {
+				t.Errorf("chapter %d defines %q, but %q is introduced in chapter %d",
+					c.Number, concept.Term, concept.Term, intro)
+			}
+		}
+	}
+}

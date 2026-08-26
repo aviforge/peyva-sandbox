@@ -48,7 +48,7 @@ var Chapter18 = ChapterContent{
 		Intro: "Try to misuse peyva the way an attacker would.",
 		Exercises: []string{
 			"Send a /transfer request with no auth token — confirm it's rejected with 401, not silently processed.",
-			"Authenticate as Alice but set 'from' to Bob's wallet — confirm it's rejected with 403, proving authentication alone isn't authorization.",
+			"Authenticate as Alice but set 'from' to Bob's account — confirm it's rejected with 403, proving authentication alone isn't authorization.",
 			"Search the codebase for any hardcoded credentials — there should be none by the end of this chapter.",
 		},
 	},

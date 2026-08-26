@@ -194,7 +194,7 @@ Done when a request with no credential is refused, a caller authenticated as one
         <li>Try to misuse peyva the way an attacker would.</li>
       </ul>
       <ul>
-        <li>Send a /transfer request with no auth token — confirm it&#39;s rejected with 401, not silently processed.</li><li>Authenticate as Alice but set &#39;from&#39; to Bob&#39;s wallet — confirm it&#39;s rejected with 403, proving authentication alone isn&#39;t authorization.</li><li>Search the codebase for any hardcoded credentials — there should be none by the end of this chapter.</li>
+        <li>Send a /transfer request with no auth token — confirm it&#39;s rejected with 401, not silently processed.</li><li>Authenticate as Alice but set &#39;from&#39; to Bob&#39;s account — confirm it&#39;s rejected with 403, proving authentication alone isn&#39;t authorization.</li><li>Search the codebase for any hardcoded credentials — there should be none by the end of this chapter.</li>
       </ul>
     </section>
   </div>

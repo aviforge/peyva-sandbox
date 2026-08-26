@@ -1,0 +1,9 @@
+# The generated site is committed, and the generator writes LF. Without a
+# forced eol, a Windows checkout rewrites templates and output to CRLF, the
+# next regenerate emits CRLF, and every generated file shows a whole-file
+# diff against its LF blob -- 23 phantom modifications and line-ending churn
+# in the next commit. Pin LF everywhere so regenerating is a no-op on every
+# platform.
+* text=auto eol=lf
+
+*.webp binary

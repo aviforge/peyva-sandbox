@@ -55,13 +55,4 @@ Finish it: one menu from which a customer opens an account, sees what they hold,
 Done when someone who has never seen peyva can use it without being told how.`},
 		},
 	},
-
-	BreakIt: BreakIt{
-		Intro: "Break one piece deliberately and confirm the rest absorbs it.",
-		Exercises: []string{
-			"Kill one copy mid-traffic. The load balancer routes around it (Ch. 10). Nothing is lost.",
-			"Disconnect the replica. Writes are refused, reads keep working (Ch. 16's CP choice).",
-			"Send the exact same transfer twice. Bob is paid once, not twice (Ch. 8's idempotency, still holding under the full system's weight).",
-		},
-	},
 }

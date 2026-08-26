@@ -113,13 +113,6 @@
     
     
   </ul>
-
-  <div class="nav-group-label">Labs</div>
-  <ul class="chapter-list">
-    
-    <li class="disabled">Break It on Purpose</li>
-    
-  </ul>
 </nav>
 
 <main class="content">
@@ -230,15 +223,6 @@ Done when History explains alice&#39;s balance without me reading the database.<
       
     </section>
 
-    <section class="block break-it">
-      <h2>3. Break It <span class="badge badge-danger">Test it</span></h2>
-      <ul class="lead">
-        <li>Force a failure partway through and confirm nothing is left half-done.</li>
-      </ul>
-      <ul>
-        <li>Deliberately make the credit step fail (e.g. an invalid &#39;to&#39; account) and confirm Alice&#39;s debit was rolled back too. Her balance is unchanged.</li><li>Compare this to Chapter 4&#39;s version without a transaction, where a mid-transfer crash really would leave Alice debited with no credit to Bob.</li><li>Kill the process between BEGIN and COMMIT (if you can time it): on restart, the transaction never happened at all.</li>
-      </ul>
-    </section>
   </div>
 
   <p class="quick-tip"><strong>Quick tip:</strong> Nothing is final until COMMIT. That&#39;s what makes ROLLBACK possible.</p>

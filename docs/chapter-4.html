@@ -113,13 +113,6 @@
     
     
   </ul>
-
-  <div class="nav-group-label">Labs</div>
-  <ul class="chapter-list">
-    
-    <li class="disabled">Break It on Purpose</li>
-    
-  </ul>
 </nav>
 
 <main class="content">
@@ -236,15 +229,6 @@ Done when those four cases each produce exactly what is written above, and switc
       
     </section>
 
-    <section class="block break-it">
-      <h2>3. Break It <span class="badge badge-danger">Test it</span></h2>
-      <ul class="lead">
-        <li>A well-designed API should be hard to misuse. Try to misuse it.</li>
-      </ul>
-      <ul>
-        <li>Send a body that is not JSON at all. Expect 400 Bad Request, not a crash.</li><li>Send a request missing the &#39;amount&#39; field. Expect 400, with a clear reason.</li><li>Send duplicate requests back to back. Both go through, and peyva has no way yet to tell they were meant to be one payment.</li>
-      </ul>
-    </section>
   </div>
 
   <p class="quick-tip"><strong>Quick tip:</strong> Validate before you touch any data. Reject bad requests instead of guessing what the caller meant.</p>

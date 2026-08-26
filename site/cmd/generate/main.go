@@ -91,7 +91,6 @@ func run(templatesDir, assetsDir, outDir, indexPath string) error {
 			Chapter:           chapter,
 			HeroAvailable:     fileExists(filepath.Join(outDir, filepath.FromSlash(chapter.HeroImage))),
 			Roadmap:           roadmap,
-			Labs:              content.Labs,
 			AssetPrefix:       prefix,
 			StyleVersion:      styleVersion,
 			ScriptVersion:     scriptVersion,

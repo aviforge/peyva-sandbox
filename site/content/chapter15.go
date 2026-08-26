@@ -47,13 +47,4 @@ Tell me where that analogy breaks down for real databases, and whether it led yo
 Done when I know which parts of your analogy to stop trusting, and whether any of them reached the code.`},
 		},
 	},
-
-	BreakIt: BreakIt{
-		Intro: "Simulate a primary failure and confirm the replica can take over.",
-		Exercises: []string{
-			"Make a transfer and confirm both of the Vault's copies reflect the new balance.",
-			"'Fail' the primary (rename or lock its file) and confirm enquiries still succeed against the second copy.",
-			"A transfer committed a split second before the failure might not have reached the replica yet. Try to catch that gap.",
-		},
-	},
 }

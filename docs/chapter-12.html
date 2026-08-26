@@ -113,13 +113,6 @@
     
     
   </ul>
-
-  <div class="nav-group-label">Labs</div>
-  <ul class="chapter-list">
-    
-    <li class="disabled">Break It on Purpose</li>
-    
-  </ul>
 </nav>
 
 <main class="content">
@@ -218,15 +211,6 @@ Done when a slow notification does not delay what the customer sees.</pre>
       
     </section>
 
-    <section class="block break-it">
-      <h2>3. Break It <span class="badge badge-danger">Test it</span></h2>
-      <ul class="lead">
-        <li>Prove the API no longer waits on the slow part.</li>
-      </ul>
-      <ul>
-        <li>Make the notification step artificially slow (sleep 5 seconds) and confirm /transfer still responds to Alice instantly.</li><li>Stop the worker entirely, send several transfers, then start the worker again: every queued notification still gets delivered, just late.</li><li>Compare this to doing the notification inline in Chapter 4&#39;s handler, where a slow notification would have made Alice wait too.</li>
-      </ul>
-    </section>
   </div>
 
   <p class="quick-tip"><strong>Quick tip:</strong> Only defer work the caller doesn&#39;t actually need to wait for.</p>

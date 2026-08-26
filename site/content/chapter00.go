@@ -48,13 +48,4 @@ No server. I open the file from disk. Style it so it looks like something you wo
 Done when the page opens on alice holding 100.00 and the switcher shows me bob holding 0.00.`},
 		},
 	},
-
-	BreakIt: BreakIt{
-		Intro: "This is the simplest way a system can fail: turn it off.",
-		Exercises: []string{
-			"Run it. Confirm it prints the account's starting balance.",
-			"Stop it with Ctrl+C, run it again. The balance resets to the hardcoded value.",
-			"Nothing survived, and today that is expected: the balance only ever lived in memory, and memory goes when the process does.",
-		},
-	},
 }

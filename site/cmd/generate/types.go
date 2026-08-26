@@ -16,7 +16,6 @@ type PageData struct {
 	Chapter       content.ChapterContent
 	HeroAvailable bool
 	Roadmap       []roadmapView
-	Labs          []content.RoadmapEntry
 	AssetPrefix   string
 
 	// StyleVersion and ScriptVersion are content digests appended to the asset

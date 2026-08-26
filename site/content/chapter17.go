@@ -38,13 +38,4 @@ For each thing you log, ask whether it helps that person at 3am. If it doesn't, 
 Done when I can take one failed payment reference and reconstruct its whole path from logs alone, and the health endpoint reports degraded when the Vault's second copy is genuinely unreachable.`},
 		},
 	},
-
-	BreakIt: BreakIt{
-		Intro: "Use observability to actually catch a problem, not just log noise.",
-		Exercises: []string{
-			"Deliberately break one dependency (e.g. disconnect the replica from Chapter 15) and confirm the error rate metric visibly rises.",
-			"Check /health during the failure and confirm it reflects the real degraded state, not a blind 'OK'.",
-			"Read back the structured logs for a specific failed transfer and confirm you can reconstruct exactly what happened, in order.",
-		},
-	},
 }

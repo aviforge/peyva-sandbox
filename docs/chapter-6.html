@@ -113,13 +113,6 @@
     
     
   </ul>
-
-  <div class="nav-group-label">Labs</div>
-  <ul class="chapter-list">
-    
-    <li class="disabled">Break It on Purpose</li>
-    
-  </ul>
 </nav>
 
 <main class="content">
@@ -222,15 +215,6 @@ Done when a wrong handle is obvious before sending, and you have shown me both t
       
     </section>
 
-    <section class="block break-it">
-      <h2>3. Break It <span class="badge badge-danger">Test it</span></h2>
-      <ul class="lead">
-        <li>Indexes aren&#39;t free. See the tradeoff.</li>
-      </ul>
-      <ul>
-        <li>Time a lookup on an indexed column versus a full scan on an unindexed one, on a table with thousands of rows.</li><li>Insert a new account. The index updates too, so every write pays a small cost to keep it current.</li><li>Add five indexes to the same table and compare write speed before and after.</li>
-      </ul>
-    </section>
   </div>
 
   <p class="quick-tip"><strong>Quick tip:</strong> An index speeds up reads at the cost of slightly slower writes. Every index has to stay current too.</p>

@@ -44,13 +44,4 @@ Then tell me what happens if the Courier dies after delivering but before markin
 Done when I can point at the single instant that separates the two designs, and I know what your version does in the one case it still handles imperfectly.`},
 		},
 	},
-
-	BreakIt: BreakIt{
-		Intro: "Prove the message survives a crash that Chapter 12's plain queue wouldn't have.",
-		Exercises: []string{
-			"Simulate a crash right after the transfer transaction commits, before the publisher runs: restart peyva and confirm the outbox row is still there, unsent.",
-			"Start the publisher and confirm it picks up that leftover row and delivers it. Nothing was lost.",
-			"Compare this to Chapter 12's design: if peyva crashed between committing the transfer and enqueueing the message there, the notification would be gone forever.",
-		},
-	},
 }

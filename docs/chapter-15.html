@@ -113,13 +113,6 @@
     
     
   </ul>
-
-  <div class="nav-group-label">Labs</div>
-  <ul class="chapter-list">
-    
-    <li class="disabled">Break It on Purpose</li>
-    
-  </ul>
 </nav>
 
 <main class="content">
@@ -226,15 +219,6 @@ Done when I know which parts of your analogy to stop trusting, and whether any o
       
     </section>
 
-    <section class="block break-it">
-      <h2>3. Break It <span class="badge badge-danger">Test it</span></h2>
-      <ul class="lead">
-        <li>Simulate a primary failure and confirm the replica can take over.</li>
-      </ul>
-      <ul>
-        <li>Make a transfer and confirm both of the Vault&#39;s copies reflect the new balance.</li><li>&#39;Fail&#39; the primary (rename or lock its file) and confirm enquiries still succeed against the second copy.</li><li>A transfer committed a split second before the failure might not have reached the replica yet. Try to catch that gap.</li>
-      </ul>
-    </section>
   </div>
 
   <p class="quick-tip"><strong>Quick tip:</strong> Async replication means the replica can be briefly behind. Everything you have to decide about a partition lives in that gap.</p>

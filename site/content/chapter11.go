@@ -48,13 +48,4 @@ Still plain HTML and CSS.
 Done when a critique pass finds nothing to fix.`},
 		},
 	},
-
-	BreakIt: BreakIt{
-		Intro: "Prove the invalidation actually works.",
-		Exercises: []string{
-			"Read Alice's balance a few thousand times with the cache on, then again with it off, and compare the totals. A single hit is far too fast to see. The saving only shows up in the aggregate.",
-			"Make a transfer that changes Alice's balance, then check it again. It must reflect the new balance, not the stale cached one.",
-			"Deliberately skip the invalidation step and repeat the test. Watch the cache confidently return the wrong balance.",
-		},
-	},
 }

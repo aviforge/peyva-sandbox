@@ -113,13 +113,6 @@
     
     
   </ul>
-
-  <div class="nav-group-label">Labs</div>
-  <ul class="chapter-list">
-    
-    <li class="disabled">Break It on Purpose</li>
-    
-  </ul>
 </nav>
 
 <main class="content">
@@ -260,15 +253,6 @@ Done when nothing I can type in the browser makes it show or spend bob&#39;s mon
       
     </section>
 
-    <section class="block break-it">
-      <h2>3. Break It <span class="badge badge-danger">Test it</span></h2>
-      <ul class="lead">
-        <li>Try to misuse peyva the way an attacker would.</li>
-      </ul>
-      <ul>
-        <li>Send a /transfer request with no auth token. Confirm it&#39;s rejected with 401, not silently processed.</li><li>Authenticate as Alice but set &#39;from&#39; to Bob&#39;s account. Confirm it&#39;s rejected with 403, proving authentication alone isn&#39;t authorization.</li><li>Search the codebase for any hardcoded credentials. There should be none by the end of this chapter.</li>
-      </ul>
-    </section>
   </div>
 
   <p class="quick-tip"><strong>Quick tip:</strong> Authentication proves who&#39;s calling; authorization checks what they&#39;re allowed to do. You need both.</p>

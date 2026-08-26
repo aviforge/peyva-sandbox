@@ -48,13 +48,4 @@ Add History to the menu: every movement in and out of the customer's own account
 Done when History explains alice's balance without me reading the database.`},
 		},
 	},
-
-	BreakIt: BreakIt{
-		Intro: "Force a failure partway through and confirm nothing is left half-done.",
-		Exercises: []string{
-			"Deliberately make the credit step fail (e.g. an invalid 'to' account) and confirm Alice's debit was rolled back too. Her balance is unchanged.",
-			"Compare this to Chapter 4's version without a transaction, where a mid-transfer crash really would leave Alice debited with no credit to Bob.",
-			"Kill the process between BEGIN and COMMIT (if you can time it): on restart, the transaction never happened at all.",
-		},
-	},
 }

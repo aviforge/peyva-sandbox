@@ -113,13 +113,6 @@
     
     
   </ul>
-
-  <div class="nav-group-label">Labs</div>
-  <ul class="chapter-list">
-    
-    <li class="disabled">Break It on Purpose</li>
-    
-  </ul>
 </nav>
 
 <main class="content">
@@ -207,15 +200,6 @@ Done when I have a peak-throughput figure and a two-year storage figure I can de
       
     </section>
 
-    <section class="block break-it">
-      <h2>3. Break It <span class="badge badge-danger">Test it</span></h2>
-      <ul class="lead">
-        <li>Bad assumptions produce bad capacity plans. See how sensitive the numbers are.</li>
-      </ul>
-      <ul>
-        <li>Double the peak factor from 10x to 20x and recompute peak TPS. See how much extra headroom that alone demands.</li><li>Assume 5 KB/transaction instead of 1 KB and recompute storage. The disk budget changes dramatically for the same transfer volume.</li><li>Measure how many transfers one copy actually sustains, then hold that against the 35 a second the estimate demands. The gap between the two is what one process cannot close on its own.</li>
-      </ul>
-    </section>
   </div>
 
   <p class="quick-tip"><strong>Quick tip:</strong> Being roughly right before you build beats being exactly right after.</p>

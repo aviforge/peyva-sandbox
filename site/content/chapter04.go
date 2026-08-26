@@ -63,13 +63,4 @@ Every failure shows on the page, never a blank screen or a raw error.
 Done when those four cases each produce exactly what is written above, and switching to the recipient shows the money arrived.`},
 		},
 	},
-
-	BreakIt: BreakIt{
-		Intro: "A well-designed API should be hard to misuse. Try to misuse it.",
-		Exercises: []string{
-			"Send a body that is not JSON at all. Expect 400 Bad Request, not a crash.",
-			"Send a request missing the 'amount' field. Expect 400, with a clear reason.",
-			"Send duplicate requests back to back. Both go through, and peyva has no way yet to tell they were meant to be one payment.",
-		},
-	},
 }

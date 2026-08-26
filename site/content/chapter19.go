@@ -72,15 +72,4 @@ An empty base URL means same origin, which is the ordinary case now that peyva s
 Done when I can point the Portal at a different port by editing that one line, without touching a page.`},
 		},
 	},
-
-	BreakIt: BreakIt{
-		Intro: "Take a setting away, then break a release, and confirm peyva says so both times.",
-		Exercises: []string{
-			"Start a copy with its port unset. It names the missing setting and exits, rather than defaulting and failing somewhere unrelated.",
-			"Point the Portal's base URL at a dead port. It says it cannot reach peyva, rather than showing a balance of nothing.",
-			"Move money's two decimal places into config and set it to three. Nothing stops you. Put it back: a setting nobody should be able to change belongs in code.",
-			"Deploy a version with an intentional bug to one copy. Confirm its health check fails before the other two are touched.",
-			"Follow your own runbook to revert that copy, pasting every command rather than improvising, and time it.",
-		},
-	},
 }

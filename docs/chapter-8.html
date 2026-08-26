@@ -113,13 +113,6 @@
     
     
   </ul>
-
-  <div class="nav-group-label">Labs</div>
-  <ul class="chapter-list">
-    
-    <li class="disabled">Break It on Purpose</li>
-    
-  </ul>
 </nav>
 
 <main class="content">
@@ -214,15 +207,6 @@ Done when double-submitting the form leaves one payment in History, and the page
       
     </section>
 
-    <section class="block break-it">
-      <h2>3. Break It <span class="badge badge-danger">Test it</span></h2>
-      <ul class="lead">
-        <li>Simulate exactly the flaky-network scenario idempotency exists for.</li>
-      </ul>
-      <ul>
-        <li>Send the same transfer request twice with the same idempotency key. Confirm Bob only receives $20 once, not $40.</li><li>Send it twice with two different keys: this time it really is two separate $20 transfers, as intended.</li><li>Compare the two duplicate responses byte for byte. They&#39;re identical.</li>
-      </ul>
-    </section>
   </div>
 
   <p class="quick-tip"><strong>Quick tip:</strong> The client genuinely cannot tell a duplicate response from the real one.</p>

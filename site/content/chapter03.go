@@ -41,13 +41,4 @@ Tell me what changes about how the page loads its stylesheet once it arrives ove
 Done when the phone's browser shows alice's balance.`},
 		},
 	},
-
-	BreakIt: BreakIt{
-		Intro: "Networks aren't perfect. See what happens when the path breaks.",
-		Exercises: []string{
-			"Turn off Wi-Fi on the device trying to reach peyva. The connection fails immediately with no route to the machine.",
-			"Try reaching peyva at the wrong port (e.g. 9311 instead of 9310): connection refused, even though the IP address is right.",
-			"The IP gets you to the right machine, but the port still decides whether anyone answers.",
-		},
-	},
 }

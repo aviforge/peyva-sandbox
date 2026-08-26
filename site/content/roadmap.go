@@ -32,8 +32,3 @@ var Roadmap = []RoadmapEntry{
 	{19, "Operating in Production"},
 	{20, "Putting It All Together"},
 }
-
-// Labs are non-numbered bonus pages, listed separately in the sidebar.
-var Labs = []RoadmapEntry{
-	{-1, "Break It on Purpose"},
-}

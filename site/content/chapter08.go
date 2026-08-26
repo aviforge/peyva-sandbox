@@ -40,13 +40,4 @@ Done when the same reference twice pays once, two different references pay twice
 Done when double-submitting the form leaves one payment in History, and the page looks the same both times.`},
 		},
 	},
-
-	BreakIt: BreakIt{
-		Intro: "Simulate exactly the flaky-network scenario idempotency exists for.",
-		Exercises: []string{
-			"Send the same transfer request twice with the same idempotency key. Confirm Bob only receives $20 once, not $40.",
-			"Send it twice with two different keys: this time it really is two separate $20 transfers, as intended.",
-			"Compare the two duplicate responses byte for byte. They're identical.",
-		},
-	},
 }

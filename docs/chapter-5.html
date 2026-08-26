@@ -113,13 +113,6 @@
     
     
   </ul>
-
-  <div class="nav-group-label">Labs</div>
-  <ul class="chapter-list">
-    
-    <li class="disabled">Break It on Purpose</li>
-    
-  </ul>
 </nav>
 
 <main class="content">
@@ -212,15 +205,6 @@ Done when I make a payment, stop the process, start it again, reload the page, a
       
     </section>
 
-    <section class="block break-it">
-      <h2>3. Break It <span class="badge badge-danger">Test it</span></h2>
-      <ul class="lead">
-        <li>Prove durability actually holds, the same way Chapter 0 proved its absence.</li>
-      </ul>
-      <ul>
-        <li>Start peyva, confirm Alice&#39;s balance reads 100.</li><li>Stop the process entirely, then start it again. The balance still reads 100, read fresh from the Vault&#39;s file.</li><li>Delete the Vault&#39;s file while the process is stopped and restart. Now the account is genuinely gone, because the file itself went, not just the process.</li>
-      </ul>
-    </section>
   </div>
 
   <p class="quick-tip"><strong>Quick tip:</strong> A file on disk beats a variable in memory. SQLite needs no server process to give you that.</p>

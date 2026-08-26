@@ -48,13 +48,4 @@ Then show me, from a real timing you have run rather than an estimate, how long 
 Done when a wrong handle is obvious before sending, and you have shown me both timings.`},
 		},
 	},
-
-	BreakIt: BreakIt{
-		Intro: "Indexes aren't free. See the tradeoff.",
-		Exercises: []string{
-			"Time a lookup on an indexed column versus a full scan on an unindexed one, on a table with thousands of rows.",
-			"Insert a new account. The index updates too, so every write pays a small cost to keep it current.",
-			"Add five indexes to the same table and compare write speed before and after.",
-		},
-	},
 }

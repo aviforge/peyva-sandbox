@@ -113,13 +113,6 @@
     
     
   </ul>
-
-  <div class="nav-group-label">Labs</div>
-  <ul class="chapter-list">
-    
-    <li class="disabled">Break It on Purpose</li>
-    
-  </ul>
 </nav>
 
 <main class="content">
@@ -198,15 +191,6 @@ Done when a request to port 9310 makes the Gateway log a connection, and startin
       
     </section>
 
-    <section class="block break-it">
-      <h2>3. Break It <span class="badge badge-danger">Test it</span></h2>
-      <ul class="lead">
-        <li>An address and port have one owner at a time. See what happens when two processes want the same door.</li>
-      </ul>
-      <ul>
-        <li>Start peyva once. It binds port 9310 successfully.</li><li>Start a second copy while the first is still running. Watch it fail with &#39;address already in use&#39;.</li><li>Stop the first copy, then start the second again: now it succeeds. The port was free the moment its owner let go.</li>
-      </ul>
-    </section>
   </div>
 
   <p class="quick-tip"><strong>Quick tip:</strong> One process holds a given address and port at a time. That is what makes it somewhere you can reliably knock.</p>

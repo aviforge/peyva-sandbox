@@ -37,13 +37,4 @@ Done when restarting the process still reports alice's balance, and deleting the
 Done when I make a payment, stop the process, start it again, reload the page, and the new balance is still there.`},
 		},
 	},
-
-	BreakIt: BreakIt{
-		Intro: "Prove durability actually holds, the same way Chapter 0 proved its absence.",
-		Exercises: []string{
-			"Start peyva, confirm Alice's balance reads 100.",
-			"Stop the process entirely, then start it again. The balance still reads 100, read fresh from the Vault's file.",
-			"Delete the Vault's file while the process is stopped and restart. Now the account is genuinely gone, because the file itself went, not just the process.",
-		},
-	},
 }

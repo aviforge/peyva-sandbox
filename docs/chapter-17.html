@@ -113,13 +113,6 @@
     
     
   </ul>
-
-  <div class="nav-group-label">Labs</div>
-  <ul class="chapter-list">
-    
-    <li class="disabled">Break It on Purpose</li>
-    
-  </ul>
 </nav>
 
 <main class="content">
@@ -198,15 +191,6 @@ Done when I can take one failed payment reference and reconstruct its whole path
       
     </section>
 
-    <section class="block break-it">
-      <h2>3. Break It <span class="badge badge-danger">Test it</span></h2>
-      <ul class="lead">
-        <li>Use observability to actually catch a problem, not just log noise.</li>
-      </ul>
-      <ul>
-        <li>Deliberately break one dependency (e.g. disconnect the replica from Chapter 15) and confirm the error rate metric visibly rises.</li><li>Check /health during the failure and confirm it reflects the real degraded state, not a blind &#39;OK&#39;.</li><li>Read back the structured logs for a specific failed transfer and confirm you can reconstruct exactly what happened, in order.</li>
-      </ul>
-    </section>
   </div>
 
   <p class="quick-tip"><strong>Quick tip:</strong> A metric tells you something&#39;s wrong; a log tells you what happened; a trace tells you where.</p>

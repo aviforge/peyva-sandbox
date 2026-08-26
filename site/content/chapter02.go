@@ -38,13 +38,4 @@ The right amount of complexity is the minimum that does what I just described.
 Done when a request to port 9310 makes the Gateway log a connection, and starting a second copy fails with 'address already in use'.`},
 		},
 	},
-
-	BreakIt: BreakIt{
-		Intro: "An address and port have one owner at a time. See what happens when two processes want the same door.",
-		Exercises: []string{
-			"Start peyva once. It binds port 9310 successfully.",
-			"Start a second copy while the first is still running. Watch it fail with 'address already in use'.",
-			"Stop the first copy, then start the second again: now it succeeds. The port was free the moment its owner let go.",
-		},
-	},
 }

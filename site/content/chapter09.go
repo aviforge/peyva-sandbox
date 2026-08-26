@@ -40,13 +40,4 @@ Then tell me which single assumption the estimate is most sensitive to, what the
 Done when I have a peak-throughput figure and a two-year storage figure I can defend, and I know which assumption to revisit first.`},
 		},
 	},
-
-	BreakIt: BreakIt{
-		Intro: "Bad assumptions produce bad capacity plans. See how sensitive the numbers are.",
-		Exercises: []string{
-			"Double the peak factor from 10x to 20x and recompute peak TPS. See how much extra headroom that alone demands.",
-			"Assume 5 KB/transaction instead of 1 KB and recompute storage. The disk budget changes dramatically for the same transfer volume.",
-			"Measure how many transfers one copy actually sustains, then hold that against the 35 a second the estimate demands. The gap between the two is what one process cannot close on its own.",
-		},
-	},
 }

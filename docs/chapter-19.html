@@ -113,13 +113,6 @@
     
     
   </ul>
-
-  <div class="nav-group-label">Labs</div>
-  <ul class="chapter-list">
-    
-    <li class="disabled">Break It on Purpose</li>
-    
-  </ul>
 </nav>
 
 <main class="content">
@@ -253,15 +246,6 @@ Done when I can point the Portal at a different port by editing that one line, w
       
     </section>
 
-    <section class="block break-it">
-      <h2>3. Break It <span class="badge badge-danger">Test it</span></h2>
-      <ul class="lead">
-        <li>Take a setting away, then break a release, and confirm peyva says so both times.</li>
-      </ul>
-      <ul>
-        <li>Start a copy with its port unset. It names the missing setting and exits, rather than defaulting and failing somewhere unrelated.</li><li>Point the Portal&#39;s base URL at a dead port. It says it cannot reach peyva, rather than showing a balance of nothing.</li><li>Move money&#39;s two decimal places into config and set it to three. Nothing stops you. Put it back: a setting nobody should be able to change belongs in code.</li><li>Deploy a version with an intentional bug to one copy. Confirm its health check fails before the other two are touched.</li><li>Follow your own runbook to revert that copy, pasting every command rather than improvising, and time it.</li>
-      </ul>
-    </section>
   </div>
 
   <p class="quick-tip"><strong>Quick tip:</strong> Deploy to one copy first: a health check catching a bad release there is far cheaper than catching it everywhere.</p>

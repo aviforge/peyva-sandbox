@@ -45,13 +45,4 @@ If plain HTML and CSS cannot show something arriving after the page has loaded w
 Done when a slow notification does not delay what the customer sees.`},
 		},
 	},
-
-	BreakIt: BreakIt{
-		Intro: "Prove the API no longer waits on the slow part.",
-		Exercises: []string{
-			"Make the notification step artificially slow (sleep 5 seconds) and confirm /transfer still responds to Alice instantly.",
-			"Stop the worker entirely, send several transfers, then start the worker again: every queued notification still gets delivered, just late.",
-			"Compare this to doing the notification inline in Chapter 4's handler, where a slow notification would have made Alice wait too.",
-		},
-	},
 }

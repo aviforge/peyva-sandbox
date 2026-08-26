@@ -113,13 +113,6 @@
     
     
   </ul>
-
-  <div class="nav-group-label">Labs</div>
-  <ul class="chapter-list">
-    
-    <li class="disabled">Break It on Purpose</li>
-    
-  </ul>
 </nav>
 
 <main class="content">
@@ -219,15 +212,6 @@ Done when a customer can see that money left and came back, and why.</pre>
       
     </section>
 
-    <section class="block break-it">
-      <h2>3. Break It <span class="badge badge-danger">Test it</span></h2>
-      <ul class="lead">
-        <li>Force a late step to fail and confirm the earlier ones actually get undone.</li>
-      </ul>
-      <ul>
-        <li>Make the recipient ledger refuse for good (a closed account) and confirm the saga reverses stage one, leaving the payer whole.</li><li>Now make it merely unreachable and confirm the saga waits and retries instead of reversing. A temporary failure that triggers a reversal throws away a payment that would have gone through.</li><li>Compare this to Chapter 7&#39;s transaction: that couldn&#39;t span two separate services, but a saga can.</li>
-      </ul>
-    </section>
   </div>
 
   <p class="quick-tip"><strong>Quick tip:</strong> Compensations run in strict reverse order: the last completed step is undone first.</p>

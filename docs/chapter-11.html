@@ -113,13 +113,6 @@
     
     
   </ul>
-
-  <div class="nav-group-label">Labs</div>
-  <ul class="chapter-list">
-    
-    <li class="disabled">Break It on Purpose</li>
-    
-  </ul>
 </nav>
 
 <main class="content">
@@ -232,15 +225,6 @@ Done when a critique pass finds nothing to fix.</pre>
       
     </section>
 
-    <section class="block break-it">
-      <h2>3. Break It <span class="badge badge-danger">Test it</span></h2>
-      <ul class="lead">
-        <li>Prove the invalidation actually works.</li>
-      </ul>
-      <ul>
-        <li>Read Alice&#39;s balance a few thousand times with the cache on, then again with it off, and compare the totals. A single hit is far too fast to see. The saving only shows up in the aggregate.</li><li>Make a transfer that changes Alice&#39;s balance, then check it again. It must reflect the new balance, not the stale cached one.</li><li>Deliberately skip the invalidation step and repeat the test. Watch the cache confidently return the wrong balance.</li>
-      </ul>
-    </section>
   </div>
 
   <p class="quick-tip"><strong>Quick tip:</strong> A stale cache is worse than no cache.</p>

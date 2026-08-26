@@ -103,11 +103,6 @@ var RecognisedSources = []string{
 	"Anthropic",
 }
 
-type BreakIt struct {
-	Intro     string
-	Exercises []string
-}
-
 type ChapterContent struct {
 	Number      int
 	Slug        string
@@ -121,5 +116,4 @@ type ChapterContent struct {
 	HeroCaption string
 	Concepts    []ConceptItem
 	BuildIt     BuildIt
-	BreakIt     BreakIt
 }

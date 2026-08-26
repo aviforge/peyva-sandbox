@@ -47,15 +47,4 @@ No flags, no config file, no service discovery, no configuration framework. If e
 Done when three copies started this way spread ten payments between them with correct final balances, and killing one mid-traffic fails no request.`},
 		},
 	},
-
-	BreakIt: BreakIt{
-		Intro: "Prove the copies really are interchangeable.",
-		Exercises: []string{
-			"Start three copies with the runner, send ten payments through the proxy, and confirm from the tagged output that they landed on different copies while all updating the same balances.",
-			"Kill one copy while traffic is flowing. The proxy routes around it and requests keep succeeding. Start the runner with one copy instead of three and the same traffic now queues behind a single process.",
-			"This only works because Chapter 5 already moved state into a shared store. A copy holding state of its own could not be killed this safely.",
-			"Push writes through several copies at once and watch them queue behind each other. Scaling out multiplied the copies, not the single Vault they all write to, so the bottleneck moved rather than disappeared.",
-			"Close the terminal without stopping anything, then run stop from a new one. Every copy goes, the ports are free, and starting again works first time.",
-		},
-	},
 }

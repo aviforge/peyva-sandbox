@@ -113,13 +113,6 @@
     
     
   </ul>
-
-  <div class="nav-group-label">Labs</div>
-  <ul class="chapter-list">
-    
-    <li class="disabled">Break It on Purpose</li>
-    
-  </ul>
 </nav>
 
 <main class="content">
@@ -597,15 +590,6 @@ esac
       
     </section>
 
-    <section class="block break-it">
-      <h2>3. Break It <span class="badge badge-danger">Test it</span></h2>
-      <ul class="lead">
-        <li>Prove the copies really are interchangeable.</li>
-      </ul>
-      <ul>
-        <li>Start three copies with the runner, send ten payments through the proxy, and confirm from the tagged output that they landed on different copies while all updating the same balances.</li><li>Kill one copy while traffic is flowing. The proxy routes around it and requests keep succeeding. Start the runner with one copy instead of three and the same traffic now queues behind a single process.</li><li>This only works because Chapter 5 already moved state into a shared store. A copy holding state of its own could not be killed this safely.</li><li>Push writes through several copies at once and watch them queue behind each other. Scaling out multiplied the copies, not the single Vault they all write to, so the bottleneck moved rather than disappeared.</li><li>Close the terminal without stopping anything, then run stop from a new one. Every copy goes, the ports are free, and starting again works first time.</li>
-      </ul>
-    </section>
   </div>
 
   <p class="quick-tip"><strong>Quick tip:</strong> Copies can only be interchangeable if none of them hold state the others do not have.</p>

@@ -59,13 +59,4 @@ Write the list of questions that would expose that page as broken: specific to t
 Done when nothing I can type in the browser makes it show or spend bob's money without bob's own sign-in, and I have your list of what you checked.`},
 		},
 	},
-
-	BreakIt: BreakIt{
-		Intro: "Try to misuse peyva the way an attacker would.",
-		Exercises: []string{
-			"Send a /transfer request with no auth token. Confirm it's rejected with 401, not silently processed.",
-			"Authenticate as Alice but set 'from' to Bob's account. Confirm it's rejected with 403, proving authentication alone isn't authorization.",
-			"Search the codebase for any hardcoded credentials. There should be none by the end of this chapter.",
-		},
-	},
 }

@@ -31,7 +31,7 @@ var SetupFiles = []SetupFile{
 	},
 	{
 		Path:    "Your assistant's instruction file",
-		Purpose: "The rules that do not change between chapters: how to build, and how to answer. Saving it once is what keeps every prompt after this one short.",
+		Purpose: "How your assistant should work: what it may decide alone, when to stop and ask, and how much to say back. The spec above covers what to build, so this one does not.",
 		Content: AgentRules,
 		Names:   AgentFiles,
 	},
@@ -49,37 +49,41 @@ var AgentFiles = []AgentFile{
 }
 
 // AgentRules is the standing instruction file for whichever assistant the
-// reader uses. It holds what does not change between chapters, so a prompt can
-// be a chapter's worth of work rather than a restatement of the rules.
+// reader uses.
 //
-// The prompts still carry the constraints in their preamble. That is
-// deliberate: a prompt is copied on its own, and may reach an assistant that
-// never read this file. A prompt that assumes it did is a prompt that quietly
-// builds the wrong thing.
-const AgentRules = `# Working on peyva
+// It deliberately holds nothing about what to build. The goal, the invariants
+// and the constraints on the code all live in goal.md, and stating them twice
+// means two places to change and one of them going stale. This file is the
+// other half: how the assistant should behave, which goal.md says nothing
+// about.
+const AgentRules = `# Working with me on peyva
 
-Read peyva/goal.md first. It holds the goal and the rules money must never
-break. If a change would break one of those, the change is wrong.
+Read peyva/goal.md before your first change. It holds the goal, the rules money
+must never break, and the constraints on what you build. Treat it as settled: if
+a change would break something in it, the change is wrong.
 
-## Building
+What follows is about you, not about the code.
 
-- Standard library only. No frameworks, no brokers, no third-party libraries.
-- One process on a laptop. No deployment.
-- Code lives in peyva/<component>/, one folder per component.
-- Money is exact: a decimal type, or integer minor units where the language has
-  none. Never floating point. Two decimal places.
-- The portal is plain HTML and CSS. No build step, no dependencies.
-- The portal is one customer's own wallet, not an operator's view of everyone.
-- Structure is earned. Build what this chapter needs, not what a later one
-  might.
-
-## Answering
+## Scope
 
 - Do what the prompt asks, and nothing it did not ask for.
+- Build what the current chapter needs, not what a later one might.
+- Make the smallest change that satisfies the prompt.
+- Leave code you were not asked to touch alone.
+
+## Honesty
+
 - If a constraint makes the task impossible, say so rather than working around
   it. That is a useful answer, not a failure.
-- Make the smallest change that satisfies the prompt.
-- Say what changed and why, in a line or two. No summary of work I just
-  watched you do.
-- When you are unsure, ask rather than guess.
+- If the task seems to need something goal.md rules out, stop and tell me.
+  Do not add it and mention it afterwards.
+- Do not tell me something works when you have not run it. Say what you checked.
+- When you are unsure, ask. A guess that reads as certainty costs me more than
+  the question would have.
+
+## Answers
+
+- Say what changed and why, in a line or two.
+- No summary of work I just watched you do, and no restating my request back.
+- Give reasoning, trade-offs and alternatives only when I ask for them.
 `

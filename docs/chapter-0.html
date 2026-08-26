@@ -218,7 +218,7 @@ Each appears in the chapter that builds it. Until then it does not exist.
     
     <p class="prompt-divider">Your assistant&#39;s instruction file</p>
     <ul class="lead">
-      <li>The rules that do not change between chapters: how to build, and how to answer. Saving it once is what keeps every prompt after this one short.</li>
+      <li>How your assistant should work: what it may decide alone, when to stop and ask, and how much to say back. The spec above covers what to build, so this one does not.</li>
     </ul>
     
     <p class="setup-note">No single filename is read by every assistant, so save this under the name yours looks for. The contents are identical either way.</p>
@@ -231,32 +231,36 @@ Each appears in the chapter that builds it. Until then it does not exist.
         <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
         <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
       </button>
-      <pre class="prompt"># Working on peyva
+      <pre class="prompt"># Working with me on peyva
 
-Read peyva/goal.md first. It holds the goal and the rules money must never
-break. If a change would break one of those, the change is wrong.
+Read peyva/goal.md before your first change. It holds the goal, the rules money
+must never break, and the constraints on what you build. Treat it as settled: if
+a change would break something in it, the change is wrong.
 
-## Building
+What follows is about you, not about the code.
 
-- Standard library only. No frameworks, no brokers, no third-party libraries.
-- One process on a laptop. No deployment.
-- Code lives in peyva/&lt;component&gt;/, one folder per component.
-- Money is exact: a decimal type, or integer minor units where the language has
-  none. Never floating point. Two decimal places.
-- The portal is plain HTML and CSS. No build step, no dependencies.
-- The portal is one customer&#39;s own wallet, not an operator&#39;s view of everyone.
-- Structure is earned. Build what this chapter needs, not what a later one
-  might.
-
-## Answering
+## Scope
 
 - Do what the prompt asks, and nothing it did not ask for.
+- Build what the current chapter needs, not what a later one might.
+- Make the smallest change that satisfies the prompt.
+- Leave code you were not asked to touch alone.
+
+## Honesty
+
 - If a constraint makes the task impossible, say so rather than working around
   it. That is a useful answer, not a failure.
-- Make the smallest change that satisfies the prompt.
-- Say what changed and why, in a line or two. No summary of work I just
-  watched you do.
-- When you are unsure, ask rather than guess.
+- If the task seems to need something goal.md rules out, stop and tell me.
+  Do not add it and mention it afterwards.
+- Do not tell me something works when you have not run it. Say what you checked.
+- When you are unsure, ask. A guess that reads as certainty costs me more than
+  the question would have.
+
+## Answers
+
+- Say what changed and why, in a line or two.
+- No summary of work I just watched you do, and no restating my request back.
+- Give reasoning, trade-offs and alternatives only when I ask for them.
 </pre>
     </div>
     

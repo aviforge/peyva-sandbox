@@ -289,12 +289,32 @@ func TestChapterZeroCarriesTheSetupFiles(t *testing.T) {
 			}
 		}
 		for _, line := range []string{
-			"Read peyva/goal.md first",
-			"own wallet, not an operator",
+			"Read peyva/goal.md before your first change",
+			"nothing it did not ask for",
 		} {
 			if !strings.Contains(p.body, line) {
 				t.Errorf("chapter 0 agent rules are missing %q", line)
 			}
+		}
+	}
+}
+
+// The spec says what to build; the agent file says how to work. A rule that
+// appears in both is a rule with two places to change, and the copy that goes
+// stale is the one nobody notices.
+func TestSetupFilesDoNotRestateEachOther(t *testing.T) {
+	for _, claim := range []string{
+		"Standard library only",
+		"one folder per component",
+		"Never floating point",
+		"plain HTML and CSS",
+		"Structure is earned",
+	} {
+		if !strings.Contains(content.GoalSpec, claim) {
+			t.Errorf("the spec no longer states %q, so nothing does", claim)
+		}
+		if strings.Contains(content.AgentRules, claim) {
+			t.Errorf("the agent file restates %q, which belongs to the spec", claim)
 		}
 	}
 }

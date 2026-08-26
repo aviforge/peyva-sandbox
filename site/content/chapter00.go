@@ -38,13 +38,21 @@ var Chapter00 = ChapterContent{
 		Technique: "Zero-shot prompting",
 		Why:       "No examples, no reasoning scaffold, no role: just the instruction. The task has one obvious shape, so scaffolding would cost tokens and buy nothing. Every technique after this is a departure from this baseline, which is why it comes first.",
 		Source:    "The Prompt Report: Zero-Shot",
-		Prompt: "Build the Vault. The component that holds accounts and what's in them. Nothing else is allowed to change a balance.\n\n" +
-			"An account is a handle, an owner and an amount. Seed two: alice holding 100, bob holding 0. Print the Vault's contents on startup, run until interrupted, then print a shutdown message.\n\n" +
-			"peyva/goal.md holds the goal and the rules money must never break. Read it first.\n\n" +
-			"One file. No persistence, no network.\n\n" +
-			"Done when running it prints alice's balance and it exits cleanly on Ctrl+C.",
-		UIIntro:  "The portal shows a balance, from a file you open yourself.",
-		UIPrompt: "Render the Vault's contents to peyva/portal/index.html each time the program starts: the handle, the owner and the balance.\n\nNo server. I open the file from disk. Style it so it looks like something you would show a customer, not a debug dump.\n\nDone when opening the file shows alice holding 100.00.",
+		Prompt: `Build the Vault. The component that holds accounts and what's in them. Nothing else is allowed to change a balance.
+
+An account is a handle, an owner and an amount. Seed two: alice holding 100, bob holding 0. Print the Vault's contents on startup, run until interrupted, then print a shutdown message.
+
+peyva/goal.md holds the goal and the rules money must never break. Read it first.
+
+One file. No persistence, no network.
+
+Done when running it prints alice's balance and it exits cleanly on Ctrl+C.`,
+		UIIntro: "The portal shows a balance, from a file you open yourself.",
+		UIPrompt: `Render the Vault's contents to peyva/portal/index.html each time the program starts: the handle, the owner and the balance.
+
+No server. I open the file from disk. Style it so it looks like something you would show a customer, not a debug dump.
+
+Done when opening the file shows alice holding 100.00.`,
 	},
 
 	BreakIt: BreakIt{

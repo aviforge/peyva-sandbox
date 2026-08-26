@@ -37,17 +37,25 @@ var Chapter06 = ChapterContent{
 		Technique: "Grounding: investigate before claiming",
 		Why:       "Ask for an optimisation and you'll get one, plus a confident claim that it's faster. The documented remedy is to forbid claims about code the assistant hasn't actually opened or run. Which here means timings taken before and after, not estimates.",
 		Source:    "Anthropic: Prompting best practices, Minimizing hallucinations in agentic coding",
-		Prompt: "The Vault stores accounts keyed by owner. Each account also carries a region, which nothing indexes.\n\n" +
-			"Do this in order and don't skip ahead:\n\n" +
-			"1. Seed the Vault with 50,000 accounts and randomised regions.\n" +
-			"2. Time a lookup of every account in one region. Report the number before changing anything.\n" +
-			"3. Add an index on region.\n" +
-			"4. Time the same lookup again and report both numbers side by side.\n" +
-			"5. Time 1,000 account inserts with the index present, then with it dropped, and report that difference too.\n\n" +
-			"Never state a performance claim you have not measured on this machine. Show me real numbers, not estimates, and if the improvement is smaller than expected, say so rather than explaining it away.\n\n" +
-			"Done when I have four real numbers: read time before and after, write time before and after.",
-		UIIntro:  "The portal learns to find one account among many.",
-		UIPrompt: "Add a handle lookup to the portal: type a handle, see that account.\n\nThen show me, from a real timing you have run rather than an estimate, how long the lookup takes against a table with thousands of accounts, with the index and without it.\n\nDone when the lookup returns the right account and you have shown me both timings.",
+		Prompt: `The Vault stores accounts keyed by owner. Each account also carries a region, which nothing indexes.
+
+Do this in order and don't skip ahead:
+
+1. Seed the Vault with 50,000 accounts and randomised regions.
+2. Time a lookup of every account in one region. Report the number before changing anything.
+3. Add an index on region.
+4. Time the same lookup again and report both numbers side by side.
+5. Time 1,000 account inserts with the index present, then with it dropped, and report that difference too.
+
+Never state a performance claim you have not measured on this machine. Show me real numbers, not estimates, and if the improvement is smaller than expected, say so rather than explaining it away.
+
+Done when I have four real numbers: read time before and after, write time before and after.`,
+		UIIntro: "The portal learns to find one account among many.",
+		UIPrompt: `Add a handle lookup to the portal: type a handle, see that account.
+
+Then show me, from a real timing you have run rather than an estimate, how long the lookup takes against a table with thousands of accounts, with the index and without it.
+
+Done when the lookup returns the right account and you have shown me both timings.`,
 	},
 
 	BreakIt: BreakIt{

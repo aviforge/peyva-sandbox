@@ -38,14 +38,25 @@ var Chapter20 = ChapterContent{
 		Technique: "Rephrase and Respond (RaR)",
 		Why:       "Make the assistant restate the task in its own words before it answers. The restatement is the cheapest look you'll get at what it actually understood, and comparing it against the story in your head shows you what you didn't actually learn.",
 		Source:    "The Prompt Report: Zero-Shot, Rephrase and Respond",
-		Prompt: "I want you to build the Reconciler. The component that proves the Vault and the Ledger agree. For every account, the sum of its Ledger entries must equal the balance the Vault reports, and any account where they don't is reported with the size of the gap.\n\n" +
-			"Before you write it, restate the job back to me in your own words. Read the whole system first, then describe what each component is for and how a payment travels from the Gateway through the Teller, the Vault, the Ledger and the Courier. Don't repeat my names for things back at me. Describe what the code actually does. At each hop, say what would happen if that component failed right then.\n\n" +
-			"I'll tell you where your restatement doesn't match mine before you write any code.\n\n" +
-			"Then build the Reconciler, and answer three things from the code rather than from general knowledge: which single component failing would hurt customers most, which failure the system currently handles worst, and which piece is over-engineered for its actual load.\n\n" +
-			"Where the code doesn't match how a real payments system would do it, say so plainly.\n\n" +
-			"Done when the Reconciler reports no discrepancies on a healthy system, reports the exact gap after I kill the process mid-payment, and your restatement and mine agree.",
-		UIIntro:  "The whole portal, explained back to you.",
-		UIPrompt: "Before touching it, describe the portal back to me: every screen, what a customer can do on each, and which component answers it. Use your own words, not mine.\n\nWhere your description and mine differ, one of us has misunderstood the system. Say which parts you are unsure of.\n\nThen finish it: one place a customer can open an account, see a balance, send money, read their history and know a message was delivered.\n\nDone when someone who has never seen peyva can use it without being told how.",
+		Prompt: `I want you to build the Reconciler. The component that proves the Vault and the Ledger agree. For every account, the sum of its Ledger entries must equal the balance the Vault reports, and any account where they don't is reported with the size of the gap.
+
+Before you write it, restate the job back to me in your own words. Read the whole system first, then describe what each component is for and how a payment travels from the Gateway through the Teller, the Vault, the Ledger and the Courier. Don't repeat my names for things back at me. Describe what the code actually does. At each hop, say what would happen if that component failed right then.
+
+I'll tell you where your restatement doesn't match mine before you write any code.
+
+Then build the Reconciler, and answer three things from the code rather than from general knowledge: which single component failing would hurt customers most, which failure the system currently handles worst, and which piece is over-engineered for its actual load.
+
+Where the code doesn't match how a real payments system would do it, say so plainly.
+
+Done when the Reconciler reports no discrepancies on a healthy system, reports the exact gap after I kill the process mid-payment, and your restatement and mine agree.`,
+		UIIntro: "The whole portal, explained back to you.",
+		UIPrompt: `Before touching it, describe the portal back to me: every screen, what a customer can do on each, and which component answers it. Use your own words, not mine.
+
+Where your description and mine differ, one of us has misunderstood the system. Say which parts you are unsure of.
+
+Then finish it: one place a customer can open an account, see a balance, send money, read their history and know a message was delivered.
+
+Done when someone who has never seen peyva can use it without being told how.`,
 	},
 
 	BreakIt: BreakIt{

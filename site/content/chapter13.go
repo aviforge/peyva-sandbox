@@ -37,12 +37,17 @@ var Chapter13 = ChapterContent{
 		Technique: "Contrastive Chain-of-Thought",
 		Why:       "Show the wrong reasoning alongside the right reasoning, not just the right one. Naming the naive design and why it fails stops the assistant rediscovering it, and forces it to say what its version does differently.",
 		Source:    "The Prompt Report: Few-Shot CoT, Contrastive CoT",
-		Prompt: "The Courier picks up work from memory. If the process dies between the payment committing and the work reaching the Courier, that work is gone and nothing in the system knows it's missing.\n\n" +
-			"Reasoning I want you to reject: commit the payment, then hand the work to the Courier. Both nearly always succeed, so the gap between them is too small to matter. That is wrong because the gap isn't a probability, it's a window, and a crash inside it loses work silently with no record that anything is owed.\n\n" +
-			"Reasoning I want you to follow: anything that must happen because a payment happened is recorded in the same atomic unit as the payment. One commit, or nothing.\n\n" +
-			"Build the second one. The Teller records the Courier's pending work in the same atomic unit that moves the money. The Courier collects from that record, and marks each item done once it's delivered.\n\n" +
-			"Then contrast the two designs directly: name the exact instant at which the rejected one loses work and yours doesn't. Then tell me what happens if the Courier dies after delivering but before marking it done, and whether that's acceptable for a notification.\n\n" +
-			"Done when killing the process right after a payment leaves the work durable and uncollected, and restarting the Courier still delivers it.",
+		Prompt: `The Courier picks up work from memory. If the process dies between the payment committing and the work reaching the Courier, that work is gone and nothing in the system knows it's missing.
+
+Reasoning I want you to reject: commit the payment, then hand the work to the Courier. Both nearly always succeed, so the gap between them is too small to matter. That is wrong because the gap isn't a probability, it's a window, and a crash inside it loses work silently with no record that anything is owed.
+
+Reasoning I want you to follow: anything that must happen because a payment happened is recorded in the same atomic unit as the payment. One commit, or nothing.
+
+Build the second one. The Teller records the Courier's pending work in the same atomic unit that moves the money. The Courier collects from that record, and marks each item done once it's delivered.
+
+Then contrast the two designs directly: name the exact instant at which the rejected one loses work and yours doesn't. Then tell me what happens if the Courier dies after delivering but before marking it done, and whether that's acceptable for a notification.
+
+Done when killing the process right after a payment leaves the work durable and uncollected, and restarting the Courier still delivers it.`,
 	},
 
 	BreakIt: BreakIt{

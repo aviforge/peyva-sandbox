@@ -40,11 +40,15 @@ var Chapter09 = ChapterContent{
 		Technique: "Self-Ask",
 		Why:       "Self-Ask makes the assistant pose the follow-up questions its answer depends on, answer each one on the record, and only then give the final number. On an estimate that converts hidden guesses into a list of assumptions you can argue with.",
 		Source:    "The Prompt Report: Zero-Shot, Self-Ask",
-		Prompt: "I need to size the infrastructure for a payments system that moves money between accounts.\n\n" +
-			"Don't give me a number yet. First work out which follow-up questions the estimate genuinely depends on, and write them out. Answer each one yourself with an explicit assumption, and label where that assumption came from: industry norm, your own guess, or arithmetic from an earlier answer.\n\n" +
-			"Then use your own answers to work out peak payments per second, Ledger growth over two years, and peak network throughput. Show each formula with the numbers substituted in, so I can check the arithmetic rather than trust it.\n\n" +
-			"Then tell me which single assumption the estimate is most sensitive to, what the number becomes if you're wrong about it by a factor of two, and which of your assumptions you most want me to confirm.\n\n" +
-			"Done when I have a peak-throughput figure and a two-year storage figure I can defend, a written list of the assumptions behind them, and I know which one to revisit first.",
+		Prompt: `I need to size the infrastructure for a payments system that moves money between accounts.
+
+Don't give me a number yet. First work out which follow-up questions the estimate genuinely depends on, and write them out. Answer each one yourself with an explicit assumption, and label where that assumption came from: industry norm, your own guess, or arithmetic from an earlier answer.
+
+Then use your own answers to work out peak payments per second, Ledger growth over two years, and peak network throughput. Show each formula with the numbers substituted in, so I can check the arithmetic rather than trust it.
+
+Then tell me which single assumption the estimate is most sensitive to, what the number becomes if you're wrong about it by a factor of two, and which of your assumptions you most want me to confirm.
+
+Done when I have a peak-throughput figure and a two-year storage figure I can defend, a written list of the assumptions behind them, and I know which one to revisit first.`,
 	},
 
 	BreakIt: BreakIt{

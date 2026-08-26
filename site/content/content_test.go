@@ -183,3 +183,26 @@ func TestNoChapterNamesAComponentBeforeItsOwnChapter(t *testing.T) {
 		}
 	}
 }
+
+// The long prose fields are Go raw strings, which cannot contain a backtick.
+// A prompt that wants one has to be reworded or the field has to go back to a
+// quoted string with escapes, and the compiler will say so. This says why
+// before someone spends time on it.
+func TestProseFieldsHoldNoBackticks(t *testing.T) {
+	for _, c := range All {
+		fields := map[string]string{
+			"Prompt":   c.BuildIt.Prompt,
+			"UIPrompt": c.BuildIt.UIPrompt,
+			"Why":      c.BuildIt.Why,
+		}
+		for name, text := range fields {
+			if strings.Contains(text, "`") {
+				t.Errorf("chapter %d %s contains a backtick, which a raw string cannot hold",
+					c.Number, name)
+			}
+		}
+	}
+	if strings.Contains(GoalSpec, "`") {
+		t.Error("GoalSpec contains a backtick, which a raw string cannot hold")
+	}
+}

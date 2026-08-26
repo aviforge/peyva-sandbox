@@ -37,16 +37,24 @@ var Chapter14 = ChapterContent{
 		Technique: "Least-to-Most Prompting",
 		Why:       "Break the problem into subproblems and solve them in order, each building on the last one's answer. One prompt asking for a whole multi-stage workflow gets you a sketch of all of it and a working version of none.",
 		Source:    "The Prompt Report: Decomposition, Least-to-Most",
-		Prompt: "A payment is currently one atomic step. I want the Teller to run payments that span several stages and can unwind if a later stage fails permanently.\n\n" +
-			"Build it in four stages. Stop after each and tell me it's working before starting the next. Don't write all four at once, and let each one build on what the previous one left behind.\n\n" +
-			"1. A record, per payment reference, of which stages have completed.\n" +
-			"2. Wire the existing money movement in as stage one, recording its completion.\n" +
-			"3. Add stage two: crediting the recipient at a second ledger peyva does not own, which can refuse for good (a closed account) or simply be unreachable.\n" +
-			"4. A reversal for stage one (put the money back, as a new pair of Ledger entries rather than by deleting the old ones), triggered when stage two fails in a way that can never succeed.\n\n" +
-			"Distinguish permanent failures from retryable ones. Only permanent failures reverse.\n\n" +
-			"Done when a permanently failing stage two puts the money back, the Ledger shows both the original payment and its reversal, and the payment's record shows every stage it passed through.",
-		UIIntro:  "The portal has to explain a payment that was undone.",
-		UIPrompt: "A reversed payment currently looks like two unrelated rows. Show it as what it is: the original, and the reversal that answers it, tied together.\n\nBuild it in stages. First mark a reversed payment as reversed. Then link the two rows. Then say why it was reversed. Stop after each and show me before starting the next.\n\nDone when a customer can see that money left and came back, and why.",
+		Prompt: `A payment is currently one atomic step. I want the Teller to run payments that span several stages and can unwind if a later stage fails permanently.
+
+Build it in four stages. Stop after each and tell me it's working before starting the next. Don't write all four at once, and let each one build on what the previous one left behind.
+
+1. A record, per payment reference, of which stages have completed.
+2. Wire the existing money movement in as stage one, recording its completion.
+3. Add stage two: crediting the recipient at a second ledger peyva does not own, which can refuse for good (a closed account) or simply be unreachable.
+4. A reversal for stage one (put the money back, as a new pair of Ledger entries rather than by deleting the old ones), triggered when stage two fails in a way that can never succeed.
+
+Distinguish permanent failures from retryable ones. Only permanent failures reverse.
+
+Done when a permanently failing stage two puts the money back, the Ledger shows both the original payment and its reversal, and the payment's record shows every stage it passed through.`,
+		UIIntro: "The portal has to explain a payment that was undone.",
+		UIPrompt: `A reversed payment currently looks like two unrelated rows. Show it as what it is: the original, and the reversal that answers it, tied together.
+
+Build it in stages. First mark a reversed payment as reversed. Then link the two rows. Then say why it was reversed. Stop after each and show me before starting the next.
+
+Done when a customer can see that money left and came back, and why.`,
 	},
 
 	BreakIt: BreakIt{

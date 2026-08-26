@@ -36,13 +36,25 @@ var Chapter11 = ChapterContent{
 		Technique: "Self-Refine",
 		Why:       "Produce, critique your own output against a stated standard, revise, repeat until the critique comes back empty. A cache bug doesn't crash. It returns a confident wrong number, so the critique pass catches what a passing test won't.",
 		Source:    "The Prompt Report: Self-Criticism, Self-Refine",
-		Prompt: "Every balance enquiry hits the Vault's storage, even when the same balance was read a moment ago and hasn't changed since.\n\n" +
-			"Add an in-memory cache in front of the Vault's reads, invalidated whenever a payment changes that account. An in-memory map, safe for concurrent access: no Redis, no cache library.\n\n" +
-			"Once it works, review your own implementation as if you were trying to make it serve a stale balance. Walk every path that changes a balance and check whether it invalidates. Consider a concurrent read and write, a payment that rolled back, and a payment that touches two accounts at once.\n\n" +
-			"Report what you found as a list, fix it, then run that same review again on the fixed version. Keep going until a review turns up nothing, and tell me how many rounds it took.\n\n" +
-			"Done when a repeated enquiry is served from cache, a payment makes the next enquiry show the new balance, and you've told me which staleness bug your first attempt had.",
-		UIIntro:  "The portal stops looking like a first draft.",
-		UIPrompt: "Now make the portal presentable.\n\nJudge what you have against these, one at a time: it reads at a glance on a phone; money is aligned and always shows two decimals; the balance is the most prominent thing on the page; every action says what happened; nothing shifts as data loads; it is legible in both light and dark.\n\nFor each one, tell me whether it passes before you change anything. Fix what fails, then judge it again. Keep going until a pass finds nothing left, and tell me what you fixed on each round.\n\nStill plain HTML and CSS. If you want a framework to do this, you have misread the task.\n\nDone when a critique pass finds nothing to fix.",
+		Prompt: `Every balance enquiry hits the Vault's storage, even when the same balance was read a moment ago and hasn't changed since.
+
+Add an in-memory cache in front of the Vault's reads, invalidated whenever a payment changes that account. An in-memory map, safe for concurrent access: no Redis, no cache library.
+
+Once it works, review your own implementation as if you were trying to make it serve a stale balance. Walk every path that changes a balance and check whether it invalidates. Consider a concurrent read and write, a payment that rolled back, and a payment that touches two accounts at once.
+
+Report what you found as a list, fix it, then run that same review again on the fixed version. Keep going until a review turns up nothing, and tell me how many rounds it took.
+
+Done when a repeated enquiry is served from cache, a payment makes the next enquiry show the new balance, and you've told me which staleness bug your first attempt had.`,
+		UIIntro: "The portal stops looking like a first draft.",
+		UIPrompt: `Now make the portal presentable.
+
+Judge what you have against these, one at a time: it reads at a glance on a phone; money is aligned and always shows two decimals; the balance is the most prominent thing on the page; every action says what happened; nothing shifts as data loads; it is legible in both light and dark.
+
+For each one, tell me whether it passes before you change anything. Fix what fails, then judge it again. Keep going until a pass finds nothing left, and tell me what you fixed on each round.
+
+Still plain HTML and CSS. If you want a framework to do this, you have misread the task.
+
+Done when a critique pass finds nothing to fix.`,
 	},
 
 	BreakIt: BreakIt{

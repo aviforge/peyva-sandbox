@@ -36,12 +36,17 @@ var Chapter05 = ChapterContent{
 		Technique: "Explicit success criteria",
 		Why:       "For a migration the useful thing to specify isn't the steps, it's the finish line: what must be true when it's done. State the target precisely and the assistant works out the delta, including the parts you'd have forgotten to list.",
 		Source:    "Anthropic: Prompting best practices, Provide clear success criteria",
-		Prompt: "Now: the Vault holds balances in memory. They vanish when the process stops, so every restart resets alice to her seeded amount.\n\n" +
-			"Target: the Vault keeps accounts in a file on disk. It creates its storage on first run and seeds alice only if she isn't already there. Every read and every write of a balance goes to that file. No balance is cached in memory anywhere.\n\n" +
-			"Use SQLite with a driver that needs no cgo. Don't change what the Gateway or the Teller look like from the outside.\n\n" +
-			"Done when restarting the process still reports alice's balance, and deleting the Vault's file is the only thing that loses it.",
-		UIIntro:  "The portal stops forgetting.",
-		UIPrompt: "The portal reads balances from the Vault's file rather than from whatever was in memory when the page was written.\n\nDone when I make a payment, stop the process, start it again, reload the page, and the new balance is still there.",
+		Prompt: `Now: the Vault holds balances in memory. They vanish when the process stops, so every restart resets alice to her seeded amount.
+
+Target: the Vault keeps accounts in a file on disk. It creates its storage on first run and seeds alice only if she isn't already there. Every read and every write of a balance goes to that file. No balance is cached in memory anywhere.
+
+Use SQLite with a driver that needs no cgo. Don't change what the Gateway or the Teller look like from the outside.
+
+Done when restarting the process still reports alice's balance, and deleting the Vault's file is the only thing that loses it.`,
+		UIIntro: "The portal stops forgetting.",
+		UIPrompt: `The portal reads balances from the Vault's file rather than from whatever was in memory when the page was written.
+
+Done when I make a payment, stop the process, start it again, reload the page, and the new balance is still there.`,
 	},
 
 	BreakIt: BreakIt{

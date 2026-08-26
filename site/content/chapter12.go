@@ -37,13 +37,21 @@ var Chapter12 = ChapterContent{
 		Technique: "Allow it to say it can't",
 		Why:       "An assistant would rather produce something than report that your constraints don't fit, so it quietly reaches for the dependency you ruled out. Giving explicit permission to stop and say so turns a silent workaround into a question you can answer.",
 		Source:    "Anthropic: Reduce hallucinations, Allow Claude to say I don't know",
-		Prompt: "The Teller notifies the recipient inline, so the caller waits for that notification before getting their response.\n\n" +
-			"Build the Courier. The component that carries out work after a payment has cleared. The Teller hands it the notification and returns immediately; the Courier delivers on its own schedule.\n\n" +
-			"Scope: one process on a laptop, one user, no deployment. An in-process queue and a worker. Do not introduce Kafka, RabbitMQ, NATS, Redis, Docker, or any broker or queue library. No retry policies, no dead-letter handling, no backpressure tuning.\n\n" +
-			"If the standard library genuinely can't express this, say so rather than reaching for a dependency I ruled out. Admitting it is a more useful answer than a guess.\n\n" +
-			"Done when a deliberately slow notification doesn't delay the payment response, and work handed over while the Courier is stopped is delivered once it starts again.",
-		UIIntro:  "The portal stops waiting for work the customer does not care about.",
-		UIPrompt: "The page currently waits for the notification before it responds. Have it show the payment as done the moment the money has moved, and the message as delivered separately once the Courier has sent it.\n\nIf plain HTML and CSS cannot show something arriving after the page has loaded without me adding a dependency, say so and tell me what the smallest honest option is. I would rather hear that than find a library in my project.\n\nDone when a slow notification does not delay what the customer sees.",
+		Prompt: `The Teller notifies the recipient inline, so the caller waits for that notification before getting their response.
+
+Build the Courier. The component that carries out work after a payment has cleared. The Teller hands it the notification and returns immediately; the Courier delivers on its own schedule.
+
+Scope: one process on a laptop, one user, no deployment. An in-process queue and a worker. Do not introduce Kafka, RabbitMQ, NATS, Redis, Docker, or any broker or queue library. No retry policies, no dead-letter handling, no backpressure tuning.
+
+If the standard library genuinely can't express this, say so rather than reaching for a dependency I ruled out. Admitting it is a more useful answer than a guess.
+
+Done when a deliberately slow notification doesn't delay the payment response, and work handed over while the Courier is stopped is delivered once it starts again.`,
+		UIIntro: "The portal stops waiting for work the customer does not care about.",
+		UIPrompt: `The page currently waits for the notification before it responds. Have it show the payment as done the moment the money has moved, and the message as delivered separately once the Courier has sent it.
+
+If plain HTML and CSS cannot show something arriving after the page has loaded without me adding a dependency, say so and tell me what the smallest honest option is. I would rather hear that than find a library in my project.
+
+Done when a slow notification does not delay what the customer sees.`,
 	},
 
 	BreakIt: BreakIt{

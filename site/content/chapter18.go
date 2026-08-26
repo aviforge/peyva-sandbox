@@ -37,15 +37,22 @@ var Chapter18 = ChapterContent{
 		Technique: "Chain-of-Verification (CoVe)",
 		Why:       "Draft an answer, plan the questions that would catch it being wrong, answer those independently, then revise. Asking for secure code gets you the checklist; verifying your own draft finds the holes the checklist doesn't mention.",
 		Source:    "The Prompt Report: Self-Criticism, Chain-of-Verification",
-		Prompt: "The Gateway trusts the \"from\" field on a payment request completely. Any caller can move money out of any account.\n\n" +
-			"Work in four passes and show me each one.\n\n" +
-			"1. Draft. Make the Gateway prove who the caller is, and confirm they own the account they're spending from before the Teller ever sees the request. Move any credential out of source code into an environment variable.\n" +
-			"2. Plan the checks. Write the list of questions that would expose your draft as broken. Be specific to this system: no generic OWASP categories.\n" +
-			"3. Answer them. Take each question against the code you actually wrote, one at a time, and don't soften an answer because of what you concluded on another.\n" +
-			"4. Revise. Fix what the answers exposed, then state plainly what is still exploitable, including anything you left out of scope on purpose.\n\n" +
-			"Done when a request with no credential is refused, a caller authenticated as one owner spending from another's account is refused, no credential is left in source, and I have your list of what remains exploitable.",
-		UIIntro:  "The portal stops trusting whoever is holding the phone.",
-		UIPrompt: "Put a sign-in in front of the portal. A signed-in customer sees their own account and nobody else's, and can only send from their own.\n\nThen verify your own work. Write the list of questions that would expose it as broken: specific to this page and these forms, not generic security advice. Answer each against what you built, and fix what the answers expose.\n\nDone when signing in as alice shows alice, and nothing I can type in the browser makes it show or spend bob's money.",
+		Prompt: `The Gateway trusts the "from" field on a payment request completely. Any caller can move money out of any account.
+
+Work in four passes and show me each one.
+
+1. Draft. Make the Gateway prove who the caller is, and confirm they own the account they're spending from before the Teller ever sees the request. Move any credential out of source code into an environment variable.
+2. Plan the checks. Write the list of questions that would expose your draft as broken. Be specific to this system: no generic OWASP categories.
+3. Answer them. Take each question against the code you actually wrote, one at a time, and don't soften an answer because of what you concluded on another.
+4. Revise. Fix what the answers exposed, then state plainly what is still exploitable, including anything you left out of scope on purpose.
+
+Done when a request with no credential is refused, a caller authenticated as one owner spending from another's account is refused, no credential is left in source, and I have your list of what remains exploitable.`,
+		UIIntro: "The portal stops trusting whoever is holding the phone.",
+		UIPrompt: `Put a sign-in in front of the portal. A signed-in customer sees their own account and nobody else's, and can only send from their own.
+
+Then verify your own work. Write the list of questions that would expose it as broken: specific to this page and these forms, not generic security advice. Answer each against what you built, and fix what the answers expose.
+
+Done when signing in as alice shows alice, and nothing I can type in the browser makes it show or spend bob's money.`,
 	},
 
 	BreakIt: BreakIt{

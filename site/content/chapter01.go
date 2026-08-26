@@ -37,12 +37,17 @@ var Chapter01 = ChapterContent{
 		Technique: "Role prompting",
 		Why:       "A role focuses the assistant's tone and its judgement about what to include. Unassigned, it explains what a program is; cast as an engineer sitting beside you, it hands you the command and tells you what the columns mean.",
 		Source:    "Anthropic: Prompting best practices, Give Claude a role",
-		Prompt: "You are a systems engineer sitting next to me, teaching by pointing at what is actually on my screen. You explain a column when I meet it, not before.\n\n" +
-			"I have a Go program running, a Vault holding one account balance in memory.\n\n" +
-			"Walk me through inspecting it as the operating system sees it: how to find its process id, and how to read its CPU and memory use. Give me the command for my OS and explain what each column means.\n\n" +
-			"Then tell me which part of that memory holds the Vault's balances, and why that number goes to zero the moment I stop the process.\n\n" +
-			"I know Go but I've never looked at a process from the outside. Skip the explanation of what a program is.\n\n" +
-			"Done when I can state the process id and its memory use, and explain in one sentence why nothing survives a restart.",
+		Prompt: `You are a systems engineer sitting next to me, teaching by pointing at what is actually on my screen. You explain a column when I meet it, not before.
+
+I have a Go program running, a Vault holding one account balance in memory.
+
+Walk me through inspecting it as the operating system sees it: how to find its process id, and how to read its CPU and memory use. Give me the command for my OS and explain what each column means.
+
+Then tell me which part of that memory holds the Vault's balances, and why that number goes to zero the moment I stop the process.
+
+I know Go but I've never looked at a process from the outside. Skip the explanation of what a program is.
+
+Done when I can state the process id and its memory use, and explain in one sentence why nothing survives a restart.`,
 	},
 
 	BreakIt: BreakIt{

@@ -36,19 +36,27 @@ var Chapter19 = ChapterContent{
 		Technique: "Structured output formatting",
 		Why:       "A runbook read at 2am has to be commands, not prose. Hand over the exact skeleton you want back, and phrase it as what to produce rather than what to avoid, which is what actually steers the output.",
 		Source:    "Anthropic: Prompting best practices, Control the format of responses",
-		Prompt: "I run three copies of the Gateway and Teller behind a router, each exposing a health endpoint.\n\n" +
-			"Add a version string, set at build time, reported by that endpoint. Then write me a rollback runbook.\n\n" +
-			"Format the runbook exactly like this and nothing else:\n\n" +
-			"  ## Symptom\n" +
-			"  One line: how I know I have this problem.\n\n" +
-			"  ## Check\n" +
-			"  Numbered shell commands, one per line, with the output that confirms the diagnosis.\n\n" +
-			"  ## Fix\n" +
-			"  Numbered shell commands, one per line, copy-pasteable, no placeholders I have to think about.\n\n" +
-			"  ## Verify\n" +
-			"  One command and the exact output that means I'm recovered.\n\n" +
-			"Every line under Check, Fix and Verify is either a command I can paste or an exact output I can compare against. It's 2am and I'm not making judgement calls.\n\n" +
-			"Done when deploying a deliberately broken version to one copy fails its health check before the other two are touched, and the runbook's Fix section reverts it without improvisation.",
+		Prompt: `I run three copies of the Gateway and Teller behind a router, each exposing a health endpoint.
+
+Add a version string, set at build time, reported by that endpoint. Then write me a rollback runbook.
+
+Format the runbook exactly like this and nothing else:
+
+  ## Symptom
+  One line: how I know I have this problem.
+
+  ## Check
+  Numbered shell commands, one per line, with the output that confirms the diagnosis.
+
+  ## Fix
+  Numbered shell commands, one per line, copy-pasteable, no placeholders I have to think about.
+
+  ## Verify
+  One command and the exact output that means I'm recovered.
+
+Every line under Check, Fix and Verify is either a command I can paste or an exact output I can compare against. It's 2am and I'm not making judgement calls.
+
+Done when deploying a deliberately broken version to one copy fails its health check before the other two are touched, and the runbook's Fix section reverts it without improvisation.`,
 	},
 
 	BreakIt: BreakIt{

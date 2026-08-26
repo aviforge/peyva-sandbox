@@ -36,12 +36,17 @@ var Chapter10 = ChapterContent{
 		Technique: "Step-Back Prompting",
 		Why:       "Make the assistant abstract to the general principle before it touches the specifics. Reasoning down from what makes any service replaceable beats reasoning up from this code, which tends to optimise a design that was never going to scale.",
 		Source:    "The Prompt Report: Thought Generation, Step-Back Prompting",
-		Prompt: "I want to run several copies of the Gateway and Teller behind a router, so load spreads across them.\n\n" +
-			"Step back before you look at my code. In a few sentences, state the general property that lets any service run as several interchangeable copies. What may live inside one process, what may not, and why. Don't mention this codebase yet.\n\n" +
-			"Now apply that principle here. Audit the code against it and show me every place it currently fails: anything cached, counted, or held in a package-level variable.\n\n" +
-			"Then fix what you found, make the port configurable so I can run three copies against one Vault, and add a small round-robin reverse proxy in front using only the standard library.\n\n" +
-			"No service discovery, no external load balancer, no configuration framework.\n\n" +
-			"Done when ten payments spread across all three copies with correct final balances, and killing one copy mid-traffic fails no request.",
+		Prompt: `I want to run several copies of the Gateway and Teller behind a router, so load spreads across them.
+
+Step back before you look at my code. In a few sentences, state the general property that lets any service run as several interchangeable copies. What may live inside one process, what may not, and why. Don't mention this codebase yet.
+
+Now apply that principle here. Audit the code against it and show me every place it currently fails: anything cached, counted, or held in a package-level variable.
+
+Then fix what you found, make the port configurable so I can run three copies against one Vault, and add a small round-robin reverse proxy in front using only the standard library.
+
+No service discovery, no external load balancer, no configuration framework.
+
+Done when ten payments spread across all three copies with correct final balances, and killing one copy mid-traffic fails no request.`,
 	},
 
 	BreakIt: BreakIt{

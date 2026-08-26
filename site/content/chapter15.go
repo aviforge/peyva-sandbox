@@ -36,11 +36,15 @@ var Chapter15 = ChapterContent{
 		Technique: "Analogical Prompting",
 		Why:       "Have the assistant generate its own analogy and reason through it before building. You learn more comparing its analogy to yours than from imposing yours: where the two differ is where one of you is wrong about the design.",
 		Source:    "The Prompt Report: Thought Generation, Analogical Prompting",
-		Prompt: "The Vault keeps everything in one file on one disk. If that disk dies, every balance dies with it.\n\n" +
-			"Before designing anything, give me a real-world analogy for keeping a second copy of records somewhere else, something with no computers in it. Say who writes first, who copies, how far behind the copy runs, and what happens when the original is destroyed. Then name the one part of your analogy that actually matters for this design.\n\n" +
-			"Now build it. The Vault gets a second copy, written to after each committed payment, and a way to promote it when the primary is unreachable. Keep the copying asynchronous. The caller must never wait for it.\n\n" +
-			"Then tell me where your analogy breaks down for real databases, and whether it led you into any mistake in the code you just wrote.\n\n" +
-			"Done when a payment appears in both copies, balance enquiries survive the primary being unavailable, and you can show me the window where a committed payment hasn't reached the second copy yet.",
+		Prompt: `The Vault keeps everything in one file on one disk. If that disk dies, every balance dies with it.
+
+Before designing anything, give me a real-world analogy for keeping a second copy of records somewhere else, something with no computers in it. Say who writes first, who copies, how far behind the copy runs, and what happens when the original is destroyed. Then name the one part of your analogy that actually matters for this design.
+
+Now build it. The Vault gets a second copy, written to after each committed payment, and a way to promote it when the primary is unreachable. Keep the copying asynchronous. The caller must never wait for it.
+
+Then tell me where your analogy breaks down for real databases, and whether it led you into any mistake in the code you just wrote.
+
+Done when a payment appears in both copies, balance enquiries survive the primary being unavailable, and you can show me the window where a committed payment hasn't reached the second copy yet.`,
 	},
 
 	BreakIt: BreakIt{

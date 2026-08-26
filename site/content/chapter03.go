@@ -37,13 +37,21 @@ var Chapter03 = ChapterContent{
 		Technique: "Add context and motivation",
 		Why:       "Say what your situation is and why you're asking, and the assistant generalises from it. Picking commands that run on your OS and warning you about the firewall prompt before you hit it. Two lines of context saves three rounds of that didn't work.",
 		Source:    "Anthropic: Prompting best practices, Add context to improve performance",
-		Prompt: "My environment: <your OS and shell>. The Gateway is listening on TCP port 9310 on this machine, and I have a phone on the same Wi-Fi.\n\n" +
-			"I want to reach the Gateway from the phone instead of from localhost. I'm doing this to understand how a service becomes reachable beyond the machine it runs on, so tell me what is actually happening rather than only what to type.\n\n" +
-			"Tell me the command for my OS to find this machine's network address, and how to know which of the addresses it prints is the right one. Then tell me whether the Gateway needs a code change to accept connections from another machine, or whether it already does.\n\n" +
-			"If a firewall prompt is likely on my OS, warn me before I hit it.\n\n" +
-			"Done when the phone's browser reaches the Gateway and the Gateway logs that connection.",
-		UIIntro:  "The page stops being a file on your disk and becomes a page on the network.",
-		UIPrompt: "The Gateway accepts connections but serves nothing. Have it return peyva/portal/index.html to anything that connects, so the page I could only open locally is now reachable from my phone on the same Wi-Fi.\n\nTell me what changes about how the page loads its stylesheet once it arrives over a connection instead of from disk, before I hit it.\n\nDone when the phone's browser shows alice's balance.",
+		Prompt: `My environment: <your OS and shell>. The Gateway is listening on TCP port 9310 on this machine, and I have a phone on the same Wi-Fi.
+
+I want to reach the Gateway from the phone instead of from localhost. I'm doing this to understand how a service becomes reachable beyond the machine it runs on, so tell me what is actually happening rather than only what to type.
+
+Tell me the command for my OS to find this machine's network address, and how to know which of the addresses it prints is the right one. Then tell me whether the Gateway needs a code change to accept connections from another machine, or whether it already does.
+
+If a firewall prompt is likely on my OS, warn me before I hit it.
+
+Done when the phone's browser reaches the Gateway and the Gateway logs that connection.`,
+		UIIntro: "The page stops being a file on your disk and becomes a page on the network.",
+		UIPrompt: `The Gateway accepts connections but serves nothing. Have it return peyva/portal/index.html to anything that connects, so the page I could only open locally is now reachable from my phone on the same Wi-Fi.
+
+Tell me what changes about how the page loads its stylesheet once it arrives over a connection instead of from disk, before I hit it.
+
+Done when the phone's browser shows alice's balance.`,
 	},
 
 	BreakIt: BreakIt{

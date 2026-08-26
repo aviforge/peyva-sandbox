@@ -42,8 +42,6 @@ Judge it against every rule in peyva/portal/design.md, one at a time, and agains
 
 Say whether each passes before changing anything. Fix what fails, judge again, and keep going until a pass finds nothing. Tell me what you fixed each round.
 
-Still plain HTML and CSS.
-
 Done when a critique pass finds nothing to fix.`},
 		},
 	},

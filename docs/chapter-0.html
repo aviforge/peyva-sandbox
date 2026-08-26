@@ -352,7 +352,7 @@ What follows is about you, not about the code.
       <p class="technique"><span class="technique-name">Zero-shot prompting</span>. The task has one obvious shape. Scaffolding it would cost tokens and buy nothing.</p>
       <p class="technique-source">Documented in The Prompt Report: Zero-Shot</p>
       <details class="standing-rules">
-        <summary>Every prompt below is copied with these rules, about 494 tokens for the chapter</summary>
+        <summary>Every prompt below is copied with these rules, about 456 tokens for the chapter</summary>
         <pre class="prompt-lang" id="rules-build">Build this in <span data-language-name>Go</span>, standard library only.
 Code in peyva/&lt;component&gt;/, one folder per component.
 Money: exact decimal or integer minor units, never floating point, two decimal places.
@@ -365,7 +365,7 @@ The goal and invariants are in peyva/goal.md, the look in peyva/portal/design.md
         
       </details>
       
-      <p class="prompt-divider"><span class="prompt-step">1 of 2</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~183 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">1 of 2</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~162 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-build">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
@@ -375,14 +375,12 @@ The goal and invariants are in peyva/goal.md, the look in peyva/portal/design.md
 
 An account is a handle, an owner and an amount. Seed two: alice holding 100, bob holding 0. Print the Vault&#39;s contents on startup, run until interrupted, then print a shutdown message.
 
-peyva/goal.md holds the goal and the rules money must never break. Read it first.
-
 One file. No persistence, no network.
 
 Done when running it prints alice&#39;s balance and it exits cleanly on Ctrl+C.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">2 of 2</span> Portal<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~311 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">2 of 2</span> Portal<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~294 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-portal">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
@@ -396,7 +394,7 @@ Both seeded accounts go into the page, so switching between them needs nothing f
 
 No server. I open the file from disk.
 
-This is where the look gets set, so read peyva/portal/design.md before writing any CSS and commit to the one visual idea it asks for. Everything after this chapter builds on what you choose here.
+This is where the look gets set. Commit to the one visual idea the brief asks for. Everything after this chapter builds on it.
 
 Done when the page opens on alice holding 100.00 and the switcher shows me bob holding 0.00.</pre>
       </div>

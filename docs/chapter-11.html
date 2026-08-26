@@ -158,7 +158,7 @@
       <p class="technique"><span class="technique-name">Self-Refine</span>. A cache bug does not crash. It returns a confident wrong number, which a passing test will not catch.</p>
       <p class="technique-source">Documented in The Prompt Report: Self-Criticism, Self-Refine</p>
       <details class="standing-rules">
-        <summary>Every prompt below is copied with these rules, about 623 tokens for the chapter</summary>
+        <summary>Every prompt below is copied with these rules, about 616 tokens for the chapter</summary>
         <pre class="prompt-lang" id="rules-build">Build this in <span data-language-name>Go</span>, standard library only.
 Code in peyva/&lt;component&gt;/, one folder per component.
 Money: exact decimal or integer minor units, never floating point, two decimal places.
@@ -199,7 +199,7 @@ Report what you found as a list, fix it, then run that same review again on the 
 Done when a review finds nothing left, and you have told me how many rounds it took and which staleness bug the first version had.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">3 of 3</span> Portal<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~239 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">3 of 3</span> Portal<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~232 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-portal">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
@@ -210,8 +210,6 @@ Done when a review finds nothing left, and you have told me how many rounds it t
 Judge it against every rule in peyva/portal/design.md, one at a time, and against the visual idea you committed to in chapter 0. Say whether the page still has that idea or has drifted into something anonymous.
 
 Say whether each passes before changing anything. Fix what fails, judge again, and keep going until a pass finds nothing. Tell me what you fixed each round.
-
-Still plain HTML and CSS.
 
 Done when a critique pass finds nothing to fix.</pre>
       </div>

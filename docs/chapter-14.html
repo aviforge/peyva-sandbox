@@ -158,7 +158,7 @@
       <p class="technique"><span class="technique-name">Least-to-Most Prompting</span>. One prompt for a whole multi-stage workflow gets you a sketch of all of it and a working version of none.</p>
       <p class="technique-source">Documented in The Prompt Report: Decomposition, Least-to-Most</p>
       <details class="standing-rules">
-        <summary>Every prompt below is copied with these rules, about 504 tokens for the chapter</summary>
+        <summary>Every prompt below is copied with these rules, about 506 tokens for the chapter</summary>
         <pre class="prompt-lang" id="rules-build">Build this in <span data-language-name>Go</span>, standard library only.
 Code in peyva/&lt;component&gt;/, one folder per component.
 Money: exact decimal or integer minor units, never floating point, two decimal places.
@@ -171,7 +171,7 @@ The goal and invariants are in peyva/goal.md, the look in peyva/portal/design.md
         
       </details>
       
-      <p class="prompt-divider"><span class="prompt-step">1 of 2</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~314 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">1 of 2</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~316 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-build">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
@@ -183,7 +183,7 @@ Build it in four stages, each on what the last one left. Stop after each and tel
 
 1. A record, per payment reference, of which stages have completed.
 2. Wire the existing money movement in as stage one, recording its completion.
-3. Add stage two: crediting the recipient at a second ledger peyva does not own, which can refuse for good (a closed account) or simply be unreachable.
+3. Add stage two: crediting the recipient at a second ledger peyva does not own, which can refuse permanently (a closed account) or be temporarily unreachable.
 4. A reversal for stage one (put the money back, as a new pair of Ledger entries rather than by deleting the old ones), triggered when stage two fails in a way that can never succeed.
 
 Distinguish permanent failures from retryable ones. Only permanent failures reverse.

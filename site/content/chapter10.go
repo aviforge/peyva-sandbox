@@ -34,7 +34,7 @@ Done when I have the principle in general terms, with nothing about my project i
 
 Audit it against the property you just described. Show me every place it fails: anything cached, counted, or held in a variable that outlives one request.
 
-Then fix what you found, make the port configurable, and add a small round-robin reverse proxy in front using only the standard library.
+Then fix what you found, make the port configurable, and add a small round-robin reverse proxy in front.
 
 I start the copies with a script I already have, so both the copies and the proxy take their settings from the environment and nowhere else:
 

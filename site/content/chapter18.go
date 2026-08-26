@@ -50,7 +50,7 @@ Put a sign-in in front of it. Switching account means signing in as that account
 
 A signed-in customer sees their own account and nobody else's, and can only send from their own.
 
-Done when signing in as alice shows alice, and the switcher offers nobody she has not signed in as.`},
+Done when signing out as alice and back in as bob changes every screen to bob, and closing the tab does not leave either of them signed in.`},
 			{Label: "Portal checks", Portal: true, Text: `You put a sign-in in front of a wallet page, where switching account means signing in as that account.
 
 Write the list of questions that would expose that page as broken: specific to this page and these forms, not generic security advice. Answer each one against what you built, and fix what the answers expose.

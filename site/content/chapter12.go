@@ -39,7 +39,7 @@ If the standard library genuinely cannot express this, say so rather than reachi
 Done when a deliberately slow notification doesn't delay the payment response, and work handed over while the Courier is stopped is delivered once it starts again.`},
 			{Label: "Portal", Portal: true, Text: `The page currently waits for the notification before it responds. Have it show the payment as done the moment the money has moved, and the message as delivered separately once the Courier has sent it.
 
-If plain HTML and CSS cannot show something arriving after the page has loaded without me adding a dependency, say so and tell me what the smallest honest option is. I would rather hear that than find a library in my project.
+If plain HTML and CSS cannot show something arriving after the page has loaded without me adding a dependency, say so and tell me what the smallest honest option is.
 
 Done when a slow notification does not delay what the customer sees.`},
 		},

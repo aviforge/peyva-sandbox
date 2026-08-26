@@ -31,7 +31,7 @@ Build it in four stages, each on what the last one left. Stop after each and tel
 
 1. A record, per payment reference, of which stages have completed.
 2. Wire the existing money movement in as stage one, recording its completion.
-3. Add stage two: crediting the recipient at a second ledger peyva does not own, which can refuse for good (a closed account) or simply be unreachable.
+3. Add stage two: crediting the recipient at a second ledger peyva does not own, which can refuse permanently (a closed account) or be temporarily unreachable.
 4. A reversal for stage one (put the money back, as a new pair of Ledger entries rather than by deleting the old ones), triggered when stage two fails in a way that can never succeed.
 
 Distinguish permanent failures from retryable ones. Only permanent failures reverse.

@@ -31,8 +31,6 @@ var Chapter00 = ChapterContent{
 
 An account is a handle, an owner and an amount. Seed two: alice holding 100, bob holding 0. Print the Vault's contents on startup, run until interrupted, then print a shutdown message.
 
-peyva/goal.md holds the goal and the rules money must never break. Read it first.
-
 One file. No persistence, no network.
 
 Done when running it prints alice's balance and it exits cleanly on Ctrl+C.`},
@@ -44,7 +42,7 @@ Both seeded accounts go into the page, so switching between them needs nothing f
 
 No server. I open the file from disk.
 
-This is where the look gets set, so read peyva/portal/design.md before writing any CSS and commit to the one visual idea it asks for. Everything after this chapter builds on what you choose here.
+This is where the look gets set. Commit to the one visual idea the brief asks for. Everything after this chapter builds on it.
 
 Done when the page opens on alice holding 100.00 and the switcher shows me bob holding 0.00.`},
 		},

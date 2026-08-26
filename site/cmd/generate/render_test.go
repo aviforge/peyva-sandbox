@@ -103,6 +103,24 @@ func TestEveryPageRendersCompletely(t *testing.T) {
 	}
 }
 
+// Nothing on a page may name a section the site no longer has.
+//
+// Three sections were removed, and every check written at the time searched for
+// their exact headings. The sidebar tagline said "Build it. Break it. Understand
+// why it works." on all twenty-two pages and no sweep saw it, because it wrote
+// Break it and the searches looked for Break It. This one is case insensitive.
+func TestNoPageNamesARemovedSection(t *testing.T) {
+	removed := []string{"break it", "under the hood", "intuition"}
+	for _, p := range renderedPages(t) {
+		body := strings.ToLower(html.UnescapeString(p.body))
+		for _, name := range removed {
+			if strings.Contains(body, name) {
+				t.Errorf("%s names %q, which is not a section any more", p.name, name)
+			}
+		}
+	}
+}
+
 // The tags are nested by hand in the template, so an edit that opens one and
 // forgets to close it produces a page browsers will silently reflow into
 // something else.

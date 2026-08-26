@@ -158,7 +158,7 @@
     <section class="block">
       <h2>2. Concepts</h2>
       <ul class="concepts">
-        <li><strong>Process ID (PID)</strong>. A number the OS assigns to identify one running program among many.</li><li><strong>Port</strong>. A number (like 9310) a process binds to, so the OS knows where to route calls.</li><li><strong>Binding</strong>. A process claiming a port. Only one process can hold it at a time.</li><li><strong>Loopback (127.0.0.1)</strong>. The address meaning &#39;this same machine&#39;, used to reach a process running locally.</li><li><strong>Gateway</strong>. The component that holds the port and takes requests from outside, the system&#39;s one front door.</li>
+        <li><strong>Process ID (PID)</strong>. A number the OS assigns to identify one running program among many.</li><li><strong>Port</strong>. A number (like 9310) a process binds to, so the OS knows where to route calls.</li><li><strong>Binding</strong>. A process claiming a port on an address. By default the OS hands that pair to one process at a time, which is why the second copy is refused.</li><li><strong>Loopback (127.0.0.1)</strong>. The address meaning &#39;this same machine&#39;, used to reach a process running locally.</li><li><strong>Gateway</strong>. The component that holds the port and takes requests from outside, the system&#39;s one front door.</li>
       </ul>
     </section>
 
@@ -190,7 +190,7 @@ Done when a request to port 9310 makes the Gateway log a connection, and startin
     <section class="block break-it">
       <h2>5. Break It <span class="badge badge-danger">Test it</span></h2>
       <ul class="lead">
-        <li>Ports can only have one owner at a time. See what happens when two processes want the same door.</li>
+        <li>An address and port have one owner at a time. See what happens when two processes want the same door.</li>
       </ul>
       <ul>
         <li>Start peyva once. It binds port 9310 successfully.</li><li>Start a second copy while the first is still running. Watch it fail with &#39;address already in use&#39;.</li><li>Stop the first copy, then start the second again: now it succeeds. The port was free the moment its owner let go.</li>
@@ -198,7 +198,7 @@ Done when a request to port 9310 makes the Gateway log a connection, and startin
     </section>
   </div>
 
-  <p class="quick-tip"><strong>Quick tip:</strong> Only one process can own a given port at a time. That&#39;s what makes it a reliable address.</p>
+  <p class="quick-tip"><strong>Quick tip:</strong> One process holds a given address and port at a time. That is what makes it somewhere you can reliably knock.</p>
 </main>
 </div>
 <script src="app.js"></script>

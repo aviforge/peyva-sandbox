@@ -8,7 +8,7 @@ var Chapter02 = ChapterContent{
 	Category:   "Foundations",
 	Difficulty: "Beginner",
 	EstTime:    "10 min",
-	QuickTip:   "Only one process can own a given port at a time. That's what makes it a reliable address.",
+	QuickTip:   "One process holds a given address and port at a time. That is what makes it somewhere you can reliably knock.",
 
 	HeroImage:   "images/chapter-2.webp",
 	HeroCaption: "A process is the running app. A port is the door callers knock on.",
@@ -22,7 +22,7 @@ var Chapter02 = ChapterContent{
 	Concepts: []ConceptItem{
 		{Term: "Process ID (PID)", Description: "A number the OS assigns to identify one running program among many."},
 		{Term: "Port", Description: "A number (like 9310) a process binds to, so the OS knows where to route calls."},
-		{Term: "Binding", Description: "A process claiming a port. Only one process can hold it at a time."},
+		{Term: "Binding", Description: "A process claiming a port on an address. By default the OS hands that pair to one process at a time, which is why the second copy is refused."},
 		{Term: "Loopback (127.0.0.1)", Description: "The address meaning 'this same machine', used to reach a process running locally."},
 		{Term: "Gateway", Description: "The component that holds the port and takes requests from outside, the system's one front door."},
 	},
@@ -46,7 +46,7 @@ var Chapter02 = ChapterContent{
 	},
 
 	BreakIt: BreakIt{
-		Intro: "Ports can only have one owner at a time. See what happens when two processes want the same door.",
+		Intro: "An address and port have one owner at a time. See what happens when two processes want the same door.",
 		Exercises: []string{
 			"Start peyva once. It binds port 9310 successfully.",
 			"Start a second copy while the first is still running. Watch it fail with 'address already in use'.",

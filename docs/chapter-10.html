@@ -195,7 +195,7 @@ Done when ten payments spread across all three copies with correct final balance
         <li>Prove the instances really are interchangeable.</li>
       </ul>
       <ul>
-        <li>Send ten transfer requests through the load balancer and confirm they land on different instances, but all update the same shared balances correctly.</li><li>Kill one instance while traffic is flowing. The load balancer should route around it, and requests keep succeeding.</li><li>This only works because Chapter 5 already moved state into a shared database. A stateful instance couldn&#39;t be killed this safely.</li>
+        <li>Send ten transfer requests through the load balancer and confirm they land on different instances, but all update the same shared balances correctly.</li><li>Kill one instance while traffic is flowing. The load balancer should route around it, and requests keep succeeding.</li><li>This only works because Chapter 5 already moved state into a shared database. A stateful instance couldn&#39;t be killed this safely.</li><li>Push writes through several instances at once and watch them queue behind each other. Scaling out multiplied the instances, not the single Vault they all write to, so the bottleneck moved rather than disappeared.</li>
       </ul>
     </section>
   </div>

@@ -158,7 +158,7 @@
     <section class="block">
       <h2>2. Concepts</h2>
       <ul class="concepts">
-        <li><strong>Cache</strong>. A fast, small store that holds recently or frequently requested data close at hand.</li><li><strong>Cache Hit</strong>. The data was already in the cache: no database call needed, and the answer comes back instantly.</li><li><strong>Cache Miss</strong>. The data wasn&#39;t cached. peyva fetches it from the database and stores it in the cache for next time.</li><li><strong>Invalidation</strong>. Removing or updating a cached value when the underlying data changes, so the cache never lies.</li>
+        <li><strong>Cache</strong>. A fast, small store that holds recently or frequently requested data close at hand.</li><li><strong>Cache Hit</strong>. The data was already in the cache, so the answer comes back without the database being asked at all.</li><li><strong>Cache Miss</strong>. The data wasn&#39;t cached. peyva fetches it from the database and stores it in the cache for next time.</li><li><strong>Invalidation</strong>. Removing or updating a cached value when the underlying data changes, so the cache never lies.</li>
       </ul>
     </section>
 
@@ -193,7 +193,7 @@ Done when a repeated enquiry is served from cache, a payment makes the next enqu
         <li>A cache that&#39;s wrong is worse than no cache at all. Prove invalidation actually works.</li>
       </ul>
       <ul>
-        <li>Check Alice&#39;s balance twice in a row. The second check should be a cache hit, visibly faster.</li><li>Make a transfer that changes Alice&#39;s balance, then check it again. It must reflect the new balance, not the stale cached one.</li><li>Deliberately skip the invalidation step and repeat the test. Watch the cache confidently return the wrong balance. This is why cache invalidation is famously hard.</li>
+        <li>Read Alice&#39;s balance a few thousand times with the cache on, then again with it off, and compare the totals. A single hit is far too fast to see. The saving only shows up in the aggregate.</li><li>Make a transfer that changes Alice&#39;s balance, then check it again. It must reflect the new balance, not the stale cached one.</li><li>Deliberately skip the invalidation step and repeat the test. Watch the cache confidently return the wrong balance. This is why cache invalidation is famously hard.</li>
       </ul>
     </section>
   </div>

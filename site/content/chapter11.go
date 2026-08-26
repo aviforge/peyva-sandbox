@@ -21,7 +21,7 @@ var Chapter11 = ChapterContent{
 
 	Concepts: []ConceptItem{
 		{Term: "Cache", Description: "A fast, small store that holds recently or frequently requested data close at hand."},
-		{Term: "Cache Hit", Description: "The data was already in the cache: no database call needed, and the answer comes back instantly."},
+		{Term: "Cache Hit", Description: "The data was already in the cache, so the answer comes back without the database being asked at all."},
 		{Term: "Cache Miss", Description: "The data wasn't cached. peyva fetches it from the database and stores it in the cache for next time."},
 		{Term: "Invalidation", Description: "Removing or updating a cached value when the underlying data changes, so the cache never lies."},
 	},
@@ -46,7 +46,7 @@ var Chapter11 = ChapterContent{
 	BreakIt: BreakIt{
 		Intro: "A cache that's wrong is worse than no cache at all. Prove invalidation actually works.",
 		Exercises: []string{
-			"Check Alice's balance twice in a row. The second check should be a cache hit, visibly faster.",
+			"Read Alice's balance a few thousand times with the cache on, then again with it off, and compare the totals. A single hit is far too fast to see. The saving only shows up in the aggregate.",
 			"Make a transfer that changes Alice's balance, then check it again. It must reflect the new balance, not the stale cached one.",
 			"Deliberately skip the invalidation step and repeat the test. Watch the cache confidently return the wrong balance. This is why cache invalidation is famously hard.",
 		},

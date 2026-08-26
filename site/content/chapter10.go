@@ -50,6 +50,7 @@ var Chapter10 = ChapterContent{
 			"Send ten transfer requests through the load balancer and confirm they land on different instances, but all update the same shared balances correctly.",
 			"Kill one instance while traffic is flowing. The load balancer should route around it, and requests keep succeeding.",
 			"This only works because Chapter 5 already moved state into a shared database. A stateful instance couldn't be killed this safely.",
+			"Push writes through several instances at once and watch them queue behind each other. Scaling out multiplied the instances, not the single Vault they all write to, so the bottleneck moved rather than disappeared.",
 		},
 	},
 }

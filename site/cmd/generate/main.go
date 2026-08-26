@@ -88,23 +88,26 @@ func run(templatesDir, assetsDir, outDir, indexPath string) error {
 	}
 	pageData := func(chapter content.ChapterContent, prefix string) PageData {
 		return PageData{
-			Chapter:       chapter,
-			HeroAvailable: fileExists(filepath.Join(outDir, filepath.FromSlash(chapter.HeroImage))),
-			Roadmap:       roadmap,
-			Labs:          content.Labs,
-			AssetPrefix:   prefix,
-			StyleVersion:  styleVersion,
-			ScriptVersion: scriptVersion,
-			LanguageLine:  languageLine(defaultLanguage),
-			UILine:        uiLine(defaultLanguage),
-			ThinkingLine:  thinkingLine(),
-			ChapterTokens: chapter.BuildIt.PromptTokens(),
-			Setup:         setupFor(chapter.Number),
-			Languages:     content.Languages,
-			Prompts:       promptViews(chapter.BuildIt, defaultSystem),
-			Systems:       content.Systems,
-			SystemName:    defaultSystem.Prompt,
-			SystemMatters: namesASystem(chapter) || chapter.Number == content.RunnerChapter,
+			Chapter:           chapter,
+			HeroAvailable:     fileExists(filepath.Join(outDir, filepath.FromSlash(chapter.HeroImage))),
+			Roadmap:           roadmap,
+			Labs:              content.Labs,
+			AssetPrefix:       prefix,
+			StyleVersion:      styleVersion,
+			ScriptVersion:     scriptVersion,
+			LanguageLine:      languageLine(defaultLanguage),
+			UILine:            uiLine(defaultLanguage),
+			ThinkingLine:      thinkingLine(),
+			ChapterTokens:     totalTokens(promptViews(chapter.BuildIt, defaultLanguage, defaultSystem)),
+			Setup:             setupFor(chapter.Number),
+			Languages:         content.Languages,
+			Prompts:           promptViews(chapter.BuildIt, defaultLanguage, defaultSystem),
+			HasBuildPrompt:    hasBuildPrompt(chapter),
+			HasPortalPrompt:   len(chapter.BuildIt.PortalPrompts()) > 0,
+			HasThinkingPrompt: hasThinkingPrompt(chapter),
+			Systems:           content.Systems,
+			SystemName:        defaultSystem.Prompt,
+			SystemMatters:     namesASystem(chapter) || chapter.Number == content.RunnerChapter,
 
 			RunnerScripts: runnerScriptsFor(chapter.Number),
 
@@ -215,26 +218,29 @@ const languagePickerChapter = 0
 // thousands of tokens per chapter, and by the later chapters does not fit in a
 // smaller context window at all.
 func languageLine(l content.Language) template.HTML {
-	// The language name is wrapped so the script can swap that word and nothing
-	// else. Rebuilding the sentence in JavaScript as well would mean two copies
-	// of these rules, and they drift: the first version of this already had the
-	// script writing an older wording that silently dropped two of them.
-	name := `<span data-language-name>` + template.HTMLEscapeString(l.Name) + `</span>`
+	return template.HTML(strings.Replace(
+		template.HTMLEscapeString(languageRules(l)),
+		template.HTMLEscapeString(l.Name),
+		`<span data-language-name>`+template.HTMLEscapeString(l.Name)+`</span>`, 1))
+}
 
-	line := "Build this in " + name + ", standard library only."
+// languageRules is the same text as languageLine without the markup, so the
+// token count can be taken of what actually reaches the clipboard.
+func languageRules(l content.Language) string {
+	line := "Build this in " + l.Name + ", standard library only."
 	// Every word here is paid twenty-one times, once per prompt, so the rules
 	// are stated as tightly as they can be without losing what they mean. The
 	// minor-units clause stays because three of the seven languages have no
 	// decimal type in their standard library, and without it the assistant
 	// reaches for a dependency the first line just ruled out.
-	line += "\nCode in peyva/&lt;component&gt;/, one folder per component."
+	line += "\nCode in peyva/<component>/, one folder per component."
 	line += "\nMoney: exact decimal or integer minor units, never floating point, two decimal places."
 	// The constraints stay inline because they are cheap and always present.
 	// The goal and the invariants do not fit in a preamble, and an assistant
 	// that has to infer them reads the whole codebase instead, which costs far
 	// more than the one small file this points at.
 	line += "\nThe goal and invariants are in peyva/goal.md."
-	return template.HTML(line)
+	return line
 }
 
 // uiLine is the preamble for the portal prompt. It repeats the language and the
@@ -245,9 +251,16 @@ func languageLine(l content.Language) template.HTML {
 // that allows seven backend languages: a page built from plain HTML and CSS
 // needs no toolchain, so it is the same page whichever language serves it.
 func uiLine(l content.Language) template.HTML {
-	name := `<span data-language-name>` + template.HTMLEscapeString(l.Name) + `</span>`
+	return template.HTML(strings.Replace(
+		template.HTMLEscapeString(uiRules(l)),
+		template.HTMLEscapeString(l.Name),
+		`<span data-language-name>`+template.HTMLEscapeString(l.Name)+`</span>`, 1))
+}
+
+// uiRules is uiLine without the markup.
+func uiRules(l content.Language) string {
 	line := "The Portal is plain HTML and CSS. No framework, no build step, no dependencies."
-	line += "\nIt lives in peyva/portal/. Anything it needs from the server is " + name + ", standard library only."
+	line += "\nIt lives in peyva/portal/. Anything it needs from the server is " + l.Name + ", standard library only."
 	// Without the first half the assistant builds an operator's console: a table
 	// of every account, with everyone's balance on it. That is a different
 	// product, and by chapter 18 a privacy bug the sign-in cannot undo.
@@ -259,7 +272,7 @@ func uiLine(l content.Language) template.HTML {
 	line += "\nOne customer's wallet at a time, never everyone's at once. A switcher at the top says whose."
 	line += "\nNew work joins the menu."
 	line += "\nThe goal and invariants are in peyva/goal.md."
-	return template.HTML(line)
+	return line
 }
 
 // osPlaceholder is what a prompt writes where the reader's operating system
@@ -291,19 +304,59 @@ func namesASystem(c content.ChapterContent) bool {
 	return false
 }
 
+// totalTokens sums what a chapter's turns cost to send.
+func totalTokens(views []promptView) int {
+	total := 0
+	for _, v := range views {
+		total += v.Tokens
+	}
+	return total
+}
+
+// hasBuildPrompt reports whether any turn asks for a component. Chapter 9 has
+// none: it estimates capacity and writes no code, so the rules about where code
+// goes have nothing to apply to.
+func hasBuildPrompt(c content.ChapterContent) bool {
+	for _, p := range c.BuildIt.Prompts {
+		if !p.Thinking && !p.Portal {
+			return true
+		}
+	}
+	return false
+}
+
+// hasThinkingPrompt reports whether any turn produces an answer rather than a
+// change, which is the one set of rules a page may need beyond the other two.
+func hasThinkingPrompt(c content.ChapterContent) bool {
+	for _, p := range c.BuildIt.Prompts {
+		if p.Thinking {
+			return true
+		}
+	}
+	return false
+}
+
 // promptViews turns a chapter's prompts into what the page renders: the text
 // with {os} expanded, and the preamble that belongs to it. A component turn
 // carries the language and layout rules; a portal turn carries the page's.
-func promptViews(b content.BuildIt, sys content.System) []promptView {
+func promptViews(b content.BuildIt, lang content.Language, sys content.System) []promptView {
 	out := make([]promptView, 0, len(b.Prompts))
 	for i, p := range b.Prompts {
+		rules := languageRules(lang)
+		switch {
+		case p.Thinking:
+			rules = thinkingRules
+		case p.Portal:
+			rules = uiRules(lang)
+		}
 		out = append(out, promptView{
 			Label:    p.Label,
 			Intro:    p.Intro,
 			Text:     promptHTML(p.Text, sys),
 			Portal:   p.Portal,
 			Thinking: p.Thinking,
-			Tokens:   content.EstimateTokens(p.Text),
+			// What the copy button sends: the rules and the prompt together.
+			Tokens: content.EstimateTokens(rules + "\n\n" + p.Text),
 			// A chapter with one turn does not number it: "1 of 1" is noise.
 			Step:  i + 1,
 			Steps: len(b.Prompts),
@@ -335,9 +388,9 @@ func runnerScriptsFor(chapterNumber int) []content.RunnerScript {
 // thinkingLine is the preamble for a turn that writes no code. It keeps the
 // pointer to the spec, because an answer about this system still has to respect
 // what the system may never do, and drops everything else.
-func thinkingLine() template.HTML {
-	return template.HTML("The goal and invariants are in peyva/goal.md.")
-}
+func thinkingLine() template.HTML { return template.HTML(thinkingRules) }
+
+const thinkingRules = "The goal and invariants are in peyva/goal.md."
 
 // setupFor returns the files to save only for the chapter that starts the
 // project. Every chapter after it points at peyva/goal.md, which the reader

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Data Copies: Replication | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=24de05bdc7">
+<link rel="stylesheet" href="styles.css?v=bc8495ced8">
 </head>
 <body data-chapter-slug="chapter-15">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -179,19 +179,26 @@
       <ul class="lead">
         <li>The Vault learns to keep a spare copy in another place.</li>
       </ul>
-      <p class="technique"><span class="technique-name">Analogical Prompting</span>. Have the assistant generate its own analogy and reason through it before building. You learn more comparing its analogy to yours than from imposing yours: where the two differ is where one of you is wrong about the design.</p>
-      <p class="technique-source">Documented in The Prompt Report: Thought Generation, Analogical Prompting &middot; asking price for this chapter, about 408 tokens</p>
+      <p class="technique"><span class="technique-name">Analogical Prompting</span>. Compare its analogy against yours. Where the two differ, one of you is wrong about the design.</p>
+      <p class="technique-source">Documented in The Prompt Report: Thought Generation, Analogical Prompting &middot; asking price for this chapter, about 488 tokens</p>
+      <details class="standing-rules">
+        <summary>Every prompt below is copied with these rules</summary>
+        <pre class="prompt-lang" id="rules-build">Build this in <span data-language-name>Go</span>, standard library only.
+Code in peyva/&lt;component&gt;/, one folder per component.
+Money: exact decimal or integer minor units, never floating point, two decimal places.
+The goal and invariants are in peyva/goal.md.</pre>
+        
+        <pre class="prompt-lang" id="rules-thinking">The goal and invariants are in peyva/goal.md.</pre>
+      </details>
       
-      <p class="prompt-divider"><span class="prompt-step">1 of 3</span> Analogy<span class="prompt-tokens" title="Roughly what this prompt costs to send. What the assistant then reads and writes is far larger and only your own tool can measure it.">~137 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">1 of 3</span> Analogy<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~148 tokens</span></p>
       <ul class="lead"><li>An analogy for a second copy, before any design.</li></ul>
-      <div class="prompt-wrap">
+      <div class="prompt-wrap" data-prompt-rules="rules-thinking">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
-        <pre class="prompt"><span class="prompt-lang" data-prompt-lang>The goal and invariants are in peyva/goal.md.</span>
-
-A system keeps its records in one file on one disk. If that disk dies, every record dies with it. I want a second copy somewhere else.
+        <pre class="prompt">A system keeps its records in one file on one disk. If that disk dies, every record dies with it. I want a second copy somewhere else.
 
 Before designing anything, give me a real-world analogy for keeping a second copy of records elsewhere, something with no computers in it. Say who writes first, who copies, how far behind the copy runs, and what happens when the original is destroyed.
 
@@ -200,19 +207,14 @@ Then name the one part of your analogy that actually matters for this design.
 Done when I have your analogy and the single part of it you say carries over.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">2 of 3</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send. What the assistant then reads and writes is far larger and only your own tool can measure it.">~181 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">2 of 3</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~238 tokens</span></p>
       <ul class="lead"><li>Build what the analogy described.</li></ul>
-      <div class="prompt-wrap">
+      <div class="prompt-wrap" data-prompt-rules="rules-build">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
-        <pre class="prompt"><span class="prompt-lang" data-prompt-lang>Build this in <span data-language-name>Go</span>, standard library only.
-Code in peyva/&lt;component&gt;/, one folder per component.
-Money: exact decimal or integer minor units, never floating point, two decimal places.
-The goal and invariants are in peyva/goal.md.</span>
-
-The Vault keeps every account in one file on one disk, and a payment is committed there and nowhere else.
+        <pre class="prompt">The Vault keeps every account in one file on one disk, and a payment is committed there and nowhere else.
 
 Give the Vault a second copy, written to after each committed payment, and a way to promote it when the primary is unreachable. Keep the copying asynchronous. The caller must never wait for it.
 
@@ -221,16 +223,14 @@ The runner brings the second copy up with everything else, and can cut it off or
 Done when a payment appears in both copies, balance enquiries survive the primary being unavailable, and you can show me the window where a committed payment hasn&#39;t reached the second copy yet.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">3 of 3</span> Critique<span class="prompt-tokens" title="Roughly what this prompt costs to send. What the assistant then reads and writes is far larger and only your own tool can measure it.">~90 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">3 of 3</span> Critique<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~102 tokens</span></p>
       <ul class="lead"><li>Where the analogy breaks down.</li></ul>
-      <div class="prompt-wrap">
+      <div class="prompt-wrap" data-prompt-rules="rules-thinking">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
-        <pre class="prompt"><span class="prompt-lang" data-prompt-lang>The goal and invariants are in peyva/goal.md.</span>
-
-You gave me a real-world analogy for keeping a second copy of records, then built asynchronous replication for the Vault from it.
+        <pre class="prompt">You gave me a real-world analogy for keeping a second copy of records, then built asynchronous replication for the Vault from it.
 
 Tell me where that analogy breaks down for real databases, and whether it led you into any mistake in the code you wrote.
 
@@ -254,6 +254,6 @@ Done when I know which parts of your analogy to stop trusting, and whether any o
   <p class="quick-tip"><strong>Quick tip:</strong> Async replication means the replica can be briefly behind. Everything you have to decide about a partition lives in that gap.</p>
 </main>
 </div>
-<script src="app.js?v=ef7f975540"></script>
+<script src="app.js?v=aa8908cb82"></script>
 </body>
 </html>

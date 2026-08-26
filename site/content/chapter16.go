@@ -23,7 +23,7 @@ var Chapter16 = ChapterContent{
 		{Term: "Consistency (C)", Description: "All users see the same data at the same time."},
 		{Term: "Availability (A)", Description: "Every request gets a response, no errors or timeouts."},
 		{Term: "Partition Tolerance (P)", Description: "The system keeps working even if parts of it can't talk to each other."},
-		{Term: "CAP Theorem", Description: "The choice only binds while the network is broken. On a healthy day peyva has all three, which is why the decision is easy to forget until it matters."},
+		{Term: "CAP Theorem", Description: "The choice only binds while the network is broken. On a healthy day peyva has all three."},
 	},
 
 	UnderTheHood: []string{
@@ -36,7 +36,7 @@ var Chapter16 = ChapterContent{
 	BuildIt: BuildIt{
 		Intro:     "The Teller learns what to do when the Vault's two copies can't reach each other.",
 		Technique: "Tree-of-Thought",
-		Why:       "Branch, evaluate each branch, prune, then commit. Ask for an implementation and you get one design with its reasoning hidden; ask for several scored against stated criteria and the choice comes into the open where you can disagree with it.",
+		Why:       "Several strategies scored against stated criteria puts the choice in the open, where you can disagree with it.",
 		Source:    "The Prompt Report: Decomposition, Tree-of-Thought",
 		Prompts: []Prompt{
 			{Label: "Decide", Thinking: true, Intro: "Three strategies, pruned to one.", Text: `A payments system keeps balances in a primary copy that replicates asynchronously to a second copy. I need to decide what it does when the two can't reach each other.

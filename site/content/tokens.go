@@ -21,12 +21,3 @@ func EstimateTokens(text string) int {
 	}
 	return (len(trimmed) + 3) / 4
 }
-
-// PromptTokens totals a chapter's turns.
-func (b BuildIt) PromptTokens() int {
-	total := 0
-	for _, p := range b.Prompts {
-		total += EstimateTokens(p.Text)
-	}
-	return total
-}

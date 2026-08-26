@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Making It Safe (Transactions) | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=24de05bdc7">
+<link rel="stylesheet" href="styles.css?v=bc8495ced8">
 </head>
 <body data-chapter-slug="chapter-7">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -179,22 +179,30 @@
       <ul class="lead">
         <li>Build the Ledger: the proof behind every balance the Vault reports.</li>
       </ul>
-      <p class="technique"><span class="technique-name">Chain-of-thought prompting</span>. Ask for the reasoning before the answer and the reasoning becomes inspectable. When the failure modes are the hard part, code-first gets you a plausible design with a hole in it; thinking first surfaces the hole while it&#39;s still cheap.</p>
-      <p class="technique-source">Documented in The Prompt Report: Thought Generation, Chain-of-Thought &middot; asking price for this chapter, about 436 tokens</p>
+      <p class="technique"><span class="technique-name">Chain-of-thought prompting</span>. The failure modes are the hard part here, and thinking first surfaces the hole while it is still cheap.</p>
+      <p class="technique-source">Documented in The Prompt Report: Thought Generation, Chain-of-Thought &middot; asking price for this chapter, about 588 tokens</p>
+      <details class="standing-rules">
+        <summary>Every prompt below is copied with these rules</summary>
+        <pre class="prompt-lang" id="rules-build">Build this in <span data-language-name>Go</span>, standard library only.
+Code in peyva/&lt;component&gt;/, one folder per component.
+Money: exact decimal or integer minor units, never floating point, two decimal places.
+The goal and invariants are in peyva/goal.md.</pre>
+        <pre class="prompt-lang" id="rules-portal">The Portal is plain HTML and CSS. No framework, no build step, no dependencies.
+It lives in peyva/portal/. Anything it needs from the server is <span data-language-name>Go</span>, standard library only.
+One customer&#39;s wallet at a time, never everyone&#39;s at once. A switcher at the top says whose.
+New work joins the menu.
+The goal and invariants are in peyva/goal.md.</pre>
+        <pre class="prompt-lang" id="rules-thinking">The goal and invariants are in peyva/goal.md.</pre>
+      </details>
       
-      <p class="prompt-divider"><span class="prompt-step">1 of 3</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send. What the assistant then reads and writes is far larger and only your own tool can measure it.">~237 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">1 of 3</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~294 tokens</span></p>
       
-      <div class="prompt-wrap">
+      <div class="prompt-wrap" data-prompt-rules="rules-build">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
-        <pre class="prompt"><span class="prompt-lang" data-prompt-lang>Build this in <span data-language-name>Go</span>, standard library only.
-Code in peyva/&lt;component&gt;/, one folder per component.
-Money: exact decimal or integer minor units, never floating point, two decimal places.
-The goal and invariants are in peyva/goal.md.</span>
-
-The Teller moves money by updating two balances in the Vault. Nothing records that the movement happened, so if a balance looks wrong there&#39;s no way to prove how it got that way.
+        <pre class="prompt">The Teller moves money by updating two balances in the Vault. Nothing records that the movement happened, so if a balance looks wrong there&#39;s no way to prove how it got that way.
 
 Build the Ledger: an append-only, double-entry record. Every payment writes two balanced entries (a debit and a credit sharing one reference and timestamp), and the Vault&#39;s balances update in the same atomic unit. All of it commits, or none of it happened.
 
@@ -205,36 +213,28 @@ Then make those states unreachable, and tell me which of your three scenarios is
 Done when a completed payment leaves two balanced Ledger entries and updated balances, a forced mid-payment failure leaves neither, and summing alice&#39;s Ledger entries equals her Vault balance.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">2 of 3</span> Decide<span class="prompt-tokens" title="Roughly what this prompt costs to send. What the assistant then reads and writes is far larger and only your own tool can measure it.">~102 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">2 of 3</span> Decide<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~113 tokens</span></p>
       <ul class="lead"><li>Decide what a failed payment looks like on the page.</li></ul>
-      <div class="prompt-wrap">
+      <div class="prompt-wrap" data-prompt-rules="rules-thinking">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
-        <pre class="prompt"><span class="prompt-lang" data-prompt-lang>The goal and invariants are in peyva/goal.md.</span>
-
-A customer&#39;s wallet page shows a balance and can send money. I want to add a history: every movement in and out of their own account.
+        <pre class="prompt">A customer&#39;s wallet page shows a balance and can send money. I want to add a history: every movement in and out of their own account.
 
 Before building it, walk me through what that view should show for a payment that failed halfway. Should it appear at all? If it should, how does a customer tell it apart from one that worked?
 
 Done when I know what a half-failed payment looks like on the page, and why.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">3 of 3</span> Portal<span class="prompt-tokens" title="Roughly what this prompt costs to send. What the assistant then reads and writes is far larger and only your own tool can measure it.">~97 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">3 of 3</span> Portal<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~181 tokens</span></p>
       <ul class="lead"><li>The history view.</li></ul>
-      <div class="prompt-wrap">
+      <div class="prompt-wrap" data-prompt-rules="rules-portal">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
-        <pre class="prompt"><span class="prompt-lang" data-prompt-lang>The Portal is plain HTML and CSS. No framework, no build step, no dependencies.
-It lives in peyva/portal/. Anything it needs from the server is <span data-language-name>Go</span>, standard library only.
-One customer's wallet at a time, never everyone's at once. A switcher at the top says whose.
-New work joins the menu.
-The goal and invariants are in peyva/goal.md.</span>
-
-The Portal shows a balance and can send money, and says nothing about how the balance came to be what it is.
+        <pre class="prompt">The Portal shows a balance and can send money, and says nothing about how the balance came to be what it is.
 
 Add History to the menu: every movement in and out of the customer&#39;s own account, newest first, each with its reference, amount and the other party. Show a failed payment the way you just described.
 
@@ -258,6 +258,6 @@ Done when History explains alice&#39;s balance without me reading the database.<
   <p class="quick-tip"><strong>Quick tip:</strong> Nothing is final until COMMIT. That&#39;s what makes ROLLBACK possible.</p>
 </main>
 </div>
-<script src="app.js?v=ef7f975540"></script>
+<script src="app.js?v=aa8908cb82"></script>
 </body>
 </html>

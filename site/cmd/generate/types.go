@@ -46,6 +46,13 @@ type PageData struct {
 	// Prompts are the chapter's turns, in order, with {os} expanded.
 	Prompts []promptView
 
+	// HasPortalPrompt and HasThinkingPrompt say which sets of standing rules
+	// this page needs to show. A chapter with no portal work has no use for the
+	// portal's rules sitting above its prompts.
+	HasBuildPrompt    bool
+	HasPortalPrompt   bool
+	HasThinkingPrompt bool
+
 	// Systems and SystemName mirror Languages: the choice is offered once, in
 	// setup, and every prompt that needs it reads it.
 	Systems    []content.System

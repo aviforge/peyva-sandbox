@@ -257,7 +257,7 @@ func TestConfigChapterStatesBothHalvesOfTheRule(t *testing.T) {
 	text := everything(chapter)
 	for _, half := range []struct{ name, phrase string }{
 		{"what to externalise", "differs between one run"},
-		{"what to keep in code", "only one correct value"},
+		{"what to keep in code", "one correct value"},
 		{"the money rules stay in code", "two decimal places"},
 		{"how to decide", "3am"},
 	} {
@@ -273,6 +273,66 @@ func TestConfigChapterStatesBothHalvesOfTheRule(t *testing.T) {
 	if !strings.Contains(GoalSpec, "Two decimal places") {
 		t.Error("the spec no longer fixes money at two decimal places")
 	}
+}
+
+// The Why paragraph says why a technique suits this chapter. It is not the
+// place to define the technique, which is named directly above it and cited in
+// the Source line below it.
+//
+// It had grown to thirty-nine words on average, twelve of the twenty-one built
+// on the same antithesis: ask for X and you get Y, ask for Z and you get W. Any
+// one reads well. Twenty-one of them down a book is a rhythm a reader starts
+// hearing instead of reading.
+func TestWhyStaysShort(t *testing.T) {
+	const maxWords = 28
+	for _, c := range All {
+		if n := len(strings.Fields(c.BuildIt.Why)); n > maxWords {
+			t.Errorf("chapter %d: Why is %d words, over %d. Say why it suits this chapter and stop",
+				c.Number, n, maxWords)
+		}
+	}
+}
+
+// No sentence should appear twice in a chapter's prose. A QuickTip restating
+// the Break It intro, or an exercise restating a concept, is the reader being
+// told the same thing twice on one page.
+//
+// Prompts are excluded: one is copied out of the page on its own, so it has to
+// restate what it needs even when a paragraph above already said it.
+func TestNoChapterRepeatsASentence(t *testing.T) {
+	for _, c := range All {
+		seen := map[string]bool{}
+		for _, sentence := range strings.Split(prose(c), "\n") {
+			for _, part := range strings.Split(sentence, ". ") {
+				part = strings.ToLower(strings.TrimSpace(strings.TrimSuffix(part, ".")))
+				if len(strings.Fields(part)) < 6 {
+					continue
+				}
+				if seen[part] {
+					t.Errorf("chapter %d says twice: %q", c.Number, part)
+				}
+				seen[part] = true
+			}
+		}
+	}
+}
+
+// prose is everything on the page except the prompt bodies.
+func prose(c ChapterContent) string {
+	parts := []string{
+		c.Title, c.Subtitle, c.QuickTip, c.HeroCaption,
+		c.BuildIt.Intro, c.BuildIt.Why, c.BreakIt.Intro,
+	}
+	parts = append(parts, c.Intuition...)
+	parts = append(parts, c.UnderTheHood...)
+	parts = append(parts, c.BreakIt.Exercises...)
+	for _, x := range c.Concepts {
+		parts = append(parts, x.Term, x.Description)
+	}
+	for _, p := range c.BuildIt.Prompts {
+		parts = append(parts, p.Intro)
+	}
+	return strings.Join(parts, "\n")
 }
 
 // everything is every reader-facing string on a chapter, so a check cannot pass

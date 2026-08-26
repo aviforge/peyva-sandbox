@@ -35,7 +35,7 @@ var Chapter07 = ChapterContent{
 	BuildIt: BuildIt{
 		Intro:     "Build the Ledger: the proof behind every balance the Vault reports.",
 		Technique: "Chain-of-thought prompting",
-		Why:       "Ask for the reasoning before the answer and the reasoning becomes inspectable. When the failure modes are the hard part, code-first gets you a plausible design with a hole in it; thinking first surfaces the hole while it's still cheap.",
+		Why:       "The failure modes are the hard part here, and thinking first surfaces the hole while it is still cheap.",
 		Source:    "The Prompt Report: Thought Generation, Chain-of-Thought",
 		Prompts: []Prompt{
 			{Label: "Build", Text: `The Teller moves money by updating two balances in the Vault. Nothing records that the movement happened, so if a balance looks wrong there's no way to prove how it got that way.

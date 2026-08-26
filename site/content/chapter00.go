@@ -24,7 +24,7 @@ var Chapter00 = ChapterContent{
 		{Term: "Account", Description: "A handle, an owner and an amount. The handle is how everyone else refers to it."},
 		{Term: "Balance", Description: "How much an account holds. Must never go negative, be lost, or be double-spent."},
 		{Term: "Vault", Description: "The component holding every account and what's in it. Nothing else is allowed to change a balance."},
-		{Term: "Transfer", Description: "A request to move money between accounts, the core action of this book."},
+		{Term: "Transfer", Description: "A request to move money between accounts."},
 		{Term: "History", Description: "The record of every transfer. If the balance is the answer, history is the proof."},
 	},
 
@@ -36,7 +36,7 @@ var Chapter00 = ChapterContent{
 	BuildIt: BuildIt{
 		Intro:     "Build the Vault: the first component, in its smallest useful form.",
 		Technique: "Zero-shot prompting",
-		Why:       "No examples, no reasoning scaffold, no role: just the instruction. The task has one obvious shape, so scaffolding would cost tokens and buy nothing. Every technique after this is a departure from this baseline, which is why it comes first.",
+		Why:       "The task has one obvious shape. Scaffolding it would cost tokens and buy nothing.",
 		Source:    "The Prompt Report: Zero-Shot",
 		Prompts: []Prompt{
 			{Label: "Build", Text: `Build the Vault. The component that holds accounts and what's in them. Nothing else is allowed to change a balance.

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Storing Money (Databases) | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=24de05bdc7">
+<link rel="stylesheet" href="styles.css?v=bc8495ced8">
 </head>
 <body data-chapter-slug="chapter-5">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -179,22 +179,30 @@
       <ul class="lead">
         <li>The Vault learns to remember. Balances that survive a restart.</li>
       </ul>
-      <p class="technique"><span class="technique-name">Explicit success criteria</span>. For a migration the useful thing to specify isn&#39;t the steps, it&#39;s the finish line: what must be true when it&#39;s done. State the target precisely and the assistant works out the delta, including the parts you&#39;d have forgotten to list.</p>
-      <p class="technique-source">Documented in Anthropic: Prompting best practices, Provide clear success criteria &middot; asking price for this chapter, about 211 tokens</p>
+      <p class="technique"><span class="technique-name">Explicit success criteria</span>. Specify the finish line rather than the steps, and the assistant works out the delta, including what you would have forgotten.</p>
+      <p class="technique-source">Documented in Anthropic: Prompting best practices, Provide clear success criteria &middot; asking price for this chapter, about 352 tokens</p>
+      <details class="standing-rules">
+        <summary>Every prompt below is copied with these rules</summary>
+        <pre class="prompt-lang" id="rules-build">Build this in <span data-language-name>Go</span>, standard library only.
+Code in peyva/&lt;component&gt;/, one folder per component.
+Money: exact decimal or integer minor units, never floating point, two decimal places.
+The goal and invariants are in peyva/goal.md.</pre>
+        <pre class="prompt-lang" id="rules-portal">The Portal is plain HTML and CSS. No framework, no build step, no dependencies.
+It lives in peyva/portal/. Anything it needs from the server is <span data-language-name>Go</span>, standard library only.
+One customer&#39;s wallet at a time, never everyone&#39;s at once. A switcher at the top says whose.
+New work joins the menu.
+The goal and invariants are in peyva/goal.md.</pre>
+        
+      </details>
       
-      <p class="prompt-divider"><span class="prompt-step">1 of 2</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send. What the assistant then reads and writes is far larger and only your own tool can measure it.">~153 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">1 of 2</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~210 tokens</span></p>
       
-      <div class="prompt-wrap">
+      <div class="prompt-wrap" data-prompt-rules="rules-build">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
-        <pre class="prompt"><span class="prompt-lang" data-prompt-lang>Build this in <span data-language-name>Go</span>, standard library only.
-Code in peyva/&lt;component&gt;/, one folder per component.
-Money: exact decimal or integer minor units, never floating point, two decimal places.
-The goal and invariants are in peyva/goal.md.</span>
-
-Now: the Vault holds balances in memory. They vanish when the process stops, so every restart resets alice to her seeded amount.
+        <pre class="prompt">Now: the Vault holds balances in memory. They vanish when the process stops, so every restart resets alice to her seeded amount.
 
 Target: the Vault keeps accounts in a file on disk. It creates its storage on first run and seeds alice only if she isn&#39;t already there. Every read and every write of a balance goes to that file. No balance is cached in memory anywhere.
 
@@ -203,20 +211,14 @@ Use SQLite with a driver that needs no cgo. Don&#39;t change what the Gateway or
 Done when restarting the process still reports alice&#39;s balance, and deleting the Vault&#39;s file is the only thing that loses it.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">2 of 2</span> Portal<span class="prompt-tokens" title="Roughly what this prompt costs to send. What the assistant then reads and writes is far larger and only your own tool can measure it.">~58 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">2 of 2</span> Portal<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~142 tokens</span></p>
       <ul class="lead"><li>The Portal stops forgetting.</li></ul>
-      <div class="prompt-wrap">
+      <div class="prompt-wrap" data-prompt-rules="rules-portal">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
-        <pre class="prompt"><span class="prompt-lang" data-prompt-lang>The Portal is plain HTML and CSS. No framework, no build step, no dependencies.
-It lives in peyva/portal/. Anything it needs from the server is <span data-language-name>Go</span>, standard library only.
-One customer's wallet at a time, never everyone's at once. A switcher at the top says whose.
-New work joins the menu.
-The goal and invariants are in peyva/goal.md.</span>
-
-The Portal reads balances from the Vault&#39;s file rather than from whatever was in memory when the page was written.
+        <pre class="prompt">The Portal reads balances from the Vault&#39;s file rather than from whatever was in memory when the page was written.
 
 Done when I make a payment, stop the process, start it again, reload the page, and the new balance is still there.</pre>
       </div>
@@ -238,6 +240,6 @@ Done when I make a payment, stop the process, start it again, reload the page, a
   <p class="quick-tip"><strong>Quick tip:</strong> A file on disk beats a variable in memory. SQLite needs no server process to give you that.</p>
 </main>
 </div>
-<script src="app.js?v=ef7f975540"></script>
+<script src="app.js?v=aa8908cb82"></script>
 </body>
 </html>

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>How Big Is PEYVA? (Capacity Estimation) | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=24de05bdc7">
+<link rel="stylesheet" href="styles.css?v=bc8495ced8">
 </head>
 <body data-chapter-slug="chapter-9">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -179,35 +179,37 @@
       <ul class="lead">
         <li>No component this chapter. Size what you have before you grow it.</li>
       </ul>
-      <p class="technique"><span class="technique-name">Self-Ask</span>. Self-Ask makes the assistant pose the follow-up questions its answer depends on, answer each one on the record, and only then give the final number. On an estimate that converts hidden guesses into a list of assumptions you can argue with.</p>
-      <p class="technique-source">Documented in The Prompt Report: Zero-Shot, Self-Ask &middot; asking price for this chapter, about 307 tokens</p>
+      <p class="technique"><span class="technique-name">Self-Ask</span>. Hidden guesses become a written list of assumptions you can argue with.</p>
+      <p class="technique-source">Documented in The Prompt Report: Zero-Shot, Self-Ask &middot; asking price for this chapter, about 331 tokens</p>
+      <details class="standing-rules">
+        <summary>Every prompt below is copied with these rules</summary>
+        
+        
+        <pre class="prompt-lang" id="rules-thinking">The goal and invariants are in peyva/goal.md.</pre>
+      </details>
       
-      <p class="prompt-divider"><span class="prompt-step">1 of 2</span> Assumptions<span class="prompt-tokens" title="Roughly what this prompt costs to send. What the assistant then reads and writes is far larger and only your own tool can measure it.">~135 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">1 of 2</span> Assumptions<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~147 tokens</span></p>
       <ul class="lead"><li>The questions the estimate depends on, and an answer to each.</li></ul>
-      <div class="prompt-wrap">
+      <div class="prompt-wrap" data-prompt-rules="rules-thinking">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
-        <pre class="prompt"><span class="prompt-lang" data-prompt-lang>The goal and invariants are in peyva/goal.md.</span>
-
-I need to size the infrastructure for a payments system that moves money between accounts. One process today, and I have no idea what it needs to survive.
+        <pre class="prompt">I need to size the infrastructure for a payments system that moves money between accounts. One process today, and I have no idea what it needs to survive.
 
 Don&#39;t give me a number yet. Work out which follow-up questions the estimate genuinely depends on, and write them out. Answer each one yourself with an explicit assumption, and label where that assumption came from: industry norm, your own guess, or arithmetic from an earlier answer.
 
 Done when I have your questions and an answer to each, every one labelled with where it came from.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">2 of 2</span> Estimate<span class="prompt-tokens" title="Roughly what this prompt costs to send. What the assistant then reads and writes is far larger and only your own tool can measure it.">~172 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">2 of 2</span> Estimate<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~184 tokens</span></p>
       <ul class="lead"><li>The arithmetic, with the numbers shown.</li></ul>
-      <div class="prompt-wrap">
+      <div class="prompt-wrap" data-prompt-rules="rules-thinking">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
-        <pre class="prompt"><span class="prompt-lang" data-prompt-lang>The goal and invariants are in peyva/goal.md.</span>
-
-You worked out the questions a capacity estimate for this payments system depends on, and answered each with a labelled assumption.
+        <pre class="prompt">You worked out the questions a capacity estimate for this payments system depends on, and answered each with a labelled assumption.
 
 Use your own answers to work out peak payments per second, Ledger growth over two years, and peak network throughput. Show each formula with the numbers substituted in, so I can check the arithmetic rather than trust it.
 
@@ -233,6 +235,6 @@ Done when I have a peak-throughput figure and a two-year storage figure I can de
   <p class="quick-tip"><strong>Quick tip:</strong> Being roughly right before you build beats being exactly right after.</p>
 </main>
 </div>
-<script src="app.js?v=ef7f975540"></script>
+<script src="app.js?v=aa8908cb82"></script>
 </body>
 </html>

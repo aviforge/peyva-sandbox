@@ -35,7 +35,7 @@ var Chapter18 = ChapterContent{
 	BuildIt: BuildIt{
 		Intro:     "The Gateway learns to prove who's calling before the Teller sees a payment.",
 		Technique: "Chain-of-Verification (CoVe)",
-		Why:       "Draft an answer, plan the questions that would catch it being wrong, answer those independently, then revise. Asking for secure code gets you the checklist; verifying your own draft finds the holes the checklist doesn't mention.",
+		Why:       "Asking for secure code gets you the checklist. Verifying your own draft finds the holes the checklist does not mention.",
 		Source:    "The Prompt Report: Self-Criticism, Chain-of-Verification",
 		Prompts: []Prompt{
 			{Label: "Draft", Intro: "The authentication and the ownership check.", Text: `The Gateway trusts the "from" field on a payment request completely. Any caller can move money out of any account by naming it.

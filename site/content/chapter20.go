@@ -36,7 +36,7 @@ var Chapter20 = ChapterContent{
 	BuildIt: BuildIt{
 		Intro:     "Build the Reconciler, and have the whole system explained back to you.",
 		Technique: "Rephrase and Respond (RaR)",
-		Why:       "Make the assistant restate the task in its own words before it answers. The restatement is the cheapest look you'll get at what it actually understood, and comparing it against the story in your head shows you what you didn't actually learn.",
+		Why:       "The restatement is the cheapest look you will get at what it actually understood.",
 		Source:    "The Prompt Report: Zero-Shot, Rephrase and Respond",
 		Prompts: []Prompt{
 			{Label: "Restate", Thinking: true, Intro: "Describe the system back before building.", Text: `peyva is a payments system built from these parts: a Gateway that takes requests from outside, a Teller that runs one payment end to end, a Vault that is the only thing that changes a balance, a Ledger that records every movement, a Courier that carries out work after a payment clears, and a Portal a customer uses.
@@ -69,7 +69,7 @@ Done when someone who has never seen peyva can use it without being told how.`},
 	},
 
 	BreakIt: BreakIt{
-		Intro: "Break one piece deliberately and confirm the rest of the system absorbs it gracefully, the way earlier chapters promised.",
+		Intro: "Break one piece deliberately and confirm the rest absorbs it.",
 		Exercises: []string{
 			"Kill one copy mid-traffic. The load balancer routes around it (Ch. 10). Nothing is lost.",
 			"Disconnect the replica. Writes are refused, reads keep working (Ch. 16's CP choice).",

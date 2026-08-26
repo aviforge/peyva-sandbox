@@ -35,7 +35,7 @@ var Chapter06 = ChapterContent{
 	BuildIt: BuildIt{
 		Intro:     "The Vault learns to be searched, and you measure whether it worked.",
 		Technique: "Grounding: investigate before claiming",
-		Why:       "Ask for an optimisation and you'll get one, plus a confident claim that it's faster. The documented remedy is to forbid claims about code the assistant hasn't actually opened or run. Which here means timings taken before and after, not estimates.",
+		Why:       "Forbid claims about code it has not run, and you get timings instead of confident guesses.",
 		Source:    "Anthropic: Prompting best practices, Minimizing hallucinations in agentic coding",
 		Prompts: []Prompt{
 			{Label: "Build", Text: `The Vault stores accounts keyed by owner. Each account also carries a region, which nothing indexes.

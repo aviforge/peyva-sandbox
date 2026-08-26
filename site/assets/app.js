@@ -140,7 +140,18 @@
       button.addEventListener('click', function () {
         var pre = button.parentNode.querySelector('.prompt');
         if (!pre) return;
-        copy(pre.textContent).then(function () {
+
+        // The standing rules are printed once a page and prepended here, so a
+        // copied prompt still carries them without the page repeating itself
+        // above every block.
+        var text = pre.textContent;
+        var rulesID = button.parentNode.getAttribute('data-prompt-rules');
+        if (rulesID) {
+          var rules = document.getElementById(rulesID);
+          if (rules) text = rules.textContent.replace(/\s+$/, '') + '\n\n' + text;
+        }
+
+        copy(text).then(function () {
           button.classList.add('is-copied');
           button.setAttribute('aria-label', 'Copied');
           window.clearTimeout(timer);
@@ -150,6 +161,8 @@
           }, 2000);
         }, function () {
           // Copying is blocked. Select the prompt so it can be copied by hand.
+          // The rules stay above; a hand copy of the body is the best that can
+          // be offered without moving the selection off what was clicked.
           var range = document.createRange();
           range.selectNodeContents(pre);
           var sel = window.getSelection();

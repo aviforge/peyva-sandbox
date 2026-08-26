@@ -14,8 +14,8 @@ var Chapter19 = ChapterContent{
 	HeroCaption: "Great restaurants aren't just built well. They are operated well every day. That's how customers stay happy.",
 
 	Intuition: []string{
-		"Every chapter so far has been about building peyva.",
-		"This one is about keeping it running: rolling out changes safely, noticing problems before users do.",
+		"Keeping peyva running is a different job from building it.",
+		"Rolling out changes safely, and noticing problems before customers do.",
 		"And having a plan for when it goes wrong anyway.",
 	},
 
@@ -24,28 +24,28 @@ var Chapter19 = ChapterContent{
 		{Term: "Rolling Deployment", Description: "Releasing a new version gradually, one copy at a time, instead of all at once."},
 		{Term: "Rollback", Description: "Quickly reverting to the previous working version when a new release causes problems."},
 		{Term: "Runbook", Description: "A step-by-step guide for handling a specific, known kind of incident."},
-		{Term: "Config", Description: "The component that reads every setting from outside the code, checks it, and hands it over. Nothing else reads the environment, the same way nothing but the Vault changes a balance."},
+		{Term: "Config", Description: "The component that reads every setting from outside the code, checks it, and hands it over. Nothing else reads the environment."},
 		{Term: "Secret", Description: "A setting that must never be in the repository: a password, a key, a token. Always config, never code."},
-		{Term: "Fail Fast", Description: "Refusing to start when a setting is missing or makes no sense, instead of starting on a guess and failing later somewhere that looks unrelated."},
+		{Term: "Fail Fast", Description: "Refusing to start when a setting is missing, instead of guessing and failing later somewhere that looks unrelated."},
 	},
 
 	UnderTheHood: []string{
 		"Users -> Load Balancer -> peyva Instances -> Database, continuously watched by Health Checks and Metrics & Logs feeding back into the loop.",
 		"Day to day: Deploy Change -> Health Check -> Verify Metrics -> All Good? Yes: done. No: Rollback & Fix, then Postmortem & Improve.",
-		"Config is what differs between one run and the next: ports, addresses, file paths, how long to wait before giving up. It comes from outside, so the same build runs anywhere.",
-		"Code is what has only one correct value. Money to two decimal places. A balance that cannot go negative. Debits matching credits. Move one of those into config and you have not made peyva configurable, you have made its invariants optional.",
-		"The test, when you cannot tell: could someone change this at 3am, alone, with no review? If the answer is no, it is code.",
+		"Config is what differs between one run and the next: ports, addresses, file paths. It comes from outside, so the same build runs anywhere.",
+		"Code is what has one correct value: money to two decimal places, a balance that cannot go negative. Move those into config and the invariants become optional.",
+		"When you cannot tell: could someone change this at 3am with no review? If not, it is code.",
 	},
 
 	BuildIt: BuildIt{
 		Intro:     "Build Config, then give the system a deployment and rollback story.",
 		Technique: "Structured output formatting",
-		Why:       "A runbook read at 2am has to be commands, not prose. Hand over the exact skeleton you want back, and phrase it as what to produce rather than what to avoid, which is what actually steers the output.",
+		Why:       "A runbook read at 2am has to be commands, not prose. Hand over the exact skeleton you want back.",
 		Source:    "Anthropic: Prompting best practices, Control the format of responses",
 		Prompts: []Prompt{
 			{Label: "Config", Intro: "Sort the settings, then build Config.", Text: `peyva reads settings straight from the environment in several places: the port a copy listens on, the ports the proxy routes between, where the Vault keeps its file.
 
-Build Config: it reads every setting once at startup, checks each one, and hands them over. Nothing else reads the environment after that.
+Build Config: it reads every setting once at startup, checks each, and hands them over. Nothing else reads the environment.
 
 First sort what peyva already has. Give me a table of every setting, and for each one the rule it fell under:
 
@@ -53,7 +53,7 @@ First sort what peyva already has. Give me a table of every setting, and for eac
   config  a secret, which never belongs in the repository
   code    only one value is ever correct, and changing it would be a bug
 
-Two decimal places on money is not a setting. Neither is a balance that cannot go negative. If you are unsure which side something falls, ask whether I should be able to change it at 3am with no review.
+Two decimal places on money is not a setting. Neither is a balance that cannot go negative. When unsure, ask whether I should be able to change it at 3am with no review.
 
 A missing or nonsense setting means naming it and exiting. Never a default that hides it.
 
@@ -71,14 +71,13 @@ Format the runbook exactly like this and nothing else:
   Numbered commands, one per line, with the output that confirms the diagnosis.
 
   ## Fix
-  Numbered commands, one per line, copy-pasteable, no placeholders I have to
-  think about. Anything that starts or stops a copy goes through the runner,
-  not a process ID I have to hunt for.
+  Numbered commands, one per line, no placeholders. Anything that starts or
+  stops a copy goes through the runner, not a process ID I have to hunt for.
 
   ## Verify
   One command and the exact output that means I'm recovered.
 
-Every command runs on {os}. Every line under Check, Fix and Verify is either a command I can paste or an exact output I can compare against. It's 2am and I'm not making judgement calls.
+Every command runs on {os}. Every line under Check, Fix and Verify is a command I can paste or an exact output I can compare against.
 
 Done when deploying a deliberately broken version to one copy fails its health check before the other two are touched, and the runbook's Fix section reverts it without improvisation.`},
 			{Label: "Portal", Portal: true, Intro: "The Portal stops having its address written into it.", Text: `The Portal reaches peyva at an address written into its pages. Move it to peyva/portal/config.js: one object, loaded before anything else, holding the base URL and nothing that is not a setting.

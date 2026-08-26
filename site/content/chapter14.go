@@ -35,12 +35,12 @@ var Chapter14 = ChapterContent{
 	BuildIt: BuildIt{
 		Intro:     "The Teller learns to run a payment in stages, and to unwind one that fails.",
 		Technique: "Least-to-Most Prompting",
-		Why:       "Break the problem into subproblems and solve them in order, each building on the last one's answer. One prompt asking for a whole multi-stage workflow gets you a sketch of all of it and a working version of none.",
+		Why:       "One prompt for a whole multi-stage workflow gets you a sketch of all of it and a working version of none.",
 		Source:    "The Prompt Report: Decomposition, Least-to-Most",
 		Prompts: []Prompt{
 			{Label: "Build", Text: `A payment is currently one atomic step. I want the Teller to run payments that span several stages and can unwind if a later stage fails permanently.
 
-Build it in four stages. Stop after each and tell me it's working before starting the next. Don't write all four at once, and let each one build on what the previous one left behind.
+Build it in four stages, each on what the last one left. Stop after each and tell me it works before starting the next.
 
 1. A record, per payment reference, of which stages have completed.
 2. Wire the existing money movement in as stage one, recording its completion.

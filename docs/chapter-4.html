@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Designing the API | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=24de05bdc7">
+<link rel="stylesheet" href="styles.css?v=bc8495ced8">
 </head>
 <body data-chapter-slug="chapter-4">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -179,22 +179,30 @@
       <ul class="lead">
         <li>Build the Teller, and give the Gateway a real payment request to forward.</li>
       </ul>
-      <p class="technique"><span class="technique-name">Few-shot (multishot) prompting</span>. Prose leaves field names and status codes up for grabs. Concrete input and output pairs pin the contract harder than a paragraph ever will, and the examples have to include the failures, or only the happy path gets built.</p>
-      <p class="technique-source">Documented in The Prompt Report: In-Context Learning; Anthropic, Use examples effectively &middot; asking price for this chapter, about 493 tokens</p>
+      <p class="technique"><span class="technique-name">Few-shot (multishot) prompting</span>. Prose leaves field names and status codes up for grabs. Examples pin them down, failures included.</p>
+      <p class="technique-source">Documented in The Prompt Report: In-Context Learning; Anthropic, Use examples effectively &middot; asking price for this chapter, about 601 tokens</p>
+      <details class="standing-rules">
+        <summary>Every prompt below is copied with these rules</summary>
+        <pre class="prompt-lang" id="rules-build">Build this in <span data-language-name>Go</span>, standard library only.
+Code in peyva/&lt;component&gt;/, one folder per component.
+Money: exact decimal or integer minor units, never floating point, two decimal places.
+The goal and invariants are in peyva/goal.md.</pre>
+        <pre class="prompt-lang" id="rules-portal">The Portal is plain HTML and CSS. No framework, no build step, no dependencies.
+It lives in peyva/portal/. Anything it needs from the server is <span data-language-name>Go</span>, standard library only.
+One customer&#39;s wallet at a time, never everyone&#39;s at once. A switcher at the top says whose.
+New work joins the menu.
+The goal and invariants are in peyva/goal.md.</pre>
+        
+      </details>
       
-      <p class="prompt-divider"><span class="prompt-step">1 of 2</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send. What the assistant then reads and writes is far larger and only your own tool can measure it.">~252 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">1 of 2</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~309 tokens</span></p>
       
-      <div class="prompt-wrap">
+      <div class="prompt-wrap" data-prompt-rules="rules-build">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
-        <pre class="prompt"><span class="prompt-lang" data-prompt-lang>Build this in <span data-language-name>Go</span>, standard library only.
-Code in peyva/&lt;component&gt;/, one folder per component.
-Money: exact decimal or integer minor units, never floating point, two decimal places.
-The goal and invariants are in peyva/goal.md.</span>
-
-Requests reach the Gateway but nothing acts on them. Have it speak HTTP, and build the Teller behind it.
+        <pre class="prompt">Requests reach the Gateway but nothing acts on them. Have it speak HTTP, and build the Teller behind it.
 
 The Teller handles one payment end to end: validate the request, check the payer has enough, move the amount between accounts in the Vault, and return a reference the caller can quote later. The Teller is the only thing allowed to move money: the Gateway parses and forwards, and never touches a balance itself.
 
@@ -216,22 +224,16 @@ Validate before touching any account. No authentication, no retries, no persiste
 Done when those three requests produce exactly those three responses, and alice&#39;s balance drops by 20 only on the first.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">2 of 2</span> Portal<span class="prompt-tokens" title="Roughly what this prompt costs to send. What the assistant then reads and writes is far larger and only your own tool can measure it.">~241 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">2 of 2</span> Portal<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~292 tokens</span></p>
       <ul class="lead"><li>The menu gains what a wallet is for: sending money, from whoever the switcher says.</li></ul>
-      <div class="prompt-wrap">
+      <div class="prompt-wrap" data-prompt-rules="rules-portal">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
-        <pre class="prompt"><span class="prompt-lang" data-prompt-lang>The Portal is plain HTML and CSS. No framework, no build step, no dependencies.
-It lives in peyva/portal/. Anything it needs from the server is <span data-language-name>Go</span>, standard library only.
-One customer's wallet at a time, never everyone's at once. A switcher at the top says whose.
-New work joins the menu.
-The goal and invariants are in peyva/goal.md.</span>
+        <pre class="prompt">The Portal&#39;s menu has one entry, Balance, and no way to move money out of the account it is showing. Add Send to it, and a way to open a new account by handle. A new account joins the switcher.
 
-The Portal&#39;s menu has one entry, Balance, and no way to move money out of the account it is showing. Add Send to it, and a way to open a new account by handle. A new account joins the switcher.
-
-Money leaves whoever the switcher currently names. There is no From field to type into: a page that lets a customer name the payer is a page that lets them spend someone else&#39;s money.
+There is no From field. Money leaves whoever the switcher names.
 
 The forms post to the endpoints you just built and render what comes back. Match these:
 
@@ -240,7 +242,7 @@ The forms post to the endpoints you just built and render what comes back. Match
   amount left blank -&gt; the page says which field is wrong, and nothing moves
   unknown handle    -&gt; the page says so, and nothing moves
 
-Every failure is shown on the page. None of them is a blank screen or a raw error.
+Every failure shows on the page, never a blank screen or a raw error.
 
 Done when those four cases each produce exactly what is written above, and switching to the recipient shows the money arrived.</pre>
       </div>
@@ -262,6 +264,6 @@ Done when those four cases each produce exactly what is written above, and switc
   <p class="quick-tip"><strong>Quick tip:</strong> Validate before you touch any data. Reject bad requests instead of guessing what the caller meant.</p>
 </main>
 </div>
-<script src="app.js?v=ef7f975540"></script>
+<script src="app.js?v=aa8908cb82"></script>
 </body>
 </html>

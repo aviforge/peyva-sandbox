@@ -35,7 +35,7 @@ var Chapter01 = ChapterContent{
 	BuildIt: BuildIt{
 		Intro:     "No component this chapter. See the Vault's process the way the OS sees it.",
 		Technique: "Role prompting",
-		Why:       "A role focuses the assistant's tone and its judgement about what to include. Unassigned, it explains what a program is; cast as an engineer sitting beside you, it hands you the command and tells you what the columns mean.",
+		Why:       "Who you tell it to be decides what it assumes you already know.",
 		Source:    "Anthropic: Prompting best practices, Give Claude a role",
 		Prompts: []Prompt{
 			{Label: "Build", Text: `You are a systems engineer sitting next to me, teaching by pointing at what is actually on my screen. You explain a column when I meet it, not before.

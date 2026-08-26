@@ -8,7 +8,7 @@ var Chapter08 = ChapterContent{
 	Category:   "Reliability",
 	Difficulty: "Intermediate",
 	EstTime:    "20 min",
-	QuickTip:   "The client genuinely can't tell a duplicate response from the real one. That's the point.",
+	QuickTip:   "The client genuinely cannot tell a duplicate response from the real one.",
 
 	HeroImage:   "images/chapter-8.webp",
 	HeroCaption: "Idempotency = same request (same key) -> same effect (once).",
@@ -34,7 +34,7 @@ var Chapter08 = ChapterContent{
 	BuildIt: BuildIt{
 		Intro:     "The Teller learns to recognise a payment it has already handled.",
 		Technique: "Generated Knowledge Prompting",
-		Why:       "Have the assistant produce the relevant facts before it uses them. Making it enumerate how duplicates actually arise gives the design somewhere to put each case, instead of you meeting them in production.",
+		Why:       "Enumerating how duplicates arise gives the design somewhere to put each case, before production does it for you.",
 		Source:    "The Prompt Report: Generated Knowledge",
 		Prompts: []Prompt{
 			{Label: "Build", Text: `The Teller will move money twice if it receives the same payment request twice, a retry after a timeout is indistinguishable from a genuine second payment.
@@ -46,7 +46,7 @@ Then make the Teller recognise a repeat: the caller supplies a reference with th
 Then go back over the list you wrote and tell me, case by case, which ones your design now handles and which it doesn't. Include what happens if two requests carrying the same brand-new reference arrive at the same instant.
 
 Done when the same reference twice pays once, two different references pay twice, and both duplicate responses are byte-identical.`},
-			{Label: "Portal", Portal: true, Intro: "The Portal stops punishing an impatient customer.", Text: `Send posts the form and takes whatever comes back, so a customer who taps it twice pays twice. Have it attach the same reference to a resubmission of the same form, and show the original result rather than a second payment.
+			{Label: "Portal", Portal: true, Intro: "The Portal stops punishing an impatient customer.", Text: `Send posts the form and takes whatever comes back, so a customer who taps twice pays twice. Attach the same reference to a resubmission, and show the original result.
 
 Done when double-submitting the form leaves one payment in History, and the page looks the same both times.`},
 		},

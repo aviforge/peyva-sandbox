@@ -35,7 +35,7 @@ var Chapter12 = ChapterContent{
 	BuildIt: BuildIt{
 		Intro:     "Build the Courier. The component that carries out work after a payment clears.",
 		Technique: "Allow it to say it can't",
-		Why:       "An assistant would rather produce something than report that your constraints don't fit, so it quietly reaches for the dependency you ruled out. Giving explicit permission to stop and say so turns a silent workaround into a question you can answer.",
+		Why:       "An assistant would rather produce something than tell you your constraints do not fit. Permission to stop changes that.",
 		Source:    "Anthropic: Reduce hallucinations, Allow Claude to say I don't know",
 		Prompts: []Prompt{
 			{Label: "Build", Text: `The Teller notifies the recipient inline, so the caller waits for that notification before getting their response.
@@ -44,9 +44,9 @@ Build the Courier. The component that carries out work after a payment has clear
 
 Scope: an in-process queue and a worker, inside each copy. Do not introduce Kafka, RabbitMQ, NATS, Redis, Docker, or any broker or queue library. No retry policies, no dead-letter handling, no backpressure tuning.
 
-Chapter 10 means several copies now run at once, so say what an in-process queue costs when the copy holding it dies with work still in it. Do not fix that here. Name it.
+Several copies run at once now. Say what an in-process queue costs when the copy holding it dies with work still in it, and do not fix it here.
 
-If the standard library genuinely can't express this, say so rather than reaching for a dependency I ruled out. Admitting it is a more useful answer than a guess.
+If the standard library genuinely cannot express this, say so rather than reaching for a dependency I ruled out.
 
 Done when a deliberately slow notification doesn't delay the payment response, and work handed over while the Courier is stopped is delivered once it starts again.`},
 			{Label: "Portal", Portal: true, Intro: "The Portal stops waiting for work the customer does not care about.", Text: `The page currently waits for the notification before it responds. Have it show the payment as done the moment the money has moved, and the message as delivered separately once the Courier has sent it.

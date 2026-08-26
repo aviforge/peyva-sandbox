@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Across the Wire (Networking) | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=24de05bdc7">
+<link rel="stylesheet" href="styles.css?v=bc8495ced8">
 </head>
 <body data-chapter-slug="chapter-3">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -179,22 +179,30 @@
       <ul class="lead">
         <li>No component this chapter: reach the Gateway from a different machine.</li>
       </ul>
-      <p class="technique"><span class="technique-name">Add context and motivation</span>. Say what your situation is and why you&#39;re asking, and the assistant generalises from it. Picking commands that run on your OS and warning you about the firewall prompt before you hit it. Two lines of context saves three rounds of that didn&#39;t work.</p>
-      <p class="technique-source">Documented in Anthropic: Prompting best practices, Add context to improve performance &middot; asking price for this chapter, about 295 tokens</p>
+      <p class="technique"><span class="technique-name">Add context and motivation</span>. Told where you are and why, it picks commands that run on your machine and warns you about the firewall prompt.</p>
+      <p class="technique-source">Documented in Anthropic: Prompting best practices, Add context to improve performance &middot; asking price for this chapter, about 437 tokens</p>
+      <details class="standing-rules">
+        <summary>Every prompt below is copied with these rules</summary>
+        <pre class="prompt-lang" id="rules-build">Build this in <span data-language-name>Go</span>, standard library only.
+Code in peyva/&lt;component&gt;/, one folder per component.
+Money: exact decimal or integer minor units, never floating point, two decimal places.
+The goal and invariants are in peyva/goal.md.</pre>
+        <pre class="prompt-lang" id="rules-portal">The Portal is plain HTML and CSS. No framework, no build step, no dependencies.
+It lives in peyva/portal/. Anything it needs from the server is <span data-language-name>Go</span>, standard library only.
+One customer&#39;s wallet at a time, never everyone&#39;s at once. A switcher at the top says whose.
+New work joins the menu.
+The goal and invariants are in peyva/goal.md.</pre>
+        
+      </details>
       
-      <p class="prompt-divider"><span class="prompt-step">1 of 2</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send. What the assistant then reads and writes is far larger and only your own tool can measure it.">~196 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">1 of 2</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~254 tokens</span></p>
       
-      <div class="prompt-wrap">
+      <div class="prompt-wrap" data-prompt-rules="rules-build">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
-        <pre class="prompt"><span class="prompt-lang" data-prompt-lang>Build this in <span data-language-name>Go</span>, standard library only.
-Code in peyva/&lt;component&gt;/, one folder per component.
-Money: exact decimal or integer minor units, never floating point, two decimal places.
-The goal and invariants are in peyva/goal.md.</span>
-
-My environment: &lt;your OS and shell&gt;. The Gateway is listening on TCP port 9310 on this machine, and I have a phone on the same Wi-Fi.
+        <pre class="prompt">My environment: &lt;your OS and shell&gt;. The Gateway is listening on TCP port 9310 on this machine, and I have a phone on the same Wi-Fi.
 
 I want to reach the Gateway from the phone instead of from localhost. I&#39;m doing this to understand how a service becomes reachable beyond the machine it runs on, so tell me what is actually happening rather than only what to type.
 
@@ -205,20 +213,14 @@ If a firewall prompt is likely on my OS, warn me before I hit it.
 Done when the phone&#39;s browser reaches the Gateway and the Gateway logs that connection.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">2 of 2</span> Portal<span class="prompt-tokens" title="Roughly what this prompt costs to send. What the assistant then reads and writes is far larger and only your own tool can measure it.">~99 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">2 of 2</span> Portal<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~183 tokens</span></p>
       <ul class="lead"><li>The page stops being a file on your disk and becomes a page on the network.</li></ul>
-      <div class="prompt-wrap">
+      <div class="prompt-wrap" data-prompt-rules="rules-portal">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
-        <pre class="prompt"><span class="prompt-lang" data-prompt-lang>The Portal is plain HTML and CSS. No framework, no build step, no dependencies.
-It lives in peyva/portal/. Anything it needs from the server is <span data-language-name>Go</span>, standard library only.
-One customer's wallet at a time, never everyone's at once. A switcher at the top says whose.
-New work joins the menu.
-The goal and invariants are in peyva/goal.md.</span>
-
-The Gateway accepts connections but serves nothing. Have it return peyva/portal/index.html to anything that connects, so the page I could only open locally is now reachable from my phone on the same Wi-Fi.
+        <pre class="prompt">The Gateway accepts connections but serves nothing. Have it return peyva/portal/index.html to anything that connects, so the page I could only open locally is now reachable from my phone on the same Wi-Fi.
 
 Tell me what changes about how the page loads its stylesheet once it arrives over a connection instead of from disk, before I hit it.
 
@@ -242,6 +244,6 @@ Done when the phone&#39;s browser shows alice&#39;s balance.</pre>
   <p class="quick-tip"><strong>Quick tip:</strong> TCP hands your program a complete, in-order stream or fails the connection. It never delivers half a request.</p>
 </main>
 </div>
-<script src="app.js?v=ef7f975540"></script>
+<script src="app.js?v=aa8908cb82"></script>
 </body>
 </html>

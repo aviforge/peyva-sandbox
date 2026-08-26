@@ -34,7 +34,7 @@ var Chapter05 = ChapterContent{
 	BuildIt: BuildIt{
 		Intro:     "The Vault learns to remember. Balances that survive a restart.",
 		Technique: "Explicit success criteria",
-		Why:       "For a migration the useful thing to specify isn't the steps, it's the finish line: what must be true when it's done. State the target precisely and the assistant works out the delta, including the parts you'd have forgotten to list.",
+		Why:       "Specify the finish line rather than the steps, and the assistant works out the delta, including what you would have forgotten.",
 		Source:    "Anthropic: Prompting best practices, Provide clear success criteria",
 		Prompts: []Prompt{
 			{Label: "Build", Text: `Now: the Vault holds balances in memory. They vanish when the process stops, so every restart resets alice to her seeded amount.

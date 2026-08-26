@@ -541,6 +541,26 @@ body {
   cursor: help;
 }
 
+.standing-rules {
+  margin: 14px 0 4px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.standing-rules summary {
+  cursor: pointer;
+  padding: 4px 0;
+}
+
+.standing-rules .prompt-lang {
+  margin: 8px 0 0;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: var(--prompt-bg);
+  white-space: pre-wrap;
+  font-size: 12.5px;
+}
+
 .prompt-wrap {
   position: relative;
 }

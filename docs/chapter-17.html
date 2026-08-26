@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>See Everything: Observability | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=24de05bdc7">
+<link rel="stylesheet" href="styles.css?v=bc8495ced8">
 </head>
 <body data-chapter-slug="chapter-17">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -179,22 +179,26 @@
       <ul class="lead">
         <li>Every component learns to say what it&#39;s doing.</li>
       </ul>
-      <p class="technique"><span class="technique-name">Style Prompting</span>. Style prompting sets tone, register and target audience rather than content. Add logging produces logs for the person writing them; naming the reader and the moment they read it changes both what gets logged and how it reads.</p>
-      <p class="technique-source">Documented in The Prompt Report: Zero-Shot, Style Prompting &middot; asking price for this chapter, about 229 tokens</p>
+      <p class="technique"><span class="technique-name">Style Prompting</span>. Naming the reader and the moment they read it changes both what gets logged and how it reads.</p>
+      <p class="technique-source">Documented in The Prompt Report: Zero-Shot, Style Prompting &middot; asking price for this chapter, about 287 tokens</p>
+      <details class="standing-rules">
+        <summary>Every prompt below is copied with these rules</summary>
+        <pre class="prompt-lang" id="rules-build">Build this in <span data-language-name>Go</span>, standard library only.
+Code in peyva/&lt;component&gt;/, one folder per component.
+Money: exact decimal or integer minor units, never floating point, two decimal places.
+The goal and invariants are in peyva/goal.md.</pre>
+        
+        
+      </details>
       
-      <p class="prompt-divider">Build<span class="prompt-tokens" title="Roughly what this prompt costs to send. What the assistant then reads and writes is far larger and only your own tool can measure it.">~229 tokens</span></p>
+      <p class="prompt-divider">Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~287 tokens</span></p>
       
-      <div class="prompt-wrap">
+      <div class="prompt-wrap" data-prompt-rules="rules-build">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
-        <pre class="prompt"><span class="prompt-lang" data-prompt-lang>Build this in <span data-language-name>Go</span>, standard library only.
-Code in peyva/&lt;component&gt;/, one folder per component.
-Money: exact decimal or integer minor units, never floating point, two decimal places.
-The goal and invariants are in peyva/goal.md.</span>
-
-The system logs by printing to the console and has no metrics. When something breaks there&#39;s no way to find out what happened.
+        <pre class="prompt">The system logs by printing to the console and has no metrics. When something breaks there&#39;s no way to find out what happened.
 
 Write the observability for one specific reader: an on-call engineer, woken at 3am, who didn&#39;t write this code, is looking at yesterday&#39;s records for one failed payment, and cannot attach a debugger or reproduce it.
 
@@ -222,6 +226,6 @@ Done when I can take one failed payment reference and reconstruct its whole path
   <p class="quick-tip"><strong>Quick tip:</strong> A metric tells you something&#39;s wrong; a log tells you what happened; a trace tells you where.</p>
 </main>
 </div>
-<script src="app.js?v=ef7f975540"></script>
+<script src="app.js?v=aa8908cb82"></script>
 </body>
 </html>

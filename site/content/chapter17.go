@@ -36,7 +36,7 @@ var Chapter17 = ChapterContent{
 	BuildIt: BuildIt{
 		Intro:     "Every component learns to say what it's doing.",
 		Technique: "Style Prompting",
-		Why:       "Style prompting sets tone, register and target audience rather than content. Add logging produces logs for the person writing them; naming the reader and the moment they read it changes both what gets logged and how it reads.",
+		Why:       "Naming the reader and the moment they read it changes both what gets logged and how it reads.",
 		Source:    "The Prompt Report: Zero-Shot, Style Prompting",
 		Prompts: []Prompt{
 			{Label: "Build", Text: `The system logs by printing to the console and has no metrics. When something breaks there's no way to find out what happened.

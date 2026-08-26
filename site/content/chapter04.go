@@ -36,7 +36,7 @@ var Chapter04 = ChapterContent{
 	BuildIt: BuildIt{
 		Intro:     "Build the Teller, and give the Gateway a real payment request to forward.",
 		Technique: "Few-shot (multishot) prompting",
-		Why:       "Prose leaves field names and status codes up for grabs. Concrete input and output pairs pin the contract harder than a paragraph ever will, and the examples have to include the failures, or only the happy path gets built.",
+		Why:       "Prose leaves field names and status codes up for grabs. Examples pin them down, failures included.",
 		Source:    "The Prompt Report: In-Context Learning; Anthropic, Use examples effectively",
 		Prompts: []Prompt{
 			{Label: "Build", Text: `Requests reach the Gateway but nothing acts on them. Have it speak HTTP, and build the Teller behind it.
@@ -61,7 +61,7 @@ Validate before touching any account. No authentication, no retries, no persiste
 Done when those three requests produce exactly those three responses, and alice's balance drops by 20 only on the first.`},
 			{Label: "Portal", Portal: true, Intro: "The menu gains what a wallet is for: sending money, from whoever the switcher says.", Text: `The Portal's menu has one entry, Balance, and no way to move money out of the account it is showing. Add Send to it, and a way to open a new account by handle. A new account joins the switcher.
 
-Money leaves whoever the switcher currently names. There is no From field to type into: a page that lets a customer name the payer is a page that lets them spend someone else's money.
+There is no From field. Money leaves whoever the switcher names.
 
 The forms post to the endpoints you just built and render what comes back. Match these:
 
@@ -70,7 +70,7 @@ The forms post to the endpoints you just built and render what comes back. Match
   amount left blank -> the page says which field is wrong, and nothing moves
   unknown handle    -> the page says so, and nothing moves
 
-Every failure is shown on the page. None of them is a blank screen or a raw error.
+Every failure shows on the page, never a blank screen or a raw error.
 
 Done when those four cases each produce exactly what is written above, and switching to the recipient shows the money arrived.`},
 		},

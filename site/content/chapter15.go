@@ -34,7 +34,7 @@ var Chapter15 = ChapterContent{
 	BuildIt: BuildIt{
 		Intro:     "The Vault learns to keep a spare copy in another place.",
 		Technique: "Analogical Prompting",
-		Why:       "Have the assistant generate its own analogy and reason through it before building. You learn more comparing its analogy to yours than from imposing yours: where the two differ is where one of you is wrong about the design.",
+		Why:       "Compare its analogy against yours. Where the two differ, one of you is wrong about the design.",
 		Source:    "The Prompt Report: Thought Generation, Analogical Prompting",
 		Prompts: []Prompt{
 			{Label: "Analogy", Thinking: true, Intro: "An analogy for a second copy, before any design.", Text: `A system keeps its records in one file on one disk. If that disk dies, every record dies with it. I want a second copy somewhere else.

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Big Changes Safely: Sagas | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=24de05bdc7">
+<link rel="stylesheet" href="styles.css?v=bc8495ced8">
 </head>
 <body data-chapter-slug="chapter-14">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -179,24 +179,32 @@
       <ul class="lead">
         <li>The Teller learns to run a payment in stages, and to unwind one that fails.</li>
       </ul>
-      <p class="technique"><span class="technique-name">Least-to-Most Prompting</span>. Break the problem into subproblems and solve them in order, each building on the last one&#39;s answer. One prompt asking for a whole multi-stage workflow gets you a sketch of all of it and a working version of none.</p>
-      <p class="technique-source">Documented in The Prompt Report: Decomposition, Least-to-Most &middot; asking price for this chapter, about 370 tokens</p>
+      <p class="technique"><span class="technique-name">Least-to-Most Prompting</span>. One prompt for a whole multi-stage workflow gets you a sketch of all of it and a working version of none.</p>
+      <p class="technique-source">Documented in The Prompt Report: Decomposition, Least-to-Most &middot; asking price for this chapter, about 495 tokens</p>
+      <details class="standing-rules">
+        <summary>Every prompt below is copied with these rules</summary>
+        <pre class="prompt-lang" id="rules-build">Build this in <span data-language-name>Go</span>, standard library only.
+Code in peyva/&lt;component&gt;/, one folder per component.
+Money: exact decimal or integer minor units, never floating point, two decimal places.
+The goal and invariants are in peyva/goal.md.</pre>
+        <pre class="prompt-lang" id="rules-portal">The Portal is plain HTML and CSS. No framework, no build step, no dependencies.
+It lives in peyva/portal/. Anything it needs from the server is <span data-language-name>Go</span>, standard library only.
+One customer&#39;s wallet at a time, never everyone&#39;s at once. A switcher at the top says whose.
+New work joins the menu.
+The goal and invariants are in peyva/goal.md.</pre>
+        
+      </details>
       
-      <p class="prompt-divider"><span class="prompt-step">1 of 2</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send. What the assistant then reads and writes is far larger and only your own tool can measure it.">~273 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">1 of 2</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~314 tokens</span></p>
       
-      <div class="prompt-wrap">
+      <div class="prompt-wrap" data-prompt-rules="rules-build">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
-        <pre class="prompt"><span class="prompt-lang" data-prompt-lang>Build this in <span data-language-name>Go</span>, standard library only.
-Code in peyva/&lt;component&gt;/, one folder per component.
-Money: exact decimal or integer minor units, never floating point, two decimal places.
-The goal and invariants are in peyva/goal.md.</span>
+        <pre class="prompt">A payment is currently one atomic step. I want the Teller to run payments that span several stages and can unwind if a later stage fails permanently.
 
-A payment is currently one atomic step. I want the Teller to run payments that span several stages and can unwind if a later stage fails permanently.
-
-Build it in four stages. Stop after each and tell me it&#39;s working before starting the next. Don&#39;t write all four at once, and let each one build on what the previous one left behind.
+Build it in four stages, each on what the last one left. Stop after each and tell me it works before starting the next.
 
 1. A record, per payment reference, of which stages have completed.
 2. Wire the existing money movement in as stage one, recording its completion.
@@ -208,20 +216,14 @@ Distinguish permanent failures from retryable ones. Only permanent failures reve
 Done when a permanently failing stage two puts the money back, the Ledger shows both the original payment and its reversal, and the payment&#39;s record shows every stage it passed through.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">2 of 2</span> Portal<span class="prompt-tokens" title="Roughly what this prompt costs to send. What the assistant then reads and writes is far larger and only your own tool can measure it.">~97 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">2 of 2</span> Portal<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~181 tokens</span></p>
       <ul class="lead"><li>The Portal has to explain a payment that was undone.</li></ul>
-      <div class="prompt-wrap">
+      <div class="prompt-wrap" data-prompt-rules="rules-portal">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
-        <pre class="prompt"><span class="prompt-lang" data-prompt-lang>The Portal is plain HTML and CSS. No framework, no build step, no dependencies.
-It lives in peyva/portal/. Anything it needs from the server is <span data-language-name>Go</span>, standard library only.
-One customer's wallet at a time, never everyone's at once. A switcher at the top says whose.
-New work joins the menu.
-The goal and invariants are in peyva/goal.md.</span>
-
-A reversed payment currently looks like two unrelated rows. Show it as what it is: the original, and the reversal that answers it, tied together.
+        <pre class="prompt">A reversed payment currently looks like two unrelated rows. Show it as what it is: the original, and the reversal that answers it, tied together.
 
 Build it in stages. First mark a reversed payment as reversed. Then link the two rows. Then say why it was reversed. Stop after each and show me before starting the next.
 
@@ -245,6 +247,6 @@ Done when a customer can see that money left and came back, and why.</pre>
   <p class="quick-tip"><strong>Quick tip:</strong> Compensations run in strict reverse order: the last completed step is undone first.</p>
 </main>
 </div>
-<script src="app.js?v=ef7f975540"></script>
+<script src="app.js?v=aa8908cb82"></script>
 </body>
 </html>

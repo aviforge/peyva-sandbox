@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>When Things Fail: CAP / Consistency | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=24de05bdc7">
+<link rel="stylesheet" href="styles.css?v=bc8495ced8">
 </head>
 <body data-chapter-slug="chapter-16">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -160,7 +160,7 @@
     <section class="block">
       <h2>2. Concepts</h2>
       <ul class="concepts">
-        <li><strong>Consistency (C)</strong>. All users see the same data at the same time.</li><li><strong>Availability (A)</strong>. Every request gets a response, no errors or timeouts.</li><li><strong>Partition Tolerance (P)</strong>. The system keeps working even if parts of it can&#39;t talk to each other.</li><li><strong>CAP Theorem</strong>. The choice only binds while the network is broken. On a healthy day peyva has all three, which is why the decision is easy to forget until it matters.</li>
+        <li><strong>Consistency (C)</strong>. All users see the same data at the same time.</li><li><strong>Availability (A)</strong>. Every request gets a response, no errors or timeouts.</li><li><strong>Partition Tolerance (P)</strong>. The system keeps working even if parts of it can&#39;t talk to each other.</li><li><strong>CAP Theorem</strong>. The choice only binds while the network is broken. On a healthy day peyva has all three.</li>
       </ul>
     </section>
 
@@ -179,19 +179,30 @@
       <ul class="lead">
         <li>The Teller learns what to do when the Vault&#39;s two copies can&#39;t reach each other.</li>
       </ul>
-      <p class="technique"><span class="technique-name">Tree-of-Thought</span>. Branch, evaluate each branch, prune, then commit. Ask for an implementation and you get one design with its reasoning hidden; ask for several scored against stated criteria and the choice comes into the open where you can disagree with it.</p>
-      <p class="technique-source">Documented in The Prompt Report: Decomposition, Tree-of-Thought &middot; asking price for this chapter, about 439 tokens</p>
+      <p class="technique"><span class="technique-name">Tree-of-Thought</span>. Several strategies scored against stated criteria puts the choice in the open, where you can disagree with it.</p>
+      <p class="technique-source">Documented in The Prompt Report: Decomposition, Tree-of-Thought &middot; asking price for this chapter, about 592 tokens</p>
+      <details class="standing-rules">
+        <summary>Every prompt below is copied with these rules</summary>
+        <pre class="prompt-lang" id="rules-build">Build this in <span data-language-name>Go</span>, standard library only.
+Code in peyva/&lt;component&gt;/, one folder per component.
+Money: exact decimal or integer minor units, never floating point, two decimal places.
+The goal and invariants are in peyva/goal.md.</pre>
+        <pre class="prompt-lang" id="rules-portal">The Portal is plain HTML and CSS. No framework, no build step, no dependencies.
+It lives in peyva/portal/. Anything it needs from the server is <span data-language-name>Go</span>, standard library only.
+One customer&#39;s wallet at a time, never everyone&#39;s at once. A switcher at the top says whose.
+New work joins the menu.
+The goal and invariants are in peyva/goal.md.</pre>
+        <pre class="prompt-lang" id="rules-thinking">The goal and invariants are in peyva/goal.md.</pre>
+      </details>
       
-      <p class="prompt-divider"><span class="prompt-step">1 of 3</span> Decide<span class="prompt-tokens" title="Roughly what this prompt costs to send. What the assistant then reads and writes is far larger and only your own tool can measure it.">~204 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">1 of 3</span> Decide<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~216 tokens</span></p>
       <ul class="lead"><li>Three strategies, pruned to one.</li></ul>
-      <div class="prompt-wrap">
+      <div class="prompt-wrap" data-prompt-rules="rules-thinking">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
-        <pre class="prompt"><span class="prompt-lang" data-prompt-lang>The goal and invariants are in peyva/goal.md.</span>
-
-A payments system keeps balances in a primary copy that replicates asynchronously to a second copy. I need to decide what it does when the two can&#39;t reach each other.
+        <pre class="prompt">A payments system keeps balances in a primary copy that replicates asynchronously to a second copy. I need to decide what it does when the two can&#39;t reach each other.
 
 Don&#39;t write code yet. Propose at least three genuinely distinct strategies for handling the partition: not three variations on one idea. For each, work out what a customer experiences during the partition, what happens to a payment accepted mid-partition, and what manual work recovery needs.
 
@@ -200,39 +211,28 @@ Then prune. Eliminate the ones that are unacceptable for money movement specific
 Done when I have three real options, a reason each rejected one was rejected, and a recommendation with the condition that would overturn it.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">2 of 3</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send. What the assistant then reads and writes is far larger and only your own tool can measure it.">~130 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">2 of 3</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~187 tokens</span></p>
       <ul class="lead"><li>Build the one you recommended.</li></ul>
-      <div class="prompt-wrap">
+      <div class="prompt-wrap" data-prompt-rules="rules-build">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
-        <pre class="prompt"><span class="prompt-lang" data-prompt-lang>Build this in <span data-language-name>Go</span>, standard library only.
-Code in peyva/&lt;component&gt;/, one folder per component.
-Money: exact decimal or integer minor units, never floating point, two decimal places.
-The goal and invariants are in peyva/goal.md.</span>
-
-The Vault&#39;s primary copy replicates asynchronously to a second copy, and you recommended a strategy for what the Teller does when the two cannot reach each other.
+        <pre class="prompt">The Vault&#39;s primary copy replicates asynchronously to a second copy, and you recommended a strategy for what the Teller does when the two cannot reach each other.
 
 Implement that recommendation. Treat an unreachable second copy as a partition rather than ignoring it, and keep balance enquiries served from whichever copy is reachable even while payments are refused.
 
 Done when disconnecting the second copy makes payments fail loudly while enquiries still succeed, and reconnecting restores payments with no restart.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">3 of 3</span> Portal<span class="prompt-tokens" title="Roughly what this prompt costs to send. What the assistant then reads and writes is far larger and only your own tool can measure it.">~105 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">3 of 3</span> Portal<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~189 tokens</span></p>
       <ul class="lead"><li>The Portal has to be honest about a balance it is not sure of.</li></ul>
-      <div class="prompt-wrap">
+      <div class="prompt-wrap" data-prompt-rules="rules-portal">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
-        <pre class="prompt"><span class="prompt-lang" data-prompt-lang>The Portal is plain HTML and CSS. No framework, no build step, no dependencies.
-It lives in peyva/portal/. Anything it needs from the server is <span data-language-name>Go</span>, standard library only.
-One customer's wallet at a time, never everyone's at once. A switcher at the top says whose.
-New work joins the menu.
-The goal and invariants are in peyva/goal.md.</span>
-
-When the Vault&#39;s copies disagree, the balance the Portal shows may be behind.
+        <pre class="prompt">When the Vault&#39;s copies disagree, the balance the Portal shows may be behind.
 
 Propose three genuinely different ways for the page to handle that, not three wordings of one. For each, say what a customer believes after reading it, and what they do next. Then recommend one and say what it costs.
 
@@ -258,6 +258,6 @@ Done when a stale balance is visibly stale and a customer is not misled about th
   <p class="quick-tip"><strong>Quick tip:</strong> For money, prefer CP. Reject a request rather than show the wrong balance.</p>
 </main>
 </div>
-<script src="app.js?v=ef7f975540"></script>
+<script src="app.js?v=aa8908cb82"></script>
 </body>
 </html>

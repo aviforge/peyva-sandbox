@@ -1,6 +1,7 @@
 package main
 
 import (
+	"html"
 	"html/template"
 	"os"
 	"path/filepath"
@@ -317,6 +318,7 @@ func TestPortalPromptCarriesItsOwnRules(t *testing.T) {
 		if len(byNumber[num].BuildIt.PortalPrompts()) == 0 {
 			continue
 		}
+		body := html.UnescapeString(p.body)
 		for _, rule := range []string{
 			"plain HTML and CSS",
 			"No framework, no build step, no dependencies",
@@ -325,7 +327,7 @@ func TestPortalPromptCarriesItsOwnRules(t *testing.T) {
 			"never everyone's at once",
 			"switcher at the top says whose",
 		} {
-			if !strings.Contains(p.body, rule) {
+			if !strings.Contains(body, rule) {
 				t.Errorf("%s: portal prompt is missing %q", p.name, rule)
 			}
 		}

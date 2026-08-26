@@ -38,7 +38,7 @@ var Chapter09 = ChapterContent{
 	BuildIt: BuildIt{
 		Intro:     "No component this chapter. Size what you have before you grow it.",
 		Technique: "Self-Ask",
-		Why:       "Self-Ask makes the assistant pose the follow-up questions its answer depends on, answer each one on the record, and only then give the final number. On an estimate that converts hidden guesses into a list of assumptions you can argue with.",
+		Why:       "Hidden guesses become a written list of assumptions you can argue with.",
 		Source:    "The Prompt Report: Zero-Shot, Self-Ask",
 		Prompts: []Prompt{
 			{Label: "Assumptions", Thinking: true, Intro: "The questions the estimate depends on, and an answer to each.", Text: `I need to size the infrastructure for a payments system that moves money between accounts. One process today, and I have no idea what it needs to survive.

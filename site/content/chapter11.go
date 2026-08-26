@@ -8,7 +8,7 @@ var Chapter11 = ChapterContent{
 	Category:   "System Design",
 	Difficulty: "Intermediate",
 	EstTime:    "15 min",
-	QuickTip:   "A stale cache is worse than no cache. Invalidation matters more than the cache itself.",
+	QuickTip:   "A stale cache is worse than no cache.",
 
 	HeroImage:   "images/chapter-11.webp",
 	HeroCaption: "Cache = keep frequently used data nearby, so it's fast to get back.",
@@ -34,7 +34,7 @@ var Chapter11 = ChapterContent{
 	BuildIt: BuildIt{
 		Intro:     "The Vault learns to answer faster: without ever answering wrong.",
 		Technique: "Self-Refine",
-		Why:       "Produce, critique your own output against a stated standard, revise, repeat until the critique comes back empty. A cache bug doesn't crash. It returns a confident wrong number, so the critique pass catches what a passing test won't.",
+		Why:       "A cache bug does not crash. It returns a confident wrong number, which a passing test will not catch.",
 		Source:    "The Prompt Report: Self-Criticism, Self-Refine",
 		Prompts: []Prompt{
 			{Label: "Build", Intro: "The cache.", Text: `Every balance enquiry hits the Vault's storage, even when the same balance was read a moment ago and hasn't changed since.
@@ -49,24 +49,24 @@ Review that implementation as if you were trying to make it serve a stale balanc
 Report what you found as a list, fix it, then run that same review again on the fixed version. Keep going until a review turns up nothing.
 
 Done when a review finds nothing left, and you have told me how many rounds it took and which staleness bug the first version had.`},
-			{Label: "Portal", Portal: true, Intro: "The Portal stops looking like a first draft.", Text: `The Portal works. It shows a balance, sends money, lists a history, and looks like each of those was added the week it was needed, because it was. Now make it presentable.
+			{Label: "Portal", Portal: true, Intro: "The Portal stops looking like a first draft.", Text: `The Portal shows a balance, sends money and lists a history, and looks like each was added the week it was needed. Make it presentable.
 
 Judge what you have against these, one at a time: whose wallet this is never has to be guessed at; the menu makes it obvious where the customer is and what else they can do; it reads at a glance on a phone; money is aligned and always shows two decimals; the balance is the most prominent thing on its own screen; every action says what happened; nothing shifts as data loads; it is legible in both light and dark.
 
-For each one, tell me whether it passes before you change anything. Fix what fails, then judge it again. Keep going until a pass finds nothing left, and tell me what you fixed on each round.
+Say whether each passes before changing anything. Fix what fails, judge again, and keep going until a pass finds nothing. Tell me what you fixed each round.
 
-Still plain HTML and CSS. If you want a framework to do this, you have misread the task.
+Still plain HTML and CSS.
 
 Done when a critique pass finds nothing to fix.`},
 		},
 	},
 
 	BreakIt: BreakIt{
-		Intro: "A cache that's wrong is worse than no cache at all. Prove invalidation actually works.",
+		Intro: "Prove the invalidation actually works.",
 		Exercises: []string{
 			"Read Alice's balance a few thousand times with the cache on, then again with it off, and compare the totals. A single hit is far too fast to see. The saving only shows up in the aggregate.",
 			"Make a transfer that changes Alice's balance, then check it again. It must reflect the new balance, not the stale cached one.",
-			"Deliberately skip the invalidation step and repeat the test. Watch the cache confidently return the wrong balance. This is why cache invalidation is famously hard.",
+			"Deliberately skip the invalidation step and repeat the test. Watch the cache confidently return the wrong balance.",
 		},
 	},
 }

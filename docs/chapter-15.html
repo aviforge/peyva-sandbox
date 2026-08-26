@@ -134,7 +134,7 @@
     <button type="button" class="mark-complete" data-mark-complete>Mark chapter as complete</button>
     <p class="chapter-eyebrow">Chapter 15</p>
     <h1>Data Copies: Replication</h1>
-    <p class="chapter-subtitle">Having copies in multiple places keeps our data safe from fires, theft, or accidents. The copies are kept in sync.</p>
+    <p class="chapter-subtitle">Having copies in multiple places keeps our data safe from fires, theft, or accidents. The copy follows the original a moment later.</p>
     <div class="tags">
       <span class="tag">Reliability</span>
       <span class="tag">Advanced</span>
@@ -165,7 +165,7 @@
     <section class="block">
       <h2>3. Under the Hood</h2>
       <ul>
-        <li>Write/Update (Order Placed) -&gt; Primary Database (Region A) --replicate (async)--&gt; Replica Database (Region B). The replica can be promoted if the primary fails.</li><li>Normal operation: all copies are in sync. If the primary region fails: a replica is promoted to primary. No downtime, requests keep flowing.</li>
+        <li>Write/Update (Order Placed) -&gt; Primary Database (Region A) --replicate (async)--&gt; Replica Database (Region B). The replica can be promoted if the primary fails.</li><li>Normal operation: the replica trails the primary by a moment. If the primary region fails: a replica is promoted, and whatever the primary had not sent yet is gone.</li>
       </ul>
     </section>
 

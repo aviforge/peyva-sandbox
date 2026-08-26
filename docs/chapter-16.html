@@ -193,7 +193,7 @@ Done when disconnecting the second copy makes payments fail loudly while enquiri
         <li>Force a partition and confirm peyva picks the trade-off you intended.</li>
       </ul>
       <ul>
-        <li>Disconnect the replica from Chapter 15 and attempt a transfer. Confirm it&#39;s rejected (CP), not silently applied to only one copy.</li><li>With the replica still disconnected, check a balance. Confirm reads still succeed (AP), even though they might be stale.</li><li>Reconnect the replica and confirm transfers succeed again immediately.</li>
+        <li>Disconnect the replica from Chapter 15 and make a transfer. Confirm it succeeds anyway, because async replication never waits for the replica.</li><li>Read the same balance from the disconnected replica. Confirm it is stale, and that gap is the consistency peyva gave up to stay available.</li><li>Work out what it would take to reject that transfer instead. The primary would have to wait for the replica, and that wait is the price of choosing CP.</li>
       </ul>
     </section>
   </div>

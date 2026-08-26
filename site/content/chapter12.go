@@ -29,7 +29,7 @@ var Chapter12 = ChapterContent{
 
 	UnderTheHood: []string{
 		"The Teller -> 1. Send message -> Queue -> 2. Consume message -> the Courier -> 3. Perform work (e.g. send notification).",
-		"Messages stay in the queue until a worker picks them up. Nothing is lost if the worker is briefly offline.",
+		"Messages wait in the queue until a worker picks them up. A worker that pauses only delays the work, but a process that dies still loses it, which is Chapter 13's problem.",
 	},
 
 	BuildIt: BuildIt{

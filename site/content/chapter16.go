@@ -48,9 +48,9 @@ var Chapter16 = ChapterContent{
 	BreakIt: BreakIt{
 		Intro: "Force a partition and confirm peyva picks the trade-off you intended.",
 		Exercises: []string{
-			"Disconnect the replica from Chapter 15 and attempt a transfer. Confirm it's rejected (CP), not silently applied to only one copy.",
-			"With the replica still disconnected, check a balance. Confirm reads still succeed (AP), even though they might be stale.",
-			"Reconnect the replica and confirm transfers succeed again immediately.",
+			"Disconnect the replica from Chapter 15 and make a transfer. Confirm it succeeds anyway, because async replication never waits for the replica.",
+			"Read the same balance from the disconnected replica. Confirm it is stale, and that gap is the consistency peyva gave up to stay available.",
+			"Work out what it would take to reject that transfer instead. The primary would have to wait for the replica, and that wait is the price of choosing CP.",
 		},
 	},
 }

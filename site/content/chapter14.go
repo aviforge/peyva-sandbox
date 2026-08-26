@@ -29,7 +29,7 @@ var Chapter14 = ChapterContent{
 	UnderTheHood: []string{
 		"Order Saga: Order Service (Create Order) -> Payment Service (Charge Payment) -> Kitchen Service (Prepare Food) -> Delivery Service (Deliver Order), tracked by a Saga Coordinator.",
 		"If step 3 (Kitchen) fails: run compensating actions in reverse order, refund the payment (undo step 2), cancel the order (undo step 1). Step 4 never executes.",
-		"Sagas keep data consistent across services without a shared transaction.",
+		"Sagas leave data eventually consistent across services, without a shared transaction holding them together.",
 	},
 
 	BuildIt: BuildIt{
@@ -41,7 +41,7 @@ var Chapter14 = ChapterContent{
 			"Build it in four stages. Stop after each and tell me it's working before starting the next. Don't write all four at once, and let each one build on what the previous one left behind.\n\n" +
 			"1. A record, per payment reference, of which stages have completed.\n" +
 			"2. Wire the existing money movement in as stage one, recording its completion.\n" +
-			"3. Wire the Courier handoff in as stage two, recording its completion.\n" +
+			"3. Add stage two: crediting the recipient at a second ledger peyva does not own, which can refuse for good (a closed account) or simply be unreachable.\n" +
 			"4. A reversal for stage one (put the money back, as a new pair of Ledger entries rather than by deleting the old ones), triggered when stage two fails in a way that can never succeed.\n\n" +
 			"Distinguish permanent failures from retryable ones. Only permanent failures reverse.\n\n" +
 			"Done when a permanently failing stage two puts the money back, the Ledger shows both the original payment and its reversal, and the payment's record shows every stage it passed through.",
@@ -50,7 +50,7 @@ var Chapter14 = ChapterContent{
 	BreakIt: BreakIt{
 		Intro: "Force a late step to fail and confirm the earlier ones actually get undone.",
 		Exercises: []string{
-			"Make the notification step fail in a way that can never succeed (e.g. an invalid recipient) and confirm the saga runs its compensation, reversing the transfer.",
+			"Make the recipient ledger refuse for good (a closed account) and confirm the saga reverses stage one, leaving the payer whole.",
 			"Compare this to Chapter 7's transaction: that couldn't span two separate services, but a saga can.",
 		},
 	},

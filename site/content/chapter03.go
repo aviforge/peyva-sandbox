@@ -8,7 +8,7 @@ var Chapter03 = ChapterContent{
 	Category:   "Foundations",
 	Difficulty: "Beginner",
 	EstTime:    "15 min",
-	QuickTip:   "TCP guarantees packets arrive in order with none missing: exactly what moving money needs.",
+	QuickTip:   "TCP hands your program a complete, in-order stream or fails the connection. It never delivers half a request.",
 
 	HeroImage:   "images/chapter-3.webp",
 	HeroCaption: "peyva sends data between machines over the network.",

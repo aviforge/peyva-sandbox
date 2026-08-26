@@ -165,7 +165,7 @@
     <section class="block">
       <h2>3. Under the Hood</h2>
       <ul>
-        <li>Order Saga: Order Service (Create Order) -&gt; Payment Service (Charge Payment) -&gt; Kitchen Service (Prepare Food) -&gt; Delivery Service (Deliver Order), tracked by a Saga Coordinator.</li><li>If step 3 (Kitchen) fails: run compensating actions in reverse order, refund the payment (undo step 2), cancel the order (undo step 1). Step 4 never executes.</li><li>Sagas keep data consistent across services without a shared transaction.</li>
+        <li>Order Saga: Order Service (Create Order) -&gt; Payment Service (Charge Payment) -&gt; Kitchen Service (Prepare Food) -&gt; Delivery Service (Deliver Order), tracked by a Saga Coordinator.</li><li>If step 3 (Kitchen) fails: run compensating actions in reverse order, refund the payment (undo step 2), cancel the order (undo step 1). Step 4 never executes.</li><li>Sagas leave data eventually consistent across services, without a shared transaction holding them together.</li>
       </ul>
     </section>
 
@@ -182,7 +182,7 @@ Build it in four stages. Stop after each and tell me it&#39;s working before sta
 
 1. A record, per payment reference, of which stages have completed.
 2. Wire the existing money movement in as stage one, recording its completion.
-3. Wire the Courier handoff in as stage two, recording its completion.
+3. Add stage two: crediting the recipient at a second ledger peyva does not own, which can refuse for good (a closed account) or simply be unreachable.
 4. A reversal for stage one (put the money back, as a new pair of Ledger entries rather than by deleting the old ones), triggered when stage two fails in a way that can never succeed.
 
 Distinguish permanent failures from retryable ones. Only permanent failures reverse.
@@ -196,7 +196,7 @@ Done when a permanently failing stage two puts the money back, the Ledger shows 
         <li>Force a late step to fail and confirm the earlier ones actually get undone.</li>
       </ul>
       <ul>
-        <li>Make the notification step fail in a way that can never succeed (e.g. an invalid recipient) and confirm the saga runs its compensation, reversing the transfer.</li><li>Compare this to Chapter 7&#39;s transaction: that couldn&#39;t span two separate services, but a saga can.</li>
+        <li>Make the recipient ledger refuse for good (a closed account) and confirm the saga reverses stage one, leaving the payer whole.</li><li>Compare this to Chapter 7&#39;s transaction: that couldn&#39;t span two separate services, but a saga can.</li>
       </ul>
     </section>
   </div>

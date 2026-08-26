@@ -202,7 +202,7 @@ Done when those three requests produce exactly those three responses, and alice&
         <li>A well-designed API should be hard to misuse. Try to misuse it.</li>
       </ul>
       <ul>
-        <li>Send malformed JSON ({}). Expect 400 Bad Request, not a crash.</li><li>Send a request missing the &#39;amount&#39; field. Expect 400, with a clear reason.</li><li>Send duplicate requests back to back. peyva has no way yet to tell they&#39;re the same transfer. That&#39;s Chapter 8&#39;s problem.</li>
+        <li>Send a body that is not JSON at all. Expect 400 Bad Request, not a crash.</li><li>Send a request missing the &#39;amount&#39; field. Expect 400, with a clear reason.</li><li>Send duplicate requests back to back. peyva has no way yet to tell they&#39;re the same transfer. That&#39;s Chapter 8&#39;s problem.</li>
       </ul>
     </section>
   </div>

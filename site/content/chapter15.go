@@ -4,7 +4,7 @@ var Chapter15 = ChapterContent{
 	Number:     15,
 	Slug:       "chapter-15",
 	Title:      "Data Copies: Replication",
-	Subtitle:   "Having copies in multiple places keeps our data safe from fires, theft, or accidents. The copies are kept in sync.",
+	Subtitle:   "Having copies in multiple places keeps our data safe from fires, theft, or accidents. The copy follows the original a moment later.",
 	Category:   "Reliability",
 	Difficulty: "Advanced",
 	EstTime:    "20 min",
@@ -28,7 +28,7 @@ var Chapter15 = ChapterContent{
 
 	UnderTheHood: []string{
 		"Write/Update (Order Placed) -> Primary Database (Region A) --replicate (async)--> Replica Database (Region B). The replica can be promoted if the primary fails.",
-		"Normal operation: all copies are in sync. If the primary region fails: a replica is promoted to primary. No downtime, requests keep flowing.",
+		"Normal operation: the replica trails the primary by a moment. If the primary region fails: a replica is promoted, and whatever the primary had not sent yet is gone.",
 	},
 
 	BuildIt: BuildIt{

@@ -54,7 +54,7 @@ var Chapter04 = ChapterContent{
 	BreakIt: BreakIt{
 		Intro: "A well-designed API should be hard to misuse. Try to misuse it.",
 		Exercises: []string{
-			"Send malformed JSON ({}). Expect 400 Bad Request, not a crash.",
+			"Send a body that is not JSON at all. Expect 400 Bad Request, not a crash.",
 			"Send a request missing the 'amount' field. Expect 400, with a clear reason.",
 			"Send duplicate requests back to back. peyva has no way yet to tell they're the same transfer. That's Chapter 8's problem.",
 		},

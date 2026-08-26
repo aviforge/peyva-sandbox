@@ -27,7 +27,7 @@ var Chapter09 = ChapterContent{
 	},
 
 	UnderTheHood: []string{
-		"Assumptions: 100,000 users, 3 transfers/user/day, 10x peak factor, 365 business days/year.",
+		"Assumptions: 100,000 users, 3 transfers/user/day, 10x peak factor, 365 calendar days/year.",
 		"1. Daily Transfers: 100,000 x 3 = 300,000 transfers/day.",
 		"2. Peak TPS: 300,000 / 86,400 sec x 10 (peak factor) = ~35 TPS (round up).",
 		"3. Storage (Transactions): 300,000 x 365 x 2 years = ~219 million rows.",

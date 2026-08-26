@@ -196,7 +196,7 @@ Done when a permanently failing stage two puts the money back, the Ledger shows 
         <li>Force a late step to fail and confirm the earlier ones actually get undone.</li>
       </ul>
       <ul>
-        <li>Make the recipient ledger refuse for good (a closed account) and confirm the saga reverses stage one, leaving the payer whole.</li><li>Compare this to Chapter 7&#39;s transaction: that couldn&#39;t span two separate services, but a saga can.</li>
+        <li>Make the recipient ledger refuse for good (a closed account) and confirm the saga reverses stage one, leaving the payer whole.</li><li>Now make it merely unreachable and confirm the saga waits and retries instead of reversing. A temporary failure that triggers a reversal throws away a payment that would have gone through.</li><li>Compare this to Chapter 7&#39;s transaction: that couldn&#39;t span two separate services, but a saga can.</li>
       </ul>
     </section>
   </div>

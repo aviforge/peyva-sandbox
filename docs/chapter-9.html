@@ -193,7 +193,7 @@ Done when I have a peak-throughput figure and a two-year storage figure I can de
         <li>Bad assumptions produce bad capacity plans. See how sensitive the numbers are.</li>
       </ul>
       <ul>
-        <li>Double the peak factor from 10x to 20x and recompute peak TPS. See how much extra headroom that alone demands.</li><li>Assume 5 KB/transaction instead of 1 KB and recompute storage. The disk budget changes dramatically for the same transfer volume.</li>
+        <li>Double the peak factor from 10x to 20x and recompute peak TPS. See how much extra headroom that alone demands.</li><li>Assume 5 KB/transaction instead of 1 KB and recompute storage. The disk budget changes dramatically for the same transfer volume.</li><li>Measure how many transfers one instance actually sustains, then hold that against the 35 a second the estimate demands. The gap between the two is what Chapter 10 exists to close.</li>
       </ul>
     </section>
   </div>

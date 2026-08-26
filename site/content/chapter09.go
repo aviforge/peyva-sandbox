@@ -52,6 +52,7 @@ var Chapter09 = ChapterContent{
 		Exercises: []string{
 			"Double the peak factor from 10x to 20x and recompute peak TPS. See how much extra headroom that alone demands.",
 			"Assume 5 KB/transaction instead of 1 KB and recompute storage. The disk budget changes dramatically for the same transfer volume.",
+			"Measure how many transfers one instance actually sustains, then hold that against the 35 a second the estimate demands. The gap between the two is what Chapter 10 exists to close.",
 		},
 	},
 }

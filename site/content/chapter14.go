@@ -51,6 +51,7 @@ var Chapter14 = ChapterContent{
 		Intro: "Force a late step to fail and confirm the earlier ones actually get undone.",
 		Exercises: []string{
 			"Make the recipient ledger refuse for good (a closed account) and confirm the saga reverses stage one, leaving the payer whole.",
+			"Now make it merely unreachable and confirm the saga waits and retries instead of reversing. A temporary failure that triggers a reversal throws away a payment that would have gone through.",
 			"Compare this to Chapter 7's transaction: that couldn't span two separate services, but a saga can.",
 		},
 	},

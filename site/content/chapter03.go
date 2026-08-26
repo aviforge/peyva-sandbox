@@ -16,6 +16,7 @@ var Chapter03 = ChapterContent{
 	Intuition: []string{
 		"Chapter 2 got peyva listening on your own machine, but Alice and Bob aren't on the same one.",
 		"Reaching another machine needs an address (IP), a door (port), a shared language (protocol), and packets to carry the message.",
+		"The trip itself is unreliable. Packets take different routes, arrive out of order, or vanish, so something has to notice what went missing and ask for it again.",
 	},
 
 	Concepts: []ConceptItem{

@@ -14,11 +14,10 @@ var Chapter20 = ChapterContent{
 	HeroCaption: "System design is not one clever box. It's how all the pieces cooperate under load, failure and change.",
 
 	Concepts: []ConceptItem{
-		{Term: "Load Balancer", Description: "Routes each request to whichever copy of peyva is available."},
-		{Term: "peyva Instances", Description: "The stateless copies from Chapter 10, any of which can serve any request."},
-		{Term: "Database & Cache", Description: "Durable data from Chapter 5, fast lookups from Chapter 11."},
-		{Term: "Queue, Outbox & Workers", Description: "Work that happens after a payment clears, from Chapters 12 and 13."},
-		{Term: "Reconciler", Description: "Proves the Vault and the Ledger still agree, and names any account where they do not."},
+		{Term: "Reconciler", Description: "The component that checks the Vault against the Ledger and reports where they disagree."},
+		{Term: "Reconciliation", Description: "Comparing two records that were written independently, to catch the case where one of them is wrong."},
+		{Term: "Discrepancy", Description: "An account whose Ledger entries do not sum to the balance the Vault reports, and the size of the gap."},
+		{Term: "Single Point of Failure", Description: "A part with no stand-in, whose loss stops the system rather than slowing it."},
 	},
 
 	BuildIt: BuildIt{

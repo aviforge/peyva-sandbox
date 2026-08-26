@@ -14,11 +14,11 @@ var Chapter01 = ChapterContent{
 	HeroCaption: "A computer is like a house. Many things work together inside it to get one job done.",
 
 	Concepts: []ConceptItem{
-		{Term: "Process", Description: "A running program, the room peyva's app is currently working in."},
-		{Term: "Operating System (OS)", Description: "The caretaker that manages resources, files, and hardware for every process."},
-		{Term: "CPU", Description: "The worker who executes instructions and does calculations."},
-		{Term: "Memory (RAM)", Description: "The desk holding data the app is actively using: fast, but empty when power goes off."},
-		{Term: "Disk (Storage)", Description: "The filing cabinet where data is kept long term, even after a restart."},
+		{Term: "Process", Description: "A program that is running, with its own memory that no other process can reach."},
+		{Term: "Operating System (OS)", Description: "Decides which process gets the CPU, how much memory it may hold, and what it may touch."},
+		{Term: "CPU", Description: "Executes instructions. One core runs one thing at a time, however many programs are open."},
+		{Term: "Memory (RAM)", Description: "Where a process keeps what it is working on. Fast, and empty again the moment the process stops."},
+		{Term: "Disk (Storage)", Description: "Where data outlives the process that wrote it. Slower than memory by a wide margin."},
 	},
 
 	BuildIt: BuildIt{

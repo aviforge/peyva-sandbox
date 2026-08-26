@@ -28,7 +28,7 @@ var Chapter12 = ChapterContent{
 	},
 
 	UnderTheHood: []string{
-		"peyva App -> 1. Send message -> Queue (e.g. order-queue) -> 2. Consume message -> Worker Service -> 3. Perform work (e.g. send notification).",
+		"The Teller -> 1. Send message -> Queue -> 2. Consume message -> the Courier -> 3. Perform work (e.g. send notification).",
 		"Messages stay in the queue until a worker picks them up. Nothing is lost if the worker is briefly offline.",
 	},
 

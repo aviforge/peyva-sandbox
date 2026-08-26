@@ -23,7 +23,7 @@ var Chapter16 = ChapterContent{
 		{Term: "Consistency (C)", Description: "All users see the same data at the same time."},
 		{Term: "Availability (A)", Description: "Every request gets a response, no errors or timeouts."},
 		{Term: "Partition Tolerance (P)", Description: "The system keeps working even if parts of it can't talk to each other."},
-		{Term: "CAP Theorem", Description: "During a network partition, you can only keep two of the three guarantees. You must choose."},
+		{Term: "CAP Theorem", Description: "The choice only binds while the network is broken. On a healthy day peyva has all three, which is why the decision is easy to forget until it matters."},
 	},
 
 	UnderTheHood: []string{

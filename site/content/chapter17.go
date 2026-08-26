@@ -20,6 +20,7 @@ var Chapter17 = ChapterContent{
 	},
 
 	Concepts: []ConceptItem{
+		{Term: "Observability", Description: "How much you can tell about what a running system is doing from the outside, without attaching a debugger to it."},
 		{Term: "Metrics", Description: "Numbers over time: requests/sec, latency, queue size, error rate, CPU, memory."},
 		{Term: "Logs", Description: "Detailed events: a login failed, a payment was processed. The specific story of what happened."},
 		{Term: "Traces", Description: "A request's journey across services: one payment request's path through five different parts of the system."},

@@ -27,7 +27,7 @@ var Chapter03 = ChapterContent{
 
 	UnderTheHood: []string{
 		"Your App -> TCP/IP -> Internet -> the other machine's App, following IP addresses on both ends.",
-		"TCP guarantees packets arrive in order with none missing: exactly what moving money needs.",
+		"TCP re-sends anything lost and reassembles what arrives out of order, so peyva never sees a half-delivered request.",
 		"net.Listen from Chapter 2 already speaks TCP/IP. This chapter is about reaching a different machine, not just your own.",
 	},
 

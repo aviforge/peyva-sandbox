@@ -165,7 +165,7 @@
     <section class="block">
       <h2>3. Under the Hood</h2>
       <ul>
-        <li>Users &amp; Clients -&gt; HTTPS (TLS) -&gt; API Gateway (AuthN via OIDC/OAuth2, AuthZ via RBAC/ABAC, Rate Limiting) -&gt; peyva Services -&gt; Data Layer (encrypted databases, object storage, backups).</li>
+        <li>Users -&gt; an encrypted connection -&gt; the Gateway, which checks who is calling, what they are allowed to do, and how often they may ask -&gt; the Teller -&gt; stored data, itself encrypted and backed up.</li>
       </ul>
     </section>
 

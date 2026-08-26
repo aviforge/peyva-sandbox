@@ -165,7 +165,7 @@
     <section class="block">
       <h2>3. Under the Hood</h2>
       <ul>
-        <li>Your App -&gt; TCP/IP -&gt; Internet -&gt; the other machine&#39;s App, following IP addresses on both ends.</li><li>TCP guarantees packets arrive in order with none missing: exactly what moving money needs.</li><li>net.Listen from Chapter 2 already speaks TCP/IP. This chapter is about reaching a different machine, not just your own.</li>
+        <li>Your App -&gt; TCP/IP -&gt; Internet -&gt; the other machine&#39;s App, following IP addresses on both ends.</li><li>TCP re-sends anything lost and reassembles what arrives out of order, so peyva never sees a half-delivered request.</li><li>net.Listen from Chapter 2 already speaks TCP/IP. This chapter is about reaching a different machine, not just your own.</li>
       </ul>
     </section>
 

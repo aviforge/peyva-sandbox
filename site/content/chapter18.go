@@ -27,7 +27,7 @@ var Chapter18 = ChapterContent{
 	},
 
 	UnderTheHood: []string{
-		"Users & Clients -> HTTPS (TLS) -> API Gateway (AuthN via OIDC/OAuth2, AuthZ via RBAC/ABAC, Rate Limiting) -> peyva Services -> Data Layer (encrypted databases, object storage, backups).",
+		"Users -> an encrypted connection -> the Gateway, which checks who is calling, what they are allowed to do, and how often they may ask -> the Teller -> stored data, itself encrypted and backed up.",
 	},
 
 	BuildIt: BuildIt{

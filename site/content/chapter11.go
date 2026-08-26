@@ -27,7 +27,7 @@ var Chapter11 = ChapterContent{
 	},
 
 	UnderTheHood: []string{
-		"Request Data (Get Alice's balance) -> Cache. Cache Hit -> Return Data (fast). Cache Miss -> Fetch from DB and store in cache, then return it.",
+		"Request Data (Get Alice's balance) -> Cache. Cache Hit -> Return Data (fast). Cache Miss -> Fetch from the Database and store in cache, then return it.",
 		"A cache trades a little staleness risk for speed. That tradeoff has to be deliberate, not accidental.",
 	},
 

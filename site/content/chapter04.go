@@ -29,8 +29,8 @@ var Chapter04 = ChapterContent{
 
 	UnderTheHood: []string{
 		"Client sends 'Request: POST /transfer {...}' to peyva's API; peyva sends back 'Response: 200 OK {...}'.",
-		"Behind the API sits the System: Logic (decides what to do), Database (where balances live), and The Book (the ledger of every transfer).",
-		"A good API is simple, predictable, and hard to misuse.",
+		"Behind the API sit the Teller (decides what to do), the Vault (where balances live), and the Ledger (the record of every transfer).",
+		"The caller never learns how peyva stores a balance, only what to send and what comes back.",
 	},
 
 	BuildIt: BuildIt{

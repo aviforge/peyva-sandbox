@@ -42,6 +42,8 @@ var Chapter07 = ChapterContent{
 			"Before writing code: walk me through what the data looks like if the process dies between the debit, the credit, and the Ledger write. Three scenarios, and for each tell me exactly who is owed what.\n\n" +
 			"Then make those states unreachable, and tell me which of your three scenarios is still possible afterwards, if any.\n\n" +
 			"Done when a completed payment leaves two balanced Ledger entries and updated balances, a forced mid-payment failure leaves neither, and summing alice's Ledger entries equals her Vault balance.",
+		UIIntro:  "The portal can show where a balance came from.",
+		UIPrompt: "Give each account a history view: every movement in and out, newest first, each with its reference, amount and the other party.\n\nBefore building it, walk me through what the view should show for a payment that failed halfway. Should it appear at all? If it should, how does a customer tell it apart from one that worked? Answer that first, then build what you described.\n\nDone when the history for alice explains her balance without me reading the database.",
 	},
 
 	BreakIt: BreakIt{

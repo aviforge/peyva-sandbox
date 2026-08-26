@@ -23,7 +23,11 @@ type PageData struct {
 	// assistant without naming a language. Script swaps it when the reader
 	// chooses; it is never absent.
 	LanguageLine template.HTML
-	Languages    []content.Language
+
+	// UILine is the portal prompt preamble, rendered only where a chapter has
+	// portal work.
+	UILine    template.HTML
+	Languages []content.Language
 
 	// LanguageIsChosenHere is true only on the chapter that owns the picker.
 	// The choice applies to every chapter, so offering it on all of them

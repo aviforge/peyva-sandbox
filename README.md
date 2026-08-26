@@ -13,6 +13,10 @@ every prompt points at it. Chapter 0 asks which language you want to build in, a
 prompt after it asks for that one, so what you build in chapter 12 still fits
 what you built in chapter 4.
 
+Chapters that grow the portal carry two prompts: one for the component, one
+for the page, each copied on its own. The portal is plain HTML and CSS with no
+dependencies, so it is the same portal whichever backend language you pick.
+
 The choice is offered once, in chapter 0. Later chapters show which language is
 in force and link back there to change it. Twelve are available: Go, Python,
 JavaScript, TypeScript, Java, C#, C++, Rust, Ruby, PHP, Kotlin and Swift.

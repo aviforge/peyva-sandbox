@@ -40,6 +40,8 @@ var Chapter05 = ChapterContent{
 			"Target: the Vault keeps accounts in a file on disk. It creates its storage on first run and seeds alice only if she isn't already there. Every read and every write of a balance goes to that file. No balance is cached in memory anywhere.\n\n" +
 			"Use SQLite with a driver that needs no cgo. Don't change what the Gateway or the Teller look like from the outside.\n\n" +
 			"Done when restarting the process still reports alice's balance, and deleting the Vault's file is the only thing that loses it.",
+		UIIntro:  "The portal stops forgetting.",
+		UIPrompt: "The portal reads balances from the Vault's file rather than from whatever was in memory when the page was written.\n\nDone when I make a payment, stop the process, start it again, reload the page, and the new balance is still there.",
 	},
 
 	BreakIt: BreakIt{

@@ -24,6 +24,20 @@ type BuildIt struct {
 	Why       string
 	Source    string
 	Prompt    string
+
+	// UIIntro and UIPrompt are the portal's share of the chapter, empty in the
+	// chapters that add nothing to it. They are a separate prompt rather than
+	// more of Prompt because a reader copies one thing at a time, and a single
+	// prompt covering both would have the assistant build a component and a
+	// page in one pass with no place to stop between them.
+	//
+	// Technique shapes both. The chapters that grow the portal happen to be the
+	// ones whose technique suits a page as well as a component: chapter 11's
+	// self-critique loop is what turns a working portal into a presentable one,
+	// and chapter 12's permission to refuse is what stops a plain page quietly
+	// acquiring a framework.
+	UIIntro  string
+	UIPrompt string
 }
 
 // RecognisedSources are the corpora a BuildIt.Source may cite. Both are

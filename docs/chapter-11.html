@@ -199,6 +199,31 @@ Report what you found as a list, fix it, then run that same review again on the 
 
 Done when a repeated enquiry is served from cache, a payment makes the next enquiry show the new balance, and you&#39;ve told me which staleness bug your first attempt had.</pre>
       </div>
+      
+      <p class="prompt-divider">The portal</p>
+      <ul class="lead">
+        <li>The portal stops looking like a first draft.</li>
+      </ul>
+      <div class="prompt-wrap">
+        <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy portal prompt to clipboard" title="Copy portal prompt">
+          <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+        </button>
+        <pre class="prompt"><span class="prompt-lang" data-prompt-lang>The portal is plain HTML and CSS. No framework, no build step, no dependencies.
+It lives in peyva/portal/. Anything it needs from the server is <span data-language-name>Go</span>, standard library only.
+The goal and invariants are in peyva/goal.md.</span>
+
+Now make the portal presentable.
+
+Judge what you have against these, one at a time: it reads at a glance on a phone; money is aligned and always shows two decimals; the balance is the most prominent thing on the page; every action says what happened; nothing shifts as data loads; it is legible in both light and dark.
+
+For each one, tell me whether it passes before you change anything. Fix what fails, then judge it again. Keep going until a pass finds nothing left, and tell me what you fixed on each round.
+
+Still plain HTML and CSS. If you want a framework to do this, you have misread the task.
+
+Done when a critique pass finds nothing to fix.</pre>
+      </div>
+      
     </section>
 
     <section class="block break-it">

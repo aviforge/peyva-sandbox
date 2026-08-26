@@ -199,6 +199,29 @@ Then implement your recommendation. Treat an unreachable second copy as a partit
 
 Done when disconnecting the second copy makes payments fail loudly while enquiries still succeed, and reconnecting restores payments with no restart.</pre>
       </div>
+      
+      <p class="prompt-divider">The portal</p>
+      <ul class="lead">
+        <li>The portal has to be honest about a balance it is not sure of.</li>
+      </ul>
+      <div class="prompt-wrap">
+        <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy portal prompt to clipboard" title="Copy portal prompt">
+          <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+        </button>
+        <pre class="prompt"><span class="prompt-lang" data-prompt-lang>The portal is plain HTML and CSS. No framework, no build step, no dependencies.
+It lives in peyva/portal/. Anything it needs from the server is <span data-language-name>Go</span>, standard library only.
+The goal and invariants are in peyva/goal.md.</span>
+
+When the Vault&#39;s copies disagree, the balance the portal shows may be behind.
+
+Propose three genuinely different ways for the page to handle that, not three wordings of one. For each, say what a customer believes after reading it, and what they do next. Then recommend one and say what it costs.
+
+Build the one you recommend.
+
+Done when a stale balance is visibly stale and a customer is not misled about their money.</pre>
+      </div>
+      
     </section>
 
     <section class="block break-it">

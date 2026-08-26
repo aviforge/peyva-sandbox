@@ -42,6 +42,8 @@ var Chapter03 = ChapterContent{
 			"Tell me the command for my OS to find this machine's network address, and how to know which of the addresses it prints is the right one. Then tell me whether the Gateway needs a code change to accept connections from another machine, or whether it already does.\n\n" +
 			"If a firewall prompt is likely on my OS, warn me before I hit it.\n\n" +
 			"Done when the phone's browser reaches the Gateway and the Gateway logs that connection.",
+		UIIntro:  "The page stops being a file on your disk and becomes a page on the network.",
+		UIPrompt: "The Gateway accepts connections but serves nothing. Have it return peyva/portal/index.html to anything that connects, so the page I could only open locally is now reachable from my phone on the same Wi-Fi.\n\nTell me what changes about how the page loads its stylesheet once it arrives over a connection instead of from disk, before I hit it.\n\nDone when the phone's browser shows alice's balance.",
 	},
 
 	BreakIt: BreakIt{

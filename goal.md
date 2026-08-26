@@ -8,9 +8,11 @@ told them again.
 
 ## What it must do
 
-- Hold an account for each user: an owner and an amount.
+- Hold an account for each user: a handle, an owner and an amount.
 - Move money between accounts on request.
 - Answer what an account holds, and how it came to hold it.
+- Let a customer open an account, send money to a handle, and read their
+  history, from a page rather than a command line.
 
 ## What must never happen
 
@@ -44,3 +46,4 @@ Each appears in the chapter that builds it. Until then it does not exist.
 | Ledger | The append-only record behind every balance | 7 |
 | Courier | Carries out work after a payment clears | 12 |
 | Reconciler | Proves the Vault and the Ledger still agree | 20 |
+| Portal | What a customer sees and uses | grows from 0 |

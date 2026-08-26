@@ -44,6 +44,8 @@ var Chapter20 = ChapterContent{
 			"Then build the Reconciler, and answer three things from the code rather than from general knowledge: which single component failing would hurt customers most, which failure the system currently handles worst, and which piece is over-engineered for its actual load.\n\n" +
 			"Where the code doesn't match how a real payments system would do it, say so plainly.\n\n" +
 			"Done when the Reconciler reports no discrepancies on a healthy system, reports the exact gap after I kill the process mid-payment, and your restatement and mine agree.",
+		UIIntro:  "The whole portal, explained back to you.",
+		UIPrompt: "Before touching it, describe the portal back to me: every screen, what a customer can do on each, and which component answers it. Use your own words, not mine.\n\nWhere your description and mine differ, one of us has misunderstood the system. Say which parts you are unsure of.\n\nThen finish it: one place a customer can open an account, see a balance, send money, read their history and know a message was delivered.\n\nDone when someone who has never seen peyva can use it without being told how.",
 	},
 
 	BreakIt: BreakIt{

@@ -44,6 +44,8 @@ var Chapter18 = ChapterContent{
 			"3. Answer them. Take each question against the code you actually wrote, one at a time, and don't soften an answer because of what you concluded on another.\n" +
 			"4. Revise. Fix what the answers exposed, then state plainly what is still exploitable, including anything you left out of scope on purpose.\n\n" +
 			"Done when a request with no credential is refused, a caller authenticated as one owner spending from another's account is refused, no credential is left in source, and I have your list of what remains exploitable.",
+		UIIntro:  "The portal stops trusting whoever is holding the phone.",
+		UIPrompt: "Put a sign-in in front of the portal. A signed-in customer sees their own account and nobody else's, and can only send from their own.\n\nThen verify your own work. Write the list of questions that would expose it as broken: specific to this page and these forms, not generic security advice. Answer each against what you built, and fix what the answers expose.\n\nDone when signing in as alice shows alice, and nothing I can type in the browser makes it show or spend bob's money.",
 	},
 
 	BreakIt: BreakIt{

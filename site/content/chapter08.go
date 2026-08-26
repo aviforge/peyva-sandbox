@@ -41,6 +41,8 @@ var Chapter08 = ChapterContent{
 			"Then make the Teller recognise a repeat: the caller supplies a reference with the request, and a reference the Teller has already handled returns the original result without moving money again. Store the reference and its response in the same atomic unit that moves the money. Not before, not after.\n\n" +
 			"Then go back over the list you wrote and tell me, case by case, which ones your design now handles and which it doesn't. Include what happens if two requests carrying the same brand-new reference arrive at the same instant.\n\n" +
 			"Done when the same reference twice pays once, two different references pay twice, and both duplicate responses are byte-identical.",
+		UIIntro:  "The portal stops punishing an impatient customer.",
+		UIPrompt: "A customer who taps send twice must not pay twice. The portal attaches the same reference to a resubmission of the same form, and shows the original result rather than a second payment.\n\nDone when double-submitting the form leaves one payment in the history, and the page looks the same both times.",
 	},
 
 	BreakIt: BreakIt{

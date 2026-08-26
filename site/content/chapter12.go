@@ -42,6 +42,8 @@ var Chapter12 = ChapterContent{
 			"Scope: one process on a laptop, one user, no deployment. An in-process queue and a worker. Do not introduce Kafka, RabbitMQ, NATS, Redis, Docker, or any broker or queue library. No retry policies, no dead-letter handling, no backpressure tuning.\n\n" +
 			"If the standard library genuinely can't express this, say so rather than reaching for a dependency I ruled out. Admitting it is a more useful answer than a guess.\n\n" +
 			"Done when a deliberately slow notification doesn't delay the payment response, and work handed over while the Courier is stopped is delivered once it starts again.",
+		UIIntro:  "The portal stops waiting for work the customer does not care about.",
+		UIPrompt: "The page currently waits for the notification before it responds. Have it show the payment as done the moment the money has moved, and the message as delivered separately once the Courier has sent it.\n\nIf plain HTML and CSS cannot show something arriving after the page has loaded without me adding a dependency, say so and tell me what the smallest honest option is. I would rather hear that than find a library in my project.\n\nDone when a slow notification does not delay what the customer sees.",
 	},
 
 	BreakIt: BreakIt{

@@ -75,6 +75,7 @@ func run(templatesDir, assetsDir, outDir, indexPath string) error {
 			Labs:          content.Labs,
 			AssetPrefix:   prefix,
 			LanguageLine:  languageLine(defaultLanguage, chapter.Number),
+			UILine:        uiLine(defaultLanguage),
 			Languages:     content.Languages,
 
 			LanguageIsChosenHere: chapter.Number == languagePickerChapter,
@@ -181,6 +182,21 @@ func languageLine(l content.Language, chapterNumber int) template.HTML {
 	// The goal and the invariants do not fit in a preamble, and an assistant
 	// that has to infer them reads the whole codebase instead, which costs far
 	// more than the one small file this points at.
+	line += "\nThe goal and invariants are in peyva/goal.md."
+	return template.HTML(line)
+}
+
+// uiLine is the preamble for the portal prompt. It repeats the language and the
+// layout because the portal is a component like any other, and drops the money
+// rule because a page renders a balance rather than holding one.
+//
+// The no-dependency line is the whole reason the portal can exist in a book
+// that allows twelve backend languages: a page built from plain HTML and CSS
+// needs no toolchain, so it is the same page whichever language serves it.
+func uiLine(l content.Language) template.HTML {
+	name := `<span data-language-name>` + template.HTMLEscapeString(l.Name) + `</span>`
+	line := "The portal is plain HTML and CSS. No framework, no build step, no dependencies."
+	line += "\nIt lives in peyva/portal/. Anything it needs from the server is " + name + ", standard library only."
 	line += "\nThe goal and invariants are in peyva/goal.md."
 	return template.HTML(line)
 }

@@ -46,6 +46,8 @@ var Chapter06 = ChapterContent{
 			"5. Time 1,000 account inserts with the index present, then with it dropped, and report that difference too.\n\n" +
 			"Never state a performance claim you have not measured on this machine. Show me real numbers, not estimates, and if the improvement is smaller than expected, say so rather than explaining it away.\n\n" +
 			"Done when I have four real numbers: read time before and after, write time before and after.",
+		UIIntro:  "The portal learns to find one account among many.",
+		UIPrompt: "Add a handle lookup to the portal: type a handle, see that account.\n\nThen show me, from a real timing you have run rather than an estimate, how long the lookup takes against a table with thousands of accounts, with the index and without it.\n\nDone when the lookup returns the right account and you have shown me both timings.",
 	},
 
 	BreakIt: BreakIt{

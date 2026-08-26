@@ -40,6 +40,7 @@ var Chapter04 = ChapterContent{
 		Source:    "The Prompt Report: In-Context Learning; Anthropic, Use examples effectively",
 		Prompt: "Requests reach the Gateway but nothing acts on them. Have it speak HTTP, and build the Teller behind it.\n\n" +
 			"The Teller handles one payment end to end: validate the request, check the payer has enough, move the amount between accounts in the Vault, and return a reference the caller can quote later. The Teller is the only thing allowed to move money: the Gateway parses and forwards, and never touches a balance itself.\n\n" +
+			"Add one more endpoint: open an account for a handle that does not exist yet, starting at zero.\n\n" +
 			"Match these exactly:\n\n" +
 			"  {\"from\": \"alice\", \"to\": \"bob\", \"amount\": 20}\n" +
 			"  -> 200 {\"status\": \"success\", \"reference\": \"tx_7f3b9c2a\"}\n\n" +
@@ -49,6 +50,8 @@ var Chapter04 = ChapterContent{
 			"  -> 400 {\"error\": \"invalid JSON body\"}\n\n" +
 			"Validate before touching any account. No authentication, no retries, no persistence: later chapters.\n\n" +
 			"Done when those three requests produce exactly those three responses, and alice's balance drops by 20 only on the first.",
+		UIIntro:  "The portal gets the two things a wallet is for: opening an account, and sending money.",
+		UIPrompt: "Give the portal a form to open an account by handle, and a form to send money to one.\n\nThe forms post to the endpoints you just built and render what comes back. Match these:\n\n  open an account   -> the new handle appears with a balance of 0.00\n  send to a handle  -> the reference comes back and both balances change\n  amount left blank -> the page says which field is wrong, and nothing moves\n  unknown handle    -> the page says so, and nothing moves\n\nEvery failure is shown on the page. None of them is a blank screen or a raw error.\n\nDone when those four cases each produce exactly what is written above.",
 	},
 
 	BreakIt: BreakIt{

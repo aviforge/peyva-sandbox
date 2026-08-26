@@ -4,6 +4,7 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"strconv"
 	"strings"
 	"testing"
 
@@ -158,12 +159,29 @@ func TestLanguageControlSitsWithThePromptItGoverns(t *testing.T) {
 	}
 }
 
-// The prompts are long enough that selecting them by hand is the friction this
-// button exists to remove, and one per page is the whole contract.
-func TestEveryPageHasExactlyOneCopyButton(t *testing.T) {
+// One copy button per prompt. A chapter that grows the portal has two prompts,
+// because a reader copies one thing at a time and would otherwise get a
+// component and a page in a single paste with no place to stop between them.
+func TestEachPromptHasItsOwnCopyButton(t *testing.T) {
+	byNumber := map[int]content.ChapterContent{}
+	for _, c := range content.All {
+		byNumber[c.Number] = c
+	}
+
 	for _, p := range renderedPages(t) {
-		if n := strings.Count(p.body, "data-copy-prompt"); n != 1 {
-			t.Errorf("%s: %d copy buttons, want 1", p.name, n)
+		want := 1
+		num := 0
+		if p.name != "index.html" {
+			num, _ = strconv.Atoi(regexp.MustCompile(`chapter-(\d+)`).FindStringSubmatch(p.name)[1])
+		}
+		if byNumber[num].BuildIt.UIPrompt != "" {
+			want = 2
+		}
+		if got := strings.Count(p.body, "data-copy-prompt"); got != want {
+			t.Errorf("%s: %d copy buttons, want %d", p.name, got, want)
+		}
+		if got := strings.Count(p.body, `<pre class="prompt">`); got != want {
+			t.Errorf("%s: %d prompt blocks, want %d", p.name, got, want)
 		}
 	}
 }
@@ -176,6 +194,64 @@ func TestEveryPageIsSelfContained(t *testing.T) {
 			if strings.Contains(p.body, unwanted) {
 				t.Errorf("%s: contains %q, so it is not self-contained", p.name, unwanted)
 			}
+		}
+	}
+}
+
+// The portal prompt is copied on its own, so it carries its own rules. The
+// money rule is deliberately absent: a page renders a balance rather than
+// holding one, and the no-dependency line is what keeps the portal buildable
+// whichever of the twelve backend languages the reader picked.
+func TestPortalPromptCarriesItsOwnRules(t *testing.T) {
+	byNumber := map[int]content.ChapterContent{}
+	for _, c := range content.All {
+		byNumber[c.Number] = c
+	}
+
+	for _, p := range renderedPages(t) {
+		num := 0
+		if p.name != "index.html" {
+			num, _ = strconv.Atoi(regexp.MustCompile(`chapter-(\d+)`).FindStringSubmatch(p.name)[1])
+		}
+		if byNumber[num].BuildIt.UIPrompt == "" {
+			continue
+		}
+		for _, rule := range []string{
+			"plain HTML and CSS",
+			"No framework, no build step, no dependencies",
+			"peyva/portal/",
+			"peyva/goal.md",
+		} {
+			if !strings.Contains(p.body, rule) {
+				t.Errorf("%s: portal prompt is missing %q", p.name, rule)
+			}
+		}
+	}
+}
+
+// A portal prompt must not name a language either. The page is the same page
+// whichever language serves it, which is the only reason one portal can exist
+// across twelve of them.
+func TestPortalPromptsNameNoLanguage(t *testing.T) {
+	banned := []string{"go run", "goroutine", "fmt.Println", "npm", "React", "Lit", "node_modules"}
+	for _, c := range content.All {
+		for _, b := range banned {
+			if strings.Contains(c.BuildIt.UIPrompt, b) {
+				t.Errorf("chapter %d portal prompt names %q", c.Number, b)
+			}
+		}
+	}
+}
+
+// A chapter that adds portal work says what it adds. An empty intro beside a
+// filled prompt means the section renders a bare instruction with no context.
+func TestPortalPromptsComeWithAnIntro(t *testing.T) {
+	for _, c := range content.All {
+		if (c.BuildIt.UIPrompt == "") != (c.BuildIt.UIIntro == "") {
+			t.Errorf("chapter %d: UIPrompt and UIIntro must both be set or both be empty", c.Number)
+		}
+		if c.BuildIt.UIPrompt != "" && !strings.Contains(c.BuildIt.UIPrompt, "Done when") {
+			t.Errorf("chapter %d: portal prompt has no 'Done when' line", c.Number)
 		}
 	}
 }

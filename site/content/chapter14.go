@@ -45,6 +45,8 @@ var Chapter14 = ChapterContent{
 			"4. A reversal for stage one (put the money back, as a new pair of Ledger entries rather than by deleting the old ones), triggered when stage two fails in a way that can never succeed.\n\n" +
 			"Distinguish permanent failures from retryable ones. Only permanent failures reverse.\n\n" +
 			"Done when a permanently failing stage two puts the money back, the Ledger shows both the original payment and its reversal, and the payment's record shows every stage it passed through.",
+		UIIntro:  "The portal has to explain a payment that was undone.",
+		UIPrompt: "A reversed payment currently looks like two unrelated rows. Show it as what it is: the original, and the reversal that answers it, tied together.\n\nBuild it in stages. First mark a reversed payment as reversed. Then link the two rows. Then say why it was reversed. Stop after each and show me before starting the next.\n\nDone when a customer can see that money left and came back, and why.",
 	},
 
 	BreakIt: BreakIt{

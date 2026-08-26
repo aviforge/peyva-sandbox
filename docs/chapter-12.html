@@ -199,6 +199,27 @@ If the standard library genuinely can&#39;t express this, say so rather than rea
 
 Done when a deliberately slow notification doesn&#39;t delay the payment response, and work handed over while the Courier is stopped is delivered once it starts again.</pre>
       </div>
+      
+      <p class="prompt-divider">The portal</p>
+      <ul class="lead">
+        <li>The portal stops waiting for work the customer does not care about.</li>
+      </ul>
+      <div class="prompt-wrap">
+        <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy portal prompt to clipboard" title="Copy portal prompt">
+          <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+        </button>
+        <pre class="prompt"><span class="prompt-lang" data-prompt-lang>The portal is plain HTML and CSS. No framework, no build step, no dependencies.
+It lives in peyva/portal/. Anything it needs from the server is <span data-language-name>Go</span>, standard library only.
+The goal and invariants are in peyva/goal.md.</span>
+
+The page currently waits for the notification before it responds. Have it show the payment as done the moment the money has moved, and the message as delivered separately once the Courier has sent it.
+
+If plain HTML and CSS cannot show something arriving after the page has loaded without me adding a dependency, say so and tell me what the smallest honest option is. I would rather hear that than find a library in my project.
+
+Done when a slow notification does not delay what the customer sees.</pre>
+      </div>
+      
     </section>
 
     <section class="block break-it">

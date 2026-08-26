@@ -44,14 +44,16 @@ Now apply that principle here. Audit the code against it and show me every place
 
 Then fix what you found, make the port configurable, and add a small round-robin reverse proxy in front using only the standard library.
 
-I am not opening four terminals to test this. Build peyva/run/, in the same language as the rest, standard library only:
+I am not opening four terminals to test this. Write peyva/run, a script for the operating system I am on:
 
   start N  -> N copies on consecutive ports against one Vault, proxy in front,
               every output line tagged with the copy it came from
   status   -> which copies are alive, on which ports
   stop     -> kills every process peyva started, and frees their ports
 
-Ctrl+C on start stops them too. But stop has to work from a second terminal, and after the runner itself has died, or the first crash leaves ports held by processes I have to hunt down by hand. Record what was started somewhere stop can read it back, and have stop clean up that record even when a copy is already gone.
+Ctrl+C on start stops them too. But stop has to work from a second terminal and after the script itself has died, or the first crash leaves ports held by processes I hunt down by hand. Write down what you started somewhere stop can read it back, and have stop tidy that record even when a copy is already gone.
+
+This one file is not held to the language and standard-library rules. It is for running the project, not part of it, and a shell kills processes better than a program I have to build before it can start anything.
 
 If one copy dies on its own, say so and leave the others running.
 

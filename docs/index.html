@@ -203,6 +203,8 @@ These hold in every chapter. If a change would break one, the change is wrong.
   The one exception is the runner, a script you are given rather than build.
 - Copies and the proxy are configured only by environment: PEYVA_PORT, and
   PEYVA_PEERS for the proxy.
+- Settings that differ between runs or machines are config. Settings with only
+  one correct value, the money rules above among them, are code and stay in it.
 - Runs on one laptop. No containers, no cloud, no deployment.
 - One process until chapter 10, several after it, started by a runner in the
   repo rather than by hand.
@@ -224,6 +226,7 @@ Each appears in the chapter that builds it. Until then it does not exist.
   money. Chapter 4.
 - Ledger: the append-only record behind every balance. Chapter 7.
 - Courier: carries out work after a payment clears. Chapter 12.
+- Config: reads every setting from outside the code and checks it. Chapter 19.
 - Reconciler: proves the Vault and the Ledger still agree. Chapter 20.
 - Runner: a script that starts a given number of copies, says which are alive,
   and stops all of them. Given to you in chapter 10 rather than built. A tool

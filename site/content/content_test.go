@@ -137,6 +137,7 @@ var componentChapters = map[string]int{
 	"Teller":     4,
 	"Ledger":     7,
 	"Courier":    12,
+	"Config":     19,
 	"Reconciler": 20,
 }
 
@@ -223,6 +224,42 @@ func TestNoComponentIsNamedBeforeItIsBuilt(t *testing.T) {
 					c.Number, name, intro)
 			}
 		}
+	}
+}
+
+// The chapter that introduces Config has to say both halves of the rule. Half
+// of it is worse than none: a reader told to externalise settings and not told
+// where that stops moves the money rules into a file someone can edit, and the
+// invariants become optional without anyone deciding they should be.
+func TestConfigChapterStatesBothHalvesOfTheRule(t *testing.T) {
+	var chapter ChapterContent
+	for _, c := range All {
+		if c.Number == componentChapters["Config"] {
+			chapter = c
+		}
+	}
+	if chapter.Title == "" {
+		t.Fatalf("no chapter %d, which is where Config is built", componentChapters["Config"])
+	}
+
+	text := everything(chapter)
+	for _, half := range []struct{ name, phrase string }{
+		{"what to externalise", "differs between one run"},
+		{"what to keep in code", "only one correct value"},
+		{"the money rules stay in code", "two decimal places"},
+		{"how to decide", "3am"},
+	} {
+		if !strings.Contains(text, half.phrase) {
+			t.Errorf("chapter %d does not say %s (looked for %q)",
+				chapter.Number, half.name, half.phrase)
+		}
+	}
+
+	// Money's shape is stated as a constraint in the spec, so a chapter that
+	// later offered it as a setting would contradict the file every prompt
+	// points at.
+	if !strings.Contains(GoalSpec, "Two decimal places") {
+		t.Error("the spec no longer fixes money at two decimal places")
 	}
 }
 

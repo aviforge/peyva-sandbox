@@ -26,12 +26,13 @@ var requiredSections = []string{
 var pairedTags = []string{"ul", "li", "section", "figure", "select", "pre"}
 
 var (
-	unrendered  = regexp.MustCompile(`\{\{[^}]{0,60}\}\}`)
-	heroImg     = regexp.MustCompile(`<img src="[^"]*images/chapter-\d+\.webp"`)
-	sidebarLink = regexp.MustCompile(`data-slug="chapter-\d+"`)
-	optionTag   = regexp.MustCompile(`<option value="`)
-	sidebarNav  = regexp.MustCompile(`(?s)<nav class="sidebar">.*?</nav>`)
-	buildIt     = regexp.MustCompile(`(?s)<section class="block build-it">.*?</section>`)
+	unrendered   = regexp.MustCompile(`\{\{[^}]{0,60}\}\}`)
+	heroImg      = regexp.MustCompile(`<img src="[^"]*images/chapter-\d+\.webp"`)
+	sidebarLink  = regexp.MustCompile(`data-slug="chapter-\d+"`)
+	optionTag    = regexp.MustCompile(`<option value="`)
+	sidebarNav   = regexp.MustCompile(`(?s)<nav class="sidebar">.*?</nav>`)
+	buildIt      = regexp.MustCompile(`(?s)<section class="block build-it">.*?</section>`)
+	setupSection = regexp.MustCompile(`(?s)<section class="block setup".*?</section>`)
 )
 
 // renderedPage is one generated file plus what the test needs to know about it.
@@ -135,24 +136,31 @@ func TestLanguageControlSitsWithThePromptItGoverns(t *testing.T) {
 			continue
 		}
 
+		// Every chapter reports the language beside the prompt it governs.
+		if !strings.Contains(section, "language-locked") {
+			t.Errorf("%s: does not show which language is in force", p.name)
+		}
+
 		if p.isCh0 {
-			if !strings.Contains(section, "data-language-select") {
-				t.Errorf("%s: chapter 0 should offer the picker in Build It", p.name)
+			setup := setupSection.FindString(p.body)
+			if !strings.Contains(setup, "data-language-select") {
+				t.Errorf("%s: the picker belongs in Setup, where the project is prepared", p.name)
 			}
-			if n := len(optionTag.FindAllString(section, -1)); n != len(content.Languages) {
+			if strings.Contains(section, "data-language-select") {
+				t.Errorf("%s: the picker is still in Build It", p.name)
+			}
+			if n := len(optionTag.FindAllString(setup, -1)); n != len(content.Languages) {
 				t.Errorf("%s: offers %d languages, want %d", p.name, n, len(content.Languages))
 			}
-			if strings.Contains(p.body, "language-locked") {
-				t.Errorf("%s: chapter 0 makes the choice, so it should not show it as locked", p.name)
+			// The choice is on this page, so pointing at the page is no help.
+			if !strings.Contains(section, `href="#setup"`) {
+				t.Errorf("%s: does not point back at the picker above it", p.name)
 			}
 			continue
 		}
 
 		if strings.Contains(p.body, "data-language-select") {
 			t.Errorf("%s: only chapter 0 may offer the picker", p.name)
-		}
-		if !strings.Contains(section, "language-locked") {
-			t.Errorf("%s: does not show which language is in force", p.name)
 		}
 		if !strings.Contains(section, "chapter-0.html") {
 			t.Errorf("%s: shows the language with no way back to change it", p.name)
@@ -344,7 +352,7 @@ func TestChapterZeroCarriesTheSetupFiles(t *testing.T) {
 	for _, p := range renderedPages(t) {
 		// Match the section element, not the word. "Setup" appears in prose on
 		// other pages.
-		hasSetup := strings.Contains(p.body, `<section class="block setup">`)
+		hasSetup := strings.Contains(p.body, `<section class="block setup"`)
 		if p.isCh0 != hasSetup {
 			t.Errorf("%s: renders the setup section = %v, want %v", p.name, hasSetup, p.isCh0)
 		}

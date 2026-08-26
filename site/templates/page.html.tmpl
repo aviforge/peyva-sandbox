@@ -39,8 +39,14 @@
   </figure>
 
   {{if .Setup}}
-  <section class="block setup">
-    <h2>Setup <span class="badge">Once</span></h2>
+  <section class="block setup" id="setup">
+    <h2>Setup <span class="badge">Once</span>
+        {{if .LanguageIsChosenHere}}<label class="language-picker">Build in
+          <select class="language-select" data-language-select aria-label="Language every chapter&#39;s prompt asks for">
+            {{range .Languages}}<option value="{{.ID}}">{{.Name}}</option>{{end}}
+          </select>
+        </label>{{end}}
+    </h2>
     <ul class="lead">
       <li>Two files, saved before you write a line of code.</li>
       <li>They are why every prompt in this book is a few lines rather than a page: the goal and the rules live in the project, so a prompt only has to say what changes.</li>
@@ -91,11 +97,7 @@
 
     <section class="block build-it">
       <h2>4. Build It <span class="badge">Hands-on</span>
-          {{if .LanguageIsChosenHere}}<label class="language-picker">Build in
-            <select class="language-select" data-language-select aria-label="Language every chapter&#39;s prompt asks for">
-              {{range .Languages}}<option value="{{.ID}}">{{.Name}}</option>{{end}}
-            </select>
-          </label>{{else}}<span class="language-locked">Building in <b data-language-name>{{.LanguageName}}</b>, <a href="{{.AssetPrefix}}chapter-0.html">change in Chapter 0</a></span>{{end}}
+          <span class="language-locked">Building in <b data-language-name>{{.LanguageName}}</b>, {{if .LanguageIsChosenHere}}<a href="#setup">change in Setup</a>{{else}}<a href="{{.AssetPrefix}}chapter-0.html">change in Chapter 0</a>{{end}}</span>
       </h2>
       {{if .SystemMatters}}<p class="system-locked">{{if .SystemIsChosenHere}}<label class="language-picker">Script for
           <select class="language-select" data-system-select aria-label="Operating system the runner script is written for">

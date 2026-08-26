@@ -28,6 +28,8 @@ var Chapter18 = ChapterContent{
 
 	UnderTheHood: []string{
 		"Users -> an encrypted connection -> the Gateway, which checks who is calling, what they are allowed to do, and how often they may ask -> the Teller -> stored data, itself encrypted and backed up.",
+		"Both checks run before the Teller is called, so a request that fails either one never reaches a balance.",
+		"Credentials live outside the code, in the environment or a secrets store, so a copy of the repository is never a copy of the keys.",
 	},
 
 	BuildIt: BuildIt{

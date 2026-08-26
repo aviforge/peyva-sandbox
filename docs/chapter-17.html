@@ -165,7 +165,7 @@
     <section class="block">
       <h2>3. Under the Hood</h2>
       <ul>
-        <li>peyva App -&gt; API Gateway -&gt; Payment Service -&gt; Ledger Service -&gt; Notification Service, each emitting Metrics, Logs, Traces, and Alerts into Dashboards.</li>
+        <li>A payment crosses the Gateway, the Teller, the Ledger and the Courier, and every one of them emits metrics, logs and traces into the same dashboards.</li><li>One payment reference travels with the request through all four. That is what lets you pull a single payment out of a day of logs instead of reading the whole day.</li><li>Alerts watch the metrics, not the logs. A number crossing a line is something a machine can notice at 3am. A wall of text is not.</li>
       </ul>
     </section>
 

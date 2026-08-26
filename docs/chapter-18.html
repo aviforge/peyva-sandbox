@@ -165,7 +165,7 @@
     <section class="block">
       <h2>3. Under the Hood</h2>
       <ul>
-        <li>Users -&gt; an encrypted connection -&gt; the Gateway, which checks who is calling, what they are allowed to do, and how often they may ask -&gt; the Teller -&gt; stored data, itself encrypted and backed up.</li>
+        <li>Users -&gt; an encrypted connection -&gt; the Gateway, which checks who is calling, what they are allowed to do, and how often they may ask -&gt; the Teller -&gt; stored data, itself encrypted and backed up.</li><li>Both checks run before the Teller is called, so a request that fails either one never reaches a balance.</li><li>Credentials live outside the code, in the environment or a secrets store, so a copy of the repository is never a copy of the keys.</li>
       </ul>
     </section>
 

@@ -28,7 +28,9 @@ var Chapter17 = ChapterContent{
 	},
 
 	UnderTheHood: []string{
-		"peyva App -> API Gateway -> Payment Service -> Ledger Service -> Notification Service, each emitting Metrics, Logs, Traces, and Alerts into Dashboards.",
+		"A payment crosses the Gateway, the Teller, the Ledger and the Courier, and every one of them emits metrics, logs and traces into the same dashboards.",
+		"One payment reference travels with the request through all four. That is what lets you pull a single payment out of a day of logs instead of reading the whole day.",
+		"Alerts watch the metrics, not the logs. A number crossing a line is something a machine can notice at 3am. A wall of text is not.",
 	},
 
 	BuildIt: BuildIt{

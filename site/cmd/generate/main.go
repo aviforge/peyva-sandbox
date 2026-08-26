@@ -270,7 +270,7 @@ func uiRules(l content.Language) string {
 	// about.
 	line += "\nOne customer's wallet at a time, never everyone's at once. A switcher at the top says whose."
 	line += "\nNew work joins the menu."
-	line += "\nThe goal and invariants are in peyva/goal.md."
+	line += "\nThe goal and invariants are in peyva/goal.md, the look in peyva/portal/design.md."
 	return line
 }
 

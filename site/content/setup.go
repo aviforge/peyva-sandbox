@@ -30,6 +30,11 @@ var SetupFiles = []SetupFile{
 		Content: GoalSpec,
 	},
 	{
+		Path:    "peyva/portal/design.md",
+		Purpose: "What the Portal should look like. Thirteen chapters touch the page, and this is what keeps them building one thing rather than thirteen.",
+		Content: DesignBrief,
+	},
+	{
 		Path:    "Your assistant's instruction file",
 		Purpose: "How your assistant should work: what it may decide alone, when to stop and ask, and how much to say back.",
 		Content: AgentRules,

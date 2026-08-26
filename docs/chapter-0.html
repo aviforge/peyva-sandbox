@@ -229,6 +229,59 @@ Each appears in the chapter that builds it. Until then it does not exist.
 </pre>
     </div>
     
+    <p class="prompt-divider">peyva/portal/design.md</p>
+    <ul class="lead">
+      <li>What the Portal should look like. Thirteen chapters touch the page, and this is what keeps them building one thing rather than thirteen.</li>
+    </ul>
+    
+    <div class="prompt-wrap">
+      <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this file to clipboard" title="Copy this file">
+        <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+      </button>
+      <pre class="prompt"># The look
+
+The Portal is a wallet someone opens several times a day to check one number.
+Calm, quick, exact.
+
+## What good wallets already agree on
+
+Monzo, Revolut, Wise, Cash App and Apple Wallet converge on the same handful of
+moves. Take these. Do not take their branding, and do not reproduce any of them.
+
+- The balance is the largest thing on the screen. Nothing competes with it.
+- Money is set in tabular figures, so digits do not shift as values change,
+  aligned on the decimal point, always two places.
+- A transaction row reads across: who, what it was for, then the amount hard
+  right. The date is the quietest thing in the row.
+- Money in and money out differ by sign and weight, not by colour alone.
+- History is grouped under date headings, most recent first.
+- Anything not yet settled looks pending. It is never silently missing.
+- One accent colour, spent on the primary action and almost nothing else.
+
+## Then make it yours
+
+Choose one visual idea and carry it through every screen: a distinctive way of
+setting numerals, a single strong accent against near neutral, a card shape, a
+motif that repeats. Write the idea in a comment at the top of the stylesheet so
+it survives the next chapter.
+
+A page that could belong to any product is a page nobody remembers.
+
+## Rules
+
+- A type scale of at most five sizes. One family for prose, one for figures.
+- One corner radius, one border colour, one shadow. Reuse them everywhere.
+- Spacing from one scale, used generously. Crowding reads as unfinished.
+- Every action says what happened, and to what.
+- Every screen has an empty state that says what to do next, an error state that
+  says what went wrong, and a loading state that does not move the layout.
+- Legible in light and dark, following the reader&#39;s system setting.
+- Anything tappable is at least 44 pixels.
+- Nothing changes position after the page has loaded.
+</pre>
+    </div>
+    
     <p class="prompt-divider">Your assistant&#39;s instruction file</p>
     <ul class="lead">
       <li>How your assistant should work: what it may decide alone, when to stop and ask, and how much to say back.</li>
@@ -296,7 +349,7 @@ What follows is about you, not about the code.
       <p class="technique"><span class="technique-name">Zero-shot prompting</span>. The task has one obvious shape. Scaffolding it would cost tokens and buy nothing.</p>
       <p class="technique-source">Documented in The Prompt Report: Zero-Shot</p>
       <details class="standing-rules">
-        <summary>Every prompt below is copied with these rules, about 456 tokens for the chapter</summary>
+        <summary>Every prompt below is copied with these rules, about 494 tokens for the chapter</summary>
         <pre class="prompt-lang" id="rules-build">Build this in <span data-language-name>Go</span>, standard library only.
 Code in peyva/&lt;component&gt;/, one folder per component.
 Money: exact decimal or integer minor units, never floating point, two decimal places.
@@ -305,7 +358,7 @@ The goal and invariants are in peyva/goal.md.</pre>
 It lives in peyva/portal/. Anything it needs from the server is <span data-language-name>Go</span>, standard library only.
 One customer&#39;s wallet at a time, never everyone&#39;s at once. A switcher at the top says whose.
 New work joins the menu.
-The goal and invariants are in peyva/goal.md.</pre>
+The goal and invariants are in peyva/goal.md, the look in peyva/portal/design.md.</pre>
         
       </details>
       
@@ -326,7 +379,7 @@ One file. No persistence, no network.
 Done when running it prints alice&#39;s balance and it exits cleanly on Ctrl+C.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">2 of 2</span> Portal<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~273 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">2 of 2</span> Portal<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~311 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-portal">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
@@ -338,7 +391,9 @@ Give it the shell the rest of the book fills in. A switcher at the top naming wh
 
 Both seeded accounts go into the page, so switching between them needs nothing from a server. Say what you used to do the switching and why.
 
-No server. I open the file from disk. Style it so it looks like something you would show a customer, not a debug dump.
+No server. I open the file from disk.
+
+This is where the look gets set, so read peyva/portal/design.md before writing any CSS and commit to the one visual idea it asks for. Everything after this chapter builds on what you choose here.
 
 Done when the page opens on alice holding 100.00 and the switcher shows me bob holding 0.00.</pre>
       </div>

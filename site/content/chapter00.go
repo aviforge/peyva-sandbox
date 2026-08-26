@@ -42,7 +42,9 @@ Give it the shell the rest of the book fills in. A switcher at the top naming wh
 
 Both seeded accounts go into the page, so switching between them needs nothing from a server. Say what you used to do the switching and why.
 
-No server. I open the file from disk. Style it so it looks like something you would show a customer, not a debug dump.
+No server. I open the file from disk.
+
+This is where the look gets set, so read peyva/portal/design.md before writing any CSS and commit to the one visual idea it asks for. Everything after this chapter builds on what you choose here.
 
 Done when the page opens on alice holding 100.00 and the switcher shows me bob holding 0.00.`},
 		},

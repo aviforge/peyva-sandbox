@@ -38,7 +38,7 @@ Report what you found as a list, fix it, then run that same review again on the 
 Done when a review finds nothing left, and you have told me how many rounds it took and which staleness bug the first version had.`},
 			{Label: "Portal", Portal: true, Text: `The Portal shows a balance, sends money and lists a history, and looks like each was added the week it was needed. Make it presentable.
 
-Judge what you have against these, one at a time: whose wallet this is never has to be guessed at; the menu makes it obvious where the customer is and what else they can do; it reads at a glance on a phone; money is aligned and always shows two decimals; the balance is the most prominent thing on its own screen; every action says what happened; nothing shifts as data loads; it is legible in both light and dark.
+Judge it against every rule in peyva/portal/design.md, one at a time, and against the visual idea you committed to in chapter 0. Say whether the page still has that idea or has drifted into something anonymous.
 
 Say whether each passes before changing anything. Fix what fails, judge again, and keep going until a pass finds nothing. Tell me what you fixed each round.
 

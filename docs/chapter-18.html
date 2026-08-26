@@ -147,6 +147,8 @@
     <figcaption>Security is not a feature, it&#39;s a foundation. We build it in, not bolt it on. <a class="hero-expand-hint" href="images/chapter-18.webp" target="_blank" rel="noopener">Click to view full size</a></figcaption>
   </figure>
 
+  
+
   <div class="section-grid">
     <section class="block">
       <h2>1. Intuition</h2>
@@ -178,7 +180,6 @@
       </ul>
       <p class="technique"><span class="technique-name">Chain-of-Verification (CoVe)</span>. Draft an answer, plan the questions that would catch it being wrong, answer those independently, then revise. Asking for secure code gets you the checklist; verifying your own draft finds the holes the checklist doesn&#39;t mention.</p>
       <p class="technique-source">Documented in The Prompt Report: Self-Criticism, Chain-of-Verification</p>
-      
       <div class="prompt-wrap">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy prompt to clipboard" title="Copy prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
@@ -204,7 +205,7 @@ Done when a request with no credential is refused, a caller authenticated as one
       
       <p class="prompt-divider">The portal</p>
       <ul class="lead">
-        <li>The portal stops trusting whoever is holding the phone.</li>
+        <li>The portal stops assuming whose wallet it is.</li>
       </ul>
       <div class="prompt-wrap">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy portal prompt to clipboard" title="Copy portal prompt">
@@ -213,9 +214,12 @@ Done when a request with no credential is refused, a caller authenticated as one
         </button>
         <pre class="prompt"><span class="prompt-lang" data-prompt-lang>The portal is plain HTML and CSS. No framework, no build step, no dependencies.
 It lives in peyva/portal/. Anything it needs from the server is <span data-language-name>Go</span>, standard library only.
+It is one customer's own wallet, not an operator's view. New work joins its menu.
 The goal and invariants are in peyva/goal.md.</span>
 
-Put a sign-in in front of the portal. A signed-in customer sees their own account and nobody else&#39;s, and can only send from their own.
+Every screen so far has taken it on trust that the customer is alice. Put a sign-in in front of the portal, and have the menu show who is signed in and offer a way out.
+
+A signed-in customer sees their own account and nobody else&#39;s, and can only send from their own.
 
 Then verify your own work. Write the list of questions that would expose it as broken: specific to this page and these forms, not generic security advice. Answer each against what you built, and fix what the answers expose.
 

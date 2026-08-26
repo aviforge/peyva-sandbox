@@ -202,7 +202,9 @@ func TestProseFieldsHoldNoBackticks(t *testing.T) {
 			}
 		}
 	}
-	if strings.Contains(GoalSpec, "`") {
-		t.Error("GoalSpec contains a backtick, which a raw string cannot hold")
+	for name, text := range map[string]string{"GoalSpec": GoalSpec, "AgentRules": AgentRules} {
+		if strings.Contains(text, "`") {
+			t.Errorf("%s contains a backtick, which a raw string cannot hold", name)
+		}
 	}
 }

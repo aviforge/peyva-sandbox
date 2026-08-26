@@ -1,6 +1,7 @@
 package main
 
 import (
+	"html/template"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -177,10 +178,9 @@ func TestEachPromptHasItsOwnCopyButton(t *testing.T) {
 		if byNumber[num].BuildIt.UIPrompt != "" {
 			want++
 		}
-		// Chapter 0 also carries the spec the reader saves before starting, so
-		// it has three copyable blocks rather than two.
+		// Chapter 0 also carries the files the reader saves before starting.
 		if num == 0 {
-			want++
+			want += len(content.SetupFiles)
 		}
 		if got := strings.Count(p.body, "data-copy-prompt"); got != want {
 			t.Errorf("%s: %d copy buttons, want %d", p.name, got, want)
@@ -226,6 +226,7 @@ func TestPortalPromptCarriesItsOwnRules(t *testing.T) {
 			"No framework, no build step, no dependencies",
 			"peyva/portal/",
 			"peyva/goal.md",
+			"own wallet, not an operator",
 		} {
 			if !strings.Contains(p.body, rule) {
 				t.Errorf("%s: portal prompt is missing %q", p.name, rule)
@@ -261,17 +262,17 @@ func TestPortalPromptsComeWithAnIntro(t *testing.T) {
 	}
 }
 
-// The spec is rendered into chapter 0 rather than kept as a file, so a reader
-// following the published site never has to leave it to fetch anything. It
-// carries the invariants, which no prompt states and nothing else would tell
-// an assistant.
-func TestChapterZeroCarriesTheSpec(t *testing.T) {
+// The setup files are rendered into chapter 0 rather than kept as files in this
+// repository, so a reader following the published site never has to leave it to
+// fetch one. The spec carries the invariants, which no prompt states and
+// nothing else would tell an assistant.
+func TestChapterZeroCarriesTheSetupFiles(t *testing.T) {
 	for _, p := range renderedPages(t) {
-		// Match the divider element, not the words. "The spec" also matches
-		// chapter 17's "The specific story of what happened".
-		hasSpec := strings.Contains(p.body, `<p class="prompt-divider">The spec</p>`)
-		if p.isCh0 != hasSpec {
-			t.Errorf("%s: renders the spec = %v, want %v", p.name, hasSpec, p.isCh0)
+		// Match the section element, not the word. "Setup" appears in prose on
+		// other pages.
+		hasSetup := strings.Contains(p.body, `<section class="block setup">`)
+		if p.isCh0 != hasSetup {
+			t.Errorf("%s: renders the setup section = %v, want %v", p.name, hasSetup, p.isCh0)
 		}
 		if !p.isCh0 {
 			continue
@@ -285,6 +286,41 @@ func TestChapterZeroCarriesTheSpec(t *testing.T) {
 		} {
 			if !strings.Contains(p.body, line) {
 				t.Errorf("chapter 0 spec is missing %q", line)
+			}
+		}
+		for _, line := range []string{
+			"Read peyva/goal.md first",
+			"own wallet, not an operator",
+		} {
+			if !strings.Contains(p.body, line) {
+				t.Errorf("chapter 0 agent rules are missing %q", line)
+			}
+		}
+	}
+}
+
+// Every setup file is copyable and every one that has no agreed filename says
+// which name each assistant reads. A reader who saves the rules as CLAUDE.md
+// while using Codex has a file nothing will ever open.
+func TestSetupFilesAreCopyableAndNamed(t *testing.T) {
+	for _, f := range content.SetupFiles {
+		if strings.TrimSpace(f.Content) == "" {
+			t.Errorf("setup file %q has no content", f.Path)
+		}
+		if strings.TrimSpace(f.Purpose) == "" {
+			t.Errorf("setup file %q does not say what it is for", f.Path)
+		}
+	}
+	for _, p := range renderedPages(t) {
+		if !p.isCh0 {
+			continue
+		}
+		for _, a := range content.AgentFiles {
+			if !strings.Contains(p.body, a.Tool) {
+				t.Errorf("%s: does not name %q", p.name, a.Tool)
+			}
+			if !strings.Contains(p.body, template.HTMLEscapeString(a.Path)) {
+				t.Errorf("%s: does not give the path for %q", p.name, a.Tool)
 			}
 		}
 	}

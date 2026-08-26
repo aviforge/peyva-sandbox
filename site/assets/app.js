@@ -134,16 +134,19 @@
 
     Array.prototype.forEach.call(buttons, function (button) {
       var timer = null;
+      // The buttons label different things: a prompt, the spec, the rules file.
+      // Restoring what the page shipped keeps each one describing itself.
+      var label = button.getAttribute('aria-label');
       button.addEventListener('click', function () {
         var pre = button.parentNode.querySelector('.prompt');
         if (!pre) return;
         copy(pre.textContent).then(function () {
           button.classList.add('is-copied');
-          button.setAttribute('aria-label', 'Prompt copied');
+          button.setAttribute('aria-label', 'Copied');
           window.clearTimeout(timer);
           timer = window.setTimeout(function () {
             button.classList.remove('is-copied');
-            button.setAttribute('aria-label', 'Copy prompt to clipboard');
+            button.setAttribute('aria-label', label);
           }, 2000);
         }, function () {
           // Copying is blocked. Select the prompt so it can be copied by hand.

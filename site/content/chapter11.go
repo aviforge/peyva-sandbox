@@ -48,7 +48,7 @@ Done when a repeated enquiry is served from cache, a payment makes the next enqu
 		UIIntro: "The portal stops looking like a first draft.",
 		UIPrompt: `Now make the portal presentable.
 
-Judge what you have against these, one at a time: it reads at a glance on a phone; money is aligned and always shows two decimals; the balance is the most prominent thing on the page; every action says what happened; nothing shifts as data loads; it is legible in both light and dark.
+Judge what you have against these, one at a time: the menu makes it obvious where the customer is and what else they can do; it reads at a glance on a phone; money is aligned and always shows two decimals; the balance is the most prominent thing on its own screen; every action says what happened; nothing shifts as data loads; it is legible in both light and dark.
 
 For each one, tell me whether it passes before you change anything. Fix what fails, then judge it again. Keep going until a pass finds nothing left, and tell me what you fixed on each round.
 

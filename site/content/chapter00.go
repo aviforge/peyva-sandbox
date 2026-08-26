@@ -47,12 +47,14 @@ peyva/goal.md holds the goal and the rules money must never break. Read it first
 One file. No persistence, no network.
 
 Done when running it prints alice's balance and it exits cleanly on Ctrl+C.`,
-		UIIntro: "The portal shows a balance, from a file you open yourself.",
-		UIPrompt: `Render the Vault's contents to peyva/portal/index.html each time the program starts: the handle, the owner and the balance.
+		UIIntro: "The portal starts as one customer's wallet: a menu, and a balance behind it.",
+		UIPrompt: `Write peyva/portal/index.html each time the program starts. It is alice's own wallet, not a list of everyone: her handle, and what she holds.
+
+Give it the shell the rest of the book fills in. A menu down one side with Balance in it, and room for the entries later chapters add. Anything not built yet is absent, not greyed out.
 
 No server. I open the file from disk. Style it so it looks like something you would show a customer, not a debug dump.
 
-Done when opening the file shows alice holding 100.00.`,
+Done when opening the file shows alice holding 100.00, reached from a menu.`,
 	},
 
 	BreakIt: BreakIt{

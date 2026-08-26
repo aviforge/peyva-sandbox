@@ -147,6 +147,8 @@
     <figcaption>Simple. Predictable. Hard to misuse. <a class="hero-expand-hint" href="images/chapter-4.webp" target="_blank" rel="noopener">Click to view full size</a></figcaption>
   </figure>
 
+  
+
   <div class="section-grid">
     <section class="block">
       <h2>1. Intuition</h2>
@@ -178,7 +180,6 @@
       </ul>
       <p class="technique"><span class="technique-name">Few-shot (multishot) prompting</span>. Prose leaves field names and status codes up for grabs. Concrete input and output pairs pin the contract harder than a paragraph ever will, and the examples have to include the failures, or only the happy path gets built.</p>
       <p class="technique-source">Documented in The Prompt Report: In-Context Learning; Anthropic, Use examples effectively</p>
-      
       <div class="prompt-wrap">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy prompt to clipboard" title="Copy prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
@@ -214,7 +215,7 @@ Done when those three requests produce exactly those three responses, and alice&
       
       <p class="prompt-divider">The portal</p>
       <ul class="lead">
-        <li>The portal gets the two things a wallet is for: opening an account, and sending money.</li>
+        <li>The menu gains what a wallet is for: sending money.</li>
       </ul>
       <div class="prompt-wrap">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy portal prompt to clipboard" title="Copy portal prompt">
@@ -223,14 +224,15 @@ Done when those three requests produce exactly those three responses, and alice&
         </button>
         <pre class="prompt"><span class="prompt-lang" data-prompt-lang>The portal is plain HTML and CSS. No framework, no build step, no dependencies.
 It lives in peyva/portal/. Anything it needs from the server is <span data-language-name>Go</span>, standard library only.
+It is one customer's own wallet, not an operator's view. New work joins its menu.
 The goal and invariants are in peyva/goal.md.</span>
 
-Give the portal a form to open an account by handle, and a form to send money to one.
+Add Send to the menu, and a first run that opens the customer&#39;s own account if they do not have one yet.
 
 The forms post to the endpoints you just built and render what comes back. Match these:
 
   open an account   -&gt; the new handle appears with a balance of 0.00
-  send to a handle  -&gt; the reference comes back and both balances change
+  send to a handle  -&gt; the reference comes back and her balance drops by that amount
   amount left blank -&gt; the page says which field is wrong, and nothing moves
   unknown handle    -&gt; the page says so, and nothing moves
 

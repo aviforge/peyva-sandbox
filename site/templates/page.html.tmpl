@@ -38,6 +38,35 @@
     <figcaption>{{.Chapter.HeroCaption}}{{if .HeroAvailable}} <a class="hero-expand-hint" href="{{.AssetPrefix}}{{.Chapter.HeroImage}}" target="_blank" rel="noopener">Click to view full size</a>{{end}}</figcaption>
   </figure>
 
+  {{if .Setup}}
+  <section class="block setup">
+    <h2>Setup <span class="badge">Once</span></h2>
+    <ul class="lead">
+      <li>Two files, saved before you write a line of code.</li>
+      <li>They are why every prompt in this book is a few lines rather than a page: the goal and the rules live in the project, so a prompt only has to say what changes.</li>
+    </ul>
+    {{range .Setup}}
+    <p class="prompt-divider">{{.Path}}</p>
+    <ul class="lead">
+      <li>{{.Purpose}}</li>
+    </ul>
+    {{if .Names}}
+    <p class="setup-note">No single filename is read by every assistant, so save this under the name yours looks for. The contents are identical either way.</p>
+    <ul class="agent-files">
+      {{range .Names}}<li><span class="agent-tool">{{.Tool}}</span> <code>{{.Path}}</code></li>{{end}}
+    </ul>
+    {{end}}
+    <div class="prompt-wrap">
+      <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this file to clipboard" title="Copy this file">
+        <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+      </button>
+      <pre class="prompt">{{.Content}}</pre>
+    </div>
+    {{end}}
+  </section>
+  {{end}}
+
   <div class="section-grid">
     <section class="block">
       <h2>1. Intuition</h2>
@@ -73,19 +102,6 @@
       </ul>
       <p class="technique"><span class="technique-name">{{.Chapter.BuildIt.Technique}}</span>. {{.Chapter.BuildIt.Why}}</p>
       <p class="technique-source">Documented in {{.Chapter.BuildIt.Source}}</p>
-      {{if .GoalSpec}}
-      <p class="prompt-divider">The spec</p>
-      <ul class="lead">
-        <li>Save this as <code>peyva/goal.md</code> before you start. Every prompt after this one points at it instead of repeating the goal.</li>
-      </ul>
-      <div class="prompt-wrap">
-        <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy the spec to clipboard" title="Copy the spec">
-          <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-          <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-        </button>
-        <pre class="prompt">{{.GoalSpec}}</pre>
-      </div>
-      {{end}}
       <div class="prompt-wrap">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy prompt to clipboard" title="Copy prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>

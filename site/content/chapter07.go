@@ -46,12 +46,12 @@ Before writing code: walk me through what the data looks like if the process die
 Then make those states unreachable, and tell me which of your three scenarios is still possible afterwards, if any.
 
 Done when a completed payment leaves two balanced Ledger entries and updated balances, a forced mid-payment failure leaves neither, and summing alice's Ledger entries equals her Vault balance.`,
-		UIIntro: "The portal can show where a balance came from.",
-		UIPrompt: `Give each account a history view: every movement in and out, newest first, each with its reference, amount and the other party.
+		UIIntro: "The menu gains History: where the balance came from.",
+		UIPrompt: `Add History to the menu. Every movement in and out of the customer's own account, newest first, each with its reference, amount and the other party.
 
 Before building it, walk me through what the view should show for a payment that failed halfway. Should it appear at all? If it should, how does a customer tell it apart from one that worked? Answer that first, then build what you described.
 
-Done when the history for alice explains her balance without me reading the database.`,
+Done when History explains alice's balance without me reading the database.`,
 	},
 
 	BreakIt: BreakIt{

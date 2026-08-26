@@ -46,9 +46,9 @@ Then go back over the list you wrote and tell me, case by case, which ones your 
 
 Done when the same reference twice pays once, two different references pay twice, and both duplicate responses are byte-identical.`,
 		UIIntro: "The portal stops punishing an impatient customer.",
-		UIPrompt: `A customer who taps send twice must not pay twice. The portal attaches the same reference to a resubmission of the same form, and shows the original result rather than a second payment.
+		UIPrompt: `A customer who taps send twice must not pay twice. Send attaches the same reference to a resubmission of the same form, and shows the original result rather than a second payment.
 
-Done when double-submitting the form leaves one payment in the history, and the page looks the same both times.`,
+Done when double-submitting the form leaves one payment in History, and the page looks the same both times.`,
 	},
 
 	BreakIt: BreakIt{

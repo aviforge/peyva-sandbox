@@ -147,6 +147,8 @@
     <figcaption>peyva sends data between machines over the network. <a class="hero-expand-hint" href="images/chapter-3.webp" target="_blank" rel="noopener">Click to view full size</a></figcaption>
   </figure>
 
+  
+
   <div class="section-grid">
     <section class="block">
       <h2>1. Intuition</h2>
@@ -178,7 +180,6 @@
       </ul>
       <p class="technique"><span class="technique-name">Add context and motivation</span>. Say what your situation is and why you&#39;re asking, and the assistant generalises from it. Picking commands that run on your OS and warning you about the firewall prompt before you hit it. Two lines of context saves three rounds of that didn&#39;t work.</p>
       <p class="technique-source">Documented in Anthropic: Prompting best practices, Add context to improve performance</p>
-      
       <div class="prompt-wrap">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy prompt to clipboard" title="Copy prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
@@ -212,6 +213,7 @@ Done when the phone&#39;s browser reaches the Gateway and the Gateway logs that 
         </button>
         <pre class="prompt"><span class="prompt-lang" data-prompt-lang>The portal is plain HTML and CSS. No framework, no build step, no dependencies.
 It lives in peyva/portal/. Anything it needs from the server is <span data-language-name>Go</span>, standard library only.
+It is one customer's own wallet, not an operator's view. New work joins its menu.
 The goal and invariants are in peyva/goal.md.</span>
 
 The Gateway accepts connections but serves nothing. Have it return peyva/portal/index.html to anything that connects, so the page I could only open locally is now reachable from my phone on the same Wi-Fi.

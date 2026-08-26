@@ -76,7 +76,7 @@ func run(templatesDir, assetsDir, outDir, indexPath string) error {
 			AssetPrefix:   prefix,
 			LanguageLine:  languageLine(defaultLanguage, chapter.Number),
 			UILine:        uiLine(defaultLanguage),
-			GoalSpec:      goalSpecFor(chapter.Number),
+			Setup:         setupFor(chapter.Number),
 			Languages:     content.Languages,
 
 			LanguageIsChosenHere: chapter.Number == languagePickerChapter,
@@ -198,17 +198,22 @@ func uiLine(l content.Language) template.HTML {
 	name := `<span data-language-name>` + template.HTMLEscapeString(l.Name) + `</span>`
 	line := "The portal is plain HTML and CSS. No framework, no build step, no dependencies."
 	line += "\nIt lives in peyva/portal/. Anything it needs from the server is " + name + ", standard library only."
+	// Without this the assistant builds an operator's console: a table of every
+	// account, with everyone's balance on it. That is a different product, and
+	// by chapter 18 it is a privacy bug the sign-in cannot undo.
+	line += "\nIt is one customer's own wallet, not an operator's view. New work joins its menu."
 	line += "\nThe goal and invariants are in peyva/goal.md."
 	return template.HTML(line)
 }
 
-// goalSpecFor returns the spec only for the chapter that starts the project.
-// Every other chapter points at peyva/goal.md, which the reader saved here.
-func goalSpecFor(chapterNumber int) string {
+// setupFor returns the files to save only for the chapter that starts the
+// project. Every chapter after it points at peyva/goal.md, which the reader
+// saved here, and inherits the rules from the assistant's own instruction file.
+func setupFor(chapterNumber int) []content.SetupFile {
 	if chapterNumber != languagePickerChapter {
-		return ""
+		return nil
 	}
-	return content.GoalSpec
+	return content.SetupFiles
 }
 
 func fileExists(path string) bool {

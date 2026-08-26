@@ -20,8 +20,9 @@ A peer-to-peer wallet. Alice sends Bob $20, and the money arrives exactly once.
 - Hold an account for each user: a handle, an owner and an amount.
 - Move money between accounts on request.
 - Answer what an account holds, and how it came to hold it.
-- Let a customer open an account, send money to a handle, and read their
-  history, from a page rather than a command line.
+- Give one customer a page of their own: what they hold, sending money to a
+  handle, and the history behind the number. Reached from a menu, not a
+  command line.
 
 ## What must never happen
 
@@ -37,11 +38,12 @@ These hold in every chapter. If a change would break one, the change is wrong.
 ## Constraints
 
 - Standard library only. No frameworks, no brokers, no third-party libraries.
-- One process on a laptop. One user. No deployment.
+- One process on a laptop. No deployment.
 - Code lives in peyva/<component>/, one folder per component.
 - Money is exact: a decimal type, or integer minor units where the language has
   none. Never floating point. Two decimal places.
 - The portal is plain HTML and CSS. No build step, no dependencies.
+- The portal is one customer's own wallet, not an operator's view of everyone.
 - Structure is earned. A component appears when a problem needs it, not before.
 
 ## Components
@@ -55,5 +57,6 @@ Each appears in the chapter that builds it. Until then it does not exist.
 - Ledger: the append-only record behind every balance. Chapter 7.
 - Courier: carries out work after a payment clears. Chapter 12.
 - Reconciler: proves the Vault and the Ledger still agree. Chapter 20.
-- Portal: what a customer sees and uses. Grows from chapter 0.
+- Portal: one customer's own wallet. Its menu grows a chapter at a time,
+  from chapter 0.
 `

@@ -54,7 +54,7 @@ Done when the Reconciler reports no discrepancies on a healthy system, reports t
 
 Where your description and mine differ, one of us has misunderstood the system. Say which parts you are unsure of.
 
-Then finish it: one place a customer can open an account, see a balance, send money, read their history and know a message was delivered.
+Then finish it: one menu from which a customer opens an account, sees what they hold, sends money, reads their history and knows a message was delivered.
 
 Done when someone who has never seen peyva can use it without being told how.`,
 	},

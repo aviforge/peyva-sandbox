@@ -58,19 +58,21 @@ Match these exactly:
 Validate before touching any account. No authentication, no retries, no persistence: later chapters.
 
 Done when those three requests produce exactly those three responses, and alice's balance drops by 20 only on the first.`,
-		UIIntro: "The menu gains what a wallet is for: sending money.",
-		UIPrompt: `Add Send to the menu, and a first run that opens the customer's own account if they do not have one yet.
+		UIIntro: "The menu gains what a wallet is for: sending money, from whoever the switcher says.",
+		UIPrompt: `Add Send to the menu, and a way to open a new account by handle. A new account joins the switcher.
+
+Money leaves whoever the switcher currently names. There is no From field to type into: a page that lets a customer name the payer is a page that lets them spend someone else's money.
 
 The forms post to the endpoints you just built and render what comes back. Match these:
 
   open an account   -> the new handle appears with a balance of 0.00
-  send to a handle  -> the reference comes back and her balance drops by that amount
+  send to a handle  -> the reference comes back and the payer's balance drops
   amount left blank -> the page says which field is wrong, and nothing moves
   unknown handle    -> the page says so, and nothing moves
 
 Every failure is shown on the page. None of them is a blank screen or a raw error.
 
-Done when those four cases each produce exactly what is written above.`,
+Done when those four cases each produce exactly what is written above, and switching to the recipient shows the money arrived.`,
 	},
 
 	BreakIt: BreakIt{

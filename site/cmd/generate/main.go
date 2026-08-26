@@ -198,10 +198,16 @@ func uiLine(l content.Language) template.HTML {
 	name := `<span data-language-name>` + template.HTMLEscapeString(l.Name) + `</span>`
 	line := "The portal is plain HTML and CSS. No framework, no build step, no dependencies."
 	line += "\nIt lives in peyva/portal/. Anything it needs from the server is " + name + ", standard library only."
-	// Without this the assistant builds an operator's console: a table of every
-	// account, with everyone's balance on it. That is a different product, and
-	// by chapter 18 it is a privacy bug the sign-in cannot undo.
-	line += "\nIt is one customer's own wallet, not an operator's view. New work joins its menu."
+	// Without the first half the assistant builds an operator's console: a table
+	// of every account, with everyone's balance on it. That is a different
+	// product, and by chapter 18 a privacy bug the sign-in cannot undo.
+	//
+	// The switcher is what makes the first half survivable. One customer at a
+	// time on one laptop means a reader sends alice's money and never sees it
+	// land, and the arriving half of a payment is half of what this book is
+	// about.
+	line += "\nOne customer's wallet at a time, never everyone's at once. A switcher at the top says whose."
+	line += "\nNew work joins the menu."
 	line += "\nThe goal and invariants are in peyva/goal.md."
 	return template.HTML(line)
 }

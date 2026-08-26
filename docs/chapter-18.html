@@ -205,7 +205,7 @@ Done when a request with no credential is refused, a caller authenticated as one
       
       <p class="prompt-divider">The portal</p>
       <ul class="lead">
-        <li>The portal stops assuming whose wallet it is.</li>
+        <li>Picking a name off a list stops being enough to spend someone&#39;s money.</li>
       </ul>
       <div class="prompt-wrap">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy portal prompt to clipboard" title="Copy portal prompt">
@@ -214,16 +214,19 @@ Done when a request with no credential is refused, a caller authenticated as one
         </button>
         <pre class="prompt"><span class="prompt-lang" data-prompt-lang>The portal is plain HTML and CSS. No framework, no build step, no dependencies.
 It lives in peyva/portal/. Anything it needs from the server is <span data-language-name>Go</span>, standard library only.
-It is one customer's own wallet, not an operator's view. New work joins its menu.
+One customer's wallet at a time, never everyone's at once. A switcher at the top says whose.
+New work joins the menu.
 The goal and invariants are in peyva/goal.md.</span>
 
-Every screen so far has taken it on trust that the customer is alice. Put a sign-in in front of the portal, and have the menu show who is signed in and offer a way out.
+The switcher has been taking whoever it is told. Anyone at the keyboard can pick alice and send her money, which was fine while peyva ran on one laptop and is not fine now.
+
+Put a sign-in in front of it. Switching account means signing in as that account, and the switcher offers only accounts already signed in. Signing out removes one.
 
 A signed-in customer sees their own account and nobody else&#39;s, and can only send from their own.
 
 Then verify your own work. Write the list of questions that would expose it as broken: specific to this page and these forms, not generic security advice. Answer each against what you built, and fix what the answers expose.
 
-Done when signing in as alice shows alice, and nothing I can type in the browser makes it show or spend bob&#39;s money.</pre>
+Done when signing in as alice shows alice, and nothing I can type in the browser makes it show or spend bob&#39;s money without bob&#39;s own sign-in.</pre>
       </div>
       
     </section>

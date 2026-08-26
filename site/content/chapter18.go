@@ -47,14 +47,16 @@ Work in four passes and show me each one.
 4. Revise. Fix what the answers exposed, then state plainly what is still exploitable, including anything you left out of scope on purpose.
 
 Done when a request with no credential is refused, a caller authenticated as one owner spending from another's account is refused, no credential is left in source, and I have your list of what remains exploitable.`,
-		UIIntro: "The portal stops assuming whose wallet it is.",
-		UIPrompt: `Every screen so far has taken it on trust that the customer is alice. Put a sign-in in front of the portal, and have the menu show who is signed in and offer a way out.
+		UIIntro: "Picking a name off a list stops being enough to spend someone's money.",
+		UIPrompt: `The switcher has been taking whoever it is told. Anyone at the keyboard can pick alice and send her money, which was fine while peyva ran on one laptop and is not fine now.
+
+Put a sign-in in front of it. Switching account means signing in as that account, and the switcher offers only accounts already signed in. Signing out removes one.
 
 A signed-in customer sees their own account and nobody else's, and can only send from their own.
 
 Then verify your own work. Write the list of questions that would expose it as broken: specific to this page and these forms, not generic security advice. Answer each against what you built, and fix what the answers expose.
 
-Done when signing in as alice shows alice, and nothing I can type in the browser makes it show or spend bob's money.`,
+Done when signing in as alice shows alice, and nothing I can type in the browser makes it show or spend bob's money without bob's own sign-in.`,
 	},
 
 	BreakIt: BreakIt{

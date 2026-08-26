@@ -23,6 +23,8 @@ A peer-to-peer wallet. Alice sends Bob $20, and the money arrives exactly once.
 - Give one customer a page of their own: what they hold, sending money to a
   handle, and the history behind the number. Reached from a menu, not a
   command line.
+- Let whoever is at the keyboard change which customer that is, so both ends
+  of a payment can be seen.
 
 ## What must never happen
 
@@ -43,7 +45,8 @@ These hold in every chapter. If a change would break one, the change is wrong.
 - Money is exact: a decimal type, or integer minor units where the language has
   none. Never floating point. Two decimal places.
 - The portal is plain HTML and CSS. No build step, no dependencies.
-- The portal is one customer's own wallet, not an operator's view of everyone.
+- The portal shows one customer's wallet at a time, never everyone's at once.
+  A switcher at the top says whose.
 - Structure is earned. A component appears when a problem needs it, not before.
 
 ## Components
@@ -57,6 +60,6 @@ Each appears in the chapter that builds it. Until then it does not exist.
 - Ledger: the append-only record behind every balance. Chapter 7.
 - Courier: carries out work after a payment clears. Chapter 12.
 - Reconciler: proves the Vault and the Ledger still agree. Chapter 20.
-- Portal: one customer's own wallet. Its menu grows a chapter at a time,
-  from chapter 0.
+- Portal: one customer's own wallet, with a switcher for whose. Its menu grows
+  a chapter at a time, from chapter 0.
 `

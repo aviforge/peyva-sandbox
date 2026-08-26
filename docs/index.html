@@ -177,6 +177,8 @@ A peer-to-peer wallet. Alice sends Bob $20, and the money arrives exactly once.
 - Give one customer a page of their own: what they hold, sending money to a
   handle, and the history behind the number. Reached from a menu, not a
   command line.
+- Let whoever is at the keyboard change which customer that is, so both ends
+  of a payment can be seen.
 
 ## What must never happen
 
@@ -197,7 +199,8 @@ These hold in every chapter. If a change would break one, the change is wrong.
 - Money is exact: a decimal type, or integer minor units where the language has
   none. Never floating point. Two decimal places.
 - The portal is plain HTML and CSS. No build step, no dependencies.
-- The portal is one customer&#39;s own wallet, not an operator&#39;s view of everyone.
+- The portal shows one customer&#39;s wallet at a time, never everyone&#39;s at once.
+  A switcher at the top says whose.
 - Structure is earned. A component appears when a problem needs it, not before.
 
 ## Components
@@ -211,8 +214,8 @@ Each appears in the chapter that builds it. Until then it does not exist.
 - Ledger: the append-only record behind every balance. Chapter 7.
 - Courier: carries out work after a payment clears. Chapter 12.
 - Reconciler: proves the Vault and the Ledger still agree. Chapter 20.
-- Portal: one customer&#39;s own wallet. Its menu grows a chapter at a time,
-  from chapter 0.
+- Portal: one customer&#39;s own wallet, with a switcher for whose. Its menu grows
+  a chapter at a time, from chapter 0.
 </pre>
     </div>
     
@@ -285,7 +288,7 @@ What follows is about you, not about the code.
     <section class="block">
       <h2>3. Under the Hood</h2>
       <ul>
-        <li>Today: one process, one account, one hardcoded balance, printed to the screen.</li><li>A system earns its structure one real problem at a time.</li>
+        <li>Today: one process, two hardcoded accounts, and a page that shows one of them at a time.</li><li>A system earns its structure one real problem at a time.</li>
       </ul>
     </section>
 
@@ -325,7 +328,7 @@ Done when running it prints alice&#39;s balance and it exits cleanly on Ctrl&#43
       
       <p class="prompt-divider">The portal</p>
       <ul class="lead">
-        <li>The portal starts as one customer&#39;s wallet: a menu, and a balance behind it.</li>
+        <li>The portal starts as one customer&#39;s wallet, with a way to change which customer.</li>
       </ul>
       <div class="prompt-wrap">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy portal prompt to clipboard" title="Copy portal prompt">
@@ -334,16 +337,19 @@ Done when running it prints alice&#39;s balance and it exits cleanly on Ctrl&#43
         </button>
         <pre class="prompt"><span class="prompt-lang" data-prompt-lang>The portal is plain HTML and CSS. No framework, no build step, no dependencies.
 It lives in peyva/portal/. Anything it needs from the server is <span data-language-name>Go</span>, standard library only.
-It is one customer's own wallet, not an operator's view. New work joins its menu.
+One customer's wallet at a time, never everyone's at once. A switcher at the top says whose.
+New work joins the menu.
 The goal and invariants are in peyva/goal.md.</span>
 
-Write peyva/portal/index.html each time the program starts. It is alice&#39;s own wallet, not a list of everyone: her handle, and what she holds.
+Write peyva/portal/index.html each time the program starts. It shows one account at a time, not a list of everyone: whose it is, and what they hold.
 
-Give it the shell the rest of the book fills in. A menu down one side with Balance in it, and room for the entries later chapters add. Anything not built yet is absent, not greyed out.
+Give it the shell the rest of the book fills in. A switcher at the top naming whose wallet is on screen, and a menu down one side with Balance in it. Leave room in the menu for the entries later chapters add, and show nothing that is not built yet.
+
+Both seeded accounts go into the page, so switching between them needs nothing from a server. Say what you used to do the switching and why.
 
 No server. I open the file from disk. Style it so it looks like something you would show a customer, not a debug dump.
 
-Done when opening the file shows alice holding 100.00, reached from a menu.</pre>
+Done when the page opens on alice holding 100.00 and the switcher shows me bob holding 0.00.</pre>
       </div>
       
     </section>

@@ -226,7 +226,8 @@ func TestPortalPromptCarriesItsOwnRules(t *testing.T) {
 			"No framework, no build step, no dependencies",
 			"peyva/portal/",
 			"peyva/goal.md",
-			"own wallet, not an operator",
+			"never everyone's at once",
+			"switcher at the top says whose",
 		} {
 			if !strings.Contains(p.body, rule) {
 				t.Errorf("%s: portal prompt is missing %q", p.name, rule)

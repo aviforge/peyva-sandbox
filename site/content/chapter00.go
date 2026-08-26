@@ -29,7 +29,7 @@ var Chapter00 = ChapterContent{
 	},
 
 	UnderTheHood: []string{
-		"Today: one process, one account, one hardcoded balance, printed to the screen.",
+		"Today: one process, two hardcoded accounts, and a page that shows one of them at a time.",
 		"A system earns its structure one real problem at a time.",
 	},
 
@@ -47,14 +47,16 @@ peyva/goal.md holds the goal and the rules money must never break. Read it first
 One file. No persistence, no network.
 
 Done when running it prints alice's balance and it exits cleanly on Ctrl+C.`,
-		UIIntro: "The portal starts as one customer's wallet: a menu, and a balance behind it.",
-		UIPrompt: `Write peyva/portal/index.html each time the program starts. It is alice's own wallet, not a list of everyone: her handle, and what she holds.
+		UIIntro: "The portal starts as one customer's wallet, with a way to change which customer.",
+		UIPrompt: `Write peyva/portal/index.html each time the program starts. It shows one account at a time, not a list of everyone: whose it is, and what they hold.
 
-Give it the shell the rest of the book fills in. A menu down one side with Balance in it, and room for the entries later chapters add. Anything not built yet is absent, not greyed out.
+Give it the shell the rest of the book fills in. A switcher at the top naming whose wallet is on screen, and a menu down one side with Balance in it. Leave room in the menu for the entries later chapters add, and show nothing that is not built yet.
+
+Both seeded accounts go into the page, so switching between them needs nothing from a server. Say what you used to do the switching and why.
 
 No server. I open the file from disk. Style it so it looks like something you would show a customer, not a debug dump.
 
-Done when opening the file shows alice holding 100.00, reached from a menu.`,
+Done when the page opens on alice holding 100.00 and the switcher shows me bob holding 0.00.`,
 	},
 
 	BreakIt: BreakIt{

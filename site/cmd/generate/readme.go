@@ -13,11 +13,13 @@ const (
 	tocStartMarker = "<!-- toc:start -->"
 	tocEndMarker   = "<!-- toc:end -->"
 
-	// chapterBaseURL is where the generated pages are published. The links
-	// have to be absolute: GitHub renders README markdown but serves .html
-	// files as source, so a repo-relative link would show the reader markup
-	// instead of the chapter. Change this in one place if the repo moves.
-	chapterBaseURL = "https://aviforge.github.io/peyva-sandbox/docs/"
+	// chapterBaseURL is where the generated pages are published. Pages serves
+	// docs/ as the site root, so the published path drops the directory the
+	// files live in. The links have to be absolute: GitHub renders README
+	// markdown but serves .html files as source, so a repo-relative link
+	// would show the reader markup instead of the chapter. Change this in one
+	// place if the repo moves.
+	chapterBaseURL = "https://aviforge.github.io/peyva-sandbox/"
 )
 
 // writeREADMETOC rewrites the chapter list between the toc markers in the

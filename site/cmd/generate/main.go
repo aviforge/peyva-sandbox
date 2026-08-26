@@ -14,7 +14,7 @@ func main() {
 	templatesDir := filepath.Join("site", "templates")
 	assetsDir := filepath.Join("site", "assets")
 	outDir := "docs"
-	indexPath := "index.html"
+	indexPath := filepath.Join(outDir, "index.html")
 
 	if err := run(templatesDir, assetsDir, outDir, indexPath); err != nil {
 		fmt.Fprintln(os.Stderr, "error:", err)

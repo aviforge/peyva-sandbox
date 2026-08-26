@@ -8,12 +8,11 @@ import (
 )
 
 // testRun renders into a fresh temp root, returning the docs dir the pages
-// land in and the path of the root index.html that fronts them.
+// land in and the path of the index.html that fronts them.
 func testRun(t *testing.T) (outDir, indexPath string) {
 	t.Helper()
-	rootDir := t.TempDir()
-	outDir = filepath.Join(rootDir, "docs")
-	indexPath = filepath.Join(rootDir, "index.html")
+	outDir = filepath.Join(t.TempDir(), "docs")
+	indexPath = filepath.Join(outDir, "index.html")
 
 	if err := run(filepath.Join("..", "..", "templates"), filepath.Join("..", "..", "assets"), outDir, indexPath); err != nil {
 		t.Fatalf("run: %v", err)
@@ -50,34 +49,38 @@ func TestRunGeneratesChapterZeroPage(t *testing.T) {
 	}
 }
 
-// The root index.html is the repo's front door, so it sits a directory above
-// the pages and assets it references. Everything it points at must therefore
-// be prefixed with docs/, or opening it from a clone renders an unstyled page
-// with no images.
-func TestRunWritesRootIndexPointingIntoDocs(t *testing.T) {
+// index.html sits alongside the pages it fronts, so Pages serving docs/ as
+// the site root resolves a bare / to it and every URL below is a clean
+// /chapter-N.html. Sharing a directory with its assets, it references them
+// with no prefix — the same way every chapter page does.
+func TestRunWritesIndexBesideTheChaptersItFronts(t *testing.T) {
 	outDir, indexPath := testRun(t)
+
+	if filepath.Dir(indexPath) != outDir {
+		t.Fatalf("index.html is at %s, want it inside %s", indexPath, outDir)
+	}
 
 	data, err := os.ReadFile(indexPath)
 	if err != nil {
-		t.Fatalf("reading root index.html: %v", err)
+		t.Fatalf("reading index.html: %v", err)
 	}
 	body := string(data)
 
 	for _, want := range []string{
-		`href="docs/styles.css"`,
-		`src="docs/app.js"`,
-		`src="docs/images/chapter-0.webp"`,
-		`href="docs/chapter-1.html"`,
+		`href="styles.css"`,
+		`src="app.js"`,
+		`src="images/chapter-0.webp"`,
+		`href="chapter-1.html"`,
 	} {
 		if !strings.Contains(body, want) {
-			t.Errorf("root index.html missing %q", want)
+			t.Errorf("index.html missing %q", want)
 		}
 	}
 
-	// A stray copy inside docs/ would be served instead of the root one
-	// whenever Pages resolves a bare directory request.
-	if _, err := os.Stat(filepath.Join(outDir, "index.html")); err == nil {
-		t.Error("index.html was also written into docs/ — the root copy is the only entry point")
+	// A docs/ prefix would mean the entry point still thinks it lives a
+	// directory above its assets, which 404s once docs/ is the site root.
+	if strings.Contains(body, `"docs/`) {
+		t.Error(`index.html still references assets via a "docs/" prefix`)
 	}
 }
 

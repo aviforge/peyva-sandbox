@@ -61,8 +61,8 @@ func TestWriteREADMETOCReplacesBlockAndPreservesSurroundingProse(t *testing.T) {
 ## Contents
 
 <!-- toc:start -->
-- **0.** [First Chapter](https://aviforge.github.io/peyva-sandbox/docs/chapter-0.html)
-- **1.** [Second Chapter](https://aviforge.github.io/peyva-sandbox/docs/chapter-1.html)
+- **0.** [First Chapter](https://aviforge.github.io/peyva-sandbox/chapter-0.html)
+- **1.** [Second Chapter](https://aviforge.github.io/peyva-sandbox/chapter-1.html)
 <!-- toc:end -->
 
 ## Prerequisites

@@ -165,7 +165,7 @@
     <section class="block">
       <h2>3. Under the Hood</h2>
       <ul>
-        <li>Today: one process, one account, one hardcoded balance, printed to the screen.</li><li>No Gateway, Teller, Ledger, or Courier yet. Those arrive only once a real problem needs them.</li><li>A system earns its structure one real problem at a time.</li>
+        <li>Today: one process, one account, one hardcoded balance, printed to the screen.</li><li>A system earns its structure one real problem at a time.</li>
       </ul>
     </section>
 
@@ -176,13 +176,19 @@
       </ul>
       <p class="technique"><span class="technique-name">Zero-shot prompting</span>. No examples, no reasoning scaffold, no role: just the instruction. The task has one obvious shape, so scaffolding would cost tokens and buy nothing. Every technique after this is a departure from this baseline, which is why it comes first.</p>
       <p class="technique-source">Documented in The Prompt Report: Zero-Shot</p>
-      <pre class="prompt">Build the Vault. The component that holds accounts and what&#39;s in them. Nothing else is allowed to change a balance.
+      <div class="prompt-wrap">
+        <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy prompt to clipboard" title="Copy prompt">
+          <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+        </button>
+        <pre class="prompt">Build the Vault. The component that holds accounts and what&#39;s in them. Nothing else is allowed to change a balance.
 
 An account is an owner and an amount. Seed it with one account, alice, holding 100. Print the Vault&#39;s contents on startup, run until interrupted, then print a shutdown message.
 
 One file, standard library only. No persistence, no network. The Vault earns structure later, when a real problem demands it.
 
 Done when running it prints alice&#39;s balance and it exits cleanly on Ctrl&#43;C.</pre>
+      </div>
     </section>
 
     <section class="block break-it">
@@ -191,7 +197,7 @@ Done when running it prints alice&#39;s balance and it exits cleanly on Ctrl&#43
         <li>This is the simplest way a system can fail: turn it off.</li>
       </ul>
       <ul>
-        <li>Run it with `go run .`. Confirm it prints the account&#39;s starting balance.</li><li>Stop it with Ctrl&#43;C, run it again. The balance resets to the hardcoded value.</li><li>Nothing survived: expected today, and exactly the problem Chapter 5 (Storing Money) solves.</li>
+        <li>Run it with `go run .`. Confirm it prints the account&#39;s starting balance.</li><li>Stop it with Ctrl&#43;C, run it again. The balance resets to the hardcoded value.</li><li>Nothing survived, and today that is expected: the balance only ever lived in memory, and memory goes when the process does.</li>
       </ul>
     </section>
   </div>

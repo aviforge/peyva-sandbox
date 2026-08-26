@@ -176,7 +176,12 @@
       </ul>
       <p class="technique"><span class="technique-name">Add context and motivation</span>. Say what your situation is and why you&#39;re asking, and the assistant generalises from it. Picking commands that run on your OS and warning you about the firewall prompt before you hit it. Two lines of context saves three rounds of that didn&#39;t work.</p>
       <p class="technique-source">Documented in Anthropic: Prompting best practices, Add context to improve performance</p>
-      <pre class="prompt">My environment: &lt;your OS and shell&gt;. The Gateway is listening on TCP port 9310 on this machine, and I have a phone on the same Wi-Fi.
+      <div class="prompt-wrap">
+        <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy prompt to clipboard" title="Copy prompt">
+          <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+        </button>
+        <pre class="prompt">My environment: &lt;your OS and shell&gt;. The Gateway is listening on TCP port 9310 on this machine, and I have a phone on the same Wi-Fi.
 
 I want to reach the Gateway from the phone instead of from localhost. I&#39;m doing this to understand how a service becomes reachable beyond the machine it runs on, so tell me what is actually happening rather than only what to type.
 
@@ -185,6 +190,7 @@ Tell me the command for my OS to find this machine&#39;s network address, and ho
 If a firewall prompt is likely on my OS, warn me before I hit it.
 
 Done when the phone&#39;s browser reaches the Gateway and the Gateway logs that connection.</pre>
+      </div>
     </section>
 
     <section class="block break-it">

@@ -176,7 +176,12 @@
       </ul>
       <p class="technique"><span class="technique-name">Grounding: investigate before claiming</span>. Ask for an optimisation and you&#39;ll get one, plus a confident claim that it&#39;s faster. The documented remedy is to forbid claims about code the assistant hasn&#39;t actually opened or run. Which here means timings taken before and after, not estimates.</p>
       <p class="technique-source">Documented in Anthropic: Prompting best practices, Minimizing hallucinations in agentic coding</p>
-      <pre class="prompt">The Vault stores accounts keyed by owner. Each account also carries a region, which nothing indexes.
+      <div class="prompt-wrap">
+        <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy prompt to clipboard" title="Copy prompt">
+          <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+        </button>
+        <pre class="prompt">The Vault stores accounts keyed by owner. Each account also carries a region, which nothing indexes.
 
 Do this in order and don&#39;t skip ahead:
 
@@ -189,6 +194,7 @@ Do this in order and don&#39;t skip ahead:
 Never state a performance claim you have not measured on this machine. Show me real numbers, not estimates, and if the improvement is smaller than expected, say so rather than explaining it away.
 
 Done when I have four real numbers: read time before and after, write time before and after.</pre>
+      </div>
     </section>
 
     <section class="block break-it">

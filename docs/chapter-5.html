@@ -176,13 +176,19 @@
       </ul>
       <p class="technique"><span class="technique-name">Explicit success criteria</span>. For a migration the useful thing to specify isn&#39;t the steps, it&#39;s the finish line: what must be true when it&#39;s done. State the target precisely and the assistant works out the delta, including the parts you&#39;d have forgotten to list.</p>
       <p class="technique-source">Documented in Anthropic: Prompting best practices, Provide clear success criteria</p>
-      <pre class="prompt">Now: the Vault holds balances in memory. They vanish when the process stops, so every restart resets alice to her seeded amount.
+      <div class="prompt-wrap">
+        <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy prompt to clipboard" title="Copy prompt">
+          <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+        </button>
+        <pre class="prompt">Now: the Vault holds balances in memory. They vanish when the process stops, so every restart resets alice to her seeded amount.
 
 Target: the Vault keeps accounts in a file on disk. It creates its storage on first run and seeds alice only if she isn&#39;t already there. Every read and every write of a balance goes to that file. No balance is cached in a Go variable anywhere.
 
 Use SQLite with a driver that needs no cgo. Don&#39;t change what the Gateway or the Teller look like from the outside.
 
 Done when restarting the process still reports alice&#39;s balance, and deleting the Vault&#39;s file is the only thing that loses it.</pre>
+      </div>
     </section>
 
     <section class="block break-it">

@@ -176,7 +176,12 @@
       </ul>
       <p class="technique"><span class="technique-name">Chain-of-thought prompting</span>. Ask for the reasoning before the answer and the reasoning becomes inspectable. When the failure modes are the hard part, code-first gets you a plausible design with a hole in it; thinking first surfaces the hole while it&#39;s still cheap.</p>
       <p class="technique-source">Documented in The Prompt Report: Thought Generation, Chain-of-Thought</p>
-      <pre class="prompt">The Teller moves money by updating two balances in the Vault. Nothing records that the movement happened, so if a balance looks wrong there&#39;s no way to prove how it got that way.
+      <div class="prompt-wrap">
+        <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy prompt to clipboard" title="Copy prompt">
+          <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+        </button>
+        <pre class="prompt">The Teller moves money by updating two balances in the Vault. Nothing records that the movement happened, so if a balance looks wrong there&#39;s no way to prove how it got that way.
 
 Build the Ledger: an append-only, double-entry record. Every payment writes two balanced entries (a debit and a credit sharing one reference and timestamp), and the Vault&#39;s balances update in the same atomic unit. All of it commits, or none of it happened.
 
@@ -185,6 +190,7 @@ Before writing code: walk me through what the data looks like if the process die
 Then make those states unreachable, and tell me which of your three scenarios is still possible afterwards, if any.
 
 Done when a completed payment leaves two balanced Ledger entries and updated balances, a forced mid-payment failure leaves neither, and summing alice&#39;s Ledger entries equals her Vault balance.</pre>
+      </div>
     </section>
 
     <section class="block break-it">

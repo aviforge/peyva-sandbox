@@ -176,7 +176,12 @@
       </ul>
       <p class="technique"><span class="technique-name">Least-to-Most Prompting</span>. Break the problem into subproblems and solve them in order, each building on the last one&#39;s answer. One prompt asking for a whole multi-stage workflow gets you a sketch of all of it and a working version of none.</p>
       <p class="technique-source">Documented in The Prompt Report: Decomposition, Least-to-Most</p>
-      <pre class="prompt">A payment is currently one atomic step. I want the Teller to run payments that span several stages and can unwind if a later stage fails permanently.
+      <div class="prompt-wrap">
+        <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy prompt to clipboard" title="Copy prompt">
+          <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+        </button>
+        <pre class="prompt">A payment is currently one atomic step. I want the Teller to run payments that span several stages and can unwind if a later stage fails permanently.
 
 Build it in four stages. Stop after each and tell me it&#39;s working before starting the next. Don&#39;t write all four at once, and let each one build on what the previous one left behind.
 
@@ -188,6 +193,7 @@ Build it in four stages. Stop after each and tell me it&#39;s working before sta
 Distinguish permanent failures from retryable ones. Only permanent failures reverse.
 
 Done when a permanently failing stage two puts the money back, the Ledger shows both the original payment and its reversal, and the payment&#39;s record shows every stage it passed through.</pre>
+      </div>
     </section>
 
     <section class="block break-it">

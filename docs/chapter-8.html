@@ -176,7 +176,12 @@
       </ul>
       <p class="technique"><span class="technique-name">Generated Knowledge Prompting</span>. Have the assistant produce the relevant facts before it uses them. Making it enumerate how duplicates actually arise gives the design somewhere to put each case, instead of you meeting them in production.</p>
       <p class="technique-source">Documented in The Prompt Report: Generated Knowledge</p>
-      <pre class="prompt">The Teller will move money twice if it receives the same payment request twice, a retry after a timeout is indistinguishable from a genuine second payment.
+      <div class="prompt-wrap">
+        <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy prompt to clipboard" title="Copy prompt">
+          <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+        </button>
+        <pre class="prompt">The Teller will move money twice if it receives the same payment request twice, a retry after a timeout is indistinguishable from a genuine second payment.
 
 First, list the distinct ways a duplicate request reaches a payment system in the real world. For each, say whether the caller knows the first attempt succeeded.
 
@@ -185,6 +190,7 @@ Then make the Teller recognise a repeat: the caller supplies a reference with th
 Then go back over the list you wrote and tell me, case by case, which ones your design now handles and which it doesn&#39;t. Include what happens if two requests carrying the same brand-new reference arrive at the same instant.
 
 Done when the same reference twice pays once, two different references pay twice, and both duplicate responses are byte-identical.</pre>
+      </div>
     </section>
 
     <section class="block break-it">

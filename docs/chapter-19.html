@@ -176,7 +176,12 @@
       </ul>
       <p class="technique"><span class="technique-name">Structured output formatting</span>. A runbook read at 2am has to be commands, not prose. Hand over the exact skeleton you want back, and phrase it as what to produce rather than what to avoid, which is what actually steers the output.</p>
       <p class="technique-source">Documented in Anthropic: Prompting best practices, Control the format of responses</p>
-      <pre class="prompt">I run three copies of the Gateway and Teller behind a router, each exposing a health endpoint.
+      <div class="prompt-wrap">
+        <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy prompt to clipboard" title="Copy prompt">
+          <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+        </button>
+        <pre class="prompt">I run three copies of the Gateway and Teller behind a router, each exposing a health endpoint.
 
 Add a version string, set at build time, reported by that endpoint. Then write me a rollback runbook.
 
@@ -197,6 +202,7 @@ Format the runbook exactly like this and nothing else:
 Every line under Check, Fix and Verify is either a command I can paste or an exact output I can compare against. It&#39;s 2am and I&#39;m not making judgement calls.
 
 Done when deploying a deliberately broken version to one copy fails its health check before the other two are touched, and the runbook&#39;s Fix section reverts it without improvisation.</pre>
+      </div>
     </section>
 
     <section class="block break-it">

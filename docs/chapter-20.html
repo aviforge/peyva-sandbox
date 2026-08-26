@@ -176,7 +176,12 @@
       </ul>
       <p class="technique"><span class="technique-name">Rephrase and Respond (RaR)</span>. Make the assistant restate the task in its own words before it answers. The restatement is the cheapest look you&#39;ll get at what it actually understood, and comparing it against the story in your head shows you what you didn&#39;t actually learn.</p>
       <p class="technique-source">Documented in The Prompt Report: Zero-Shot, Rephrase and Respond</p>
-      <pre class="prompt">I want you to build the Reconciler. The component that proves the Vault and the Ledger agree. For every account, the sum of its Ledger entries must equal the balance the Vault reports, and any account where they don&#39;t is reported with the size of the gap.
+      <div class="prompt-wrap">
+        <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy prompt to clipboard" title="Copy prompt">
+          <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+        </button>
+        <pre class="prompt">I want you to build the Reconciler. The component that proves the Vault and the Ledger agree. For every account, the sum of its Ledger entries must equal the balance the Vault reports, and any account where they don&#39;t is reported with the size of the gap.
 
 Before you write it, restate the job back to me in your own words. Read the whole system first, then describe what each component is for and how a payment travels from the Gateway through the Teller, the Vault, the Ledger and the Courier. Don&#39;t repeat my names for things back at me. Describe what the code actually does. At each hop, say what would happen if that component failed right then.
 
@@ -187,6 +192,7 @@ Then build the Reconciler, and answer three things from the code rather than fro
 Where the code doesn&#39;t match how a real payments system would do it, say so plainly.
 
 Done when the Reconciler reports no discrepancies on a healthy system, reports the exact gap after I kill the process mid-payment, and your restatement and mine agree.</pre>
+      </div>
     </section>
 
     <section class="block break-it">

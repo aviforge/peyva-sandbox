@@ -102,10 +102,66 @@
     if (label) label.textContent = pct + '% complete (' + completed + ' / ' + total + ')';
   }
 
+  function initCopyPrompt() {
+    var buttons = document.querySelectorAll('[data-copy-prompt]');
+    if (!buttons.length) return;
+
+    // navigator.clipboard needs a secure context. The README tells readers they
+    // can open docs/index.html straight from a clone, and a file:// page is not
+    // one in most browsers, so fall back rather than silently doing nothing.
+    function copy(text) {
+      if (navigator.clipboard && window.isSecureContext) {
+        return navigator.clipboard.writeText(text);
+      }
+      return new Promise(function (resolve, reject) {
+        var scratch = document.createElement('textarea');
+        scratch.value = text;
+        scratch.setAttribute('readonly', '');
+        scratch.style.position = 'fixed';
+        scratch.style.top = '-1000px';
+        document.body.appendChild(scratch);
+        scratch.select();
+        var ok = false;
+        try {
+          ok = document.execCommand('copy');
+        } catch (e) {
+          ok = false;
+        }
+        document.body.removeChild(scratch);
+        ok ? resolve() : reject();
+      });
+    }
+
+    Array.prototype.forEach.call(buttons, function (button) {
+      var timer = null;
+      button.addEventListener('click', function () {
+        var pre = button.parentNode.querySelector('.prompt');
+        if (!pre) return;
+        copy(pre.textContent).then(function () {
+          button.classList.add('is-copied');
+          button.setAttribute('aria-label', 'Prompt copied');
+          window.clearTimeout(timer);
+          timer = window.setTimeout(function () {
+            button.classList.remove('is-copied');
+            button.setAttribute('aria-label', 'Copy prompt to clipboard');
+          }, 2000);
+        }, function () {
+          // Copying is blocked. Select the prompt so it can be copied by hand.
+          var range = document.createRange();
+          range.selectNodeContents(pre);
+          var sel = window.getSelection();
+          sel.removeAllRanges();
+          sel.addRange(range);
+        });
+      });
+    });
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
     initThemeToggle();
     initSidebarToggle();
     initMarkComplete();
+    initCopyPrompt();
     updateProgress();
   });
 })();

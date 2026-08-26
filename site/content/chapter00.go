@@ -30,7 +30,6 @@ var Chapter00 = ChapterContent{
 
 	UnderTheHood: []string{
 		"Today: one process, one account, one hardcoded balance, printed to the screen.",
-		"No Gateway, Teller, Ledger, or Courier yet. Those arrive only once a real problem needs them.",
 		"A system earns its structure one real problem at a time.",
 	},
 
@@ -50,7 +49,7 @@ var Chapter00 = ChapterContent{
 		Exercises: []string{
 			"Run it with `go run .`. Confirm it prints the account's starting balance.",
 			"Stop it with Ctrl+C, run it again. The balance resets to the hardcoded value.",
-			"Nothing survived: expected today, and exactly the problem Chapter 5 (Storing Money) solves.",
+			"Nothing survived, and today that is expected: the balance only ever lived in memory, and memory goes when the process does.",
 		},
 	},
 }

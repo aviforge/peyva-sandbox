@@ -176,7 +176,12 @@
       </ul>
       <p class="technique"><span class="technique-name">Self-Ask</span>. Self-Ask makes the assistant pose the follow-up questions its answer depends on, answer each one on the record, and only then give the final number. On an estimate that converts hidden guesses into a list of assumptions you can argue with.</p>
       <p class="technique-source">Documented in The Prompt Report: Zero-Shot, Self-Ask</p>
-      <pre class="prompt">I need to size the infrastructure for a payments system that moves money between accounts.
+      <div class="prompt-wrap">
+        <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy prompt to clipboard" title="Copy prompt">
+          <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+        </button>
+        <pre class="prompt">I need to size the infrastructure for a payments system that moves money between accounts.
 
 Don&#39;t give me a number yet. First work out which follow-up questions the estimate genuinely depends on, and write them out. Answer each one yourself with an explicit assumption, and label where that assumption came from: industry norm, your own guess, or arithmetic from an earlier answer.
 
@@ -185,6 +190,7 @@ Then use your own answers to work out peak payments per second, Ledger growth ov
 Then tell me which single assumption the estimate is most sensitive to, what the number becomes if you&#39;re wrong about it by a factor of two, and which of your assumptions you most want me to confirm.
 
 Done when I have a peak-throughput figure and a two-year storage figure I can defend, a written list of the assumptions behind them, and I know which one to revisit first.</pre>
+      </div>
     </section>
 
     <section class="block break-it">

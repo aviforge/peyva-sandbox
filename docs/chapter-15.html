@@ -176,7 +176,12 @@
       </ul>
       <p class="technique"><span class="technique-name">Analogical Prompting</span>. Have the assistant generate its own analogy and reason through it before building. You learn more comparing its analogy to yours than from imposing yours: where the two differ is where one of you is wrong about the design.</p>
       <p class="technique-source">Documented in The Prompt Report: Thought Generation, Analogical Prompting</p>
-      <pre class="prompt">The Vault keeps everything in one file on one disk. If that disk dies, every balance dies with it.
+      <div class="prompt-wrap">
+        <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy prompt to clipboard" title="Copy prompt">
+          <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+        </button>
+        <pre class="prompt">The Vault keeps everything in one file on one disk. If that disk dies, every balance dies with it.
 
 Before designing anything, give me a real-world analogy for keeping a second copy of records somewhere else, something with no computers in it. Say who writes first, who copies, how far behind the copy runs, and what happens when the original is destroyed. Then name the one part of your analogy that actually matters for this design.
 
@@ -185,6 +190,7 @@ Now build it. The Vault gets a second copy, written to after each committed paym
 Then tell me where your analogy breaks down for real databases, and whether it led you into any mistake in the code you just wrote.
 
 Done when a payment appears in both copies, balance enquiries survive the primary being unavailable, and you can show me the window where a committed payment hasn&#39;t reached the second copy yet.</pre>
+      </div>
     </section>
 
     <section class="block break-it">

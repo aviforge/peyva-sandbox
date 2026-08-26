@@ -176,7 +176,12 @@
       </ul>
       <p class="technique"><span class="technique-name">Constrain the scope</span>. Assistants overengineer by default: extra files, abstractions, flexibility nobody asked for. The remedy is to state the ceiling explicitly. Ask for a listener without one and you&#39;ll get an HTTP server with routes and JSON.</p>
       <p class="technique-source">Documented in Anthropic: Prompting best practices, Overeagerness</p>
-      <pre class="prompt">Build the Gateway, the way payment requests reach the system from outside.
+      <div class="prompt-wrap">
+        <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy prompt to clipboard" title="Copy prompt">
+          <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+        </button>
+        <pre class="prompt">Build the Gateway, the way payment requests reach the system from outside.
 
 For now it does one thing: claim TCP port 9310, accept connections, log one line per connection with the caller&#39;s address, then close it.
 
@@ -185,6 +190,7 @@ Do not add HTTP handling, routes, JSON parsing, request or response types, grace
 The right amount of complexity is the minimum that does what I just described.
 
 Done when a request to port 9310 makes the Gateway log a connection, and starting a second copy fails with &#39;address already in use&#39;.</pre>
+      </div>
     </section>
 
     <section class="block break-it">

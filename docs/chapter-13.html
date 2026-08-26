@@ -176,7 +176,12 @@
       </ul>
       <p class="technique"><span class="technique-name">Contrastive Chain-of-Thought</span>. Show the wrong reasoning alongside the right reasoning, not just the right one. Naming the naive design and why it fails stops the assistant rediscovering it, and forces it to say what its version does differently.</p>
       <p class="technique-source">Documented in The Prompt Report: Few-Shot CoT, Contrastive CoT</p>
-      <pre class="prompt">The Courier picks up work from memory. If the process dies between the payment committing and the work reaching the Courier, that work is gone and nothing in the system knows it&#39;s missing.
+      <div class="prompt-wrap">
+        <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy prompt to clipboard" title="Copy prompt">
+          <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+        </button>
+        <pre class="prompt">The Courier picks up work from memory. If the process dies between the payment committing and the work reaching the Courier, that work is gone and nothing in the system knows it&#39;s missing.
 
 Reasoning I want you to reject: commit the payment, then hand the work to the Courier. Both nearly always succeed, so the gap between them is too small to matter. That is wrong because the gap isn&#39;t a probability, it&#39;s a window, and a crash inside it loses work silently with no record that anything is owed.
 
@@ -187,6 +192,7 @@ Build the second one. The Teller records the Courier&#39;s pending work in the s
 Then contrast the two designs directly: name the exact instant at which the rejected one loses work and yours doesn&#39;t. Then tell me what happens if the Courier dies after delivering but before marking it done, and whether that&#39;s acceptable for a notification.
 
 Done when killing the process right after a payment leaves the work durable and uncollected, and restarting the Courier still delivers it.</pre>
+      </div>
     </section>
 
     <section class="block break-it">

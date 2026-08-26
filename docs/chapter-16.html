@@ -176,7 +176,12 @@
       </ul>
       <p class="technique"><span class="technique-name">Tree-of-Thought</span>. Branch, evaluate each branch, prune, then commit. Ask for an implementation and you get one design with its reasoning hidden; ask for several scored against stated criteria and the choice comes into the open where you can disagree with it.</p>
       <p class="technique-source">Documented in The Prompt Report: Decomposition, Tree-of-Thought</p>
-      <pre class="prompt">The Vault&#39;s primary copy replicates asynchronously to a second copy. I need to decide what the Teller does when the two can&#39;t reach each other.
+      <div class="prompt-wrap">
+        <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy prompt to clipboard" title="Copy prompt">
+          <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+        </button>
+        <pre class="prompt">The Vault&#39;s primary copy replicates asynchronously to a second copy. I need to decide what the Teller does when the two can&#39;t reach each other.
 
 Don&#39;t write code yet. Propose at least three genuinely distinct strategies for handling the partition: not three variations on one idea. For each, work out what a customer experiences during the partition, what happens to a payment accepted mid-partition, and what manual work recovery needs.
 
@@ -185,6 +190,7 @@ Then prune. Eliminate the ones that are unacceptable for money movement specific
 Then implement your recommendation. Treat an unreachable second copy as a partition rather than ignoring it, and keep balance enquiries served from whichever copy is reachable even while payments are refused.
 
 Done when disconnecting the second copy makes payments fail loudly while enquiries still succeed, and reconnecting restores payments with no restart.</pre>
+      </div>
     </section>
 
     <section class="block break-it">

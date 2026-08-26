@@ -8,27 +8,27 @@ var Chapter14 = ChapterContent{
 	Category:   "Reliability",
 	Difficulty: "Advanced",
 	EstTime:    "25 min",
-	QuickTip:   "Compensations run in strict reverse order — the last completed step is undone first.",
+	QuickTip:   "Compensations run in strict reverse order: the last completed step is undone first.",
 
 	HeroImage:   "images/chapter-14.webp",
 	HeroCaption: "Sagas help us complete a big task in steps and roll back safely if something goes wrong.",
 
 	Intuition: []string{
 		"A single transaction works when everything lives in one database.",
-		"Once separate services are involved — order, payment, kitchen, delivery — no single BEGIN/COMMIT can span them.",
+		"Once separate services are involved (order, payment, kitchen, delivery), no single BEGIN/COMMIT can span them.",
 		"A saga runs the steps one at a time, and undoes completed steps if a later one fails.",
 	},
 
 	Concepts: []ConceptItem{
 		{Term: "Saga", Description: "A sequence of local transactions across services, coordinated so the whole workflow either completes or is undone."},
-		{Term: "Local Transaction", Description: "Each step's own transaction, scoped to its own service and database — not shared with the other steps."},
+		{Term: "Local Transaction", Description: "Each step's own transaction, scoped to its own service and database: not shared with the other steps."},
 		{Term: "Compensating Action", Description: "The 'undo' for a step that already succeeded, run in reverse order when a later step fails."},
 		{Term: "Saga Coordinator", Description: "Tracks which steps have completed and triggers compensations if the saga needs to unwind."},
 	},
 
 	UnderTheHood: []string{
 		"Order Saga: Order Service (Create Order) -> Payment Service (Charge Payment) -> Kitchen Service (Prepare Food) -> Delivery Service (Deliver Order), tracked by a Saga Coordinator.",
-		"If step 3 (Kitchen) fails: run compensating actions in reverse order — refund the payment (undo step 2), cancel the order (undo step 1). Step 4 never executes.",
+		"If step 3 (Kitchen) fails: run compensating actions in reverse order, refund the payment (undo step 2), cancel the order (undo step 1). Step 4 never executes.",
 		"Sagas keep data consistent across services without a shared transaction.",
 	},
 
@@ -36,13 +36,13 @@ var Chapter14 = ChapterContent{
 		Intro:     "The Teller learns to run a payment in stages, and to unwind one that fails.",
 		Technique: "Least-to-Most Prompting",
 		Why:       "Break the problem into subproblems and solve them in order, each building on the last one's answer. One prompt asking for a whole multi-stage workflow gets you a sketch of all of it and a working version of none.",
-		Source:    "The Prompt Report — Decomposition, Least-to-Most",
+		Source:    "The Prompt Report: Decomposition, Least-to-Most",
 		Prompt: "A payment is currently one atomic step. I want the Teller to run payments that span several stages and can unwind if a later stage fails permanently.\n\n" +
-			"Build it in four stages. Stop after each and tell me it's working before starting the next — don't write all four at once, and let each one build on what the previous one left behind.\n\n" +
+			"Build it in four stages. Stop after each and tell me it's working before starting the next. Don't write all four at once, and let each one build on what the previous one left behind.\n\n" +
 			"1. A record, per payment reference, of which stages have completed.\n" +
 			"2. Wire the existing money movement in as stage one, recording its completion.\n" +
 			"3. Wire the Courier handoff in as stage two, recording its completion.\n" +
-			"4. A reversal for stage one — put the money back, as a new pair of Ledger entries rather than by deleting the old ones — triggered when stage two fails in a way that can never succeed.\n\n" +
+			"4. A reversal for stage one (put the money back, as a new pair of Ledger entries rather than by deleting the old ones), triggered when stage two fails in a way that can never succeed.\n\n" +
 			"Distinguish permanent failures from retryable ones. Only permanent failures reverse.\n\n" +
 			"Done when a permanently failing stage two puts the money back, the Ledger shows both the original payment and its reversal, and the payment's record shows every stage it passed through.",
 	},

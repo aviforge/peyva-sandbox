@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Putting It All Together — Peyva Sandbox</title>
+<title>Putting It All Together | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -151,34 +151,34 @@
     <section class="block">
       <h2>1. Intuition</h2>
       <ul>
-        <li>Twenty chapters ago, peyva was one file holding one account.</li><li>Every chapter since added one honest piece — a port, an API, a database, a queue, a replica, security, and more.</li><li>A restaurant&#39;s Front Door, Hosts, Kitchen, Cold Storage, and Order Tickets are really just all of those pieces working together.</li>
+        <li>Twenty chapters ago, peyva was one file holding one account.</li><li>Every chapter since added one honest piece: a port, an API, a database, a queue, a replica, security, and more.</li><li>A restaurant&#39;s Front Door, Hosts, Kitchen, Cold Storage, and Order Tickets are really just all of those pieces working together.</li>
       </ul>
     </section>
 
     <section class="block">
       <h2>2. Concepts</h2>
       <ul class="concepts">
-        <li><strong>Load Balancer</strong> — The Front Door — routes users to available peyva instances.</li><li><strong>peyva Instances</strong> — The Hosts — stateless, scaled-out copies of the app from Chapter 10.</li><li><strong>Database &amp; Cache</strong> — The Kitchen and Cold Storage — durable data from Chapter 5, fast lookups from Chapter 11.</li><li><strong>Queue, Outbox &amp; Workers</strong> — Order Tickets — asynchronous, reliable work from Chapters 12 and 13.</li><li><strong>Reconciler</strong> — The Till Count — proves the Vault and the Ledger still agree, and names any account where they don&#39;t.</li>
+        <li><strong>Load Balancer</strong>. The Front Door: routes users to available peyva instances.</li><li><strong>peyva Instances</strong>. The Hosts: stateless, scaled-out copies of the app from Chapter 10.</li><li><strong>Database &amp; Cache</strong>. The Kitchen and Cold Storage: durable data from Chapter 5, fast lookups from Chapter 11.</li><li><strong>Queue, Outbox &amp; Workers</strong>. Order Tickets. Asynchronous, reliable work from Chapters 12 and 13.</li><li><strong>Reconciler</strong>. The Till Count: proves the Vault and the Ledger still agree, and names any account where they don&#39;t.</li>
       </ul>
     </section>
 
     <section class="block">
       <h2>3. Under the Hood</h2>
       <ul>
-        <li>Engineer view: Users -&gt; Load Balancer -&gt; peyva Instances (stateless) -&gt; Cache / Database / Queue / Outbox -&gt; Workers, with Security wrapping every edge and Observability watching every part.</li><li>The chain: Networking gets the request in -&gt; the API handles it -&gt; Scale Out shares the load -&gt; Cache serves the hot path -&gt; the Database holds the truth -&gt; Queue &amp; Outbox handle the rest asynchronously.</li><li>Restaurant operations underneath it all: health checks, deployments, alerts, runbooks, and incident response — Chapter 19&#39;s practices, running continuously.</li>
+        <li>Engineer view: Users -&gt; Load Balancer -&gt; peyva Instances (stateless) -&gt; Cache / Database / Queue / Outbox -&gt; Workers, with Security wrapping every edge and Observability watching every part.</li><li>The chain: Networking gets the request in -&gt; the API handles it -&gt; Scale Out shares the load -&gt; Cache serves the hot path -&gt; the Database holds the truth -&gt; Queue &amp; Outbox handle the rest asynchronously.</li><li>Restaurant operations underneath it all: health checks, deployments, alerts, runbooks, and incident response (Chapter 19&#39;s practices, running continuously).</li>
       </ul>
     </section>
 
     <section class="block build-it">
       <h2>4. Build It <span class="badge">Hands-on</span></h2>
       <ul class="lead">
-        <li>Build the Reconciler — and have the whole system explained back to you.</li>
+        <li>Build the Reconciler, and have the whole system explained back to you.</li>
       </ul>
-      <p class="technique"><span class="technique-name">Rephrase and Respond (RaR)</span> — Make the assistant restate the task in its own words before it answers. The restatement is the cheapest look you&#39;ll get at what it actually understood — and comparing it against the story in your head shows you what you didn&#39;t actually learn.</p>
-      <p class="technique-source">Documented in The Prompt Report — Zero-Shot, Rephrase and Respond</p>
-      <pre class="prompt">I want you to build the Reconciler — the component that proves the Vault and the Ledger agree. For every account, the sum of its Ledger entries must equal the balance the Vault reports, and any account where they don&#39;t is reported with the size of the gap.
+      <p class="technique"><span class="technique-name">Rephrase and Respond (RaR)</span>. Make the assistant restate the task in its own words before it answers. The restatement is the cheapest look you&#39;ll get at what it actually understood, and comparing it against the story in your head shows you what you didn&#39;t actually learn.</p>
+      <p class="technique-source">Documented in The Prompt Report: Zero-Shot, Rephrase and Respond</p>
+      <pre class="prompt">I want you to build the Reconciler. The component that proves the Vault and the Ledger agree. For every account, the sum of its Ledger entries must equal the balance the Vault reports, and any account where they don&#39;t is reported with the size of the gap.
 
-Before you write it, restate the job back to me in your own words. Read the whole system first, then describe what each component is for and how a payment travels from the Gateway through the Teller, the Vault, the Ledger and the Courier. Don&#39;t repeat my names for things back at me — describe what the code actually does. At each hop, say what would happen if that component failed right then.
+Before you write it, restate the job back to me in your own words. Read the whole system first, then describe what each component is for and how a payment travels from the Gateway through the Teller, the Vault, the Ledger and the Courier. Don&#39;t repeat my names for things back at me. Describe what the code actually does. At each hop, say what would happen if that component failed right then.
 
 I&#39;ll tell you where your restatement doesn&#39;t match mine before you write any code.
 
@@ -195,12 +195,12 @@ Done when the Reconciler reports no discrepancies on a healthy system, reports t
         <li>Break one piece deliberately and confirm the rest of the system absorbs it gracefully, the way earlier chapters promised.</li>
       </ul>
       <ul>
-        <li>Kill one instance mid-traffic — the load balancer routes around it (Ch. 10), nothing is lost.</li><li>Disconnect the replica — writes are refused, reads keep working (Ch. 16&#39;s CP choice).</li><li>Send the exact same transfer twice — Bob is paid once, not twice (Ch. 8&#39;s idempotency, still holding under the full system&#39;s weight).</li>
+        <li>Kill one instance mid-traffic. The load balancer routes around it (Ch. 10). Nothing is lost.</li><li>Disconnect the replica. Writes are refused, reads keep working (Ch. 16&#39;s CP choice).</li><li>Send the exact same transfer twice. Bob is paid once, not twice (Ch. 8&#39;s idempotency, still holding under the full system&#39;s weight).</li>
       </ul>
     </section>
   </div>
 
-  <p class="quick-tip"><strong>Quick tip:</strong> No single piece makes a system reliable — only how they cooperate under load and failure.</p>
+  <p class="quick-tip"><strong>Quick tip:</strong> No single piece makes a system reliable: only how they cooperate under load and failure.</p>
 </main>
 </div>
 <script src="app.js"></script>

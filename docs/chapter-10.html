@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Growing the Team: Scale Out — Peyva Sandbox</title>
+<title>Growing the Team: Scale Out | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -151,21 +151,21 @@
     <section class="block">
       <h2>1. Intuition</h2>
       <ul>
-        <li>Chapter 9&#39;s math said peyva needs to sustain real load — one process can&#39;t do that alone.</li><li>A busy café doesn&#39;t make one barista work faster; it opens more counters.</li><li>Scaling out runs several peyva copies side by side, with something in front routing each request.</li>
+        <li>Chapter 9&#39;s math said peyva needs to sustain real load. One process can&#39;t do that alone.</li><li>A busy café doesn&#39;t make one barista work faster; it opens more counters.</li><li>Scaling out runs several peyva copies side by side, with something in front routing each request.</li>
       </ul>
     </section>
 
     <section class="block">
       <h2>2. Concepts</h2>
       <ul class="concepts">
-        <li><strong>Instance</strong> — One running copy of the peyva process, identical to every other instance.</li><li><strong>Load Balancer</strong> — Sits in front of all instances and distributes incoming requests across them.</li><li><strong>Stateless</strong> — Keeps no unique data of its own — any instance can handle any request, since state lives in the database.</li><li><strong>Horizontal Scaling</strong> — Adding more machines/instances to handle more load, instead of making one machine bigger.</li>
+        <li><strong>Instance</strong>. One running copy of the peyva process, identical to every other instance.</li><li><strong>Load Balancer</strong>. Sits in front of all instances and distributes incoming requests across them.</li><li><strong>Stateless</strong>. Keeps no unique data of its own. Any instance can handle any request, since state lives in the database.</li><li><strong>Horizontal Scaling</strong>. Adding more machines/instances to handle more load, instead of making one machine bigger.</li>
       </ul>
     </section>
 
     <section class="block">
       <h2>3. Under the Hood</h2>
       <ul>
-        <li>Users -&gt; Load Balancer -&gt; Instance 1 / Instance 2 / Instance N, all backed by the same Database.</li><li>Before scaling: one instance handles everyone — slow when busy. After: a load balancer spreads requests across many instances — fast even when busy.</li>
+        <li>Users -&gt; Load Balancer -&gt; Instance 1 / Instance 2 / Instance N, all backed by the same Database.</li><li>Before scaling: one instance handles everyone, slow when busy. After: a load balancer spreads requests across many instances, fast even when busy.</li>
       </ul>
     </section>
 
@@ -174,13 +174,13 @@
       <ul class="lead">
         <li>Run several Gateways and Tellers side by side, sharing one Vault.</li>
       </ul>
-      <p class="technique"><span class="technique-name">Step-Back Prompting</span> — Make the assistant abstract to the general principle before it touches the specifics. Reasoning down from what makes any service replaceable beats reasoning up from this code, which tends to optimise a design that was never going to scale.</p>
-      <p class="technique-source">Documented in The Prompt Report — Thought Generation, Step-Back Prompting</p>
+      <p class="technique"><span class="technique-name">Step-Back Prompting</span>. Make the assistant abstract to the general principle before it touches the specifics. Reasoning down from what makes any service replaceable beats reasoning up from this code, which tends to optimise a design that was never going to scale.</p>
+      <p class="technique-source">Documented in The Prompt Report: Thought Generation, Step-Back Prompting</p>
       <pre class="prompt">I want to run several copies of the Gateway and Teller behind a router, so load spreads across them.
 
-Step back before you look at my code. In a few sentences, state the general property that lets any service run as several interchangeable copies — what may live inside one process, what may not, and why. Don&#39;t mention this codebase yet.
+Step back before you look at my code. In a few sentences, state the general property that lets any service run as several interchangeable copies. What may live inside one process, what may not, and why. Don&#39;t mention this codebase yet.
 
-Now apply that principle here. Audit the code against it and show me every place it currently fails — anything cached, counted, or held in a package-level variable.
+Now apply that principle here. Audit the code against it and show me every place it currently fails: anything cached, counted, or held in a package-level variable.
 
 Then fix what you found, make the port configurable so I can run three copies against one Vault, and add a small round-robin reverse proxy in front using only the standard library.
 
@@ -195,7 +195,7 @@ Done when ten payments spread across all three copies with correct final balance
         <li>Prove the instances really are interchangeable.</li>
       </ul>
       <ul>
-        <li>Send ten transfer requests through the load balancer and confirm they land on different instances, but all update the same shared balances correctly.</li><li>Kill one instance while traffic is flowing — the load balancer should route around it, and requests keep succeeding.</li><li>This only works because Chapter 5 already moved state into a shared database — a stateful instance couldn&#39;t be killed this safely.</li>
+        <li>Send ten transfer requests through the load balancer and confirm they land on different instances, but all update the same shared balances correctly.</li><li>Kill one instance while traffic is flowing. The load balancer should route around it, and requests keep succeeding.</li><li>This only works because Chapter 5 already moved state into a shared database. A stateful instance couldn&#39;t be killed this safely.</li>
       </ul>
     </section>
   </div>

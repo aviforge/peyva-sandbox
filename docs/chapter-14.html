@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Big Changes Safely: Sagas — Peyva Sandbox</title>
+<title>Big Changes Safely: Sagas | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -151,21 +151,21 @@
     <section class="block">
       <h2>1. Intuition</h2>
       <ul>
-        <li>A single transaction works when everything lives in one database.</li><li>Once separate services are involved — order, payment, kitchen, delivery — no single BEGIN/COMMIT can span them.</li><li>A saga runs the steps one at a time, and undoes completed steps if a later one fails.</li>
+        <li>A single transaction works when everything lives in one database.</li><li>Once separate services are involved (order, payment, kitchen, delivery), no single BEGIN/COMMIT can span them.</li><li>A saga runs the steps one at a time, and undoes completed steps if a later one fails.</li>
       </ul>
     </section>
 
     <section class="block">
       <h2>2. Concepts</h2>
       <ul class="concepts">
-        <li><strong>Saga</strong> — A sequence of local transactions across services, coordinated so the whole workflow either completes or is undone.</li><li><strong>Local Transaction</strong> — Each step&#39;s own transaction, scoped to its own service and database — not shared with the other steps.</li><li><strong>Compensating Action</strong> — The &#39;undo&#39; for a step that already succeeded, run in reverse order when a later step fails.</li><li><strong>Saga Coordinator</strong> — Tracks which steps have completed and triggers compensations if the saga needs to unwind.</li>
+        <li><strong>Saga</strong>. A sequence of local transactions across services, coordinated so the whole workflow either completes or is undone.</li><li><strong>Local Transaction</strong>. Each step&#39;s own transaction, scoped to its own service and database: not shared with the other steps.</li><li><strong>Compensating Action</strong>. The &#39;undo&#39; for a step that already succeeded, run in reverse order when a later step fails.</li><li><strong>Saga Coordinator</strong>. Tracks which steps have completed and triggers compensations if the saga needs to unwind.</li>
       </ul>
     </section>
 
     <section class="block">
       <h2>3. Under the Hood</h2>
       <ul>
-        <li>Order Saga: Order Service (Create Order) -&gt; Payment Service (Charge Payment) -&gt; Kitchen Service (Prepare Food) -&gt; Delivery Service (Deliver Order), tracked by a Saga Coordinator.</li><li>If step 3 (Kitchen) fails: run compensating actions in reverse order — refund the payment (undo step 2), cancel the order (undo step 1). Step 4 never executes.</li><li>Sagas keep data consistent across services without a shared transaction.</li>
+        <li>Order Saga: Order Service (Create Order) -&gt; Payment Service (Charge Payment) -&gt; Kitchen Service (Prepare Food) -&gt; Delivery Service (Deliver Order), tracked by a Saga Coordinator.</li><li>If step 3 (Kitchen) fails: run compensating actions in reverse order, refund the payment (undo step 2), cancel the order (undo step 1). Step 4 never executes.</li><li>Sagas keep data consistent across services without a shared transaction.</li>
       </ul>
     </section>
 
@@ -174,16 +174,16 @@
       <ul class="lead">
         <li>The Teller learns to run a payment in stages, and to unwind one that fails.</li>
       </ul>
-      <p class="technique"><span class="technique-name">Least-to-Most Prompting</span> — Break the problem into subproblems and solve them in order, each building on the last one&#39;s answer. One prompt asking for a whole multi-stage workflow gets you a sketch of all of it and a working version of none.</p>
-      <p class="technique-source">Documented in The Prompt Report — Decomposition, Least-to-Most</p>
+      <p class="technique"><span class="technique-name">Least-to-Most Prompting</span>. Break the problem into subproblems and solve them in order, each building on the last one&#39;s answer. One prompt asking for a whole multi-stage workflow gets you a sketch of all of it and a working version of none.</p>
+      <p class="technique-source">Documented in The Prompt Report: Decomposition, Least-to-Most</p>
       <pre class="prompt">A payment is currently one atomic step. I want the Teller to run payments that span several stages and can unwind if a later stage fails permanently.
 
-Build it in four stages. Stop after each and tell me it&#39;s working before starting the next — don&#39;t write all four at once, and let each one build on what the previous one left behind.
+Build it in four stages. Stop after each and tell me it&#39;s working before starting the next. Don&#39;t write all four at once, and let each one build on what the previous one left behind.
 
 1. A record, per payment reference, of which stages have completed.
 2. Wire the existing money movement in as stage one, recording its completion.
 3. Wire the Courier handoff in as stage two, recording its completion.
-4. A reversal for stage one — put the money back, as a new pair of Ledger entries rather than by deleting the old ones — triggered when stage two fails in a way that can never succeed.
+4. A reversal for stage one (put the money back, as a new pair of Ledger entries rather than by deleting the old ones), triggered when stage two fails in a way that can never succeed.
 
 Distinguish permanent failures from retryable ones. Only permanent failures reverse.
 
@@ -201,7 +201,7 @@ Done when a permanently failing stage two puts the money back, the Ledger shows 
     </section>
   </div>
 
-  <p class="quick-tip"><strong>Quick tip:</strong> Compensations run in strict reverse order — the last completed step is undone first.</p>
+  <p class="quick-tip"><strong>Quick tip:</strong> Compensations run in strict reverse order: the last completed step is undone first.</p>
 </main>
 </div>
 <script src="app.js"></script>

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Designing the API — Peyva Sandbox</title>
+<title>Designing the API | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -151,14 +151,14 @@
     <section class="block">
       <h2>1. Intuition</h2>
       <ul>
-        <li>Alice doesn&#39;t care about ports and packets — she cares about sending $20.</li><li>An API is the menu: a fixed set of requests, in a fixed shape, with a predictable answer.</li><li>Order POST /transfer, get back 200 OK and a transaction id.</li>
+        <li>Alice doesn&#39;t care about ports and packets: she cares about sending $20.</li><li>An API is the menu: a fixed set of requests, in a fixed shape, with a predictable answer.</li><li>Order POST /transfer, get back 200 OK and a transaction id.</li>
       </ul>
     </section>
 
     <section class="block">
       <h2>2. Concepts</h2>
       <ul class="concepts">
-        <li><strong>Endpoint</strong> — A specific thing the API lets you do — POST /transfer, for moving money.</li><li><strong>Request Body</strong> — The details of what you&#39;re asking for, e.g. {&#34;from&#34;: &#34;alice&#34;, &#34;to&#34;: &#34;bob&#34;, &#34;amount&#34;: 20}.</li><li><strong>Status Codes</strong> — A predictable signal of what happened: 200 OK, 400 Bad Request, 500 Server Error.</li><li><strong>Validation</strong> — Checking the request makes sense before doing any work — rejecting bad orders instead of guessing.</li><li><strong>Teller</strong> — The component that handles a payment end to end, and the only thing allowed to move money. The Gateway parses and forwards; it never touches a balance itself.</li>
+        <li><strong>Endpoint</strong>. A specific thing the API lets you do: POST /transfer, for moving money.</li><li><strong>Request Body</strong>. The details of what you&#39;re asking for, e.g. {&#34;from&#34;: &#34;alice&#34;, &#34;to&#34;: &#34;bob&#34;, &#34;amount&#34;: 20}.</li><li><strong>Status Codes</strong>. A predictable signal of what happened: 200 OK, 400 Bad Request, 500 Server Error.</li><li><strong>Validation</strong>. Checking the request makes sense before doing any work, rejecting bad orders instead of guessing.</li><li><strong>Teller</strong>. The component that handles a payment end to end, and the only thing allowed to move money. The Gateway parses and forwards; it never touches a balance itself.</li>
       </ul>
     </section>
 
@@ -172,13 +172,13 @@
     <section class="block build-it">
       <h2>4. Build It <span class="badge">Hands-on</span></h2>
       <ul class="lead">
-        <li>Build the Teller — and give the Gateway a real payment request to forward.</li>
+        <li>Build the Teller, and give the Gateway a real payment request to forward.</li>
       </ul>
-      <p class="technique"><span class="technique-name">Few-shot (multishot) prompting</span> — Prose leaves field names and status codes up for grabs. Concrete input and output pairs pin the contract harder than a paragraph ever will — and the examples have to include the failures, or only the happy path gets built.</p>
-      <p class="technique-source">Documented in The Prompt Report — In-Context Learning; Anthropic, Use examples effectively</p>
+      <p class="technique"><span class="technique-name">Few-shot (multishot) prompting</span>. Prose leaves field names and status codes up for grabs. Concrete input and output pairs pin the contract harder than a paragraph ever will, and the examples have to include the failures, or only the happy path gets built.</p>
+      <p class="technique-source">Documented in The Prompt Report: In-Context Learning; Anthropic, Use examples effectively</p>
       <pre class="prompt">Requests reach the Gateway but nothing acts on them. Have the Gateway speak HTTP, and build the Teller behind it.
 
-The Teller handles one payment end to end: validate the request, check the payer has enough, move the amount between accounts in the Vault, and return a reference the caller can quote later. The Teller is the only thing allowed to move money — the Gateway parses and forwards, and never touches a balance itself.
+The Teller handles one payment end to end: validate the request, check the payer has enough, move the amount between accounts in the Vault, and return a reference the caller can quote later. The Teller is the only thing allowed to move money: the Gateway parses and forwards, and never touches a balance itself.
 
 Match these exactly:
 
@@ -191,7 +191,7 @@ Match these exactly:
   not json
   -&gt; 400 {&#34;error&#34;: &#34;invalid JSON body&#34;}
 
-Validate before touching any account. No authentication, no retries, no persistence — later chapters.
+Validate before touching any account. No authentication, no retries, no persistence: later chapters.
 
 Done when those three requests produce exactly those three responses, and alice&#39;s balance drops by 20 only on the first.</pre>
     </section>
@@ -202,12 +202,12 @@ Done when those three requests produce exactly those three responses, and alice&
         <li>A well-designed API should be hard to misuse. Try to misuse it.</li>
       </ul>
       <ul>
-        <li>Send malformed JSON ({}) — expect 400 Bad Request, not a crash.</li><li>Send a request missing the &#39;amount&#39; field — expect 400, with a clear reason.</li><li>Send duplicate requests back to back — peyva has no way yet to tell they&#39;re the same transfer. That&#39;s Chapter 8&#39;s problem.</li>
+        <li>Send malformed JSON ({}). Expect 400 Bad Request, not a crash.</li><li>Send a request missing the &#39;amount&#39; field. Expect 400, with a clear reason.</li><li>Send duplicate requests back to back. peyva has no way yet to tell they&#39;re the same transfer. That&#39;s Chapter 8&#39;s problem.</li>
       </ul>
     </section>
   </div>
 
-  <p class="quick-tip"><strong>Quick tip:</strong> Validate before you touch any data — reject bad requests instead of guessing what the caller meant.</p>
+  <p class="quick-tip"><strong>Quick tip:</strong> Validate before you touch any data. Reject bad requests instead of guessing what the caller meant.</p>
 </main>
 </div>
 <script src="app.js"></script>

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Making It Safe (Transactions) — Peyva Sandbox</title>
+<title>Making It Safe (Transactions) | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -134,7 +134,7 @@
     <button type="button" class="mark-complete" data-mark-complete>Mark chapter as complete</button>
     <p class="chapter-eyebrow">Chapter 7</p>
     <h1>Making It Safe (Transactions)</h1>
-    <p class="chapter-subtitle">A transfer is three writes, not one — and all three need to succeed together.</p>
+    <p class="chapter-subtitle">A transfer is three writes, not one, and all three need to succeed together.</p>
     <div class="tags">
       <span class="tag">Databases</span>
       <span class="tag">Intermediate</span>
@@ -151,34 +151,34 @@
     <section class="block">
       <h2>1. Intuition</h2>
       <ul>
-        <li>A transfer isn&#39;t one change, it&#39;s three: debit Alice, credit Bob, record it happened.</li><li>If peyva crashes between steps, money vanishes.</li><li>A bank teller doesn&#39;t hand over a receipt until every step succeeds — if one fails, they undo everything.</li>
+        <li>A transfer isn&#39;t one change, it&#39;s three: debit Alice, credit Bob, record it happened.</li><li>If peyva crashes between steps, money vanishes.</li><li>A bank teller doesn&#39;t hand over a receipt until every step succeeds. If one fails, they undo everything.</li>
       </ul>
     </section>
 
     <section class="block">
       <h2>2. Concepts</h2>
       <ul class="concepts">
-        <li><strong>Transaction</strong> — A group of database changes that succeed or fail together, never partially.</li><li><strong>BEGIN / COMMIT</strong> — Marks the start and the permanent end of a transaction — nothing is final until COMMIT.</li><li><strong>Rollback</strong> — Undoing every change in a transaction because one step failed.</li><li><strong>ACID</strong> — Atomicity, Consistency, Isolation, Durability — the four guarantees a real transaction gives you.</li><li><strong>Ledger</strong> — The append-only record of every movement of money — the proof behind each balance the Vault reports.</li>
+        <li><strong>Transaction</strong>. A group of database changes that succeed or fail together, never partially.</li><li><strong>BEGIN / COMMIT</strong>. Marks the start and the permanent end of a transaction. Nothing is final until COMMIT.</li><li><strong>Rollback</strong>. Undoing every change in a transaction because one step failed.</li><li><strong>ACID</strong>. Atomicity, Consistency, Isolation, Durability: the four guarantees a real transaction gives you.</li><li><strong>Ledger</strong>. The append-only record of every movement of money, the proof behind each balance the Vault reports.</li>
       </ul>
     </section>
 
     <section class="block">
       <h2>3. Under the Hood</h2>
       <ul>
-        <li>Transaction flow: BEGIN -&gt; Debit Alice -&gt; Credit Bob -&gt; Insert Transfer Record -&gt; COMMIT.</li><li>If any step fails, ROLLBACK undoes every change made since BEGIN — Alice never loses money to a step that never finished.</li>
+        <li>Transaction flow: BEGIN -&gt; Debit Alice -&gt; Credit Bob -&gt; Insert Transfer Record -&gt; COMMIT.</li><li>If any step fails, ROLLBACK undoes every change made since BEGIN: Alice never loses money to a step that never finished.</li>
       </ul>
     </section>
 
     <section class="block build-it">
       <h2>4. Build It <span class="badge">Hands-on</span></h2>
       <ul class="lead">
-        <li>Build the Ledger — the proof behind every balance the Vault reports.</li>
+        <li>Build the Ledger: the proof behind every balance the Vault reports.</li>
       </ul>
-      <p class="technique"><span class="technique-name">Chain-of-thought prompting</span> — Ask for the reasoning before the answer and the reasoning becomes inspectable. When the failure modes are the hard part, code-first gets you a plausible design with a hole in it; thinking first surfaces the hole while it&#39;s still cheap.</p>
-      <p class="technique-source">Documented in The Prompt Report — Thought Generation, Chain-of-Thought</p>
+      <p class="technique"><span class="technique-name">Chain-of-thought prompting</span>. Ask for the reasoning before the answer and the reasoning becomes inspectable. When the failure modes are the hard part, code-first gets you a plausible design with a hole in it; thinking first surfaces the hole while it&#39;s still cheap.</p>
+      <p class="technique-source">Documented in The Prompt Report: Thought Generation, Chain-of-Thought</p>
       <pre class="prompt">The Teller moves money by updating two balances in the Vault. Nothing records that the movement happened, so if a balance looks wrong there&#39;s no way to prove how it got that way.
 
-Build the Ledger: an append-only, double-entry record. Every payment writes two balanced entries — a debit and a credit sharing one reference and timestamp — and the Vault&#39;s balances update in the same atomic unit. All of it commits, or none of it happened.
+Build the Ledger: an append-only, double-entry record. Every payment writes two balanced entries (a debit and a credit sharing one reference and timestamp), and the Vault&#39;s balances update in the same atomic unit. All of it commits, or none of it happened.
 
 Before writing code: walk me through what the data looks like if the process dies between the debit, the credit, and the Ledger write. Three scenarios, and for each tell me exactly who is owed what.
 
@@ -193,12 +193,12 @@ Done when a completed payment leaves two balanced Ledger entries and updated bal
         <li>Force a failure partway through and confirm nothing is left half-done.</li>
       </ul>
       <ul>
-        <li>Deliberately make the credit step fail (e.g. an invalid &#39;to&#39; account) and confirm Alice&#39;s debit was rolled back too — her balance is unchanged.</li><li>Compare this to Chapter 4&#39;s version without a transaction, where a mid-transfer crash really would leave Alice debited with no credit to Bob.</li><li>Kill the process between BEGIN and COMMIT (if you can time it) — on restart, the transaction never happened at all.</li>
+        <li>Deliberately make the credit step fail (e.g. an invalid &#39;to&#39; account) and confirm Alice&#39;s debit was rolled back too. Her balance is unchanged.</li><li>Compare this to Chapter 4&#39;s version without a transaction, where a mid-transfer crash really would leave Alice debited with no credit to Bob.</li><li>Kill the process between BEGIN and COMMIT (if you can time it): on restart, the transaction never happened at all.</li>
       </ul>
     </section>
   </div>
 
-  <p class="quick-tip"><strong>Quick tip:</strong> Nothing is final until COMMIT — that&#39;s what makes ROLLBACK possible.</p>
+  <p class="quick-tip"><strong>Quick tip:</strong> Nothing is final until COMMIT. That&#39;s what makes ROLLBACK possible.</p>
 </main>
 </div>
 <script src="app.js"></script>

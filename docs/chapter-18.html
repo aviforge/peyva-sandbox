@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Lock It Down: Security — Peyva Sandbox</title>
+<title>Lock It Down: Security | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -158,7 +158,7 @@
     <section class="block">
       <h2>2. Concepts</h2>
       <ul class="concepts">
-        <li><strong>AuthN (Authentication)</strong> — Verifying who someone is — proving Alice is really Alice.</li><li><strong>AuthZ (Authorization)</strong> — Checking what an authenticated user is allowed to do — least privilege by default.</li><li><strong>Encryption in Transit</strong> — Protecting data as it travels over the network (TLS), so it can&#39;t be read if intercepted.</li><li><strong>Secrets Management</strong> — Storing credentials and keys securely, never hardcoded in source code.</li>
+        <li><strong>AuthN (Authentication)</strong>. Verifying who someone is. Proving Alice is really Alice.</li><li><strong>AuthZ (Authorization)</strong>. Checking what an authenticated user is allowed to do, least privilege by default.</li><li><strong>Encryption in Transit</strong>. Protecting data as it travels over the network (TLS), so it can&#39;t be read if intercepted.</li><li><strong>Secrets Management</strong>. Storing credentials and keys securely, never hardcoded in source code.</li>
       </ul>
     </section>
 
@@ -174,14 +174,14 @@
       <ul class="lead">
         <li>The Gateway learns to prove who&#39;s calling before the Teller sees a payment.</li>
       </ul>
-      <p class="technique"><span class="technique-name">Chain-of-Verification (CoVe)</span> — Draft an answer, plan the questions that would catch it being wrong, answer those independently, then revise. Asking for secure code gets you the checklist; verifying your own draft finds the holes the checklist doesn&#39;t mention.</p>
-      <p class="technique-source">Documented in The Prompt Report — Self-Criticism, Chain-of-Verification</p>
+      <p class="technique"><span class="technique-name">Chain-of-Verification (CoVe)</span>. Draft an answer, plan the questions that would catch it being wrong, answer those independently, then revise. Asking for secure code gets you the checklist; verifying your own draft finds the holes the checklist doesn&#39;t mention.</p>
+      <p class="technique-source">Documented in The Prompt Report: Self-Criticism, Chain-of-Verification</p>
       <pre class="prompt">The Gateway trusts the &#34;from&#34; field on a payment request completely. Any caller can move money out of any account.
 
 Work in four passes and show me each one.
 
 1. Draft. Make the Gateway prove who the caller is, and confirm they own the account they&#39;re spending from before the Teller ever sees the request. Move any credential out of source code into an environment variable.
-2. Plan the checks. Write the list of questions that would expose your draft as broken. Be specific to this system — no generic OWASP categories.
+2. Plan the checks. Write the list of questions that would expose your draft as broken. Be specific to this system: no generic OWASP categories.
 3. Answer them. Take each question against the code you actually wrote, one at a time, and don&#39;t soften an answer because of what you concluded on another.
 4. Revise. Fix what the answers exposed, then state plainly what is still exploitable, including anything you left out of scope on purpose.
 
@@ -194,12 +194,12 @@ Done when a request with no credential is refused, a caller authenticated as one
         <li>Try to misuse peyva the way an attacker would.</li>
       </ul>
       <ul>
-        <li>Send a /transfer request with no auth token — confirm it&#39;s rejected with 401, not silently processed.</li><li>Authenticate as Alice but set &#39;from&#39; to Bob&#39;s account — confirm it&#39;s rejected with 403, proving authentication alone isn&#39;t authorization.</li><li>Search the codebase for any hardcoded credentials — there should be none by the end of this chapter.</li>
+        <li>Send a /transfer request with no auth token. Confirm it&#39;s rejected with 401, not silently processed.</li><li>Authenticate as Alice but set &#39;from&#39; to Bob&#39;s account. Confirm it&#39;s rejected with 403, proving authentication alone isn&#39;t authorization.</li><li>Search the codebase for any hardcoded credentials. There should be none by the end of this chapter.</li>
       </ul>
     </section>
   </div>
 
-  <p class="quick-tip"><strong>Quick tip:</strong> Authentication proves who&#39;s calling; authorization checks what they&#39;re allowed to do — you need both.</p>
+  <p class="quick-tip"><strong>Quick tip:</strong> Authentication proves who&#39;s calling; authorization checks what they&#39;re allowed to do. You need both.</p>
 </main>
 </div>
 <script src="app.js"></script>

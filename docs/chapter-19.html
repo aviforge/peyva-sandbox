@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Operating in Production — Peyva Sandbox</title>
+<title>Operating in Production | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -143,8 +143,8 @@
   </div>
 
   <figure class="hero-panel">
-    <a class="hero-link" href="images/chapter-19.webp" target="_blank" rel="noopener"><img src="images/chapter-19.webp" alt="Great restaurants aren&#39;t just built well, they are operated well every day. That&#39;s how customers stay happy."></a>
-    <figcaption>Great restaurants aren&#39;t just built well, they are operated well every day. That&#39;s how customers stay happy. <a class="hero-expand-hint" href="images/chapter-19.webp" target="_blank" rel="noopener">Click to view full size</a></figcaption>
+    <a class="hero-link" href="images/chapter-19.webp" target="_blank" rel="noopener"><img src="images/chapter-19.webp" alt="Great restaurants aren&#39;t just built well. They are operated well every day. That&#39;s how customers stay happy."></a>
+    <figcaption>Great restaurants aren&#39;t just built well. They are operated well every day. That&#39;s how customers stay happy. <a class="hero-expand-hint" href="images/chapter-19.webp" target="_blank" rel="noopener">Click to view full size</a></figcaption>
   </figure>
 
   <div class="section-grid">
@@ -158,7 +158,7 @@
     <section class="block">
       <h2>2. Concepts</h2>
       <ul class="concepts">
-        <li><strong>Health Check</strong> — An endpoint or process that continuously confirms peyva and its dependencies are actually working.</li><li><strong>Rolling Deployment</strong> — Releasing a new version gradually, instance by instance, instead of all at once.</li><li><strong>Rollback</strong> — Quickly reverting to the previous working version when a new release causes problems.</li><li><strong>Runbook</strong> — A step-by-step guide for handling a specific, known kind of incident.</li>
+        <li><strong>Health Check</strong>. An endpoint or process that continuously confirms peyva and its dependencies are actually working.</li><li><strong>Rolling Deployment</strong>. Releasing a new version gradually, instance by instance, instead of all at once.</li><li><strong>Rollback</strong>. Quickly reverting to the previous working version when a new release causes problems.</li><li><strong>Runbook</strong>. A step-by-step guide for handling a specific, known kind of incident.</li>
       </ul>
     </section>
 
@@ -172,10 +172,10 @@
     <section class="block build-it">
       <h2>4. Build It <span class="badge">Hands-on</span></h2>
       <ul class="lead">
-        <li>No new component — give the system a deployment and rollback story.</li>
+        <li>No new component. Give the system a deployment and rollback story.</li>
       </ul>
-      <p class="technique"><span class="technique-name">Structured output formatting</span> — A runbook read at 2am has to be commands, not prose. Hand over the exact skeleton you want back — and phrase it as what to produce rather than what to avoid, which is what actually steers the output.</p>
-      <p class="technique-source">Documented in Anthropic — Prompting best practices, Control the format of responses</p>
+      <p class="technique"><span class="technique-name">Structured output formatting</span>. A runbook read at 2am has to be commands, not prose. Hand over the exact skeleton you want back, and phrase it as what to produce rather than what to avoid, which is what actually steers the output.</p>
+      <p class="technique-source">Documented in Anthropic: Prompting best practices, Control the format of responses</p>
       <pre class="prompt">I run three copies of the Gateway and Teller behind a router, each exposing a health endpoint.
 
 Add a version string, set at build time, reported by that endpoint. Then write me a rollback runbook.
@@ -205,12 +205,12 @@ Done when deploying a deliberately broken version to one copy fails its health c
         <li>Deploy a deliberately broken version and confirm your own process catches it.</li>
       </ul>
       <ul>
-        <li>Deploy a version with an intentional bug to one instance first — confirm its health check fails before it reaches every instance.</li><li>Follow your own rollback runbook to revert that one instance — time how long it actually takes.</li><li>Write a one-paragraph postmortem: what broke, how it was caught, what would prevent it next time.</li>
+        <li>Deploy a version with an intentional bug to one instance first. Confirm its health check fails before it reaches every instance.</li><li>Follow your own rollback runbook to revert that one instance: time how long it actually takes.</li><li>Write a one-paragraph postmortem: what broke, how it was caught, what would prevent it next time.</li>
       </ul>
     </section>
   </div>
 
-  <p class="quick-tip"><strong>Quick tip:</strong> Deploy to one instance first — a health check catching a bad release there is far cheaper than catching it everywhere.</p>
+  <p class="quick-tip"><strong>Quick tip:</strong> Deploy to one instance first: a health check catching a bad release there is far cheaper than catching it everywhere.</p>
 </main>
 </div>
 <script src="app.js"></script>

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Across the Wire (Networking) — Peyva Sandbox</title>
+<title>Across the Wire (Networking) | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -151,31 +151,31 @@
     <section class="block">
       <h2>1. Intuition</h2>
       <ul>
-        <li>Chapter 2 got peyva listening on your own machine — but Alice and Bob aren&#39;t on the same one.</li><li>Reaching another machine needs an address (IP), a door (port), a shared language (protocol), and packets to carry the message.</li>
+        <li>Chapter 2 got peyva listening on your own machine, but Alice and Bob aren&#39;t on the same one.</li><li>Reaching another machine needs an address (IP), a door (port), a shared language (protocol), and packets to carry the message.</li>
       </ul>
     </section>
 
     <section class="block">
       <h2>2. Concepts</h2>
       <ul class="concepts">
-        <li><strong>IP Address</strong> — Where a machine lives on the network — the equivalent of a street address.</li><li><strong>Port</strong> — Which door on that machine to use — same idea as Chapter 2, reached remotely.</li><li><strong>Protocol</strong> — The agreed-upon way of talking — peyva speaks TCP/IP.</li><li><strong>Packets</strong> — Chunks a message is split into for the trip, reassembled on arrival.</li>
+        <li><strong>IP Address</strong>. Where a machine lives on the network, the equivalent of a street address.</li><li><strong>Port</strong>. Which door on that machine to use: same idea as Chapter 2, reached remotely.</li><li><strong>Protocol</strong>. The agreed-upon way of talking. peyva speaks TCP/IP.</li><li><strong>Packets</strong>. Chunks a message is split into for the trip, reassembled on arrival.</li>
       </ul>
     </section>
 
     <section class="block">
       <h2>3. Under the Hood</h2>
       <ul>
-        <li>Your App -&gt; TCP/IP -&gt; Internet -&gt; the other machine&#39;s App, following IP addresses on both ends.</li><li>TCP guarantees packets arrive in order with none missing — exactly what moving money needs.</li><li>net.Listen from Chapter 2 already speaks TCP/IP — this chapter is about reaching a different machine, not just your own.</li>
+        <li>Your App -&gt; TCP/IP -&gt; Internet -&gt; the other machine&#39;s App, following IP addresses on both ends.</li><li>TCP guarantees packets arrive in order with none missing: exactly what moving money needs.</li><li>net.Listen from Chapter 2 already speaks TCP/IP. This chapter is about reaching a different machine, not just your own.</li>
       </ul>
     </section>
 
     <section class="block build-it">
       <h2>4. Build It <span class="badge">Hands-on</span></h2>
       <ul class="lead">
-        <li>No component this chapter — reach the Gateway from a different machine.</li>
+        <li>No component this chapter: reach the Gateway from a different machine.</li>
       </ul>
-      <p class="technique"><span class="technique-name">Add context and motivation</span> — Say what your situation is and why you&#39;re asking, and the assistant generalises from it — picking commands that run on your OS and warning you about the firewall prompt before you hit it. Two lines of context saves three rounds of that didn&#39;t work.</p>
-      <p class="technique-source">Documented in Anthropic — Prompting best practices, Add context to improve performance</p>
+      <p class="technique"><span class="technique-name">Add context and motivation</span>. Say what your situation is and why you&#39;re asking, and the assistant generalises from it. Picking commands that run on your OS and warning you about the firewall prompt before you hit it. Two lines of context saves three rounds of that didn&#39;t work.</p>
+      <p class="technique-source">Documented in Anthropic: Prompting best practices, Add context to improve performance</p>
       <pre class="prompt">My environment: &lt;your OS and shell&gt;. The Gateway is listening on TCP port 9310 on this machine, and I have a phone on the same Wi-Fi.
 
 I want to reach the Gateway from the phone instead of from localhost. I&#39;m doing this to understand how a service becomes reachable beyond the machine it runs on, so tell me what is actually happening rather than only what to type.
@@ -190,15 +190,15 @@ Done when the phone&#39;s browser reaches the Gateway and the Gateway logs that 
     <section class="block break-it">
       <h2>5. Break It <span class="badge badge-danger">Test it</span></h2>
       <ul class="lead">
-        <li>Networks aren&#39;t perfect — see what happens when the path breaks.</li>
+        <li>Networks aren&#39;t perfect. See what happens when the path breaks.</li>
       </ul>
       <ul>
-        <li>Turn off Wi-Fi on the device trying to reach peyva. The connection fails immediately with no route to the machine.</li><li>Try reaching peyva at the wrong port (e.g. 9311 instead of 9310) — connection refused, even though the IP address is right.</li><li>The IP gets you to the right machine, but the port still decides whether anyone answers.</li>
+        <li>Turn off Wi-Fi on the device trying to reach peyva. The connection fails immediately with no route to the machine.</li><li>Try reaching peyva at the wrong port (e.g. 9311 instead of 9310): connection refused, even though the IP address is right.</li><li>The IP gets you to the right machine, but the port still decides whether anyone answers.</li>
       </ul>
     </section>
   </div>
 
-  <p class="quick-tip"><strong>Quick tip:</strong> TCP guarantees packets arrive in order with none missing — exactly what moving money needs.</p>
+  <p class="quick-tip"><strong>Quick tip:</strong> TCP guarantees packets arrive in order with none missing: exactly what moving money needs.</p>
 </main>
 </div>
 <script src="app.js"></script>

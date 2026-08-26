@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>{{.Chapter.Title}} — Peyva Sandbox</title>
+<title>{{.Chapter.Title}} | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
 <link rel="stylesheet" href="{{.AssetPrefix}}styles.css">
 </head>
@@ -49,7 +49,7 @@
     <section class="block">
       <h2>2. Concepts</h2>
       <ul class="concepts">
-        {{range .Chapter.Concepts}}<li><strong>{{.Term}}</strong> — {{.Description}}</li>{{end}}
+        {{range .Chapter.Concepts}}<li><strong>{{.Term}}</strong>. {{.Description}}</li>{{end}}
       </ul>
     </section>
 
@@ -65,7 +65,7 @@
       <ul class="lead">
         <li>{{.Chapter.BuildIt.Intro}}</li>
       </ul>
-      <p class="technique"><span class="technique-name">{{.Chapter.BuildIt.Technique}}</span> — {{.Chapter.BuildIt.Why}}</p>
+      <p class="technique"><span class="technique-name">{{.Chapter.BuildIt.Technique}}</span>. {{.Chapter.BuildIt.Why}}</p>
       <p class="technique-source">Documented in {{.Chapter.BuildIt.Source}}</p>
       <pre class="prompt">{{.Chapter.BuildIt.Prompt}}</pre>
     </section>

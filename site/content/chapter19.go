@@ -8,10 +8,10 @@ var Chapter19 = ChapterContent{
 	Category:   "Operations",
 	Difficulty: "Advanced",
 	EstTime:    "25 min",
-	QuickTip:   "Deploy to one instance first — a health check catching a bad release there is far cheaper than catching it everywhere.",
+	QuickTip:   "Deploy to one instance first: a health check catching a bad release there is far cheaper than catching it everywhere.",
 
 	HeroImage:   "images/chapter-19.webp",
-	HeroCaption: "Great restaurants aren't just built well, they are operated well every day. That's how customers stay happy.",
+	HeroCaption: "Great restaurants aren't just built well. They are operated well every day. That's how customers stay happy.",
 
 	Intuition: []string{
 		"Every chapter so far has been about building peyva.",
@@ -32,10 +32,10 @@ var Chapter19 = ChapterContent{
 	},
 
 	BuildIt: BuildIt{
-		Intro:     "No new component — give the system a deployment and rollback story.",
+		Intro:     "No new component. Give the system a deployment and rollback story.",
 		Technique: "Structured output formatting",
-		Why:       "A runbook read at 2am has to be commands, not prose. Hand over the exact skeleton you want back — and phrase it as what to produce rather than what to avoid, which is what actually steers the output.",
-		Source:    "Anthropic — Prompting best practices, Control the format of responses",
+		Why:       "A runbook read at 2am has to be commands, not prose. Hand over the exact skeleton you want back, and phrase it as what to produce rather than what to avoid, which is what actually steers the output.",
+		Source:    "Anthropic: Prompting best practices, Control the format of responses",
 		Prompt: "I run three copies of the Gateway and Teller behind a router, each exposing a health endpoint.\n\n" +
 			"Add a version string, set at build time, reported by that endpoint. Then write me a rollback runbook.\n\n" +
 			"Format the runbook exactly like this and nothing else:\n\n" +
@@ -54,8 +54,8 @@ var Chapter19 = ChapterContent{
 	BreakIt: BreakIt{
 		Intro: "Deploy a deliberately broken version and confirm your own process catches it.",
 		Exercises: []string{
-			"Deploy a version with an intentional bug to one instance first — confirm its health check fails before it reaches every instance.",
-			"Follow your own rollback runbook to revert that one instance — time how long it actually takes.",
+			"Deploy a version with an intentional bug to one instance first. Confirm its health check fails before it reaches every instance.",
+			"Follow your own rollback runbook to revert that one instance: time how long it actually takes.",
 			"Write a one-paragraph postmortem: what broke, how it was caught, what would prevent it next time.",
 		},
 	},

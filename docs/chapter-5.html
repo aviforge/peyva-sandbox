@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Storing Money (Databases) — Peyva Sandbox</title>
+<title>Storing Money (Databases) | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -151,34 +151,34 @@
     <section class="block">
       <h2>1. Intuition</h2>
       <ul>
-        <li>Chapter 0 proved a hard truth: stop the process and Alice&#39;s balance is gone.</li><li>A database is a bank record room — a safe place outside process memory.</li><li>A restart or crash never erases what Alice has.</li>
+        <li>Chapter 0 proved a hard truth: stop the process and Alice&#39;s balance is gone.</li><li>A database is a bank record room: a safe place outside process memory.</li><li>A restart or crash never erases what Alice has.</li>
       </ul>
     </section>
 
     <section class="block">
       <h2>2. Concepts</h2>
       <ul class="concepts">
-        <li><strong>Write</strong> — Saving new or updated data to the database — inserting an account or updating a balance.</li><li><strong>Read</strong> — Retrieving data back out — checking a balance before showing it to Alice.</li><li><strong>Durable</strong> — Once written, the data survives even if the process (or the machine) restarts.</li><li><strong>Persistent</strong> — Data stored on disk, outside process memory, so it outlives any single run.</li>
+        <li><strong>Write</strong>. Saving new or updated data to the database, inserting an account or updating a balance.</li><li><strong>Read</strong>. Retrieving data back out, checking a balance before showing it to Alice.</li><li><strong>Durable</strong>. Once written, the data survives even if the process (or the machine) restarts.</li><li><strong>Persistent</strong>. Data stored on disk, outside process memory, so it outlives any single run.</li>
       </ul>
     </section>
 
     <section class="block">
       <h2>3. Under the Hood</h2>
       <ul>
-        <li>peyva App writes to and reads from a Database instead of an in-memory struct.</li><li>SQLite fits a local setup best — a real database that&#39;s just a file on disk, no server required.</li>
+        <li>peyva App writes to and reads from a Database instead of an in-memory struct.</li><li>SQLite fits a local setup best: a real database that&#39;s just a file on disk, no server required.</li>
       </ul>
     </section>
 
     <section class="block build-it">
       <h2>4. Build It <span class="badge">Hands-on</span></h2>
       <ul class="lead">
-        <li>The Vault learns to remember — balances that survive a restart.</li>
+        <li>The Vault learns to remember. Balances that survive a restart.</li>
       </ul>
-      <p class="technique"><span class="technique-name">Explicit success criteria</span> — For a migration the useful thing to specify isn&#39;t the steps, it&#39;s the finish line: what must be true when it&#39;s done. State the target precisely and the assistant works out the delta, including the parts you&#39;d have forgotten to list.</p>
-      <p class="technique-source">Documented in Anthropic — Prompting best practices, Provide clear success criteria</p>
+      <p class="technique"><span class="technique-name">Explicit success criteria</span>. For a migration the useful thing to specify isn&#39;t the steps, it&#39;s the finish line: what must be true when it&#39;s done. State the target precisely and the assistant works out the delta, including the parts you&#39;d have forgotten to list.</p>
+      <p class="technique-source">Documented in Anthropic: Prompting best practices, Provide clear success criteria</p>
       <pre class="prompt">Now: the Vault holds balances in memory. They vanish when the process stops, so every restart resets alice to her seeded amount.
 
-Target: the Vault keeps accounts in a file on disk. It creates its storage on first run and seeds alice only if she isn&#39;t already there. Every read and every write of a balance goes to that file — no balance is cached in a Go variable anywhere.
+Target: the Vault keeps accounts in a file on disk. It creates its storage on first run and seeds alice only if she isn&#39;t already there. Every read and every write of a balance goes to that file. No balance is cached in a Go variable anywhere.
 
 Use SQLite with a driver that needs no cgo. Don&#39;t change what the Gateway or the Teller look like from the outside.
 
@@ -191,12 +191,12 @@ Done when restarting the process still reports alice&#39;s balance, and deleting
         <li>Prove durability actually holds, the same way Chapter 0 proved its absence.</li>
       </ul>
       <ul>
-        <li>Start peyva, confirm Alice&#39;s balance reads 100.</li><li>Stop the process entirely, then start it again — the balance still reads 100, read fresh from the Vault&#39;s file.</li><li>Delete the Vault&#39;s file while the process is stopped and restart — now the account is genuinely gone, because the file itself went, not just the process.</li>
+        <li>Start peyva, confirm Alice&#39;s balance reads 100.</li><li>Stop the process entirely, then start it again. The balance still reads 100, read fresh from the Vault&#39;s file.</li><li>Delete the Vault&#39;s file while the process is stopped and restart. Now the account is genuinely gone, because the file itself went, not just the process.</li>
       </ul>
     </section>
   </div>
 
-  <p class="quick-tip"><strong>Quick tip:</strong> A file on disk beats a variable in memory — SQLite needs no server process to give you that.</p>
+  <p class="quick-tip"><strong>Quick tip:</strong> A file on disk beats a variable in memory. SQLite needs no server process to give you that.</p>
 </main>
 </div>
 <script src="app.js"></script>

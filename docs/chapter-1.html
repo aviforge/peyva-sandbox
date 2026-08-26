@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Inside One Computer — Peyva Sandbox</title>
+<title>Inside One Computer | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -134,7 +134,7 @@
     <button type="button" class="mark-complete" data-mark-complete>Mark chapter as complete</button>
     <p class="chapter-eyebrow">Chapter 1</p>
     <h1>Inside One Computer</h1>
-    <p class="chapter-subtitle">A running program is one room in a house — the OS is the caretaker, the hardware is the house.</p>
+    <p class="chapter-subtitle">A running program is one room in a house. The OS is the caretaker, the hardware is the house.</p>
     <div class="tags">
       <span class="tag">Foundations</span>
       <span class="tag">Beginner</span>
@@ -151,14 +151,14 @@
     <section class="block">
       <h2>1. Intuition</h2>
       <ul>
-        <li>The peyva program from Chapter 0 isn&#39;t magic — it&#39;s a room in a house.</li><li>The OS is the caretaker; the hardware is the house.</li><li>CPU does the work, memory (RAM) is today&#39;s desk, disk is the long-term filing cabinet.</li>
+        <li>The peyva program from Chapter 0 isn&#39;t magic. It&#39;s a room in a house.</li><li>The OS is the caretaker; the hardware is the house.</li><li>CPU does the work, memory (RAM) is today&#39;s desk, disk is the long-term filing cabinet.</li>
       </ul>
     </section>
 
     <section class="block">
       <h2>2. Concepts</h2>
       <ul class="concepts">
-        <li><strong>Process</strong> — A running program — the room peyva&#39;s app is currently working in.</li><li><strong>Operating System (OS)</strong> — The caretaker that manages resources, files, and hardware for every process.</li><li><strong>CPU</strong> — The worker who executes instructions and does calculations.</li><li><strong>Memory (RAM)</strong> — The desk holding data the app is actively using — fast, but empty when power goes off.</li><li><strong>Disk (Storage)</strong> — The filing cabinet where data is kept long term, even after a restart.</li>
+        <li><strong>Process</strong>. A running program, the room peyva&#39;s app is currently working in.</li><li><strong>Operating System (OS)</strong>. The caretaker that manages resources, files, and hardware for every process.</li><li><strong>CPU</strong>. The worker who executes instructions and does calculations.</li><li><strong>Memory (RAM)</strong>. The desk holding data the app is actively using: fast, but empty when power goes off.</li><li><strong>Disk (Storage)</strong>. The filing cabinet where data is kept long term, even after a restart.</li>
       </ul>
     </section>
 
@@ -172,13 +172,13 @@
     <section class="block build-it">
       <h2>4. Build It <span class="badge">Hands-on</span></h2>
       <ul class="lead">
-        <li>No component this chapter — see the Vault&#39;s process the way the OS sees it.</li>
+        <li>No component this chapter. See the Vault&#39;s process the way the OS sees it.</li>
       </ul>
-      <p class="technique"><span class="technique-name">Role prompting</span> — A role focuses the assistant&#39;s tone and its judgement about what to include. Unassigned, it explains what a program is; cast as an engineer sitting beside you, it hands you the command and tells you what the columns mean.</p>
-      <p class="technique-source">Documented in Anthropic — Prompting best practices, Give Claude a role</p>
+      <p class="technique"><span class="technique-name">Role prompting</span>. A role focuses the assistant&#39;s tone and its judgement about what to include. Unassigned, it explains what a program is; cast as an engineer sitting beside you, it hands you the command and tells you what the columns mean.</p>
+      <p class="technique-source">Documented in Anthropic: Prompting best practices, Give Claude a role</p>
       <pre class="prompt">You are a systems engineer sitting next to me, teaching by pointing at what is actually on my screen. You explain a column when I meet it, not before.
 
-I have a Go program running — a Vault holding one account balance in memory.
+I have a Go program running, a Vault holding one account balance in memory.
 
 Walk me through inspecting it as the operating system sees it: how to find its process id, and how to read its CPU and memory use. Give me the command for my OS and explain what each column means.
 
@@ -192,10 +192,10 @@ Done when I can state the process id and its memory use, and explain in one sent
     <section class="block break-it">
       <h2>5. Break It <span class="badge badge-danger">Test it</span></h2>
       <ul class="lead">
-        <li>Processes are isolated from each other — prove it.</li>
+        <li>Processes are isolated from each other. Prove it.</li>
       </ul>
       <ul>
-        <li>Start two copies of peyva at once. Each gets its own PID and its own memory — they don&#39;t share the account held in memory.</li><li>Kill one with Ctrl&#43;C. The other keeps running untouched.</li><li>That isolation is why Chapter 10 needs a load balancer once there&#39;s more than one instance to route between.</li>
+        <li>Start two copies of peyva at once. Each gets its own PID and its own memory. They don&#39;t share the account held in memory.</li><li>Kill one with Ctrl&#43;C. The other keeps running untouched.</li><li>That isolation is why Chapter 10 needs a load balancer once there&#39;s more than one instance to route between.</li>
       </ul>
     </section>
   </div>

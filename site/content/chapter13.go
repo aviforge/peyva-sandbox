@@ -21,23 +21,23 @@ var Chapter13 = ChapterContent{
 
 	Concepts: []ConceptItem{
 		{Term: "Outbox Table", Description: "A table in the same database as the transfer, holding messages that still need to be published."},
-		{Term: "Same Transaction", Description: "The transfer and the outbox row are written together, inside the transaction from Chapter 7 — never as two separate steps."},
+		{Term: "Same Transaction", Description: "The transfer and the outbox row are written together, inside the transaction from Chapter 7: never as two separate steps."},
 		{Term: "Outbox Publisher", Description: "A background worker that reads unsent outbox rows and publishes them to the queue, then marks them sent."},
 	},
 
 	UnderTheHood: []string{
 		"1. Service saves the order and writes the message to the outbox, in one transaction. 2. A publisher reads unsent outbox rows. 3. Publisher pushes them to the queue.",
-		"If the service crashes right after saving, the message is still sitting in the outbox — the publisher sends it later.",
-		"No lost messages, and automatic recovery — the background worker retries until every outbox row is sent.",
+		"If the service crashes right after saving, the message is still sitting in the outbox. The publisher sends it later.",
+		"No lost messages, and automatic recovery: the background worker retries until every outbox row is sent.",
 	},
 
 	BuildIt: BuildIt{
 		Intro:     "The Courier learns to never lose work handed to it.",
 		Technique: "Contrastive Chain-of-Thought",
 		Why:       "Show the wrong reasoning alongside the right reasoning, not just the right one. Naming the naive design and why it fails stops the assistant rediscovering it, and forces it to say what its version does differently.",
-		Source:    "The Prompt Report — Few-Shot CoT, Contrastive CoT",
+		Source:    "The Prompt Report: Few-Shot CoT, Contrastive CoT",
 		Prompt: "The Courier picks up work from memory. If the process dies between the payment committing and the work reaching the Courier, that work is gone and nothing in the system knows it's missing.\n\n" +
-			"Reasoning I want you to reject: commit the payment, then hand the work to the Courier — both nearly always succeed, so the gap between them is too small to matter. That is wrong because the gap isn't a probability, it's a window, and a crash inside it loses work silently with no record that anything is owed.\n\n" +
+			"Reasoning I want you to reject: commit the payment, then hand the work to the Courier. Both nearly always succeed, so the gap between them is too small to matter. That is wrong because the gap isn't a probability, it's a window, and a crash inside it loses work silently with no record that anything is owed.\n\n" +
 			"Reasoning I want you to follow: anything that must happen because a payment happened is recorded in the same atomic unit as the payment. One commit, or nothing.\n\n" +
 			"Build the second one. The Teller records the Courier's pending work in the same atomic unit that moves the money. The Courier collects from that record, and marks each item done once it's delivered.\n\n" +
 			"Then contrast the two designs directly: name the exact instant at which the rejected one loses work and yours doesn't. Then tell me what happens if the Courier dies after delivering but before marking it done, and whether that's acceptable for a notification.\n\n" +
@@ -47,8 +47,8 @@ var Chapter13 = ChapterContent{
 	BreakIt: BreakIt{
 		Intro: "Prove the message survives a crash that Chapter 12's plain queue wouldn't have.",
 		Exercises: []string{
-			"Simulate a crash right after the transfer transaction commits, before the publisher runs — restart peyva and confirm the outbox row is still there, unsent.",
-			"Start the publisher and confirm it picks up that leftover row and delivers it — nothing was lost.",
+			"Simulate a crash right after the transfer transaction commits, before the publisher runs: restart peyva and confirm the outbox row is still there, unsent.",
+			"Start the publisher and confirm it picks up that leftover row and delivers it. Nothing was lost.",
 			"Compare this to Chapter 12's design: if peyva crashed between committing the transfer and enqueueing the message there, the notification would be gone forever.",
 		},
 	},

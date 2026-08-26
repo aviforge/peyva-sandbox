@@ -8,38 +8,38 @@ var Chapter16 = ChapterContent{
 	Category:   "Distributed Systems",
 	Difficulty: "Advanced",
 	EstTime:    "25 min",
-	QuickTip:   "For money, prefer CP — reject a request rather than show the wrong balance.",
+	QuickTip:   "For money, prefer CP. Reject a request rather than show the wrong balance.",
 
 	HeroImage:   "images/chapter-16.webp",
-	HeroCaption: "Different situations call for different trade-offs — peyva has to choose.",
+	HeroCaption: "Different situations call for different trade-offs. peyva has to choose.",
 
 	Intuition: []string{
 		"Chapter 15 gave peyva two locations.",
 		"What happens when the network between them goes down and Alice still wants to pay?",
-		"Two branches cut off from each other can't stay both perfectly accurate and perfectly available — one has to give.",
+		"Two branches cut off from each other can't stay both perfectly accurate and perfectly available. One has to give.",
 	},
 
 	Concepts: []ConceptItem{
 		{Term: "Consistency (C)", Description: "All users see the same data at the same time."},
-		{Term: "Availability (A)", Description: "Every request gets a response — no errors or timeouts."},
+		{Term: "Availability (A)", Description: "Every request gets a response, no errors or timeouts."},
 		{Term: "Partition Tolerance (P)", Description: "The system keeps working even if parts of it can't talk to each other."},
-		{Term: "CAP Theorem", Description: "During a network partition, you can only keep two of the three guarantees — you must choose."},
+		{Term: "CAP Theorem", Description: "During a network partition, you can only keep two of the three guarantees. You must choose."},
 	},
 
 	UnderTheHood: []string{
-		"CP: choose consistency over availability — peyva rejects requests during a partition to keep data correct.",
-		"AP: choose availability over consistency — peyva keeps serving, even with stale data.",
-		"CA: only possible with no partition — a single region on a normal day.",
-		"peyva's rule of thumb: CP for money and account operations, AP for browsing and notifications — the choice depends on what each request actually needs.",
+		"CP: choose consistency over availability. peyva rejects requests during a partition to keep data correct.",
+		"AP: choose availability over consistency. peyva keeps serving, even with stale data.",
+		"CA: only possible with no partition, a single region on a normal day.",
+		"peyva's rule of thumb: CP for money and account operations, AP for browsing and notifications. The choice depends on what each request actually needs.",
 	},
 
 	BuildIt: BuildIt{
 		Intro:     "The Teller learns what to do when the Vault's two copies can't reach each other.",
 		Technique: "Tree-of-Thought",
 		Why:       "Branch, evaluate each branch, prune, then commit. Ask for an implementation and you get one design with its reasoning hidden; ask for several scored against stated criteria and the choice comes into the open where you can disagree with it.",
-		Source:    "The Prompt Report — Decomposition, Tree-of-Thought",
+		Source:    "The Prompt Report: Decomposition, Tree-of-Thought",
 		Prompt: "The Vault's primary copy replicates asynchronously to a second copy. I need to decide what the Teller does when the two can't reach each other.\n\n" +
-			"Don't write code yet. Propose at least three genuinely distinct strategies for handling the partition — not three variations on one idea. For each, work out what a customer experiences during the partition, what happens to a payment accepted mid-partition, and what manual work recovery needs.\n\n" +
+			"Don't write code yet. Propose at least three genuinely distinct strategies for handling the partition: not three variations on one idea. For each, work out what a customer experiences during the partition, what happens to a payment accepted mid-partition, and what manual work recovery needs.\n\n" +
 			"Then prune. Eliminate the ones that are unacceptable for money movement specifically, and say what disqualified each. Recommend one of the survivors, and name the condition that would change your recommendation.\n\n" +
 			"Then implement your recommendation. Treat an unreachable second copy as a partition rather than ignoring it, and keep balance enquiries served from whichever copy is reachable even while payments are refused.\n\n" +
 			"Done when disconnecting the second copy makes payments fail loudly while enquiries still succeed, and reconnecting restores payments with no restart.",
@@ -48,8 +48,8 @@ var Chapter16 = ChapterContent{
 	BreakIt: BreakIt{
 		Intro: "Force a partition and confirm peyva picks the trade-off you intended.",
 		Exercises: []string{
-			"Disconnect the replica from Chapter 15 and attempt a transfer — confirm it's rejected (CP), not silently applied to only one copy.",
-			"With the replica still disconnected, check a balance — confirm reads still succeed (AP), even though they might be stale.",
+			"Disconnect the replica from Chapter 15 and attempt a transfer. Confirm it's rejected (CP), not silently applied to only one copy.",
+			"With the replica still disconnected, check a balance. Confirm reads still succeed (AP), even though they might be stale.",
 			"Reconnect the replica and confirm transfers succeed again immediately.",
 		},
 	},

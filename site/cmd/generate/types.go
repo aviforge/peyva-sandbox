@@ -1,10 +1,6 @@
 package main
 
-import (
-	"html/template"
-
-	"site/content"
-)
+import "site/content"
 
 type roadmapView struct {
 	Number int
@@ -33,8 +29,4 @@ type PageData struct {
 
 	// LanguageName is baked in for the chapters that only display the choice.
 	LanguageName string
-
-	// LanguagesJSON lets the script map a saved id back to a name on pages
-	// with no picker to read the names from.
-	LanguagesJSON template.JS
 }

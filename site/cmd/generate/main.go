@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"html/template"
 	"os"
@@ -68,11 +67,6 @@ func run(templatesDir, assetsDir, outDir, indexPath string) error {
 	}
 
 	defaultLanguage := content.LanguageByID(content.DefaultLanguage)
-	languagesJSON, err := json.Marshal(content.Languages)
-	if err != nil {
-		return fmt.Errorf("encoding languages: %w", err)
-	}
-
 	pageData := func(chapter content.ChapterContent, prefix string) PageData {
 		return PageData{
 			Chapter:       chapter,
@@ -85,7 +79,6 @@ func run(templatesDir, assetsDir, outDir, indexPath string) error {
 
 			LanguageIsChosenHere: chapter.Number == languagePickerChapter,
 			LanguageName:         defaultLanguage.Name,
-			LanguagesJSON:        template.JS(languagesJSON),
 		}
 	}
 

@@ -269,11 +269,11 @@ func TestOnlyOneChapterOffersTheLanguageChoice(t *testing.T) {
 	}
 }
 
-// Every chapter without a picker has to be able to show the chosen language,
-// and the script can only do that if the generator gives it the names. Without
-// this list a saved choice would silently fall back to the default on every
-// page but chapter 0.
-func TestEveryPageCarriesTheLanguageList(t *testing.T) {
+// The choice is made on chapter 0, which owns the picker and can resolve an id
+// to a name itself. It stores the name, so no other page needs a copy of the
+// language list. Carrying one on all twenty-two would be dead weight that only
+// two of them could ever use.
+func TestOnlyTheChoosingPageCarriesTheLanguageList(t *testing.T) {
 	outDir, indexPath := testRun(t)
 
 	pages, err := filepath.Glob(filepath.Join(outDir, "chapter-*.html"))
@@ -286,13 +286,14 @@ func TestEveryPageCarriesTheLanguageList(t *testing.T) {
 			t.Fatalf("reading %s: %v", page, readErr)
 		}
 		body := string(b)
-		if !strings.Contains(body, "data-languages") {
-			t.Errorf("%s carries no language list", filepath.Base(page))
+		name := filepath.Base(page)
+		hasOptions := strings.Contains(body, "<option value=")
+		wantsOptions := name == "chapter-0.html" || name == "index.html"
+		if hasOptions != wantsOptions {
+			t.Errorf("%s: carries language options = %v, want %v", name, hasOptions, wantsOptions)
 		}
-		for _, l := range content.Languages {
-			if !strings.Contains(body, `"id":"`+l.ID+`"`) {
-				t.Errorf("%s language list is missing %s", filepath.Base(page), l.ID)
-			}
+		if strings.Contains(body, "data-languages") {
+			t.Errorf("%s still embeds a language list", name)
 		}
 	}
 }

@@ -161,23 +161,7 @@
     var lines = document.querySelectorAll('[data-prompt-lang]');
     if (!lines.length) return;
 
-    // The picker lives on one chapter only, so the names come from a list the
-    // generator writes into every page instead of from the <option> elements.
-    var names = {};
-    var data = document.querySelector('[data-languages]');
-    if (data) {
-      try {
-        JSON.parse(data.textContent).forEach(function (l) {
-          names[l.id] = l.name;
-        });
-      } catch (e) {
-        return;
-      }
-    }
-
-    function apply(id) {
-      var name = names[id];
-      if (!name) return;
+    function apply(name) {
       Array.prototype.forEach.call(lines, function (line) {
         var text = 'Build this in ' + name + ', using its standard library.';
         // Chapter 0 has nothing before it, so it never asks the assistant to
@@ -192,20 +176,27 @@
       });
     }
 
-    var saved = safeGet('peyva:language');
-    if (saved && names[saved]) apply(saved);
+    // Chapter 0 stores the name, not just the id, so the other chapters do not
+    // need a copy of the language list to look one up.
+    var name = safeGet('peyva:languageName');
+    if (name && name.length < 40) apply(name);
 
     // Only the chapter that owns the picker can change the choice. Every other
     // chapter reads it, so a reader cannot switch language halfway through and
-    // end up with earlier chapters written in something else.
+    // leave the earlier chapters written in something else.
     var select = document.querySelector('[data-language-select]');
     if (!select) return;
-    if (saved && select.querySelector('option[value="' + saved + '"]')) {
-      select.value = saved;
+
+    var savedID = safeGet('peyva:language');
+    if (savedID && select.querySelector('option[value="' + savedID + '"]')) {
+      select.value = savedID;
     }
+
     select.addEventListener('change', function () {
+      var chosen = select.options[select.selectedIndex].textContent;
       safeSet('peyva:language', select.value);
-      apply(select.value);
+      safeSet('peyva:languageName', chosen);
+      apply(chosen);
     });
   }
 

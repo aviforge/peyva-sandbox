@@ -302,7 +302,7 @@ func TestEveryPageIsSelfContained(t *testing.T) {
 // The portal prompt is copied on its own, so it carries its own rules. The
 // money rule is deliberately absent: a page renders a balance rather than
 // holding one, and the no-dependency line is what keeps the portal buildable
-// whichever of the twelve backend languages the reader picked.
+// whichever of the backend languages the reader picked.
 func TestPortalPromptCarriesItsOwnRules(t *testing.T) {
 	byNumber := map[int]content.ChapterContent{}
 	for _, c := range content.All {
@@ -334,7 +334,7 @@ func TestPortalPromptCarriesItsOwnRules(t *testing.T) {
 
 // A portal prompt must not name a language either. The page is the same page
 // whichever language serves it, which is the only reason one portal can exist
-// across twelve of them.
+// across all of them.
 func TestPortalPromptsNameNoLanguage(t *testing.T) {
 	banned := []string{"go run", "goroutine", "fmt.Println", "npm", "React", "Lit", "node_modules"}
 	for _, c := range content.All {

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>What Are We Building? | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=3863b148d6">
+<link rel="stylesheet" href="styles.css?v=a934fbe744">
 </head>
 <body data-chapter-slug="chapter-0">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -152,7 +152,7 @@
     <h2>Setup <span class="badge">Once</span>
         <label class="language-picker">Build in
           <select class="language-select" data-language-select aria-label="Language every chapter&#39;s prompt asks for">
-            <option value="go">Go</option><option value="python">Python</option><option value="javascript">JavaScript</option><option value="typescript">TypeScript</option><option value="java">Java</option><option value="csharp">C#</option><option value="cpp">C&#43;&#43;</option><option value="rust">Rust</option><option value="ruby">Ruby</option><option value="php">PHP</option><option value="kotlin">Kotlin</option><option value="swift">Swift</option>
+            <option value="go">Go</option><option value="python">Python</option><option value="typescript">TypeScript</option><option value="java">Java</option><option value="csharp">C#</option><option value="rust">Rust</option><option value="kotlin">Kotlin</option>
           </select>
         </label>
     </h2>
@@ -285,6 +285,35 @@ What follows is about you, not about the code.
 </pre>
     </div>
     
+    
+    <p class="prompt-divider">What it costs</p>
+    <pre class="cost-note">Every prompt in this book adds up to about 8062 tokens, across
+all twenty-one chapters. That is not where the money goes.
+
+The cost is the assistant reading your code and writing more of it, which is
+tens of times larger and grows as peyva does. Nothing on this page can measure
+it. Your tool can:
+
+  Claude Code   /cost, or /context for what is loaded right now
+  Codex         the usage line at the end of a turn
+  Copilot       your account&#39;s usage page
+  An API        the usage object on every response
+
+Two things make it cheaper, and you control both.
+
+Caching. Your assistant sends the same opening every turn: its own instructions,
+then goal.md, then the rules file. Charging full price for that each time would
+be absurd, so it does not: a prefix it has seen recently costs a fraction of the
+usual rate. The catch is that the match has to be exact. Editing either file
+halfway through a session throws the cache away, and the next turn pays full
+price for all of it again. Save them once, here, then leave them alone. If you
+do need to change one, do it between chapters rather than mid-chapter.
+
+Context. No prompt here asks the assistant to go through the project first. Each
+one says what it starts from, so it opens the two or three files that turn
+touches instead of all of them. The difference grows with every chapter: by the
+end, reading everything costs more than every prompt in this book put together.</pre>
+    
   </section>
   
 
@@ -319,9 +348,9 @@ What follows is about you, not about the code.
         <li>Build the Vault: the first component, in its smallest useful form.</li>
       </ul>
       <p class="technique"><span class="technique-name">Zero-shot prompting</span>. No examples, no reasoning scaffold, no role: just the instruction. The task has one obvious shape, so scaffolding would cost tokens and buy nothing. Every technique after this is a departure from this baseline, which is why it comes first.</p>
-      <p class="technique-source">Documented in The Prompt Report: Zero-Shot</p>
+      <p class="technique-source">Documented in The Prompt Report: Zero-Shot &middot; asking price for this chapter, about 314 tokens</p>
       
-      <p class="prompt-divider"><span class="prompt-step">1 of 2</span> Build</p>
+      <p class="prompt-divider"><span class="prompt-step">1 of 2</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send. What the assistant then reads and writes is far larger and only your own tool can measure it.">~125 tokens</span></p>
       
       <div class="prompt-wrap">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
@@ -344,7 +373,7 @@ One file. No persistence, no network.
 Done when running it prints alice&#39;s balance and it exits cleanly on Ctrl+C.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">2 of 2</span> Portal</p>
+      <p class="prompt-divider"><span class="prompt-step">2 of 2</span> Portal<span class="prompt-tokens" title="Roughly what this prompt costs to send. What the assistant then reads and writes is far larger and only your own tool can measure it.">~189 tokens</span></p>
       <ul class="lead"><li>The Portal starts as one customer&#39;s wallet, with a way to change which customer.</li></ul>
       <div class="prompt-wrap">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">

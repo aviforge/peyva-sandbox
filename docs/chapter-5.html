@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Storing Money (Databases) | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=3863b148d6">
+<link rel="stylesheet" href="styles.css?v=a934fbe744">
 </head>
 <body data-chapter-slug="chapter-5">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -180,9 +180,9 @@
         <li>The Vault learns to remember. Balances that survive a restart.</li>
       </ul>
       <p class="technique"><span class="technique-name">Explicit success criteria</span>. For a migration the useful thing to specify isn&#39;t the steps, it&#39;s the finish line: what must be true when it&#39;s done. State the target precisely and the assistant works out the delta, including the parts you&#39;d have forgotten to list.</p>
-      <p class="technique-source">Documented in Anthropic: Prompting best practices, Provide clear success criteria</p>
+      <p class="technique-source">Documented in Anthropic: Prompting best practices, Provide clear success criteria &middot; asking price for this chapter, about 211 tokens</p>
       
-      <p class="prompt-divider"><span class="prompt-step">1 of 2</span> Build</p>
+      <p class="prompt-divider"><span class="prompt-step">1 of 2</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send. What the assistant then reads and writes is far larger and only your own tool can measure it.">~153 tokens</span></p>
       
       <div class="prompt-wrap">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
@@ -203,7 +203,7 @@ Use SQLite with a driver that needs no cgo. Don&#39;t change what the Gateway or
 Done when restarting the process still reports alice&#39;s balance, and deleting the Vault&#39;s file is the only thing that loses it.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">2 of 2</span> Portal</p>
+      <p class="prompt-divider"><span class="prompt-step">2 of 2</span> Portal<span class="prompt-tokens" title="Roughly what this prompt costs to send. What the assistant then reads and writes is far larger and only your own tool can measure it.">~58 tokens</span></p>
       <ul class="lead"><li>The Portal stops forgetting.</li></ul>
       <div class="prompt-wrap">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">

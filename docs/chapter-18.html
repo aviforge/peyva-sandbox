@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Lock It Down: Security | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=3863b148d6">
+<link rel="stylesheet" href="styles.css?v=a934fbe744">
 </head>
 <body data-chapter-slug="chapter-18">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -180,9 +180,9 @@
         <li>The Gateway learns to prove who&#39;s calling before the Teller sees a payment.</li>
       </ul>
       <p class="technique"><span class="technique-name">Chain-of-Verification (CoVe)</span>. Draft an answer, plan the questions that would catch it being wrong, answer those independently, then revise. Asking for secure code gets you the checklist; verifying your own draft finds the holes the checklist doesn&#39;t mention.</p>
-      <p class="technique-source">Documented in The Prompt Report: Self-Criticism, Chain-of-Verification</p>
+      <p class="technique-source">Documented in The Prompt Report: Self-Criticism, Chain-of-Verification &middot; asking price for this chapter, about 603 tokens</p>
       
-      <p class="prompt-divider"><span class="prompt-step">1 of 5</span> Draft</p>
+      <p class="prompt-divider"><span class="prompt-step">1 of 5</span> Draft<span class="prompt-tokens" title="Roughly what this prompt costs to send. What the assistant then reads and writes is far larger and only your own tool can measure it.">~117 tokens</span></p>
       <ul class="lead"><li>Build it first. The checking comes after, and needs something to check.</li></ul>
       <div class="prompt-wrap">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
@@ -201,7 +201,7 @@ Make the Gateway prove who the caller is, and confirm they own the account they 
 Done when a request with no credential is refused, and a caller authenticated as one owner cannot spend from another&#39;s account.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">2 of 5</span> Plan the checks</p>
+      <p class="prompt-divider"><span class="prompt-step">2 of 5</span> Plan the checks<span class="prompt-tokens" title="Roughly what this prompt costs to send. What the assistant then reads and writes is far larger and only your own tool can measure it.">~113 tokens</span></p>
       <ul class="lead"><li>The questions before the answers, so they are not written to fit what you already believe.</li></ul>
       <div class="prompt-wrap">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
@@ -219,7 +219,7 @@ Don&#39;t answer them yet.
 Done when I have a list of questions that are all about this system, and none of them could be asked of any other.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">3 of 5</span> Answer and revise</p>
+      <p class="prompt-divider"><span class="prompt-step">3 of 5</span> Answer and revise<span class="prompt-tokens" title="Roughly what this prompt costs to send. What the assistant then reads and writes is far larger and only your own tool can measure it.">~124 tokens</span></p>
       <ul class="lead"><li>Then answer each one honestly, including the ones that go badly.</li></ul>
       <div class="prompt-wrap">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
@@ -240,7 +240,7 @@ Then fix what the answers exposed, and state plainly what is still exploitable, 
 Done when every question has an answer, the fixable ones are fixed, and I have your list of what remains exploitable.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">4 of 5</span> Portal</p>
+      <p class="prompt-divider"><span class="prompt-step">4 of 5</span> Portal<span class="prompt-tokens" title="Roughly what this prompt costs to send. What the assistant then reads and writes is far larger and only your own tool can measure it.">~134 tokens</span></p>
       <ul class="lead"><li>The sign-in itself.</li></ul>
       <div class="prompt-wrap">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
@@ -262,7 +262,7 @@ A signed-in customer sees their own account and nobody else&#39;s, and can only 
 Done when signing in as alice shows alice, and the switcher offers nobody she has not signed in as.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">5 of 5</span> Portal checks</p>
+      <p class="prompt-divider"><span class="prompt-step">5 of 5</span> Portal checks<span class="prompt-tokens" title="Roughly what this prompt costs to send. What the assistant then reads and writes is far larger and only your own tool can measure it.">~115 tokens</span></p>
       <ul class="lead"><li>Then try to get past it, in writing.</li></ul>
       <div class="prompt-wrap">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">

@@ -532,6 +532,27 @@ body {
   letter-spacing: 0.04em;
 }
 
+.prompt-tokens {
+  float: right;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--muted);
+  cursor: help;
+}
+
+.cost-note {
+  margin: 0;
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: transparent;
+  color: var(--text);
+  font-size: 13px;
+  white-space: pre-wrap;
+  overflow-x: auto;
+}
+
 .prompt-wrap {
   position: relative;
 }

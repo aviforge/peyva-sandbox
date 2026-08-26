@@ -70,6 +70,10 @@
       <pre class="prompt">{{.Content}}</pre>
     </div>
     {{end}}
+    {{if .CostNote}}
+    <p class="prompt-divider">What it costs</p>
+    <pre class="cost-note">{{.CostNote}}</pre>
+    {{end}}
   </section>
   {{end}}
 
@@ -108,9 +112,9 @@
         <li>{{.Chapter.BuildIt.Intro}}</li>
       </ul>
       <p class="technique"><span class="technique-name">{{.Chapter.BuildIt.Technique}}</span>. {{.Chapter.BuildIt.Why}}</p>
-      <p class="technique-source">Documented in {{.Chapter.BuildIt.Source}}</p>
+      <p class="technique-source">Documented in {{.Chapter.BuildIt.Source}}{{if .ChapterTokens}} &middot; asking price for this chapter, about {{.ChapterTokens}} tokens{{end}}</p>
       {{range .Prompts}}
-      <p class="prompt-divider">{{if .Numbered}}<span class="prompt-step">{{.Step}} of {{.Steps}}</span> {{end}}{{.Label}}</p>
+      <p class="prompt-divider">{{if .Numbered}}<span class="prompt-step">{{.Step}} of {{.Steps}}</span> {{end}}{{.Label}}<span class="prompt-tokens" title="Roughly what this prompt costs to send. What the assistant then reads and writes is far larger and only your own tool can measure it.">~{{.Tokens}} tokens</span></p>
       {{if .Intro}}<ul class="lead"><li>{{.Intro}}</li></ul>{{end}}
       <div class="prompt-wrap">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">

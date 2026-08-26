@@ -64,6 +64,11 @@ type PageData struct {
 	SystemPickerHref   string
 	SystemPickerTitle  string
 
+	// ChapterTokens is what all of a chapter's prompts cost to send, and
+	// CostNote explains why that is the small end of what a chapter costs.
+	ChapterTokens int
+	CostNote      string
+
 	// RunnerScripts is every operating system's script, rendered on the one
 	// chapter that hands it over. All of them are in the page and the script
 	// shows the selected one, so switching needs no reload and no fetch.
@@ -88,6 +93,9 @@ type promptView struct {
 	Thinking bool
 	Step     int
 	Steps    int
+	// Tokens is what the prompt costs to send, which is the only part of a
+	// chapter's cost this site can know.
+	Tokens int
 }
 
 // Numbered reports whether the turn should show its position. A chapter with a

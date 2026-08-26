@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Putting It All Together | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=3863b148d6">
+<link rel="stylesheet" href="styles.css?v=a934fbe744">
 </head>
 <body data-chapter-slug="chapter-20">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -180,9 +180,9 @@
         <li>Build the Reconciler, and have the whole system explained back to you.</li>
       </ul>
       <p class="technique"><span class="technique-name">Rephrase and Respond (RaR)</span>. Make the assistant restate the task in its own words before it answers. The restatement is the cheapest look you&#39;ll get at what it actually understood, and comparing it against the story in your head shows you what you didn&#39;t actually learn.</p>
-      <p class="technique-source">Documented in The Prompt Report: Zero-Shot, Rephrase and Respond</p>
+      <p class="technique-source">Documented in The Prompt Report: Zero-Shot, Rephrase and Respond &middot; asking price for this chapter, about 610 tokens</p>
       
-      <p class="prompt-divider"><span class="prompt-step">1 of 4</span> Restate</p>
+      <p class="prompt-divider"><span class="prompt-step">1 of 4</span> Restate<span class="prompt-tokens" title="Roughly what this prompt costs to send. What the assistant then reads and writes is far larger and only your own tool can measure it.">~196 tokens</span></p>
       <ul class="lead"><li>Where your description and theirs differ, one of you has misunderstood the system.</li></ul>
       <div class="prompt-wrap">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
@@ -200,7 +200,7 @@ At each hop, say what would happen if that part failed right then.
 Done when I have your description of every part and the path a payment takes, and I can tell you where yours and mine disagree.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">2 of 4</span> Build</p>
+      <p class="prompt-divider"><span class="prompt-step">2 of 4</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send. What the assistant then reads and writes is far larger and only your own tool can measure it.">~200 tokens</span></p>
       <ul class="lead"><li>Then the last component, and three honest answers about the whole thing.</li></ul>
       <div class="prompt-wrap">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
@@ -223,7 +223,7 @@ Where the code doesn&#39;t match how a real payments system would do it, say so 
 Done when the Reconciler reports no discrepancies on a healthy system, reports the exact gap after I kill the process mid-payment, and I have your three answers.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">3 of 4</span> Portal restate</p>
+      <p class="prompt-divider"><span class="prompt-step">3 of 4</span> Portal restate<span class="prompt-tokens" title="Roughly what this prompt costs to send. What the assistant then reads and writes is far larger and only your own tool can measure it.">~116 tokens</span></p>
       <ul class="lead"><li>Describe the finished thing before finishing it.</li></ul>
       <div class="prompt-wrap">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
@@ -239,7 +239,7 @@ Describe that page back to me: every screen, what a customer can do on each, and
 Done when I have your description of every screen, and I can tell you where yours and mine disagree.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">4 of 4</span> Portal</p>
+      <p class="prompt-divider"><span class="prompt-step">4 of 4</span> Portal<span class="prompt-tokens" title="Roughly what this prompt costs to send. What the assistant then reads and writes is far larger and only your own tool can measure it.">~98 tokens</span></p>
       <ul class="lead"><li>Then make it one thing rather than nine.</li></ul>
       <div class="prompt-wrap">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">

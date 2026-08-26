@@ -98,6 +98,8 @@ func run(templatesDir, assetsDir, outDir, indexPath string) error {
 			LanguageLine:  languageLine(defaultLanguage),
 			UILine:        uiLine(defaultLanguage),
 			ThinkingLine:  thinkingLine(),
+			ChapterTokens: chapter.BuildIt.PromptTokens(),
+			CostNote:      costNoteFor(chapter.Number),
 			Setup:         setupFor(chapter.Number),
 			Languages:     content.Languages,
 			Prompts:       promptViews(chapter.BuildIt, defaultSystem),
@@ -223,7 +225,7 @@ func languageLine(l content.Language) template.HTML {
 	line := "Build this in " + name + ", standard library only."
 	// Every word here is paid twenty-one times, once per prompt, so the rules
 	// are stated as tightly as they can be without losing what they mean. The
-	// minor-units clause stays because five of the twelve languages have no
+	// minor-units clause stays because three of the seven languages have no
 	// decimal type in their standard library, and without it the assistant
 	// reaches for a dependency the first line just ruled out.
 	line += "\nCode in peyva/&lt;component&gt;/, one folder per component."
@@ -241,7 +243,7 @@ func languageLine(l content.Language) template.HTML {
 // rule because a page renders a balance rather than holding one.
 //
 // The no-dependency line is the whole reason the portal can exist in a book
-// that allows twelve backend languages: a page built from plain HTML and CSS
+// that allows seven backend languages: a page built from plain HTML and CSS
 // needs no toolchain, so it is the same page whichever language serves it.
 func uiLine(l content.Language) template.HTML {
 	name := `<span data-language-name>` + template.HTMLEscapeString(l.Name) + `</span>`
@@ -302,6 +304,7 @@ func promptViews(b content.BuildIt, sys content.System) []promptView {
 			Text:     promptHTML(p.Text, sys),
 			Portal:   p.Portal,
 			Thinking: p.Thinking,
+			Tokens:   content.EstimateTokens(p.Text),
 			// A chapter with one turn does not number it: "1 of 1" is noise.
 			Step:  i + 1,
 			Steps: len(b.Prompts),
@@ -335,6 +338,16 @@ func runnerScriptsFor(chapterNumber int) []content.RunnerScript {
 // what the system may never do, and drops everything else.
 func thinkingLine() template.HTML {
 	return template.HTML("The goal and invariants are in peyva/goal.md.")
+}
+
+// costNoteFor returns the note about where tokens go, on the chapter that sets
+// the project up. A reader who learns this at chapter 19 has already paid for
+// nineteen chapters of not knowing.
+func costNoteFor(chapterNumber int) string {
+	if chapterNumber != languagePickerChapter {
+		return ""
+	}
+	return fmt.Sprintf(content.CostNote, content.TotalPromptTokens())
 }
 
 // setupFor returns the files to save only for the chapter that starts the

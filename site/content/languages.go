@@ -21,21 +21,22 @@ type Language struct {
 // hours later. There is deliberately no "unselected" state.
 const DefaultLanguage = "go"
 
-// Languages are offered in the sidebar. Order is roughly by how likely a
-// reader is to reach for them, not alphabetical.
+// Languages are offered beside the setup files. Order is roughly by how likely
+// a reader is to reach for them, not alphabetical.
+//
+// The list is deliberately short. Every one here has a standard library that
+// can serve HTTP, write a file and hold an exact decimal or an integer wide
+// enough to stand in for one, which is everything the book asks for. Widening
+// it costs one line and buys a reader whose assistant is weaker in the language
+// they picked than in the one they know.
 var Languages = []Language{
 	{ID: "go", Name: "Go"},
 	{ID: "python", Name: "Python"},
-	{ID: "javascript", Name: "JavaScript"},
 	{ID: "typescript", Name: "TypeScript"},
 	{ID: "java", Name: "Java"},
 	{ID: "csharp", Name: "C#"},
-	{ID: "cpp", Name: "C++"},
 	{ID: "rust", Name: "Rust"},
-	{ID: "ruby", Name: "Ruby"},
-	{ID: "php", Name: "PHP"},
 	{ID: "kotlin", Name: "Kotlin"},
-	{ID: "swift", Name: "Swift"},
 }
 
 // LanguageByID returns the named language, falling back to the default rather

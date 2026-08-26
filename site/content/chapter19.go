@@ -20,21 +20,20 @@ var Chapter19 = ChapterContent{
 	},
 
 	Concepts: []ConceptItem{
-		{Term: "Health Check", Description: "An endpoint or process that continuously confirms peyva and its dependencies are actually working."},
-		{Term: "Rolling Deployment", Description: "Releasing a new version gradually, one copy at a time, instead of all at once."},
-		{Term: "Rollback", Description: "Quickly reverting to the previous working version when a new release causes problems."},
+		{Term: "Health Check", Description: "An endpoint that confirms peyva and what it depends on are working."},
+		{Term: "Rolling Deployment", Description: "Releasing a new version one copy at a time, instead of all at once."},
+		{Term: "Rollback", Description: "Reverting to the previous working version when a release causes problems."},
 		{Term: "Runbook", Description: "A step-by-step guide for handling a specific, known kind of incident."},
 		{Term: "Config", Description: "The component that reads every setting from outside the code, checks it, and hands it over. Nothing else reads the environment."},
 		{Term: "Secret", Description: "A setting that must never be in the repository: a password, a key, a token. Always config, never code."},
-		{Term: "Fail Fast", Description: "Refusing to start when a setting is missing, instead of guessing and failing later somewhere that looks unrelated."},
+		{Term: "Fail Fast", Description: "Refusing to start when a setting is missing, rather than guessing and failing later somewhere unrelated."},
 	},
 
 	UnderTheHood: []string{
 		"Users -> Load Balancer -> peyva Instances -> Database, continuously watched by Health Checks and Metrics & Logs feeding back into the loop.",
 		"Day to day: Deploy Change -> Health Check -> Verify Metrics -> All Good? Yes: done. No: Rollback & Fix, then Postmortem & Improve.",
-		"Config is what differs between one run and the next: ports, addresses, file paths. It comes from outside, so the same build runs anywhere.",
-		"Code is what has one correct value: money to two decimal places, a balance that cannot go negative. Move those into config and the invariants become optional.",
-		"When you cannot tell: could someone change this at 3am with no review? If not, it is code.",
+		"Config is what differs between one run and the next: ports, addresses, file paths. One build then runs anywhere.",
+		"Code is what has one correct value: money to two decimal places, a balance that cannot go negative. Could someone change it at 3am with no review? If not, it is code.",
 	},
 
 	BuildIt: BuildIt{
@@ -91,11 +90,11 @@ Done when I can point the Portal at a different port by editing that one line, w
 	BreakIt: BreakIt{
 		Intro: "Take a setting away, then break a release, and confirm peyva says so both times.",
 		Exercises: []string{
-			"Start a copy with its port unset. It names the missing setting and exits, instead of starting on a default and failing somewhere that looks unrelated.",
-			"Point the Portal's base URL at a port nothing is listening on. The page says it cannot reach peyva, rather than showing a balance of nothing.",
-			"Move the two decimal places on money into config, then set it to three. Nothing stops you, which is the point: a setting nobody should be able to change is one the code should have kept. Put it back.",
-			"Deploy a version with an intentional bug to one copy first. Confirm its health check fails before it reaches the other two.",
-			"Follow your own rollback runbook to revert that one copy, pasting every command rather than improvising, and time how long it actually takes.",
+			"Start a copy with its port unset. It names the missing setting and exits, rather than defaulting and failing somewhere unrelated.",
+			"Point the Portal's base URL at a dead port. It says it cannot reach peyva, rather than showing a balance of nothing.",
+			"Move money's two decimal places into config and set it to three. Nothing stops you. Put it back: a setting nobody should be able to change belongs in code.",
+			"Deploy a version with an intentional bug to one copy. Confirm its health check fails before the other two are touched.",
+			"Follow your own runbook to revert that copy, pasting every command rather than improvising, and time it.",
 		},
 	},
 }

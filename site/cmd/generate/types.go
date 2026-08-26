@@ -1,6 +1,10 @@
 package main
 
-import "site/content"
+import (
+	"html/template"
+
+	"site/content"
+)
 
 type roadmapView struct {
 	Number int
@@ -20,4 +24,17 @@ type PageData struct {
 	// chooses; it is never absent.
 	LanguageLine string
 	Languages    []content.Language
+
+	// LanguageIsChosenHere is true only on the chapter that owns the picker.
+	// The choice applies to every chapter, so offering it on all of them
+	// invites a switch halfway through, and a reader who moves from Python to
+	// Go at chapter 12 has eleven chapters of code that no longer fits.
+	LanguageIsChosenHere bool
+
+	// LanguageName is baked in for the chapters that only display the choice.
+	LanguageName string
+
+	// LanguagesJSON lets the script map a saved id back to a name on pages
+	// with no picker to read the names from.
+	LanguagesJSON template.JS
 }

@@ -10,8 +10,8 @@ package content
 // would need twenty-one rewrites for every language added, and they would
 // drift apart as chapters changed.
 type Language struct {
-	ID   string
-	Name string
+	ID   string `json:"id"`
+	Name string `json:"name"`
 }
 
 // DefaultLanguage is baked into every generated page. A prompt that reaches

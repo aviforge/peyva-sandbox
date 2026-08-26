@@ -62,11 +62,11 @@
 
     <section class="block build-it">
       <h2>4. Build It <span class="badge">Hands-on</span>
-        <label class="language-picker">Build in
-          <select class="language-select" data-language-select aria-label="Language the prompt asks for">
-            {{range .Languages}}<option value="{{.ID}}">{{.Name}}</option>{{end}}
-          </select>
-        </label>
+          {{if .LanguageIsChosenHere}}<label class="language-picker">Build in
+            <select class="language-select" data-language-select aria-label="Language every chapter&#39;s prompt asks for">
+              {{range .Languages}}<option value="{{.ID}}">{{.Name}}</option>{{end}}
+            </select>
+          </label>{{else}}<span class="language-locked">Building in <b data-language-name>{{.LanguageName}}</b>, <a href="{{.AssetPrefix}}chapter-0.html">change in Chapter 0</a></span>{{end}}
       </h2>
       <ul class="lead">
         <li>{{.Chapter.BuildIt.Intro}}</li>
@@ -98,6 +98,7 @@
   <p class="quick-tip"><strong>Quick tip:</strong> {{.Chapter.QuickTip}}</p>
 </main>
 </div>
+<script type="application/json" data-languages>{{.LanguagesJSON}}</script>
 <script src="{{.AssetPrefix}}app.js"></script>
 </body>
 </html>

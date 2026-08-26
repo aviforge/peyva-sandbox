@@ -379,6 +379,22 @@ body {
   margin-right: 4px;
 }
 
+.language-locked {
+  margin-left: auto;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.language-locked b {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.language-locked a {
+  color: var(--accent);
+}
+
 .language-picker {
   margin-left: auto;
   display: inline-flex;

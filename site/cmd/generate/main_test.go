@@ -234,3 +234,65 @@ func TestPromptsNameNoLanguage(t *testing.T) {
 		}
 	}
 }
+
+// The language applies to every chapter, so exactly one chapter offers the
+// choice. A picker on chapter 12 would invite a reader to switch halfway
+// through and leave eleven chapters of code in another language.
+func TestOnlyOneChapterOffersTheLanguageChoice(t *testing.T) {
+	outDir, indexPath := testRun(t)
+
+	withPicker := []string{}
+	for _, c := range content.All {
+		page := filepath.Join(outDir, "chapter-"+strconv.Itoa(c.Number)+".html")
+		b, err := os.ReadFile(page)
+		if err != nil {
+			t.Fatalf("reading chapter %d: %v", c.Number, err)
+		}
+		if strings.Contains(string(b), "data-language-select") {
+			withPicker = append(withPicker, "chapter-"+strconv.Itoa(c.Number))
+		}
+	}
+	if len(withPicker) != 1 {
+		t.Errorf("expected exactly one chapter to offer the picker, got %v", withPicker)
+	}
+	if len(withPicker) == 1 && withPicker[0] != "chapter-0" {
+		t.Errorf("the picker belongs on chapter 0, found it on %s", withPicker[0])
+	}
+
+	// The entry point is chapter 0 rendered again, so it carries the picker too.
+	b, err := os.ReadFile(indexPath)
+	if err != nil {
+		t.Fatalf("reading index: %v", err)
+	}
+	if !strings.Contains(string(b), "data-language-select") {
+		t.Error("the entry point is chapter 0 and should offer the picker")
+	}
+}
+
+// Every chapter without a picker has to be able to show the chosen language,
+// and the script can only do that if the generator gives it the names. Without
+// this list a saved choice would silently fall back to the default on every
+// page but chapter 0.
+func TestEveryPageCarriesTheLanguageList(t *testing.T) {
+	outDir, indexPath := testRun(t)
+
+	pages, err := filepath.Glob(filepath.Join(outDir, "chapter-*.html"))
+	if err != nil {
+		t.Fatalf("globbing: %v", err)
+	}
+	for _, page := range append(pages, indexPath) {
+		b, readErr := os.ReadFile(page)
+		if readErr != nil {
+			t.Fatalf("reading %s: %v", page, readErr)
+		}
+		body := string(b)
+		if !strings.Contains(body, "data-languages") {
+			t.Errorf("%s carries no language list", filepath.Base(page))
+		}
+		for _, l := range content.Languages {
+			if !strings.Contains(body, `"id":"`+l.ID+`"`) {
+				t.Errorf("%s language list is missing %s", filepath.Base(page), l.ID)
+			}
+		}
+	}
+}

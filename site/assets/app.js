@@ -158,14 +158,26 @@
   }
 
   function initLanguage() {
-    var select = document.querySelector('[data-language-select]');
     var lines = document.querySelectorAll('[data-prompt-lang]');
-    if (!select || !lines.length) return;
+    if (!lines.length) return;
+
+    // The picker lives on one chapter only, so the names come from a list the
+    // generator writes into every page instead of from the <option> elements.
+    var names = {};
+    var data = document.querySelector('[data-languages]');
+    if (data) {
+      try {
+        JSON.parse(data.textContent).forEach(function (l) {
+          names[l.id] = l.name;
+        });
+      } catch (e) {
+        return;
+      }
+    }
 
     function apply(id) {
-      var option = select.querySelector('option[value="' + id + '"]');
-      if (!option) return;
-      var name = option.textContent;
+      var name = names[id];
+      if (!name) return;
       Array.prototype.forEach.call(lines, function (line) {
         var text = 'Build this in ' + name + ', using its standard library.';
         // Chapter 0 has nothing before it, so it never asks the assistant to
@@ -175,14 +187,22 @@
         }
         line.textContent = text;
       });
+      Array.prototype.forEach.call(document.querySelectorAll('[data-language-name]'), function (el) {
+        el.textContent = name;
+      });
     }
 
     var saved = safeGet('peyva:language');
+    if (saved && names[saved]) apply(saved);
+
+    // Only the chapter that owns the picker can change the choice. Every other
+    // chapter reads it, so a reader cannot switch language halfway through and
+    // end up with earlier chapters written in something else.
+    var select = document.querySelector('[data-language-select]');
+    if (!select) return;
     if (saved && select.querySelector('option[value="' + saved + '"]')) {
       select.value = saved;
-      apply(saved);
     }
-
     select.addEventListener('change', function () {
       safeSet('peyva:language', select.value);
       apply(select.value);

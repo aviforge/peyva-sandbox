@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"html/template"
 	"os"
@@ -66,6 +67,12 @@ func run(templatesDir, assetsDir, outDir, indexPath string) error {
 		return fmt.Errorf("no chapters defined in content.All")
 	}
 
+	defaultLanguage := content.LanguageByID(content.DefaultLanguage)
+	languagesJSON, err := json.Marshal(content.Languages)
+	if err != nil {
+		return fmt.Errorf("encoding languages: %w", err)
+	}
+
 	pageData := func(chapter content.ChapterContent, prefix string) PageData {
 		return PageData{
 			Chapter:       chapter,
@@ -73,8 +80,12 @@ func run(templatesDir, assetsDir, outDir, indexPath string) error {
 			Roadmap:       roadmap,
 			Labs:          content.Labs,
 			AssetPrefix:   prefix,
-			LanguageLine:  languageLine(content.LanguageByID(content.DefaultLanguage), chapter.Number),
+			LanguageLine:  languageLine(defaultLanguage, chapter.Number),
 			Languages:     content.Languages,
+
+			LanguageIsChosenHere: chapter.Number == languagePickerChapter,
+			LanguageName:         defaultLanguage.Name,
+			LanguagesJSON:        template.JS(languagesJSON),
 		}
 	}
 
@@ -144,6 +155,10 @@ func requireImages(outDir string) error {
 		"and the generator cannot replace them. Restore them with 'git checkout -- %s' "+
 		"before building", dir, filepath.ToSlash(dir))
 }
+
+// languagePickerChapter is the one chapter that offers the choice. It is the
+// first, because the choice has to be made before any code exists.
+const languagePickerChapter = 0
 
 // languageLine is the instruction that travels with every prompt. The prompts
 // describe what to build and never name a language, so without this the

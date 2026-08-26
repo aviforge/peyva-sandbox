@@ -61,7 +61,13 @@
     </section>
 
     <section class="block build-it">
-      <h2>4. Build It <span class="badge">Hands-on</span></h2>
+      <h2>4. Build It <span class="badge">Hands-on</span>
+        <label class="language-picker">Build in
+          <select class="language-select" data-language-select aria-label="Language the prompt asks for">
+            {{range .Languages}}<option value="{{.ID}}">{{.Name}}</option>{{end}}
+          </select>
+        </label>
+      </h2>
       <ul class="lead">
         <li>{{.Chapter.BuildIt.Intro}}</li>
       </ul>

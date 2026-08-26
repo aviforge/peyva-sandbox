@@ -25,11 +25,6 @@
     <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
   </button>
 
-  <div class="nav-group-label">Build in</div>
-  <select class="language-select" data-language-select aria-label="Language the prompts ask for">
-    <option value="go">Go</option><option value="python">Python</option><option value="javascript">JavaScript</option><option value="typescript">TypeScript</option><option value="java">Java</option><option value="csharp">C#</option><option value="cpp">C&#43;&#43;</option><option value="rust">Rust</option><option value="ruby">Ruby</option><option value="php">PHP</option><option value="kotlin">Kotlin</option><option value="swift">Swift</option>
-  </select>
-
   <div class="nav-group-label">Chapters</div>
   <ul class="chapter-list">
     
@@ -175,7 +170,13 @@
     </section>
 
     <section class="block build-it">
-      <h2>4. Build It <span class="badge">Hands-on</span></h2>
+      <h2>4. Build It <span class="badge">Hands-on</span>
+        <label class="language-picker">Build in
+          <select class="language-select" data-language-select aria-label="Language the prompt asks for">
+            <option value="go">Go</option><option value="python">Python</option><option value="javascript">JavaScript</option><option value="typescript">TypeScript</option><option value="java">Java</option><option value="csharp">C#</option><option value="cpp">C&#43;&#43;</option><option value="rust">Rust</option><option value="ruby">Ruby</option><option value="php">PHP</option><option value="kotlin">Kotlin</option><option value="swift">Swift</option>
+          </select>
+        </label>
+      </h2>
       <ul class="lead">
         <li>Build the Vault: the first component, in its smallest useful form.</li>
       </ul>

@@ -13,22 +13,11 @@ var Chapter11 = ChapterContent{
 	HeroImage:   "images/chapter-11.webp",
 	HeroCaption: "Cache = keep frequently used data nearby, so it's fast to get back.",
 
-	Intuition: []string{
-		"Alice checks her balance a dozen times a day.",
-		"Each check means another trip to the database: often for data that hasn't changed.",
-		"A cache is a small, fast store that keeps recent answers ready, the way a café pre-makes a popular drink instead of brewing it fresh every time.",
-	},
-
 	Concepts: []ConceptItem{
 		{Term: "Cache", Description: "A fast, small store that holds recently or frequently requested data close at hand."},
 		{Term: "Cache Hit", Description: "The data was already in the cache, so the answer comes back without the database being asked at all."},
 		{Term: "Cache Miss", Description: "The data wasn't cached. peyva fetches it from the database and stores it in the cache for next time."},
 		{Term: "Invalidation", Description: "Removing or updating a cached value when the underlying data changes, so the cache never lies."},
-	},
-
-	UnderTheHood: []string{
-		"Request Data (Get Alice's balance) -> Cache. Cache Hit -> Return Data (fast). Cache Miss -> Fetch from the Database and store in cache, then return it.",
-		"A cache trades a little staleness risk for speed. That tradeoff has to be deliberate, not accidental.",
 	},
 
 	BuildIt: BuildIt{

@@ -74,28 +74,14 @@
 
   <div class="section-grid">
     <section class="block">
-      <h2>1. Intuition</h2>
-      <ul>
-        {{range .Chapter.Intuition}}<li>{{.}}</li>{{end}}
-      </ul>
-    </section>
-
-    <section class="block">
-      <h2>2. Concepts</h2>
+      <h2>1. Concepts</h2>
       <ul class="concepts">
         {{range .Chapter.Concepts}}<li><strong>{{.Term}}</strong>. {{.Description}}</li>{{end}}
       </ul>
     </section>
 
-    <section class="block">
-      <h2>3. Under the Hood</h2>
-      <ul>
-        {{range .Chapter.UnderTheHood}}<li>{{.}}</li>{{end}}
-      </ul>
-    </section>
-
     <section class="block build-it">
-      <h2>4. Build It <span class="badge">Hands-on</span>
+      <h2>2. Build It <span class="badge">Hands-on</span>
           <span class="language-locked">Building in <b data-language-name>{{.LanguageName}}</b>, {{if .LanguageIsChosenHere}}<a href="#setup">change in Setup</a>{{else}}<a href="{{.AssetPrefix}}chapter-0.html">change in Chapter 0</a>{{end}}</span>
       </h2>
       {{if .SystemMatters}}<p class="system-locked">{{if .SystemIsChosenHere}}<label class="language-picker">Script for
@@ -144,7 +130,7 @@
     </section>
 
     <section class="block break-it">
-      <h2>5. Break It <span class="badge badge-danger">Test it</span></h2>
+      <h2>3. Break It <span class="badge badge-danger">Test it</span></h2>
       <ul class="lead">
         <li>{{.Chapter.BreakIt.Intro}}</li>
       </ul>

@@ -13,24 +13,12 @@ var Chapter02 = ChapterContent{
 	HeroImage:   "images/chapter-2.webp",
 	HeroCaption: "A process is the running app. A port is the door callers knock on.",
 
-	Intuition: []string{
-		"Your computer runs many programs at once, like an office building holds many teams.",
-		"Reaching one specific program needs an address (127.0.0.1) and a port. Something peyva doesn't have yet.",
-		"This chapter gives it a door to knock on.",
-	},
-
 	Concepts: []ConceptItem{
 		{Term: "Process ID (PID)", Description: "A number the OS assigns to identify one running program among many."},
 		{Term: "Port", Description: "A number (like 9310) a process binds to, so the OS knows where to route calls."},
 		{Term: "Binding", Description: "A process claiming a port on an address. By default the OS hands that pair to one process at a time, which is why the second copy is refused."},
 		{Term: "Loopback (127.0.0.1)", Description: "The address meaning 'this same machine', used to reach a process running locally."},
 		{Term: "Gateway", Description: "The component that holds the port and takes requests from outside, the system's one front door."},
-	},
-
-	UnderTheHood: []string{
-		"Every peyva process has a PID and, once it listens, a port (e.g. peyva-api on 9310).",
-		"A client reaches peyva at 127.0.0.1:9310, address plus port.",
-		"The port is the door; the process behind it decides what happens when someone knocks.",
 	},
 
 	BuildIt: BuildIt{

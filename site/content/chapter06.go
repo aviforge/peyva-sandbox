@@ -13,23 +13,11 @@ var Chapter06 = ChapterContent{
 	HeroImage:   "images/chapter-6.webp",
 	HeroCaption: "Index = a map for your data. Fast lookups, less scanning.",
 
-	Intuition: []string{
-		"With one account, any search is instant.",
-		"With thousands of users, scanning every row is like reading a whole library catalog for one card.",
-		"An index lets peyva jump straight to Alice's record instead.",
-	},
-
 	Concepts: []ConceptItem{
 		{Term: "Full Table Scan", Description: "Checking every row one by one until you find the match: correct, but slow as the table grows."},
 		{Term: "Index", Description: "A separate structure that maps a value (like a name) directly to where its row lives."},
 		{Term: "B+ Tree", Description: "The tree structure most databases use to keep an index searchable in a handful of steps."},
 		{Term: "Index Lookup", Description: "Using the index to jump straight to the data page that holds the row you want."},
-	},
-
-	UnderTheHood: []string{
-		"Without an index: search(name=\"Alice\") checks Bob, Carol, Dave, Eve... one by one until it finds Alice. Slow.",
-		"With an index: the same search walks a small tree (M -> A -> Alice) and lands directly on Alice's record. Fast.",
-		"The index tells peyva where the data is; peyva goes straight to it instead of scanning everything.",
 	},
 
 	BuildIt: BuildIt{

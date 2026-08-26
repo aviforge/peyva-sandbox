@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Growing the Team: Scale Out | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=bc8495ced8">
+<link rel="stylesheet" href="styles.css?v=2ab8997a0e">
 </head>
 <body data-chapter-slug="chapter-10">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -151,28 +151,14 @@
 
   <div class="section-grid">
     <section class="block">
-      <h2>1. Intuition</h2>
-      <ul>
-        <li>Chapter 9&#39;s math said peyva needs to sustain real load. One process can&#39;t do that alone.</li><li>A busy café doesn&#39;t make one barista work faster; it opens more counters.</li><li>Scaling out runs several peyva copies side by side, with something in front routing each request.</li>
-      </ul>
-    </section>
-
-    <section class="block">
-      <h2>2. Concepts</h2>
+      <h2>1. Concepts</h2>
       <ul class="concepts">
         <li><strong>Instance</strong>. One running copy of the peyva process, identical to every other. Also just called a copy.</li><li><strong>Load Balancer</strong>. Sits in front of all the copies and spreads incoming requests across them.</li><li><strong>Stateless</strong>. Keeps no unique data of its own. Any copy can handle any request, because the state lives in the Vault.</li><li><strong>Horizontal Scaling</strong>. Adding more copies to handle more load, instead of making one machine bigger.</li>
       </ul>
     </section>
 
-    <section class="block">
-      <h2>3. Under the Hood</h2>
-      <ul>
-        <li>Users -&gt; Load Balancer -&gt; Instance 1 / Instance 2 / Instance N, all backed by the same Database.</li><li>Before scaling: one copy handles everyone, slow when busy. After: a load balancer spreads requests across many copies, fast even when busy.</li>
-      </ul>
-    </section>
-
     <section class="block build-it">
-      <h2>4. Build It <span class="badge">Hands-on</span>
+      <h2>2. Build It <span class="badge">Hands-on</span>
           <span class="language-locked">Building in <b data-language-name>Go</b>, <a href="chapter-0.html">change in Chapter 0</a></span>
       </h2>
       <p class="system-locked"><label class="language-picker">Script for
@@ -612,7 +598,7 @@ esac
     </section>
 
     <section class="block break-it">
-      <h2>5. Break It <span class="badge badge-danger">Test it</span></h2>
+      <h2>3. Break It <span class="badge badge-danger">Test it</span></h2>
       <ul class="lead">
         <li>Prove the copies really are interchangeable.</li>
       </ul>

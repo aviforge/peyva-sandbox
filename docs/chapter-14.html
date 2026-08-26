@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Big Changes Safely: Sagas | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=bc8495ced8">
+<link rel="stylesheet" href="styles.css?v=2ab8997a0e">
 </head>
 <body data-chapter-slug="chapter-14">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -151,28 +151,14 @@
 
   <div class="section-grid">
     <section class="block">
-      <h2>1. Intuition</h2>
-      <ul>
-        <li>A single transaction works when everything lives in one database.</li><li>Once separate services are involved (order, payment, kitchen, delivery), no single BEGIN/COMMIT can span them.</li><li>A saga runs the steps one at a time, and undoes completed steps if a later one fails.</li>
-      </ul>
-    </section>
-
-    <section class="block">
-      <h2>2. Concepts</h2>
+      <h2>1. Concepts</h2>
       <ul class="concepts">
         <li><strong>Saga</strong>. A sequence of local transactions across services, coordinated so the whole workflow either completes or is undone.</li><li><strong>Local Transaction</strong>. Each step&#39;s own transaction, scoped to its own service and database: not shared with the other steps.</li><li><strong>Compensating Action</strong>. The &#39;undo&#39; for a step that already succeeded, run in reverse order when a later step fails.</li><li><strong>Saga Coordinator</strong>. Tracks which steps have completed and triggers compensations if the saga needs to unwind.</li>
       </ul>
     </section>
 
-    <section class="block">
-      <h2>3. Under the Hood</h2>
-      <ul>
-        <li>Order Saga: Order Service (Create Order) -&gt; Payment Service (Charge Payment) -&gt; Kitchen Service (Prepare Food) -&gt; Delivery Service (Deliver Order), tracked by a Saga Coordinator.</li><li>If step 3 (Kitchen) fails: run compensating actions in reverse order, refund the payment (undo step 2), cancel the order (undo step 1). Step 4 never executes.</li><li>Sagas leave data eventually consistent across services, without a shared transaction holding them together.</li>
-      </ul>
-    </section>
-
     <section class="block build-it">
-      <h2>4. Build It <span class="badge">Hands-on</span>
+      <h2>2. Build It <span class="badge">Hands-on</span>
           <span class="language-locked">Building in <b data-language-name>Go</b>, <a href="chapter-0.html">change in Chapter 0</a></span>
       </h2>
       
@@ -234,7 +220,7 @@ Done when a customer can see that money left and came back, and why.</pre>
     </section>
 
     <section class="block break-it">
-      <h2>5. Break It <span class="badge badge-danger">Test it</span></h2>
+      <h2>3. Break It <span class="badge badge-danger">Test it</span></h2>
       <ul class="lead">
         <li>Force a late step to fail and confirm the earlier ones actually get undone.</li>
       </ul>

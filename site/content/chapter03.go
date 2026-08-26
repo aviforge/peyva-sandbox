@@ -13,23 +13,11 @@ var Chapter03 = ChapterContent{
 	HeroImage:   "images/chapter-3.webp",
 	HeroCaption: "peyva sends data between machines over the network.",
 
-	Intuition: []string{
-		"Chapter 2 got peyva listening on your own machine, but Alice and Bob aren't on the same one.",
-		"Reaching another machine needs an address (IP), a door (port), a shared language (protocol), and packets to carry the message.",
-		"The trip itself is unreliable. Packets take different routes, arrive out of order, or vanish, so something has to notice what went missing and ask for it again.",
-	},
-
 	Concepts: []ConceptItem{
 		{Term: "IP Address", Description: "Where a machine lives on the network, the equivalent of a street address."},
 		{Term: "Port", Description: "Which door on that machine to use: same idea as Chapter 2, reached remotely."},
 		{Term: "Protocol", Description: "The agreed-upon way of talking. peyva speaks TCP/IP."},
 		{Term: "Packets", Description: "Chunks a message is split into for the trip, reassembled on arrival."},
-	},
-
-	UnderTheHood: []string{
-		"Your App -> TCP/IP -> Internet -> the other machine's App, following IP addresses on both ends.",
-		"TCP re-sends anything lost and reassembles what arrives out of order, so peyva never sees a half-delivered request.",
-		"The listener from Chapter 2 already speaks TCP/IP. This chapter is about reaching a different machine, not just your own.",
 	},
 
 	BuildIt: BuildIt{

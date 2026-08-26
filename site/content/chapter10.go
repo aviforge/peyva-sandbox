@@ -13,22 +13,11 @@ var Chapter10 = ChapterContent{
 	HeroImage:   "images/chapter-10.webp",
 	HeroCaption: "Scale out = add more servers/instances to handle more load in parallel.",
 
-	Intuition: []string{
-		"Chapter 9's math said peyva needs to sustain real load. One process can't do that alone.",
-		"A busy café doesn't make one barista work faster; it opens more counters.",
-		"Scaling out runs several peyva copies side by side, with something in front routing each request.",
-	},
-
 	Concepts: []ConceptItem{
 		{Term: "Instance", Description: "One running copy of the peyva process, identical to every other. Also just called a copy."},
 		{Term: "Load Balancer", Description: "Sits in front of all the copies and spreads incoming requests across them."},
 		{Term: "Stateless", Description: "Keeps no unique data of its own. Any copy can handle any request, because the state lives in the Vault."},
 		{Term: "Horizontal Scaling", Description: "Adding more copies to handle more load, instead of making one machine bigger."},
-	},
-
-	UnderTheHood: []string{
-		"Users -> Load Balancer -> Instance 1 / Instance 2 / Instance N, all backed by the same Database.",
-		"Before scaling: one copy handles everyone, slow when busy. After: a load balancer spreads requests across many copies, fast even when busy.",
 	},
 
 	BuildIt: BuildIt{

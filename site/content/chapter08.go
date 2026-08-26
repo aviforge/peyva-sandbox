@@ -13,22 +13,11 @@ var Chapter08 = ChapterContent{
 	HeroImage:   "images/chapter-8.webp",
 	HeroCaption: "Idempotency = same request (same key) -> same effect (once).",
 
-	Intuition: []string{
-		"Alice's phone sends 'transfer $20', the network hiccups, and she taps send again.",
-		"Without protection, peyva would debit her twice.",
-		"An idempotency key is a reference number. If peyva has seen it before, it returns the same result instead of repeating the work.",
-	},
-
 	Concepts: []ConceptItem{
 		{Term: "Idempotency Key", Description: "A unique ID the client attaches to a request so retries can be recognized as duplicates."},
 		{Term: "Duplicate Request", Description: "The same idempotency key arriving more than once, usually from a retry after a slow or dropped response."},
 		{Term: "Idempotent", Description: "An operation that has the same effect whether it runs once or many times with the same key."},
 		{Term: "Stored Result", Description: "The response saved next to the key, so a repeat returns exactly what the first attempt returned rather than a freshly computed answer."},
-	},
-
-	UnderTheHood: []string{
-		"peyva checks the key: new -> process and store the result. Duplicate -> return the stored result, unchanged.",
-		"Either way, the client sees the same response, but the money only ever moves once.",
 	},
 
 	BuildIt: BuildIt{

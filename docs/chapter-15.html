@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Data Copies: Replication | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=bc8495ced8">
+<link rel="stylesheet" href="styles.css?v=2ab8997a0e">
 </head>
 <body data-chapter-slug="chapter-15">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -151,28 +151,14 @@
 
   <div class="section-grid">
     <section class="block">
-      <h2>1. Intuition</h2>
-      <ul>
-        <li>The Vault is a single file on a single machine. If that disk fails, every balance is gone.</li><li>A bakery that keeps order records in two safes, in two locations, survives a fire in either one.</li><li>Replication keeps copies of peyva&#39;s database in more than one place, so no single failure erases Alice&#39;s balance.</li>
-      </ul>
-    </section>
-
-    <section class="block">
-      <h2>2. Concepts</h2>
+      <h2>1. Concepts</h2>
       <ul class="concepts">
         <li><strong>Primary Database</strong>. The database that accepts writes and is the source of truth.</li><li><strong>Replica</strong>. A copy of the primary&#39;s data, kept in sync, usually in a different location.</li><li><strong>Async Replication</strong>. The replica catches up shortly after the primary writes: fast, but the replica can be briefly behind.</li><li><strong>Promotion</strong>. Turning a replica into the new primary when the original primary fails.</li>
       </ul>
     </section>
 
-    <section class="block">
-      <h2>3. Under the Hood</h2>
-      <ul>
-        <li>Write/Update (Order Placed) -&gt; Primary Database (Region A) --replicate (async)--&gt; Replica Database (Region B). The replica can be promoted if the primary fails.</li><li>Normal operation: the replica trails the primary by a moment. If the primary region fails: a replica is promoted, and whatever the primary had not sent yet is gone.</li>
-      </ul>
-    </section>
-
     <section class="block build-it">
-      <h2>4. Build It <span class="badge">Hands-on</span>
+      <h2>2. Build It <span class="badge">Hands-on</span>
           <span class="language-locked">Building in <b data-language-name>Go</b>, <a href="chapter-0.html">change in Chapter 0</a></span>
       </h2>
       
@@ -241,7 +227,7 @@ Done when I know which parts of your analogy to stop trusting, and whether any o
     </section>
 
     <section class="block break-it">
-      <h2>5. Break It <span class="badge badge-danger">Test it</span></h2>
+      <h2>3. Break It <span class="badge badge-danger">Test it</span></h2>
       <ul class="lead">
         <li>Simulate a primary failure and confirm the replica can take over.</li>
       </ul>

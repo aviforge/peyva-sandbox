@@ -13,12 +13,6 @@ var Chapter00 = ChapterContent{
 	HeroImage:   "images/chapter-0.webp",
 	HeroCaption: "Alice sends Bob $20: the story, and what's really happening underneath.",
 
-	Intuition: []string{
-		"Alice opens her wallet, picks Bob, types $20, and hits send. Seconds later, Bob has it.",
-		"That's the whole system, from the outside.",
-		"Every chapter answers one question about that moment: how the request arrives, what the program does with it, what could go wrong.",
-	},
-
 	Concepts: []ConceptItem{
 		{Term: "User", Description: "A person with an identity in the system. Owns exactly one account."},
 		{Term: "Account", Description: "A handle, an owner and an amount. The handle is how everyone else refers to it."},
@@ -26,11 +20,6 @@ var Chapter00 = ChapterContent{
 		{Term: "Vault", Description: "The component holding every account and what's in it. Nothing else is allowed to change a balance."},
 		{Term: "Transfer", Description: "A request to move money between accounts."},
 		{Term: "History", Description: "The record of every transfer. If the balance is the answer, history is the proof."},
-	},
-
-	UnderTheHood: []string{
-		"Today: one process, two hardcoded accounts, and a page that shows one of them at a time.",
-		"A system earns its structure one real problem at a time.",
 	},
 
 	BuildIt: BuildIt{

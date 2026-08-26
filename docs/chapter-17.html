@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>See Everything: Observability | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=bc8495ced8">
+<link rel="stylesheet" href="styles.css?v=2ab8997a0e">
 </head>
 <body data-chapter-slug="chapter-17">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -151,28 +151,14 @@
 
   <div class="section-grid">
     <section class="block">
-      <h2>1. Intuition</h2>
-      <ul>
-        <li>With copies, replicas, queues and workers, peyva is no longer one process you can watch print to a terminal.</li><li>A kitchen out of view still needs to show an order&#39;s status: boards, alarms, and logs.</li><li>That way problems get caught before customers notice.</li>
-      </ul>
-    </section>
-
-    <section class="block">
-      <h2>2. Concepts</h2>
+      <h2>1. Concepts</h2>
       <ul class="concepts">
         <li><strong>Observability</strong>. How much you can tell about what a running system is doing from the outside, without attaching a debugger to it.</li><li><strong>Metrics</strong>. Numbers over time: requests/sec, latency, queue size, error rate, CPU, memory.</li><li><strong>Logs</strong>. Detailed events: a login failed, a payment was processed. The specific story of what happened.</li><li><strong>Traces</strong>. A request&#39;s journey across services: one payment request&#39;s path through five different parts of the system.</li><li><strong>Alerts</strong>. Notifications when something is wrong: error rate over 5%, queue size too high.</li>
       </ul>
     </section>
 
-    <section class="block">
-      <h2>3. Under the Hood</h2>
-      <ul>
-        <li>A payment crosses the Gateway, the Teller, the Ledger and the Courier, and every one of them emits metrics, logs and traces into the same dashboards.</li><li>One payment reference travels with the request through all four. That is what lets you pull a single payment out of a day of logs instead of reading the whole day.</li><li>Alerts watch the metrics, not the logs. A number crossing a line is something a machine can notice at 3am. A wall of text is not.</li>
-      </ul>
-    </section>
-
     <section class="block build-it">
-      <h2>4. Build It <span class="badge">Hands-on</span>
+      <h2>2. Build It <span class="badge">Hands-on</span>
           <span class="language-locked">Building in <b data-language-name>Go</b>, <a href="chapter-0.html">change in Chapter 0</a></span>
       </h2>
       
@@ -213,7 +199,7 @@ Done when I can take one failed payment reference and reconstruct its whole path
     </section>
 
     <section class="block break-it">
-      <h2>5. Break It <span class="badge badge-danger">Test it</span></h2>
+      <h2>3. Break It <span class="badge badge-danger">Test it</span></h2>
       <ul class="lead">
         <li>Use observability to actually catch a problem, not just log noise.</li>
       </ul>

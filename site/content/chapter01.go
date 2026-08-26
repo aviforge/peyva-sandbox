@@ -13,23 +13,12 @@ var Chapter01 = ChapterContent{
 	HeroImage:   "images/chapter-1.webp",
 	HeroCaption: "A computer is like a house. Many things work together inside it to get one job done.",
 
-	Intuition: []string{
-		"The peyva program from Chapter 0 isn't magic. It's a room in a house.",
-		"The OS is the caretaker; the hardware is the house.",
-		"CPU does the work, memory (RAM) is today's desk, disk is the long-term filing cabinet.",
-	},
-
 	Concepts: []ConceptItem{
 		{Term: "Process", Description: "A running program, the room peyva's app is currently working in."},
 		{Term: "Operating System (OS)", Description: "The caretaker that manages resources, files, and hardware for every process."},
 		{Term: "CPU", Description: "The worker who executes instructions and does calculations."},
 		{Term: "Memory (RAM)", Description: "The desk holding data the app is actively using: fast, but empty when power goes off."},
 		{Term: "Disk (Storage)", Description: "The filing cabinet where data is kept long term, even after a restart."},
-	},
-
-	UnderTheHood: []string{
-		"One computer = peyva App Process -> Operating System -> Hardware.",
-		"Running the program asks the OS to create a process, load it into memory, and give it CPU time.",
 	},
 
 	BuildIt: BuildIt{

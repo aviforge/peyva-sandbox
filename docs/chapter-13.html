@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Reliability Patterns: Transactional Outbox | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=bc8495ced8">
+<link rel="stylesheet" href="styles.css?v=2ab8997a0e">
 </head>
 <body data-chapter-slug="chapter-13">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -151,28 +151,14 @@
 
   <div class="section-grid">
     <section class="block">
-      <h2>1. Intuition</h2>
-      <ul>
-        <li>Chapter 12&#39;s queue has a gap: if peyva commits the transfer but crashes before the message reaches the queue, Bob never gets told.</li><li>The Outbox pattern writes the transfer and the message in the same transaction.</li><li>Either both happen or neither does.</li>
-      </ul>
-    </section>
-
-    <section class="block">
-      <h2>2. Concepts</h2>
+      <h2>1. Concepts</h2>
       <ul class="concepts">
         <li><strong>Outbox Table</strong>. A table in the same database as the transfer, holding messages that still need to be published.</li><li><strong>Same Transaction</strong>. The transfer and the outbox row are written together, inside the transaction from Chapter 7: never as two separate steps.</li><li><strong>Outbox Publisher</strong>. A background worker that reads unsent outbox rows and publishes them to the queue, then marks them sent.</li><li><strong>At Least Once</strong>. The publisher can send a message it has already sent, if it crashes after publishing but before marking the row done. The receiver has to cope with that, which is what Chapter 8 built.</li>
       </ul>
     </section>
 
-    <section class="block">
-      <h2>3. Under the Hood</h2>
-      <ul>
-        <li>1. Service saves the order and writes the message to the outbox, in one transaction. 2. A publisher reads unsent outbox rows. 3. Publisher pushes them to the queue.</li><li>If the service crashes right after saving, the message is still sitting in the outbox. The publisher sends it later.</li><li>No lost messages, and automatic recovery: the background worker retries until every outbox row is sent.</li>
-      </ul>
-    </section>
-
     <section class="block build-it">
-      <h2>4. Build It <span class="badge">Hands-on</span>
+      <h2>2. Build It <span class="badge">Hands-on</span>
           <span class="language-locked">Building in <b data-language-name>Go</b>, <a href="chapter-0.html">change in Chapter 0</a></span>
       </h2>
       
@@ -229,7 +215,7 @@ Done when I can point at the single instant that separates the two designs, and 
     </section>
 
     <section class="block break-it">
-      <h2>5. Break It <span class="badge badge-danger">Test it</span></h2>
+      <h2>3. Break It <span class="badge badge-danger">Test it</span></h2>
       <ul class="lead">
         <li>Prove the message survives a crash that Chapter 12&#39;s plain queue wouldn&#39;t have.</li>
       </ul>

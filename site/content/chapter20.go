@@ -13,24 +13,12 @@ var Chapter20 = ChapterContent{
 	HeroImage:   "images/chapter-20.webp",
 	HeroCaption: "System design is not one clever box. It's how all the pieces cooperate under load, failure and change.",
 
-	Intuition: []string{
-		"Twenty chapters ago, peyva was one file holding one account.",
-		"Every chapter since added one honest piece: a port, an API, a database, a queue, a replica, security, and more.",
-		"A restaurant's Front Door, Hosts, Kitchen, Cold Storage, and Order Tickets are really just all of those pieces working together.",
-	},
-
 	Concepts: []ConceptItem{
 		{Term: "Load Balancer", Description: "The Front Door: routes users to whichever copies of peyva are available."},
 		{Term: "peyva Instances", Description: "The Hosts: stateless, scaled-out copies of the app from Chapter 10."},
 		{Term: "Database & Cache", Description: "The Kitchen and Cold Storage: durable data from Chapter 5, fast lookups from Chapter 11."},
 		{Term: "Queue, Outbox & Workers", Description: "Order Tickets. Asynchronous, reliable work from Chapters 12 and 13."},
 		{Term: "Reconciler", Description: "The Till Count: proves the Vault and the Ledger still agree, and names any account where they don't."},
-	},
-
-	UnderTheHood: []string{
-		"Engineer view: Users -> Load Balancer -> peyva Instances (stateless) -> Cache / Database / Queue / Outbox -> Workers, with Security wrapping every edge and Observability watching every part.",
-		"The chain: Networking gets the request in -> the API handles it -> Scale Out shares the load -> Cache serves the hot path -> the Database holds the truth -> Queue & Outbox handle the rest asynchronously.",
-		"Restaurant operations underneath it all: health checks, deployments, alerts, runbooks, and incident response (Chapter 19's practices, running continuously).",
 	},
 
 	BuildIt: BuildIt{

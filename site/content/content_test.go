@@ -33,14 +33,8 @@ func TestEveryChapterHasRequiredFields(t *testing.T) {
 		if c.HeroImage == "" {
 			t.Errorf("chapter %d: HeroImage is empty", c.Number)
 		}
-		if len(c.Intuition) == 0 {
-			t.Errorf("chapter %d: Intuition is empty", c.Number)
-		}
 		if len(c.Concepts) == 0 {
 			t.Errorf("chapter %d: expected at least one concept", c.Number)
-		}
-		if len(c.UnderTheHood) == 0 {
-			t.Errorf("chapter %d: expected at least one under-the-hood point", c.Number)
 		}
 		if c.BuildIt.Technique == "" {
 			t.Errorf("chapter %d: BuildIt.Technique is empty", c.Number)
@@ -323,8 +317,6 @@ func prose(c ChapterContent) string {
 		c.Title, c.Subtitle, c.QuickTip, c.HeroCaption,
 		c.BuildIt.Intro, c.BuildIt.Why, c.BreakIt.Intro,
 	}
-	parts = append(parts, c.Intuition...)
-	parts = append(parts, c.UnderTheHood...)
 	parts = append(parts, c.BreakIt.Exercises...)
 	for _, x := range c.Concepts {
 		parts = append(parts, x.Term, x.Description)
@@ -345,8 +337,6 @@ func everything(c ChapterContent) string {
 	for _, p := range c.BuildIt.Prompts {
 		parts = append(parts, p.Label, p.Intro, p.Text)
 	}
-	parts = append(parts, c.Intuition...)
-	parts = append(parts, c.UnderTheHood...)
 	parts = append(parts, c.BreakIt.Exercises...)
 	for _, x := range c.Concepts {
 		parts = append(parts, x.Term, x.Description)
@@ -367,9 +357,6 @@ func TestNothingAfterScaleOutClaimsOneProcess(t *testing.T) {
 		fields := map[string]string{
 			"Prompts":  promptText(c),
 			"QuickTip": c.QuickTip,
-		}
-		for _, s := range append(append([]string{}, c.Intuition...), c.UnderTheHood...) {
-			fields[s] = s
 		}
 		for name, text := range fields {
 			// "one process can't do that alone" and "what may live inside one

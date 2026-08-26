@@ -13,24 +13,11 @@ var Chapter16 = ChapterContent{
 	HeroImage:   "images/chapter-16.webp",
 	HeroCaption: "Different situations call for different trade-offs. peyva has to choose.",
 
-	Intuition: []string{
-		"Chapter 15 gave peyva two locations.",
-		"What happens when the network between them goes down and Alice still wants to pay?",
-		"Two branches cut off from each other can't stay both perfectly accurate and perfectly available. One has to give.",
-	},
-
 	Concepts: []ConceptItem{
 		{Term: "Consistency (C)", Description: "All users see the same data at the same time."},
 		{Term: "Availability (A)", Description: "Every request gets a response, no errors or timeouts."},
 		{Term: "Partition Tolerance (P)", Description: "The system keeps working even if parts of it can't talk to each other."},
 		{Term: "CAP Theorem", Description: "The choice only binds while the network is broken. On a healthy day peyva has all three."},
-	},
-
-	UnderTheHood: []string{
-		"CP: choose consistency over availability. peyva rejects requests during a partition to keep data correct.",
-		"AP: choose availability over consistency. peyva keeps serving, even with stale data.",
-		"CA: only possible with no partition, a single region on a normal day.",
-		"peyva's rule of thumb: CP for money and account operations, AP for browsing and notifications. The choice depends on what each request actually needs.",
 	},
 
 	BuildIt: BuildIt{

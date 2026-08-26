@@ -13,26 +13,11 @@ var Chapter09 = ChapterContent{
 	HeroImage:   "images/chapter-9.webp",
 	HeroCaption: "Capacity estimation helps us choose the right technology, plan scaling, and control cost: before we build.",
 
-	Intuition: []string{
-		"Everything so far runs comfortably on one laptop with one user.",
-		"Before peyva can handle real growth, do the same math a family does before a road trip: how many people, how far, how much fuel.",
-		"That means estimating users, traffic, and storage before choosing how to scale.",
-	},
-
 	Concepts: []ConceptItem{
 		{Term: "Assumptions", Description: "The starting numbers you estimate: users, transfers per user per day, peak factor, time window."},
 		{Term: "Peak Factor", Description: "How much busier the system gets at its busiest moment compared to its average. Traffic isn't flat."},
 		{Term: "TPS", Description: "Transactions per second: the rate the system must actually sustain at peak, not on average."},
 		{Term: "Storage Growth", Description: "How much disk space the system needs over time, based on transaction volume and record size."},
-	},
-
-	UnderTheHood: []string{
-		"Assumptions: 100,000 users, 3 transfers/user/day, 10x peak factor, 365 calendar days/year.",
-		"1. Daily Transfers: 100,000 x 3 = 300,000 transfers/day.",
-		"2. Peak TPS: 300,000 / 86,400 sec x 10 (peak factor) = ~35 TPS (round up).",
-		"3. Storage (Transactions): 300,000 x 365 x 2 years = ~219 million rows.",
-		"4. Storage (Size): assume 1 KB/transaction, 219M x 1 KB = ~220 GB.",
-		"5. Network (Peak): assume 2 KB/transfer, 35 TPS x 2 KB = ~70 KB/s.",
 	},
 
 	BuildIt: BuildIt{

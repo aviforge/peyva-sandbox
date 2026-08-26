@@ -13,23 +13,12 @@ var Chapter07 = ChapterContent{
 	HeroImage:   "images/chapter-7.webp",
 	HeroCaption: "All or nothing. If something fails, nothing changes.",
 
-	Intuition: []string{
-		"A transfer isn't one change, it's three: debit Alice, credit Bob, record it happened.",
-		"If peyva crashes between steps, money vanishes.",
-		"A bank teller doesn't hand over a receipt until every step succeeds. If one fails, they undo everything.",
-	},
-
 	Concepts: []ConceptItem{
 		{Term: "Transaction", Description: "A group of database changes that succeed or fail together, never partially."},
 		{Term: "BEGIN / COMMIT", Description: "Marks the start and the permanent end of a transaction. Nothing is final until COMMIT."},
 		{Term: "Rollback", Description: "Undoing every change in a transaction because one step failed."},
 		{Term: "ACID", Description: "Atomicity, Consistency, Isolation, Durability: the four guarantees a real transaction gives you."},
 		{Term: "Ledger", Description: "The append-only record of every movement of money, the proof behind each balance the Vault reports."},
-	},
-
-	UnderTheHood: []string{
-		"Transaction flow: BEGIN -> Debit Alice -> Credit Bob -> Insert Transfer Record -> COMMIT.",
-		"If any step fails, ROLLBACK undoes every change made since BEGIN: Alice never loses money to a step that never finished.",
 	},
 
 	BuildIt: BuildIt{

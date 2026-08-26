@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Inside One Computer | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=bc8495ced8">
+<link rel="stylesheet" href="styles.css?v=2ab8997a0e">
 </head>
 <body data-chapter-slug="chapter-1">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -151,28 +151,14 @@
 
   <div class="section-grid">
     <section class="block">
-      <h2>1. Intuition</h2>
-      <ul>
-        <li>The peyva program from Chapter 0 isn&#39;t magic. It&#39;s a room in a house.</li><li>The OS is the caretaker; the hardware is the house.</li><li>CPU does the work, memory (RAM) is today&#39;s desk, disk is the long-term filing cabinet.</li>
-      </ul>
-    </section>
-
-    <section class="block">
-      <h2>2. Concepts</h2>
+      <h2>1. Concepts</h2>
       <ul class="concepts">
         <li><strong>Process</strong>. A running program, the room peyva&#39;s app is currently working in.</li><li><strong>Operating System (OS)</strong>. The caretaker that manages resources, files, and hardware for every process.</li><li><strong>CPU</strong>. The worker who executes instructions and does calculations.</li><li><strong>Memory (RAM)</strong>. The desk holding data the app is actively using: fast, but empty when power goes off.</li><li><strong>Disk (Storage)</strong>. The filing cabinet where data is kept long term, even after a restart.</li>
       </ul>
     </section>
 
-    <section class="block">
-      <h2>3. Under the Hood</h2>
-      <ul>
-        <li>One computer = peyva App Process -&gt; Operating System -&gt; Hardware.</li><li>Running the program asks the OS to create a process, load it into memory, and give it CPU time.</li>
-      </ul>
-    </section>
-
     <section class="block build-it">
-      <h2>4. Build It <span class="badge">Hands-on</span>
+      <h2>2. Build It <span class="badge">Hands-on</span>
           <span class="language-locked">Building in <b data-language-name>Go</b>, <a href="chapter-0.html">change in Chapter 0</a></span>
       </h2>
       
@@ -215,7 +201,7 @@ Done when I can state the process id and its memory use, and explain in one sent
     </section>
 
     <section class="block break-it">
-      <h2>5. Break It <span class="badge badge-danger">Test it</span></h2>
+      <h2>3. Break It <span class="badge badge-danger">Test it</span></h2>
       <ul class="lead">
         <li>Processes are isolated from each other. Prove it.</li>
       </ul>

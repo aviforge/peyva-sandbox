@@ -13,24 +13,12 @@ var Chapter17 = ChapterContent{
 	HeroImage:   "images/chapter-17.webp",
 	HeroCaption: "Observability = dashboards + alarms + logs (and traces). It helps us understand the system like a pizza shop watches its kitchen.",
 
-	Intuition: []string{
-		"With copies, replicas, queues and workers, peyva is no longer one process you can watch print to a terminal.",
-		"A kitchen out of view still needs to show an order's status: boards, alarms, and logs.",
-		"That way problems get caught before customers notice.",
-	},
-
 	Concepts: []ConceptItem{
 		{Term: "Observability", Description: "How much you can tell about what a running system is doing from the outside, without attaching a debugger to it."},
 		{Term: "Metrics", Description: "Numbers over time: requests/sec, latency, queue size, error rate, CPU, memory."},
 		{Term: "Logs", Description: "Detailed events: a login failed, a payment was processed. The specific story of what happened."},
 		{Term: "Traces", Description: "A request's journey across services: one payment request's path through five different parts of the system."},
 		{Term: "Alerts", Description: "Notifications when something is wrong: error rate over 5%, queue size too high."},
-	},
-
-	UnderTheHood: []string{
-		"A payment crosses the Gateway, the Teller, the Ledger and the Courier, and every one of them emits metrics, logs and traces into the same dashboards.",
-		"One payment reference travels with the request through all four. That is what lets you pull a single payment out of a day of logs instead of reading the whole day.",
-		"Alerts watch the metrics, not the logs. A number crossing a line is something a machine can notice at 3am. A wall of text is not.",
 	},
 
 	BuildIt: BuildIt{

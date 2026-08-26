@@ -13,24 +13,12 @@ var Chapter04 = ChapterContent{
 	HeroImage:   "images/chapter-4.webp",
 	HeroCaption: "Simple. Predictable. Hard to misuse.",
 
-	Intuition: []string{
-		"Alice doesn't care about ports and packets: she cares about sending $20.",
-		"An API is the menu: a fixed set of requests, in a fixed shape, with a predictable answer.",
-		"Order POST /transfer, get back 200 OK and a transaction id.",
-	},
-
 	Concepts: []ConceptItem{
 		{Term: "Endpoint", Description: "A specific thing the API lets you do: POST /transfer, for moving money."},
 		{Term: "Request Body", Description: "The details of what you're asking for, e.g. {\"from\": \"alice\", \"to\": \"bob\", \"amount\": 20}."},
 		{Term: "Status Codes", Description: "A predictable signal of what happened: 200 OK, 400 Bad Request, 500 Server Error."},
 		{Term: "Validation", Description: "Checking the request makes sense before doing any work, rejecting bad orders instead of guessing."},
 		{Term: "Teller", Description: "The component that handles a payment end to end, and the only thing allowed to move money. The Gateway parses and forwards; it never touches a balance itself."},
-	},
-
-	UnderTheHood: []string{
-		"Client sends 'Request: POST /transfer {...}' to peyva's API; peyva sends back 'Response: 200 OK {...}'.",
-		"Behind the API sit the Teller, which decides what to do, and the Vault, which is the only thing that changes a balance.",
-		"The caller never learns how peyva stores a balance, only what to send and what comes back.",
 	},
 
 	BuildIt: BuildIt{

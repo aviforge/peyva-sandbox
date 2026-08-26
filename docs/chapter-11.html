@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Sharing Work: Caching | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=bc8495ced8">
+<link rel="stylesheet" href="styles.css?v=2ab8997a0e">
 </head>
 <body data-chapter-slug="chapter-11">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -151,28 +151,14 @@
 
   <div class="section-grid">
     <section class="block">
-      <h2>1. Intuition</h2>
-      <ul>
-        <li>Alice checks her balance a dozen times a day.</li><li>Each check means another trip to the database: often for data that hasn&#39;t changed.</li><li>A cache is a small, fast store that keeps recent answers ready, the way a café pre-makes a popular drink instead of brewing it fresh every time.</li>
-      </ul>
-    </section>
-
-    <section class="block">
-      <h2>2. Concepts</h2>
+      <h2>1. Concepts</h2>
       <ul class="concepts">
         <li><strong>Cache</strong>. A fast, small store that holds recently or frequently requested data close at hand.</li><li><strong>Cache Hit</strong>. The data was already in the cache, so the answer comes back without the database being asked at all.</li><li><strong>Cache Miss</strong>. The data wasn&#39;t cached. peyva fetches it from the database and stores it in the cache for next time.</li><li><strong>Invalidation</strong>. Removing or updating a cached value when the underlying data changes, so the cache never lies.</li>
       </ul>
     </section>
 
-    <section class="block">
-      <h2>3. Under the Hood</h2>
-      <ul>
-        <li>Request Data (Get Alice&#39;s balance) -&gt; Cache. Cache Hit -&gt; Return Data (fast). Cache Miss -&gt; Fetch from the Database and store in cache, then return it.</li><li>A cache trades a little staleness risk for speed. That tradeoff has to be deliberate, not accidental.</li>
-      </ul>
-    </section>
-
     <section class="block build-it">
-      <h2>4. Build It <span class="badge">Hands-on</span>
+      <h2>2. Build It <span class="badge">Hands-on</span>
           <span class="language-locked">Building in <b data-language-name>Go</b>, <a href="chapter-0.html">change in Chapter 0</a></span>
       </h2>
       
@@ -247,7 +233,7 @@ Done when a critique pass finds nothing to fix.</pre>
     </section>
 
     <section class="block break-it">
-      <h2>5. Break It <span class="badge badge-danger">Test it</span></h2>
+      <h2>3. Break It <span class="badge badge-danger">Test it</span></h2>
       <ul class="lead">
         <li>Prove the invalidation actually works.</li>
       </ul>

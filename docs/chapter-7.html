@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Making It Safe (Transactions) | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=bc8495ced8">
+<link rel="stylesheet" href="styles.css?v=2ab8997a0e">
 </head>
 <body data-chapter-slug="chapter-7">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -151,28 +151,14 @@
 
   <div class="section-grid">
     <section class="block">
-      <h2>1. Intuition</h2>
-      <ul>
-        <li>A transfer isn&#39;t one change, it&#39;s three: debit Alice, credit Bob, record it happened.</li><li>If peyva crashes between steps, money vanishes.</li><li>A bank teller doesn&#39;t hand over a receipt until every step succeeds. If one fails, they undo everything.</li>
-      </ul>
-    </section>
-
-    <section class="block">
-      <h2>2. Concepts</h2>
+      <h2>1. Concepts</h2>
       <ul class="concepts">
         <li><strong>Transaction</strong>. A group of database changes that succeed or fail together, never partially.</li><li><strong>BEGIN / COMMIT</strong>. Marks the start and the permanent end of a transaction. Nothing is final until COMMIT.</li><li><strong>Rollback</strong>. Undoing every change in a transaction because one step failed.</li><li><strong>ACID</strong>. Atomicity, Consistency, Isolation, Durability: the four guarantees a real transaction gives you.</li><li><strong>Ledger</strong>. The append-only record of every movement of money, the proof behind each balance the Vault reports.</li>
       </ul>
     </section>
 
-    <section class="block">
-      <h2>3. Under the Hood</h2>
-      <ul>
-        <li>Transaction flow: BEGIN -&gt; Debit Alice -&gt; Credit Bob -&gt; Insert Transfer Record -&gt; COMMIT.</li><li>If any step fails, ROLLBACK undoes every change made since BEGIN: Alice never loses money to a step that never finished.</li>
-      </ul>
-    </section>
-
     <section class="block build-it">
-      <h2>4. Build It <span class="badge">Hands-on</span>
+      <h2>2. Build It <span class="badge">Hands-on</span>
           <span class="language-locked">Building in <b data-language-name>Go</b>, <a href="chapter-0.html">change in Chapter 0</a></span>
       </h2>
       
@@ -245,7 +231,7 @@ Done when History explains alice&#39;s balance without me reading the database.<
     </section>
 
     <section class="block break-it">
-      <h2>5. Break It <span class="badge badge-danger">Test it</span></h2>
+      <h2>3. Break It <span class="badge badge-danger">Test it</span></h2>
       <ul class="lead">
         <li>Force a failure partway through and confirm nothing is left half-done.</li>
       </ul>

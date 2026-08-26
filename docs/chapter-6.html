@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Finding Things Fast (Indexes) | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=bc8495ced8">
+<link rel="stylesheet" href="styles.css?v=2ab8997a0e">
 </head>
 <body data-chapter-slug="chapter-6">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -151,28 +151,14 @@
 
   <div class="section-grid">
     <section class="block">
-      <h2>1. Intuition</h2>
-      <ul>
-        <li>With one account, any search is instant.</li><li>With thousands of users, scanning every row is like reading a whole library catalog for one card.</li><li>An index lets peyva jump straight to Alice&#39;s record instead.</li>
-      </ul>
-    </section>
-
-    <section class="block">
-      <h2>2. Concepts</h2>
+      <h2>1. Concepts</h2>
       <ul class="concepts">
         <li><strong>Full Table Scan</strong>. Checking every row one by one until you find the match: correct, but slow as the table grows.</li><li><strong>Index</strong>. A separate structure that maps a value (like a name) directly to where its row lives.</li><li><strong>B&#43; Tree</strong>. The tree structure most databases use to keep an index searchable in a handful of steps.</li><li><strong>Index Lookup</strong>. Using the index to jump straight to the data page that holds the row you want.</li>
       </ul>
     </section>
 
-    <section class="block">
-      <h2>3. Under the Hood</h2>
-      <ul>
-        <li>Without an index: search(name=&#34;Alice&#34;) checks Bob, Carol, Dave, Eve... one by one until it finds Alice. Slow.</li><li>With an index: the same search walks a small tree (M -&gt; A -&gt; Alice) and lands directly on Alice&#39;s record. Fast.</li><li>The index tells peyva where the data is; peyva goes straight to it instead of scanning everything.</li>
-      </ul>
-    </section>
-
     <section class="block build-it">
-      <h2>4. Build It <span class="badge">Hands-on</span>
+      <h2>2. Build It <span class="badge">Hands-on</span>
           <span class="language-locked">Building in <b data-language-name>Go</b>, <a href="chapter-0.html">change in Chapter 0</a></span>
       </h2>
       
@@ -237,7 +223,7 @@ Done when a wrong handle is obvious before sending, and you have shown me both t
     </section>
 
     <section class="block break-it">
-      <h2>5. Break It <span class="badge badge-danger">Test it</span></h2>
+      <h2>3. Break It <span class="badge badge-danger">Test it</span></h2>
       <ul class="lead">
         <li>Indexes aren&#39;t free. See the tradeoff.</li>
       </ul>

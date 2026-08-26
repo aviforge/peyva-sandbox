@@ -13,23 +13,11 @@ var Chapter18 = ChapterContent{
 	HeroImage:   "images/chapter-18.webp",
 	HeroCaption: "Security is not a feature, it's a foundation. We build it in, not bolt it on.",
 
-	Intuition: []string{
-		"Everything peyva does so far assumes every caller is honestly Alice or Bob.",
-		"A real bank verifies who you are, checks what you're allowed to do, and logs everything.",
-		"Security applies that same discipline: prove identity, limit access, protect data, watch for trouble.",
-	},
-
 	Concepts: []ConceptItem{
 		{Term: "AuthN (Authentication)", Description: "Verifying who someone is. Proving Alice is really Alice."},
 		{Term: "AuthZ (Authorization)", Description: "Checking what an authenticated user is allowed to do, least privilege by default."},
 		{Term: "Encryption in Transit", Description: "Protecting data as it travels over the network (TLS), so it can't be read if intercepted."},
 		{Term: "Secrets Management", Description: "Storing credentials and keys securely, never hardcoded in source code."},
-	},
-
-	UnderTheHood: []string{
-		"Users -> an encrypted connection -> the Gateway, which checks who is calling, what they are allowed to do, and how often they may ask -> the Teller -> stored data, itself encrypted and backed up.",
-		"Both checks run before the Teller is called, so a request that fails either one never reaches a balance.",
-		"Credentials live outside the code, in the environment or a secrets store, so a copy of the repository is never a copy of the keys.",
 	},
 
 	BuildIt: BuildIt{

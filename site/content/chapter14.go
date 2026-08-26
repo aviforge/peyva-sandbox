@@ -13,23 +13,11 @@ var Chapter14 = ChapterContent{
 	HeroImage:   "images/chapter-14.webp",
 	HeroCaption: "Sagas help us complete a big task in steps and roll back safely if something goes wrong.",
 
-	Intuition: []string{
-		"A single transaction works when everything lives in one database.",
-		"Once separate services are involved (order, payment, kitchen, delivery), no single BEGIN/COMMIT can span them.",
-		"A saga runs the steps one at a time, and undoes completed steps if a later one fails.",
-	},
-
 	Concepts: []ConceptItem{
 		{Term: "Saga", Description: "A sequence of local transactions across services, coordinated so the whole workflow either completes or is undone."},
 		{Term: "Local Transaction", Description: "Each step's own transaction, scoped to its own service and database: not shared with the other steps."},
 		{Term: "Compensating Action", Description: "The 'undo' for a step that already succeeded, run in reverse order when a later step fails."},
 		{Term: "Saga Coordinator", Description: "Tracks which steps have completed and triggers compensations if the saga needs to unwind."},
-	},
-
-	UnderTheHood: []string{
-		"Order Saga: Order Service (Create Order) -> Payment Service (Charge Payment) -> Kitchen Service (Prepare Food) -> Delivery Service (Deliver Order), tracked by a Saga Coordinator.",
-		"If step 3 (Kitchen) fails: run compensating actions in reverse order, refund the payment (undo step 2), cancel the order (undo step 1). Step 4 never executes.",
-		"Sagas leave data eventually consistent across services, without a shared transaction holding them together.",
 	},
 
 	BuildIt: BuildIt{

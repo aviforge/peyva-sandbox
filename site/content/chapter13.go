@@ -13,23 +13,11 @@ var Chapter13 = ChapterContent{
 	HeroImage:   "images/chapter-13.webp",
 	HeroCaption: "Transactional Outbox makes sure important work is never lost, even if something fails right after saving.",
 
-	Intuition: []string{
-		"Chapter 12's queue has a gap: if peyva commits the transfer but crashes before the message reaches the queue, Bob never gets told.",
-		"The Outbox pattern writes the transfer and the message in the same transaction.",
-		"Either both happen or neither does.",
-	},
-
 	Concepts: []ConceptItem{
 		{Term: "Outbox Table", Description: "A table in the same database as the transfer, holding messages that still need to be published."},
 		{Term: "Same Transaction", Description: "The transfer and the outbox row are written together, inside the transaction from Chapter 7: never as two separate steps."},
 		{Term: "Outbox Publisher", Description: "A background worker that reads unsent outbox rows and publishes them to the queue, then marks them sent."},
 		{Term: "At Least Once", Description: "The publisher can send a message it has already sent, if it crashes after publishing but before marking the row done. The receiver has to cope with that, which is what Chapter 8 built."},
-	},
-
-	UnderTheHood: []string{
-		"1. Service saves the order and writes the message to the outbox, in one transaction. 2. A publisher reads unsent outbox rows. 3. Publisher pushes them to the queue.",
-		"If the service crashes right after saving, the message is still sitting in the outbox. The publisher sends it later.",
-		"No lost messages, and automatic recovery: the background worker retries until every outbox row is sent.",
 	},
 
 	BuildIt: BuildIt{

@@ -13,22 +13,11 @@ var Chapter05 = ChapterContent{
 	HeroImage:   "images/chapter-5.webp",
 	HeroCaption: "Durable. Persistent. Survives restarts.",
 
-	Intuition: []string{
-		"Chapter 0 proved a hard truth: stop the process and Alice's balance is gone.",
-		"A database is a bank record room: a safe place outside process memory.",
-		"A restart or crash never erases what Alice has.",
-	},
-
 	Concepts: []ConceptItem{
 		{Term: "Write", Description: "Saving new or updated data to the database, inserting an account or updating a balance."},
 		{Term: "Read", Description: "Retrieving data back out, checking a balance before showing it to Alice."},
 		{Term: "Durable", Description: "Once written, the data survives even if the process (or the machine) restarts."},
 		{Term: "Persistent", Description: "Data stored on disk, outside process memory, so it outlives any single run."},
-	},
-
-	UnderTheHood: []string{
-		"peyva App writes to and reads from a Database instead of an in-memory struct.",
-		"SQLite fits a local setup best: a real database that's just a file on disk, no server required.",
 	},
 
 	BuildIt: BuildIt{

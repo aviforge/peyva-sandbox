@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Decoupling with Messages: Queues | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=bc8495ced8">
+<link rel="stylesheet" href="styles.css?v=2ab8997a0e">
 </head>
 <body data-chapter-slug="chapter-12">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -151,28 +151,14 @@
 
   <div class="section-grid">
     <section class="block">
-      <h2>1. Intuition</h2>
-      <ul>
-        <li>Not everything a transfer triggers needs to happen before Alice sees &#39;success&#39;. Bob&#39;s notification can happen a moment later.</li><li>A queue is an order-ticket rail: the handler drops a message and moves on.</li><li>A worker picks it up when ready.</li>
-      </ul>
-    </section>
-
-    <section class="block">
-      <h2>2. Concepts</h2>
+      <h2>1. Concepts</h2>
       <ul class="concepts">
         <li><strong>Message Queue</strong>. A buffer that holds messages until a worker is ready to process them.</li><li><strong>Producer</strong>. The part of the system that adds messages to the queue: peyva, after a transfer completes.</li><li><strong>Consumer / Worker</strong>. The part that reads messages off the queue and does the actual work, at its own pace.</li><li><strong>Decoupling</strong>. Producer and consumer don&#39;t call each other directly or wait on each other. The queue sits between them.</li><li><strong>Courier</strong>. The component that carries out work after a payment clears, reading from the queue at its own pace.</li>
       </ul>
     </section>
 
-    <section class="block">
-      <h2>3. Under the Hood</h2>
-      <ul>
-        <li>The Teller -&gt; 1. Send message -&gt; Queue -&gt; 2. Consume message -&gt; the Courier -&gt; 3. Perform work (e.g. send notification).</li><li>Messages wait in the queue until a worker picks them up. A worker that pauses only delays the work. A process that dies takes the queue with it, and nothing is left to say what was owed.</li>
-      </ul>
-    </section>
-
     <section class="block build-it">
-      <h2>4. Build It <span class="badge">Hands-on</span>
+      <h2>2. Build It <span class="badge">Hands-on</span>
           <span class="language-locked">Building in <b data-language-name>Go</b>, <a href="chapter-0.html">change in Chapter 0</a></span>
       </h2>
       
@@ -233,7 +219,7 @@ Done when a slow notification does not delay what the customer sees.</pre>
     </section>
 
     <section class="block break-it">
-      <h2>5. Break It <span class="badge badge-danger">Test it</span></h2>
+      <h2>3. Break It <span class="badge badge-danger">Test it</span></h2>
       <ul class="lead">
         <li>Prove the API no longer waits on the slow part.</li>
       </ul>

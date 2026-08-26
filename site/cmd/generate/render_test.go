@@ -15,11 +15,9 @@ import (
 
 // sections every chapter page must render.
 var requiredSections = []string{
-	"1. Intuition",
-	"2. Concepts",
-	"3. Under the Hood",
-	"4. Build It",
-	"5. Break It",
+	"1. Concepts",
+	"2. Build It",
+	"3. Break It",
 }
 
 // pairedTags are counted open against closed. The character class matters:

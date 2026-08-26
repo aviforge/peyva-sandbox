@@ -287,11 +287,27 @@ body {
   text-decoration: underline;
 }
 
+/* Three sections, stacked. A grid made sense for five short blocks; with the
+   prompts in one of three, that block held most of the page while the other two
+   left a column of white space beside it. Full width also stops a prompt
+   wrapping mid-phrase, which is the text a reader has to follow most closely. */
 .section-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  align-items: start;
+  grid-template-columns: 1fr;
   gap: 16px;
+}
+
+/* The concept list is short entries, so it reads better in columns than as one
+   long ladder down a wide page. */
+@media (min-width: 900px) {
+  .block .concepts {
+    columns: 2;
+    column-gap: 32px;
+  }
+
+  .block .concepts li {
+    break-inside: avoid;
+  }
 }
 
 .block {

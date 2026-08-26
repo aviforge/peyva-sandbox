@@ -109,19 +109,17 @@ type BreakIt struct {
 }
 
 type ChapterContent struct {
-	Number       int
-	Slug         string
-	Title        string
-	Subtitle     string
-	Category     string
-	Difficulty   string
-	EstTime      string
-	QuickTip     string
-	HeroImage    string
-	HeroCaption  string
-	Intuition    []string
-	Concepts     []ConceptItem
-	UnderTheHood []string
-	BuildIt      BuildIt
-	BreakIt      BreakIt
+	Number      int
+	Slug        string
+	Title       string
+	Subtitle    string
+	Category    string
+	Difficulty  string
+	EstTime     string
+	QuickTip    string
+	HeroImage   string
+	HeroCaption string
+	Concepts    []ConceptItem
+	BuildIt     BuildIt
+	BreakIt     BreakIt
 }

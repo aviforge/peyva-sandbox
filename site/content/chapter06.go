@@ -21,7 +21,6 @@ var Chapter06 = ChapterContent{
 	},
 
 	BuildIt: BuildIt{
-		Intro:     "The Vault learns to be searched, and you measure whether it worked.",
 		Technique: "Grounding: investigate before claiming",
 		Why:       "Forbid claims about code it has not run, and you get timings instead of confident guesses.",
 		Source:    "Anthropic: Prompting best practices, Minimizing hallucinations in agentic coding",
@@ -39,7 +38,7 @@ Do this in order and don't skip ahead:
 Never state a performance claim you have not measured on this machine. Show me real numbers, not estimates, and if the improvement is smaller than expected, say so rather than explaining it away.
 
 Done when I have four real numbers: read time before and after, write time before and after.`},
-			{Label: "Portal", Portal: true, Intro: "Send learns to check who it is paying, before the money moves.", Text: `Someone typing a handle from memory should know they have the right person before they send. Have Send look the handle up as it is typed and show whose account it is.
+			{Label: "Portal", Portal: true, Text: `Someone typing a handle from memory should know they have the right person before they send. Have Send look the handle up as it is typed and show whose account it is.
 
 Show the recipient's handle and owner, never their balance. That is not the sender's to see.
 

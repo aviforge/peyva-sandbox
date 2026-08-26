@@ -350,7 +350,6 @@ func promptViews(b content.BuildIt, lang content.Language, sys content.System) [
 		}
 		out = append(out, promptView{
 			Label:    p.Label,
-			Intro:    p.Intro,
 			Text:     promptHTML(p.Text, sys),
 			Portal:   p.Portal,
 			Thinking: p.Thinking,

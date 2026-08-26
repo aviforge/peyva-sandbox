@@ -313,13 +313,13 @@ func TestNoChapterRepeatsASentence(t *testing.T) {
 func prose(c ChapterContent) string {
 	parts := []string{
 		c.Title, c.Subtitle, c.QuickTip, c.HeroCaption,
-		c.BuildIt.Intro, c.BuildIt.Why,
+		c.BuildIt.Why,
 	}
 	for _, x := range c.Concepts {
 		parts = append(parts, x.Term, x.Description)
 	}
 	for _, p := range c.BuildIt.Prompts {
-		parts = append(parts, p.Intro)
+		parts = append(parts, p.Label)
 	}
 	return strings.Join(parts, "\n")
 }
@@ -329,10 +329,10 @@ func prose(c ChapterContent) string {
 func everything(c ChapterContent) string {
 	parts := []string{
 		c.Title, c.Subtitle, c.QuickTip, c.HeroCaption,
-		c.BuildIt.Intro, c.BuildIt.Why,
+		c.BuildIt.Why,
 	}
 	for _, p := range c.BuildIt.Prompts {
-		parts = append(parts, p.Label, p.Intro, p.Text)
+		parts = append(parts, p.Label, p.Text)
 	}
 	for _, x := range c.Concepts {
 		parts = append(parts, x.Term, x.Description)

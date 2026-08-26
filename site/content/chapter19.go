@@ -23,12 +23,11 @@ var Chapter19 = ChapterContent{
 	},
 
 	BuildIt: BuildIt{
-		Intro:     "Build Config, then give the system a deployment and rollback story.",
 		Technique: "Structured output formatting",
 		Why:       "A runbook read at 2am has to be commands, not prose. Hand over the exact skeleton you want back.",
 		Source:    "Anthropic: Prompting best practices, Control the format of responses",
 		Prompts: []Prompt{
-			{Label: "Config", Intro: "Sort the settings, then build Config.", Text: `peyva reads settings straight from the environment in several places: the port a copy listens on, the ports the proxy routes between, where the Vault keeps its file.
+			{Label: "Config", Text: `peyva reads settings straight from the environment in several places: the port a copy listens on, the ports the proxy routes between, where the Vault keeps its file.
 
 Build Config: it reads every setting once at startup, checks each, and hands them over. Nothing else reads the environment.
 
@@ -43,7 +42,7 @@ Two decimal places on money is not a setting. Neither is a balance that cannot g
 A missing or nonsense setting means naming it and exiting. Never a default that hides it.
 
 Done when every setting has been sorted with the rule it fell under, and starting without a required one names it and stops.`},
-			{Label: "Runbook", Intro: "The version string and the rollback runbook.", Text: `peyva runs as three copies behind a proxy, each exposing a health endpoint, and Config now supplies every setting.
+			{Label: "Runbook", Text: `peyva runs as three copies behind a proxy, each exposing a health endpoint, and Config now supplies every setting.
 
 Add a version string, set at build time, reported by that health endpoint. Then write me a rollback runbook.
 
@@ -65,7 +64,7 @@ Format the runbook exactly like this and nothing else:
 Every command runs on {os}. Every line under Check, Fix and Verify is a command I can paste or an exact output I can compare against.
 
 Done when deploying a deliberately broken version to one copy fails its health check before the other two are touched, and the runbook's Fix section reverts it without improvisation.`},
-			{Label: "Portal", Portal: true, Intro: "The Portal stops having its address written into it.", Text: `The Portal reaches peyva at an address written into its pages. Move it to peyva/portal/config.js: one object, loaded before anything else, holding the base URL and nothing that is not a setting.
+			{Label: "Portal", Portal: true, Text: `The Portal reaches peyva at an address written into its pages. Move it to peyva/portal/config.js: one object, loaded before anything else, holding the base URL and nothing that is not a setting.
 
 An empty base URL means same origin, which is the ordinary case now that peyva serves the page itself. Nothing in the Portal builds an address any other way.
 

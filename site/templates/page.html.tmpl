@@ -89,20 +89,16 @@
             {{range $.Systems}}<option value="{{.ID}}" data-prompt="{{.Prompt}}">{{.Name}}</option>{{end}}
           </select>
         </label>{{else}}Written for <b data-os-name>{{.SystemName}}</b>, chosen in <a href="{{.AssetPrefix}}{{.SystemPickerHref}}">{{.SystemPickerTitle}}</a>{{end}}</p>{{end}}
-      <ul class="lead">
-        <li>{{.Chapter.BuildIt.Intro}}</li>
-      </ul>
       <p class="technique"><span class="technique-name">{{.Chapter.BuildIt.Technique}}</span>. {{.Chapter.BuildIt.Why}}</p>
-      <p class="technique-source">Documented in {{.Chapter.BuildIt.Source}}{{if .ChapterTokens}} &middot; asking price for this chapter, about {{.ChapterTokens}} tokens{{end}}</p>
+      <p class="technique-source">Documented in {{.Chapter.BuildIt.Source}}</p>
       <details class="standing-rules">
-        <summary>Every prompt below is copied with these rules</summary>
+        <summary>Every prompt below is copied with these rules{{if .ChapterTokens}}, about {{.ChapterTokens}} tokens for the chapter{{end}}</summary>
         {{if .HasBuildPrompt}}<pre class="prompt-lang" id="rules-build">{{.LanguageLine}}</pre>{{end}}
         {{if .HasPortalPrompt}}<pre class="prompt-lang" id="rules-portal">{{.UILine}}</pre>{{end}}
         {{if .HasThinkingPrompt}}<pre class="prompt-lang" id="rules-thinking">{{.ThinkingLine}}</pre>{{end}}
       </details>
       {{range .Prompts}}
       <p class="prompt-divider">{{if .Numbered}}<span class="prompt-step">{{.Step}} of {{.Steps}}</span> {{end}}{{.Label}}<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~{{.Tokens}} tokens</span></p>
-      {{if .Intro}}<ul class="lead"><li>{{.Intro}}</li></ul>{{end}}
       <div class="prompt-wrap" data-prompt-rules="{{if .Thinking}}rules-thinking{{else if .Portal}}rules-portal{{else}}rules-build{{end}}">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>

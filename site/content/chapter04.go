@@ -22,7 +22,6 @@ var Chapter04 = ChapterContent{
 	},
 
 	BuildIt: BuildIt{
-		Intro:     "Build the Teller, and give the Gateway a real payment request to forward.",
 		Technique: "Few-shot (multishot) prompting",
 		Why:       "Prose leaves field names and status codes up for grabs. Examples pin them down, failures included.",
 		Source:    "The Prompt Report: In-Context Learning; Anthropic, Use examples effectively",
@@ -47,7 +46,7 @@ Match these exactly:
 Validate before touching any account. No authentication, no retries, no persistence: later chapters.
 
 Done when those three requests produce exactly those three responses, and alice's balance drops by 20 only on the first.`},
-			{Label: "Portal", Portal: true, Intro: "The menu gains what a wallet is for: sending money, from whoever the switcher says.", Text: `The Portal's menu has one entry, Balance, and no way to move money out of the account it is showing. Add Send to it, and a way to open a new account by handle. A new account joins the switcher.
+			{Label: "Portal", Portal: true, Text: `The Portal's menu has one entry, Balance, and no way to move money out of the account it is showing. Add Send to it, and a way to open a new account by handle. A new account joins the switcher.
 
 There is no From field. Money leaves whoever the switcher names.
 

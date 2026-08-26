@@ -22,7 +22,6 @@ var Chapter12 = ChapterContent{
 	},
 
 	BuildIt: BuildIt{
-		Intro:     "Build the Courier. The component that carries out work after a payment clears.",
 		Technique: "Allow it to say it can't",
 		Why:       "An assistant would rather produce something than tell you your constraints do not fit. Permission to stop changes that.",
 		Source:    "Anthropic: Reduce hallucinations, Allow Claude to say I don't know",
@@ -38,7 +37,7 @@ Several copies run at once now. Say what an in-process queue costs when the copy
 If the standard library genuinely cannot express this, say so rather than reaching for a dependency I ruled out.
 
 Done when a deliberately slow notification doesn't delay the payment response, and work handed over while the Courier is stopped is delivered once it starts again.`},
-			{Label: "Portal", Portal: true, Intro: "The Portal stops waiting for work the customer does not care about.", Text: `The page currently waits for the notification before it responds. Have it show the payment as done the moment the money has moved, and the message as delivered separately once the Courier has sent it.
+			{Label: "Portal", Portal: true, Text: `The page currently waits for the notification before it responds. Have it show the payment as done the moment the money has moved, and the message as delivered separately once the Courier has sent it.
 
 If plain HTML and CSS cannot show something arriving after the page has loaded without me adding a dependency, say so and tell me what the smallest honest option is. I would rather hear that than find a library in my project.
 

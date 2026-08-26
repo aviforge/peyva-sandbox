@@ -91,7 +91,6 @@ type PageData struct {
 // promptView is one prompt as the page renders it.
 type promptView struct {
 	Label    string
-	Intro    string
 	Text     template.HTML
 	Portal   bool
 	Thinking bool

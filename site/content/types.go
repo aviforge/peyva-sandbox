@@ -19,7 +19,6 @@ type ConceptItem struct {
 // technique we invented, and inventing one teaches a vocabulary nobody else
 // speaks, so the citation is a required field, not a nicety.
 type BuildIt struct {
-	Intro     string
 	Technique string
 	Why       string
 	Source    string
@@ -51,8 +50,6 @@ type BuildIt struct {
 type Prompt struct {
 	// Label names the turn: Build, Design, Review. Shown above the block.
 	Label string
-	// Intro is the one line of why, above the block.
-	Intro string
 	Text  string
 	// Portal marks a turn that builds the page rather than a component, so it
 	// carries the portal's rules instead of the component ones.

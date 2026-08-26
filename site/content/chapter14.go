@@ -21,7 +21,6 @@ var Chapter14 = ChapterContent{
 	},
 
 	BuildIt: BuildIt{
-		Intro:     "The Teller learns to run a payment in stages, and to unwind one that fails.",
 		Technique: "Least-to-Most Prompting",
 		Why:       "One prompt for a whole multi-stage workflow gets you a sketch of all of it and a working version of none.",
 		Source:    "The Prompt Report: Decomposition, Least-to-Most",
@@ -38,7 +37,7 @@ Build it in four stages, each on what the last one left. Stop after each and tel
 Distinguish permanent failures from retryable ones. Only permanent failures reverse.
 
 Done when a permanently failing stage two puts the money back, the Ledger shows both the original payment and its reversal, and the payment's record shows every stage it passed through.`},
-			{Label: "Portal", Portal: true, Intro: "The Portal has to explain a payment that was undone.", Text: `A reversed payment currently looks like two unrelated rows. Show it as what it is: the original, and the reversal that answers it, tied together.
+			{Label: "Portal", Portal: true, Text: `A reversed payment currently looks like two unrelated rows. Show it as what it is: the original, and the reversal that answers it, tied together.
 
 Build it in stages. First mark a reversed payment as reversed. Then link the two rows. Then say why it was reversed. Stop after each and show me before starting the next.
 

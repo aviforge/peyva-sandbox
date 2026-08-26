@@ -21,12 +21,11 @@ var Chapter13 = ChapterContent{
 	},
 
 	BuildIt: BuildIt{
-		Intro:     "The Courier learns to never lose work handed to it.",
 		Technique: "Contrastive Chain-of-Thought",
 		Why:       "Naming the naive design stops the assistant rediscovering it, and forces it to say what its version does differently.",
 		Source:    "The Prompt Report: Few-Shot CoT, Contrastive CoT",
 		Prompts: []Prompt{
-			{Label: "Build", Intro: "Two designs, one of them named as wrong.", Text: `The Courier picks up work from memory. If the process dies between the payment committing and the work reaching the Courier, that work is gone and nothing in the system knows it's missing.
+			{Label: "Build", Text: `The Courier picks up work from memory. If the process dies between the payment committing and the work reaching the Courier, that work is gone and nothing in the system knows it's missing.
 
 Reasoning I want you to reject: commit the payment, then hand the work to the Courier, because the gap between them is too small to matter. The gap is not a probability, it is a window, and a crash inside it loses work with no record that anything is owed.
 
@@ -35,7 +34,7 @@ Reasoning I want you to follow: anything that must happen because a payment happ
 Build the second one. The Teller records the Courier's pending work in the same atomic unit that moves the money. The Courier collects from that record, and marks each item done once it's delivered.
 
 Done when killing the process right after a payment leaves the work durable and uncollected, and restarting the Courier still delivers it.`},
-			{Label: "Contrast", Thinking: true, Intro: "Where the two designs part company.", Text: `You built the Teller recording the Courier's pending work in the same atomic unit as the payment, instead of handing it over after the commit.
+			{Label: "Contrast", Thinking: true, Text: `You built the Teller recording the Courier's pending work in the same atomic unit as the payment, instead of handing it over after the commit.
 
 Contrast the two designs directly: name the exact instant at which the rejected one loses work and yours doesn't.
 

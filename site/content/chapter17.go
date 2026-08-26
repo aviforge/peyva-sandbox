@@ -22,7 +22,6 @@ var Chapter17 = ChapterContent{
 	},
 
 	BuildIt: BuildIt{
-		Intro:     "Every component learns to say what it's doing.",
 		Technique: "Style Prompting",
 		Why:       "Naming the reader and the moment they read it changes both what gets logged and how it reads.",
 		Source:    "The Prompt Report: Zero-Shot, Style Prompting",

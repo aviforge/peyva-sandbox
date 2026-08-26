@@ -22,7 +22,6 @@ var Chapter02 = ChapterContent{
 	},
 
 	BuildIt: BuildIt{
-		Intro:     "Build the Gateway: the way requests reach the system from outside.",
 		Technique: "Constrain the scope",
 		Why:       "Ask for a listener without stating a ceiling and you get an HTTP server with routes and JSON.",
 		Source:    "Anthropic: Prompting best practices, Overeagerness",

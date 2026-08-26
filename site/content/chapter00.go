@@ -23,7 +23,6 @@ var Chapter00 = ChapterContent{
 	},
 
 	BuildIt: BuildIt{
-		Intro:     "Build the Vault: the first component, in its smallest useful form.",
 		Technique: "Zero-shot prompting",
 		Why:       "The task has one obvious shape. Scaffolding it would cost tokens and buy nothing.",
 		Source:    "The Prompt Report: Zero-Shot",
@@ -37,7 +36,7 @@ peyva/goal.md holds the goal and the rules money must never break. Read it first
 One file. No persistence, no network.
 
 Done when running it prints alice's balance and it exits cleanly on Ctrl+C.`},
-			{Label: "Portal", Portal: true, Intro: "The Portal starts as one customer's wallet, with a way to change which customer.", Text: `Write peyva/portal/index.html each time the program starts. It shows one account at a time, not a list of everyone: whose it is, and what they hold.
+			{Label: "Portal", Portal: true, Text: `Write peyva/portal/index.html each time the program starts. It shows one account at a time, not a list of everyone: whose it is, and what they hold.
 
 Give it the shell the rest of the book fills in. A switcher at the top naming whose wallet is on screen, and a menu down one side with Balance in it. Leave room in the menu for the entries later chapters add, and show nothing that is not built yet.
 

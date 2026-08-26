@@ -21,17 +21,16 @@ var Chapter09 = ChapterContent{
 	},
 
 	BuildIt: BuildIt{
-		Intro:     "No component this chapter. Size what you have before you grow it.",
 		Technique: "Self-Ask",
 		Why:       "Hidden guesses become a written list of assumptions you can argue with.",
 		Source:    "The Prompt Report: Zero-Shot, Self-Ask",
 		Prompts: []Prompt{
-			{Label: "Assumptions", Thinking: true, Intro: "The questions the estimate depends on, and an answer to each.", Text: `I need to size the infrastructure for a payments system that moves money between accounts. One process today, and I have no idea what it needs to survive.
+			{Label: "Assumptions", Thinking: true, Text: `I need to size the infrastructure for a payments system that moves money between accounts. One process today, and I have no idea what it needs to survive.
 
 Don't give me a number yet. Work out which follow-up questions the estimate genuinely depends on, and write them out. Answer each one yourself with an explicit assumption, and label where that assumption came from: industry norm, your own guess, or arithmetic from an earlier answer.
 
 Done when I have your questions and an answer to each, every one labelled with where it came from.`},
-			{Label: "Estimate", Thinking: true, Intro: "The arithmetic, with the numbers shown.", Text: `You worked out the questions a capacity estimate for this payments system depends on, and answered each with a labelled assumption.
+			{Label: "Estimate", Thinking: true, Text: `You worked out the questions a capacity estimate for this payments system depends on, and answered each with a labelled assumption.
 
 Use your own answers to work out peak payments per second, Ledger growth over two years, and peak network throughput. Show each formula with the numbers substituted in, so I can check the arithmetic rather than trust it.
 

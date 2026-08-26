@@ -365,18 +365,6 @@ func TestPortalPromptsNameNoLanguage(t *testing.T) {
 	}
 }
 
-// A chapter that adds portal work says what it adds. An empty intro beside a
-// filled prompt means the section renders a bare instruction with no context.
-func TestPortalPromptsComeWithAnIntro(t *testing.T) {
-	for _, c := range content.All {
-		for _, prompt := range c.BuildIt.PortalPrompts() {
-			if prompt.Intro == "" {
-				t.Errorf("chapter %d: a portal prompt has no intro, so it renders a bare instruction", c.Number)
-			}
-		}
-	}
-}
-
 // The setup files are rendered into chapter 0 rather than kept as files in this
 // repository, so a reader following the published site never has to leave it to
 // fetch one. The spec carries the invariants, which no prompt states and

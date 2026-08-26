@@ -20,7 +20,6 @@ var Chapter05 = ChapterContent{
 	},
 
 	BuildIt: BuildIt{
-		Intro:     "The Vault learns to remember. Balances that survive a restart.",
 		Technique: "Explicit success criteria",
 		Why:       "Specify the finish line rather than the steps, and the assistant works out the delta, including what you would have forgotten.",
 		Source:    "Anthropic: Prompting best practices, Provide clear success criteria",
@@ -32,7 +31,7 @@ Target: the Vault keeps accounts in a file on disk. It creates its storage on fi
 Use SQLite with a driver that needs no cgo. Don't change what the Gateway or the Teller look like from the outside.
 
 Done when restarting the process still reports alice's balance, and deleting the Vault's file is the only thing that loses it.`},
-			{Label: "Portal", Portal: true, Intro: "The Portal stops forgetting.", Text: `The Portal reads balances from the Vault's file rather than from whatever was in memory when the page was written.
+			{Label: "Portal", Portal: true, Text: `The Portal reads balances from the Vault's file rather than from whatever was in memory when the page was written.
 
 Done when I make a payment, stop the process, start it again, reload the page, and the new balance is still there.`},
 		},

@@ -22,7 +22,6 @@ var Chapter01 = ChapterContent{
 	},
 
 	BuildIt: BuildIt{
-		Intro:     "No component this chapter. See the Vault's process the way the OS sees it.",
 		Technique: "Role prompting",
 		Why:       "Who you tell it to be decides what it assumes you already know.",
 		Source:    "Anthropic: Prompting best practices, Give Claude a role",

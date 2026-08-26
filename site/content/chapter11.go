@@ -20,24 +20,23 @@ var Chapter11 = ChapterContent{
 	},
 
 	BuildIt: BuildIt{
-		Intro:     "The Vault learns to answer faster: without ever answering wrong.",
 		Technique: "Self-Refine",
 		Why:       "A cache bug does not crash. It returns a confident wrong number, which a passing test will not catch.",
 		Source:    "The Prompt Report: Self-Criticism, Self-Refine",
 		Prompts: []Prompt{
-			{Label: "Build", Intro: "The cache.", Text: `Every balance enquiry hits the Vault's storage, even when the same balance was read a moment ago and hasn't changed since.
+			{Label: "Build", Text: `Every balance enquiry hits the Vault's storage, even when the same balance was read a moment ago and hasn't changed since.
 
 Add an in-memory cache in front of the Vault's reads, invalidated whenever a payment changes that account. An in-memory map, safe for concurrent access: no Redis, no cache library.
 
 Done when a repeated enquiry is served from cache and a payment makes the next enquiry show the new balance.`},
-			{Label: "Review", Intro: "Review it for stale balances.", Text: `You have added an in-memory cache in front of the Vault's balance reads, invalidated when a payment changes an account.
+			{Label: "Review", Text: `You have added an in-memory cache in front of the Vault's balance reads, invalidated when a payment changes an account.
 
 Review that implementation as if you were trying to make it serve a stale balance. Walk every path that changes a balance and check whether it invalidates. Consider a concurrent read and write, a payment that rolled back, and a payment that touches two accounts at once.
 
 Report what you found as a list, fix it, then run that same review again on the fixed version. Keep going until a review turns up nothing.
 
 Done when a review finds nothing left, and you have told me how many rounds it took and which staleness bug the first version had.`},
-			{Label: "Portal", Portal: true, Intro: "The Portal stops looking like a first draft.", Text: `The Portal shows a balance, sends money and lists a history, and looks like each was added the week it was needed. Make it presentable.
+			{Label: "Portal", Portal: true, Text: `The Portal shows a balance, sends money and lists a history, and looks like each was added the week it was needed. Make it presentable.
 
 Judge what you have against these, one at a time: whose wallet this is never has to be guessed at; the menu makes it obvious where the customer is and what else they can do; it reads at a glance on a phone; money is aligned and always shows two decimals; the balance is the most prominent thing on its own screen; every action says what happened; nothing shifts as data loads; it is legible in both light and dark.
 

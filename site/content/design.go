@@ -22,7 +22,7 @@ Calm, quick, exact.
 ## What good wallets already agree on
 
 Monzo, Revolut, Wise, Cash App and Apple Wallet converge on the same handful of
-moves. Take these. Do not take their branding, and do not reproduce any of them.
+moves. Take these. Do not reproduce any of them.
 
 - The balance is the largest thing on the screen. Nothing competes with it.
 - Money is set in tabular figures, so digits do not shift as values change,
@@ -40,8 +40,6 @@ Choose one visual idea and carry it through every screen: a distinctive way of
 setting numerals, a single strong accent against near neutral, a card shape, a
 motif that repeats. Write the idea in a comment at the top of the stylesheet so
 it survives the next chapter.
-
-A page that could belong to any product is a page nobody remembers.
 
 ## Rules
 

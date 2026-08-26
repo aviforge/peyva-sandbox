@@ -31,7 +31,7 @@ var SetupFiles = []SetupFile{
 	},
 	{
 		Path:    "peyva/portal/design.md",
-		Purpose: "What the Portal should look like. Thirteen chapters touch the page, and this is what keeps them building one thing rather than thirteen.",
+		Purpose: "What the Portal should look like, and what it should never look like.",
 		Content: DesignBrief,
 	},
 	{
@@ -69,8 +69,6 @@ a change would break something in it, the change is wrong.
 
 Before touching the Portal, read peyva/portal/design.md. It holds the look, and
 the one visual idea chapter 0 committed to. Keep to it rather than restyling.
-
-What follows is about you, not about the code.
 
 ## Scope
 

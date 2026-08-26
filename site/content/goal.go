@@ -23,8 +23,7 @@ A peer-to-peer wallet. Alice sends Bob $20, and the money arrives exactly once.
 - Give one customer a page of their own: what they hold, sending money to a
   handle, and the history behind the number. Reached from a menu, not a
   command line.
-- Let whoever is at the keyboard change which customer that is, so both ends
-  of a payment can be seen.
+- Let whoever is at the keyboard change which customer that is.
 
 ## What must never happen
 
@@ -46,8 +45,7 @@ These hold in every chapter. If a change would break one, the change is wrong.
 - Settings that differ between runs or machines are config. Settings with only
   one correct value, the money rules above among them, are code and stay in it.
 - Runs on one laptop. No containers, no cloud, no deployment.
-- One process until chapter 10, several after it, started by a runner in the
-  repo rather than by hand.
+- One process until chapter 10, several after it.
 - Code lives in peyva/<component>/, one folder per component.
 - Money is exact: a decimal type, or integer minor units where the language has
   none. Never floating point. Two decimal places.
@@ -61,17 +59,15 @@ These hold in every chapter. If a change would break one, the change is wrong.
 Each appears in the chapter that builds it. Until then it does not exist.
 
 - Vault: holds every account and what is in it. Chapter 0.
+- Portal: one customer's own wallet, with a switcher for whose. Chapter 0, and
+  a little more in most chapters after it.
 - Gateway: takes requests from outside. Chapter 2.
 - Teller: handles one payment end to end, and is the only thing that moves
   money. Chapter 4.
 - Ledger: the append-only record behind every balance. Chapter 7.
+- Runner: starts a given number of copies, says which are alive, and stops all
+  of them. Chapter 10.
 - Courier: carries out work after a payment clears. Chapter 12.
 - Config: reads every setting from outside the code and checks it. Chapter 19.
 - Reconciler: proves the Vault and the Ledger still agree. Chapter 20.
-- Runner: a script that starts a given number of copies, says which are alive,
-  and stops all of them. Given to you in chapter 10 rather than built. A tool
-  for working on peyva, not a part of it, so it is the one thing written for
-  the operating system rather than in the project's language.
-- Portal: one customer's own wallet, with a switcher for whose. Its menu grows
-  a chapter at a time, from chapter 0.
 `

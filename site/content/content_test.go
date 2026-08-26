@@ -309,6 +309,52 @@ func TestNoChapterRepeatsASentence(t *testing.T) {
 	}
 }
 
+// The components list says each one appears in the chapter that builds it, so
+// it should read in that order. Config and Runner were both appended when they
+// were added rather than inserted, which left chapter 10 sitting after chapter
+// 20. An appended list always ends up this way; this notices the next one.
+//
+// Entries wrap, and three of them carry their chapter number on the second line
+// of the bullet. The first version of this read line by line and skipped those,
+// which meant moving Runner back to the end did not fail it.
+func TestSpecListsComponentsInChapterOrder(t *testing.T) {
+	section := GoalSpec[strings.Index(GoalSpec, "## Components"):]
+
+	// Rejoin wrapped bullets, so each entry is one string.
+	var bullets []string
+	for _, line := range strings.Split(section, "\n") {
+		switch {
+		case strings.HasPrefix(line, "- "):
+			bullets = append(bullets, strings.TrimPrefix(line, "- "))
+		case strings.HasPrefix(line, "  ") && len(bullets) > 0:
+			bullets[len(bullets)-1] += " " + strings.TrimSpace(line)
+		}
+	}
+	if len(bullets) < 5 {
+		t.Fatalf("found %d component entries, which is too few to be the list", len(bullets))
+	}
+
+	chapter := regexp.MustCompile(`[Cc]hapter (\d+)`)
+	last, lastName := -1, ""
+	for _, bullet := range bullets {
+		name := strings.SplitN(bullet, ":", 2)[0]
+		m := chapter.FindStringSubmatch(bullet)
+		if m == nil {
+			t.Errorf("%s names no chapter", name)
+			continue
+		}
+		n, err := strconv.Atoi(m[1])
+		if err != nil {
+			t.Errorf("%s has an unreadable chapter number %q", name, m[1])
+			continue
+		}
+		if n < last {
+			t.Errorf("%s is chapter %d but comes after %s at chapter %d", name, n, lastName, last)
+		}
+		last, lastName = n, name
+	}
+}
+
 // prose is everything on the page except the prompt bodies.
 func prose(c ChapterContent) string {
 	parts := []string{

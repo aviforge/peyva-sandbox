@@ -67,6 +67,9 @@ Read peyva/goal.md before your first change. It holds the goal, the rules money
 must never break, and the constraints on what you build. Treat it as settled: if
 a change would break something in it, the change is wrong.
 
+Before touching the Portal, read peyva/portal/design.md. It holds the look, and
+the one visual idea chapter 0 committed to. Keep to it rather than restyling.
+
 What follows is about you, not about the code.
 
 ## Scope

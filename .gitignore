@@ -5,3 +5,6 @@ docs/superpowers/
 # site; now that the images live in docs/ they would be published, so keep
 # work in progress untracked instead.
 docs/images/_*/
+
+# Browser automation artifacts, written to the repo root by the Playwright MCP.
+.playwright-mcp/

@@ -14,11 +14,11 @@ var Chapter20 = ChapterContent{
 	HeroCaption: "System design is not one clever box. It's how all the pieces cooperate under load, failure and change.",
 
 	Concepts: []ConceptItem{
-		{Term: "Load Balancer", Description: "The Front Door: routes users to whichever copies of peyva are available."},
-		{Term: "peyva Instances", Description: "The Hosts: stateless, scaled-out copies of the app from Chapter 10."},
-		{Term: "Database & Cache", Description: "The Kitchen and Cold Storage: durable data from Chapter 5, fast lookups from Chapter 11."},
-		{Term: "Queue, Outbox & Workers", Description: "Order Tickets. Asynchronous, reliable work from Chapters 12 and 13."},
-		{Term: "Reconciler", Description: "The Till Count: proves the Vault and the Ledger still agree, and names any account where they don't."},
+		{Term: "Load Balancer", Description: "Routes each request to whichever copy of peyva is available."},
+		{Term: "peyva Instances", Description: "The stateless copies from Chapter 10, any of which can serve any request."},
+		{Term: "Database & Cache", Description: "Durable data from Chapter 5, fast lookups from Chapter 11."},
+		{Term: "Queue, Outbox & Workers", Description: "Work that happens after a payment clears, from Chapters 12 and 13."},
+		{Term: "Reconciler", Description: "Proves the Vault and the Ledger still agree, and names any account where they do not."},
 	},
 
 	BuildIt: BuildIt{

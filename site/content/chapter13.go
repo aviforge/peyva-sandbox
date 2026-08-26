@@ -17,7 +17,7 @@ var Chapter13 = ChapterContent{
 		{Term: "Outbox Table", Description: "A table in the same database as the transfer, holding messages that still need to be published."},
 		{Term: "Same Transaction", Description: "The transfer and the outbox row are written together, inside the transaction from Chapter 7: never as two separate steps."},
 		{Term: "Outbox Publisher", Description: "A background worker that reads unsent outbox rows and publishes them to the queue, then marks them sent."},
-		{Term: "At Least Once", Description: "The publisher can send a message it has already sent, if it crashes after publishing but before marking the row done. The receiver has to cope with that, which is what Chapter 8 built."},
+		{Term: "At Least Once", Description: "A crash between publishing and marking the row done sends the message twice. The receiver has to cope, which is what Chapter 8 built."},
 	},
 
 	BuildIt: BuildIt{

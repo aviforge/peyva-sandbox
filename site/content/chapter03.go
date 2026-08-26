@@ -15,7 +15,6 @@ var Chapter03 = ChapterContent{
 
 	Concepts: []ConceptItem{
 		{Term: "IP Address", Description: "Where a machine lives on the network, the equivalent of a street address."},
-		{Term: "Port", Description: "Which door on that machine to use: same idea as Chapter 2, reached remotely."},
 		{Term: "Protocol", Description: "The agreed-upon way of talking. peyva speaks TCP/IP."},
 		{Term: "Packets", Description: "Chunks a message is split into for the trip, reassembled on arrival."},
 	},

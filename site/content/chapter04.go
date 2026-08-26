@@ -18,7 +18,7 @@ var Chapter04 = ChapterContent{
 		{Term: "Request Body", Description: "The details of what you're asking for, e.g. {\"from\": \"alice\", \"to\": \"bob\", \"amount\": 20}."},
 		{Term: "Status Codes", Description: "A predictable signal of what happened: 200 OK, 400 Bad Request, 500 Server Error."},
 		{Term: "Validation", Description: "Checking the request makes sense before doing any work, rejecting bad orders instead of guessing."},
-		{Term: "Teller", Description: "The component that handles a payment end to end, and the only thing allowed to move money. The Gateway parses and forwards; it never touches a balance itself."},
+		{Term: "Teller", Description: "The component that handles a payment end to end. The Gateway forwards requests and never touches a balance itself."},
 	},
 
 	BuildIt: BuildIt{

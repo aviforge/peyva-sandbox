@@ -14,10 +14,9 @@ var Chapter05 = ChapterContent{
 	HeroCaption: "Durable. Persistent. Survives restarts.",
 
 	Concepts: []ConceptItem{
-		{Term: "Write", Description: "Saving new or updated data to the database, inserting an account or updating a balance."},
-		{Term: "Read", Description: "Retrieving data back out, checking a balance before showing it to Alice."},
-		{Term: "Durable", Description: "Once written, the data survives even if the process (or the machine) restarts."},
-		{Term: "Persistent", Description: "Data stored on disk, outside process memory, so it outlives any single run."},
+		{Term: "Durable", Description: "Once written, the data survives the process dying, not just ending."},
+		{Term: "Persistent", Description: "Held outside process memory, so it is still there for the next run."},
+		{Term: "Migration", Description: "Moving existing data to a new home without losing any of it, here from memory to disk."},
 	},
 
 	BuildIt: BuildIt{

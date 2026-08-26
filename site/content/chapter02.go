@@ -16,7 +16,7 @@ var Chapter02 = ChapterContent{
 	Concepts: []ConceptItem{
 		{Term: "Process ID (PID)", Description: "A number the OS assigns to identify one running program among many."},
 		{Term: "Port", Description: "A number (like 9310) a process binds to, so the OS knows where to route calls."},
-		{Term: "Binding", Description: "A process claiming a port on an address. By default the OS hands that pair to one process at a time, which is why the second copy is refused."},
+		{Term: "Binding", Description: "A process claiming a port on an address. The OS hands that pair to one process at a time, so a second copy is refused."},
 		{Term: "Loopback (127.0.0.1)", Description: "The address meaning 'this same machine', used to reach a process running locally."},
 		{Term: "Gateway", Description: "The component that holds the port and takes requests from outside, the system's one front door."},
 	},

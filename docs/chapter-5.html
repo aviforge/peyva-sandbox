@@ -153,7 +153,7 @@
     <section class="block">
       <h2>1. Concepts</h2>
       <ul class="concepts">
-        <li><strong>Write</strong>. Saving new or updated data to the database, inserting an account or updating a balance.</li><li><strong>Read</strong>. Retrieving data back out, checking a balance before showing it to Alice.</li><li><strong>Durable</strong>. Once written, the data survives even if the process (or the machine) restarts.</li><li><strong>Persistent</strong>. Data stored on disk, outside process memory, so it outlives any single run.</li>
+        <li><strong>Durable</strong>. Once written, the data survives the process dying, not just ending.</li><li><strong>Persistent</strong>. Held outside process memory, so it is still there for the next run.</li><li><strong>Migration</strong>. Moving existing data to a new home without losing any of it, here from memory to disk.</li>
       </ul>
     </section>
 

@@ -16,10 +16,9 @@ var Chapter19 = ChapterContent{
 	Concepts: []ConceptItem{
 		{Term: "Health Check", Description: "An endpoint that confirms peyva and what it depends on are working."},
 		{Term: "Rolling Deployment", Description: "Releasing a new version one copy at a time, instead of all at once."},
-		{Term: "Rollback", Description: "Reverting to the previous working version when a release causes problems."},
+		{Term: "Release Rollback", Description: "Reverting to the previous working version when a release causes problems. Not chapter 7's transaction rollback."},
 		{Term: "Runbook", Description: "A step-by-step guide for handling a specific, known kind of incident."},
-		{Term: "Config", Description: "The component that reads every setting from outside the code and checks it. A setting is what differs between one run and the next; anything with one correct value stays in code."},
-		{Term: "Secret", Description: "A setting that must never be in the repository: a password, a key, a token. Always config, never code."},
+		{Term: "Config", Description: "The component that reads every setting from outside the code and checks it. A setting is what differs between one run and the next, secrets included; anything with one correct value stays in code."},
 		{Term: "Fail Fast", Description: "Refusing to start when a setting is missing, rather than guessing and failing later somewhere unrelated."},
 	},
 

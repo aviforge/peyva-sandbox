@@ -15,8 +15,7 @@ var Chapter11 = ChapterContent{
 
 	Concepts: []ConceptItem{
 		{Term: "Cache", Description: "A fast, small store that holds recently or frequently requested data close at hand."},
-		{Term: "Cache Hit", Description: "The data was already in the cache, so the answer comes back without the database being asked at all."},
-		{Term: "Cache Miss", Description: "The data wasn't cached. peyva fetches it from the database and stores it in the cache for next time."},
+		{Term: "Hit and Miss", Description: "A hit answers from the cache without asking storage. A miss fetches from storage and caches it for next time."},
 		{Term: "Invalidation", Description: "Removing or updating a cached value when the underlying data changes, so the cache never lies."},
 	},
 

@@ -25,6 +25,11 @@
     <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
   </button>
 
+  <div class="nav-group-label">Build in</div>
+  <select class="language-select" data-language-select aria-label="Language the prompts ask for">
+    <option value="go">Go</option><option value="python">Python</option><option value="javascript">JavaScript</option><option value="typescript">TypeScript</option><option value="java">Java</option><option value="csharp">C#</option><option value="cpp">C&#43;&#43;</option><option value="rust">Rust</option><option value="ruby">Ruby</option><option value="php">PHP</option><option value="kotlin">Kotlin</option><option value="swift">Swift</option>
+  </select>
+
   <div class="nav-group-label">Chapters</div>
   <ul class="chapter-list">
     
@@ -181,7 +186,10 @@
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
-        <pre class="prompt">The system logs with fmt.Println and has no metrics. When something breaks there&#39;s no way to find out what happened.
+        <pre class="prompt"><span class="prompt-lang" data-prompt-lang data-continues="1">Build this in Go, using its standard library.
+Continue the same codebase you built in earlier chapters.</span>
+
+The system logs by printing to the console and has no metrics. When something breaks there&#39;s no way to find out what happened.
 
 Write the observability for one specific reader: an on-call engineer, woken at 3am, who didn&#39;t write this code, is looking at yesterday&#39;s records for one failed payment, and cannot attach a debugger or reproduce it.
 

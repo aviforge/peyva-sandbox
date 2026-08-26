@@ -37,7 +37,7 @@ var Chapter11 = ChapterContent{
 		Why:       "Produce, critique your own output against a stated standard, revise, repeat until the critique comes back empty. A cache bug doesn't crash. It returns a confident wrong number, so the critique pass catches what a passing test won't.",
 		Source:    "The Prompt Report: Self-Criticism, Self-Refine",
 		Prompt: "Every balance enquiry hits the Vault's storage, even when the same balance was read a moment ago and hasn't changed since.\n\n" +
-			"Add an in-memory cache in front of the Vault's reads, invalidated whenever a payment changes that account. A map guarded by a mutex is enough: no Redis, no cache library.\n\n" +
+			"Add an in-memory cache in front of the Vault's reads, invalidated whenever a payment changes that account. An in-memory map, safe for concurrent access, is enough: no Redis, no cache library.\n\n" +
 			"Once it works, review your own implementation as if you were trying to make it serve a stale balance. Walk every path that changes a balance and check whether it invalidates. Consider a concurrent read and write, a payment that rolled back, and a payment that touches two accounts at once.\n\n" +
 			"Report what you found as a list, fix it, then run that same review again on the fixed version. Keep going until a review turns up nothing, and tell me how many rounds it took.\n\n" +
 			"Done when a repeated enquiry is served from cache, a payment makes the next enquiry show the new balance, and you've told me which staleness bug your first attempt had.",

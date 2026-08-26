@@ -379,6 +379,30 @@ body {
   margin-right: 4px;
 }
 
+.language-select {
+  width: calc(100% - 32px);
+  margin: 0 16px 18px;
+  padding: 7px 9px;
+  font: inherit;
+  font-size: 13px;
+  color: var(--sidebar-text);
+  background: var(--sidebar-active-bg);
+  border: 1px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.language-select:hover,
+.language-select:focus-visible {
+  border-color: var(--accent);
+  outline: none;
+}
+
+.prompt-lang {
+  display: block;
+  color: var(--accent);
+}
+
 .prompt-wrap {
   position: relative;
 }

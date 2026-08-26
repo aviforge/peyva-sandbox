@@ -38,7 +38,7 @@ var Chapter17 = ChapterContent{
 		Technique: "Style Prompting",
 		Why:       "Style prompting sets tone, register and target audience rather than content. Add logging produces logs for the person writing them; naming the reader and the moment they read it changes both what gets logged and how it reads.",
 		Source:    "The Prompt Report: Zero-Shot, Style Prompting",
-		Prompt: "The system logs with fmt.Println and has no metrics. When something breaks there's no way to find out what happened.\n\n" +
+		Prompt: "The system logs by printing to the console and has no metrics. When something breaks there's no way to find out what happened.\n\n" +
 			"Write the observability for one specific reader: an on-call engineer, woken at 3am, who didn't write this code, is looking at yesterday's records for one failed payment, and cannot attach a debugger or reproduce it.\n\n" +
 			"Give them structured logs carrying the payment reference so they can filter to a single payment, counters for payments, failures and Courier backlog, and a health endpoint reporting real Vault and Courier state rather than a hardcoded ok.\n\n" +
 			"For each thing you log, ask whether it helps that person at 3am. If it doesn't, leave it out. Noise costs them more than a missing line.\n\n" +

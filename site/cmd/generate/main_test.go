@@ -3,6 +3,7 @@ package main
 import (
 	"os"
 	"path/filepath"
+	"strconv"
 	"strings"
 	"testing"
 
@@ -170,6 +171,66 @@ func TestRunLeavesTheImagesUntouched(t *testing.T) {
 		}
 		if string(got) != string(want) {
 			t.Errorf("%s was modified by a rebuild", name)
+		}
+	}
+}
+
+// A prompt that reaches an assistant without naming a language is worse than
+// useless: the assistant picks one itself, and can pick differently on
+// different chapters, so a later chapter's code will not build on an earlier
+// one's. Every page must carry a language before any script runs.
+func TestEveryPageBakesInALanguage(t *testing.T) {
+	outDir, indexPath := testRun(t)
+
+	pages, err := filepath.Glob(filepath.Join(outDir, "chapter-*.html"))
+	if err != nil {
+		t.Fatalf("globbing pages: %v", err)
+	}
+	pages = append(pages, indexPath)
+
+	want := "Build this in " + content.LanguageByID(content.DefaultLanguage).Name + ","
+	for _, page := range pages {
+		b, readErr := os.ReadFile(page)
+		if readErr != nil {
+			t.Fatalf("reading %s: %v", page, readErr)
+		}
+		if !strings.Contains(string(b), want) {
+			t.Errorf("%s does not name a language", filepath.Base(page))
+		}
+	}
+}
+
+// Chapter 0 is the only chapter with nothing before it, so it is the only one
+// that must not tell the assistant to continue an existing codebase.
+func TestOnlyLaterChaptersAskToContinueTheCodebase(t *testing.T) {
+	outDir, _ := testRun(t)
+
+	const carryOn = "Continue the same codebase"
+	for _, c := range content.All {
+		b, err := os.ReadFile(filepath.Join(outDir, "chapter-"+strconv.Itoa(c.Number)+".html"))
+		if err != nil {
+			t.Fatalf("reading chapter %d: %v", c.Number, err)
+		}
+		has := strings.Contains(string(b), carryOn)
+		if c.Number == 0 && has {
+			t.Error("chapter 0 asks the assistant to continue a codebase that does not exist yet")
+		}
+		if c.Number > 0 && !has {
+			t.Errorf("chapter %d does not ask the assistant to continue the existing codebase", c.Number)
+		}
+	}
+}
+
+// The prompts describe what to build and must never name a language, or the
+// dropdown would contradict the text below it.
+func TestPromptsNameNoLanguage(t *testing.T) {
+	banned := []string{"go run", "net.Listen", "goroutine", "buffered channel",
+		"fmt.Println", "Go standard library", "Go variable", "a mutex"}
+	for _, c := range content.All {
+		for _, b := range banned {
+			if strings.Contains(c.BuildIt.Prompt, b) {
+				t.Errorf("chapter %d prompt names %q, which ties it to one language", c.Number, b)
+			}
 		}
 	}
 }

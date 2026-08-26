@@ -157,11 +157,44 @@
     });
   }
 
+  function initLanguage() {
+    var select = document.querySelector('[data-language-select]');
+    var lines = document.querySelectorAll('[data-prompt-lang]');
+    if (!select || !lines.length) return;
+
+    function apply(id) {
+      var option = select.querySelector('option[value="' + id + '"]');
+      if (!option) return;
+      var name = option.textContent;
+      Array.prototype.forEach.call(lines, function (line) {
+        var text = 'Build this in ' + name + ', using its standard library.';
+        // Chapter 0 has nothing before it, so it never asks the assistant to
+        // continue an existing codebase.
+        if (line.getAttribute('data-continues')) {
+          text += '\nContinue the same codebase you built in earlier chapters.';
+        }
+        line.textContent = text;
+      });
+    }
+
+    var saved = safeGet('peyva:language');
+    if (saved && select.querySelector('option[value="' + saved + '"]')) {
+      select.value = saved;
+      apply(saved);
+    }
+
+    select.addEventListener('change', function () {
+      safeSet('peyva:language', select.value);
+      apply(select.value);
+    });
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
     initThemeToggle();
     initSidebarToggle();
     initMarkComplete();
     initCopyPrompt();
+    initLanguage();
     updateProgress();
   });
 })();

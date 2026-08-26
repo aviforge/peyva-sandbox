@@ -29,7 +29,7 @@ var Chapter01 = ChapterContent{
 
 	UnderTheHood: []string{
 		"One computer = peyva App Process -> Operating System -> Hardware.",
-		"Running `go run .` asks the OS to create a process, load it into memory, and give it CPU time.",
+		"Running the program asks the OS to create a process, load it into memory, and give it CPU time.",
 	},
 
 	BuildIt: BuildIt{

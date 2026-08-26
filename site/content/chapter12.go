@@ -39,7 +39,7 @@ var Chapter12 = ChapterContent{
 		Source:    "Anthropic: Reduce hallucinations, Allow Claude to say I don't know",
 		Prompt: "The Teller notifies the recipient inline, so the caller waits for that notification before getting their response.\n\n" +
 			"Build the Courier. The component that carries out work after a payment has cleared. The Teller hands it the notification and returns immediately; the Courier delivers on its own schedule.\n\n" +
-			"Scope: this is a single-process learning project on a laptop, one user, no deployment. Use only the Go standard library: a buffered channel and a goroutine. Do not introduce Kafka, RabbitMQ, NATS, Redis, Docker, or any broker or queue library. No retry policies, no dead-letter handling, no backpressure tuning.\n\n" +
+			"Scope: this is a single-process learning project on a laptop, one user, no deployment. Use only your standard library: an in-process queue and a worker. Do not introduce Kafka, RabbitMQ, NATS, Redis, Docker, or any broker or queue library. No retry policies, no dead-letter handling, no backpressure tuning.\n\n" +
 			"If the standard library genuinely can't express this, stop and tell me so. I would rather hear that than receive a dependency I ruled out, or a workaround that hides the problem. Saying you can't do it within these constraints is an acceptable answer here, and a more useful one than a guess.\n\n" +
 			"Done when a deliberately slow notification doesn't delay the payment response, and work handed over while the Courier is stopped is delivered once it starts again.",
 	},

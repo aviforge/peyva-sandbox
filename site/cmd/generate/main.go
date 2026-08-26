@@ -73,6 +73,8 @@ func run(templatesDir, assetsDir, outDir, indexPath string) error {
 			Roadmap:       roadmap,
 			Labs:          content.Labs,
 			AssetPrefix:   prefix,
+			LanguageLine:  languageLine(content.LanguageByID(content.DefaultLanguage), chapter.Number),
+			Languages:     content.Languages,
 		}
 	}
 
@@ -141,6 +143,20 @@ func requireImages(outDir string) error {
 	return fmt.Errorf("%s holds no .webp files. The chapter illustrations are missing "+
 		"and the generator cannot replace them. Restore them with 'git checkout -- %s' "+
 		"before building", dir, filepath.ToSlash(dir))
+}
+
+// languageLine is the instruction that travels with every prompt. The prompts
+// describe what to build and never name a language, so without this the
+// assistant chooses one itself, and can choose differently on each chapter.
+//
+// Chapter 0 is the only one with nothing before it, so it is the only one that
+// does not ask the assistant to continue an existing codebase.
+func languageLine(l content.Language, chapterNumber int) string {
+	line := "Build this in " + l.Name + ", using its standard library."
+	if chapterNumber > 0 {
+		line += "\nContinue the same codebase you built in earlier chapters."
+	}
+	return line
 }
 
 func fileExists(path string) bool {

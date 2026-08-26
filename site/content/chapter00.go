@@ -47,7 +47,7 @@ var Chapter00 = ChapterContent{
 	BreakIt: BreakIt{
 		Intro: "This is the simplest way a system can fail: turn it off.",
 		Exercises: []string{
-			"Run it with `go run .`. Confirm it prints the account's starting balance.",
+			"Run it. Confirm it prints the account's starting balance.",
 			"Stop it with Ctrl+C, run it again. The balance resets to the hardcoded value.",
 			"Nothing survived, and today that is expected: the balance only ever lived in memory, and memory goes when the process does.",
 		},

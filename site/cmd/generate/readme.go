@@ -31,7 +31,7 @@ const (
 //
 // The list is deliberately unordered (`- **N.**`) rather than a Markdown
 // ordered list. Markdown renumbers ordered lists from the first item, so
-// typed digits are discarded on render — the displayed numbers would drift
+// typed digits are discarded on render. The displayed numbers would drift
 // from ChapterContent.Number the moment a chapter was inserted or reordered.
 //
 // The write is skipped when the rendered result already matches what is on

@@ -17,7 +17,7 @@ type ConceptItem struct {
 // Source cites where the technique is documented, and must name one of the
 // corpora in RecognisedSources. A technique the reader can't look up is a
 // technique we invented, and inventing one teaches a vocabulary nobody else
-// speaks — so the citation is a required field, not a nicety.
+// speaks, so the citation is a required field, not a nicety.
 type BuildIt struct {
 	Intro     string
 	Technique string
@@ -29,11 +29,11 @@ type BuildIt struct {
 // RecognisedSources are the corpora a BuildIt.Source may cite. Both are
 // public and checkable:
 //
-//   - "The Prompt Report" — Schulhoff et al., arXiv:2406.06608, a systematic
+//   - "The Prompt Report": Schulhoff et al., arXiv:2406.06608, a systematic
 //     survey taxonomising 58 text-based prompting techniques into six
 //     families (In-Context Learning, Zero-Shot, Thought Generation,
 //     Decomposition, Ensembling, Self-Criticism).
-//   - "Anthropic" — the vendor's own prompt-engineering documentation at
+//   - "Anthropic": the vendor's own prompt-engineering documentation at
 //     platform.claude.com/docs/en/build-with-claude/prompt-engineering.
 var RecognisedSources = []string{
 	"The Prompt Report",

@@ -53,7 +53,7 @@ func TestEveryChapterHasRequiredFields(t *testing.T) {
 		// depend on anything only visible here.
 		for _, dangling := range []string{"steps above", "the steps", "above in"} {
 			if strings.Contains(c.BuildIt.Prompt, dangling) {
-				t.Errorf("chapter %d: BuildIt.Prompt refers to off-page content (%q) — it must stand alone", c.Number, dangling)
+				t.Errorf("chapter %d: BuildIt.Prompt refers to off-page content (%q). It must stand alone", c.Number, dangling)
 			}
 		}
 		if len(c.BreakIt.Exercises) == 0 {
@@ -78,7 +78,7 @@ func TestEveryChapterHasRequiredFields(t *testing.T) {
 func TestEveryTechniqueCitesARecognisedSource(t *testing.T) {
 	for _, c := range All {
 		if c.BuildIt.Source == "" {
-			t.Errorf("chapter %d: BuildIt.Source is empty — technique %q must cite where it is documented",
+			t.Errorf("chapter %d: BuildIt.Source is empty. Technique %q must cite where it is documented",
 				c.Number, c.BuildIt.Technique)
 			continue
 		}
@@ -140,7 +140,7 @@ var componentChapters = map[string]int{
 
 // A component named in Build It but absent from Concepts is a word the reader
 // is asked to build without ever being taught. Concepts is where this book
-// defines its vocabulary, so that is where a component has to be introduced —
+// defines its vocabulary, so that is where a component has to be introduced,
 // not only inside the prompt, which is written to be copied out of the page.
 func TestEveryComponentIsDefinedInTheConceptsOfItsChapter(t *testing.T) {
 	byNumber := map[int]ChapterContent{}

@@ -61,7 +61,7 @@ func TestRunGeneratesChapterZeroPage(t *testing.T) {
 
 	for _, unwanted := range []string{"http://", "https://", "fetch("} {
 		if strings.Contains(body, unwanted) {
-			t.Errorf("chapter-0.html unexpectedly contains %q — site must be fully self-contained", unwanted)
+			t.Errorf("chapter-0.html unexpectedly contains %q: site must be fully self-contained", unwanted)
 		}
 	}
 }
@@ -69,7 +69,7 @@ func TestRunGeneratesChapterZeroPage(t *testing.T) {
 // index.html sits alongside the pages it fronts, so Pages serving docs/ as
 // the site root resolves a bare / to it and every URL below is a clean
 // /chapter-N.html. Sharing a directory with its assets, it references them
-// with no prefix — the same way every chapter page does.
+// with no prefix, the same way every chapter page does.
 func TestRunWritesIndexBesideTheChaptersItFronts(t *testing.T) {
 	outDir, indexPath := testRun(t)
 

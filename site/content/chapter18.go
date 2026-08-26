@@ -37,26 +37,39 @@ var Chapter18 = ChapterContent{
 		Technique: "Chain-of-Verification (CoVe)",
 		Why:       "Draft an answer, plan the questions that would catch it being wrong, answer those independently, then revise. Asking for secure code gets you the checklist; verifying your own draft finds the holes the checklist doesn't mention.",
 		Source:    "The Prompt Report: Self-Criticism, Chain-of-Verification",
-		Prompt: `The Gateway trusts the "from" field on a payment request completely. Any caller can move money out of any account.
+		Prompts: []Prompt{
+			{Label: "Draft", Intro: "Build it first. The checking comes after, and needs something to check.", Text: `The Gateway trusts the "from" field on a payment request completely. Any caller can move money out of any account by naming it.
 
-Work in four passes and show me each one.
+Make the Gateway prove who the caller is, and confirm they own the account they are spending from before the Teller ever sees the request. Move any credential out of source code into an environment variable.
 
-1. Draft. Make the Gateway prove who the caller is, and confirm they own the account they're spending from before the Teller ever sees the request. Move any credential out of source code into an environment variable.
-2. Plan the checks. Write the list of questions that would expose your draft as broken. Be specific to this system: no generic OWASP categories.
-3. Answer them. Take each question against the code you actually wrote, one at a time, and don't soften an answer because of what you concluded on another.
-4. Revise. Fix what the answers exposed, then state plainly what is still exploitable, including anything you left out of scope on purpose.
+Done when a request with no credential is refused, and a caller authenticated as one owner cannot spend from another's account.`},
+			{Label: "Plan the checks", Thinking: true, Intro: "The questions before the answers, so they are not written to fit what you already believe.", Text: `You put authentication in front of a payments API and an ownership check between the caller and the money.
 
-Done when a request with no credential is refused, a caller authenticated as one owner spending from another's account is refused, no credential is left in source, and I have your list of what remains exploitable.`,
-		UIIntro: "Picking a name off a list stops being enough to spend someone's money.",
-		UIPrompt: `The switcher has been taking whoever it is told. Anyone at the keyboard can pick alice and send her money, which was fine while peyva ran on one laptop and is not fine now.
+Write the list of questions that would expose that work as broken. Be specific to this system, these fields and these checks: no generic OWASP categories, no advice that would apply to any application.
+
+Don't answer them yet.
+
+Done when I have a list of questions that are all about this system, and none of them could be asked of any other.`},
+			{Label: "Answer and revise", Intro: "Then answer each one honestly, including the ones that go badly.", Text: `You wrote a list of questions that would expose your authentication and ownership checks as broken.
+
+Take each one against the code you actually wrote, one at a time. Don't soften an answer because of what you concluded on another question.
+
+Then fix what the answers exposed, and state plainly what is still exploitable, including anything you left out of scope on purpose.
+
+Done when every question has an answer, the fixable ones are fixed, and I have your list of what remains exploitable.`},
+			{Label: "Portal", Portal: true, Intro: "The sign-in itself.", Text: `The Portal's switcher takes whoever it is told. Anyone at the keyboard can pick alice and send her money, which was fine while peyva ran on one laptop and is not fine now.
 
 Put a sign-in in front of it. Switching account means signing in as that account, and the switcher offers only accounts already signed in. Signing out removes one.
 
 A signed-in customer sees their own account and nobody else's, and can only send from their own.
 
-Then verify your own work. Write the list of questions that would expose it as broken: specific to this page and these forms, not generic security advice. Answer each against what you built, and fix what the answers expose.
+Done when signing in as alice shows alice, and the switcher offers nobody she has not signed in as.`},
+			{Label: "Portal checks", Portal: true, Intro: "Then try to get past it, in writing.", Text: `You put a sign-in in front of a wallet page, where switching account means signing in as that account.
 
-Done when signing in as alice shows alice, and nothing I can type in the browser makes it show or spend bob's money without bob's own sign-in.`,
+Write the list of questions that would expose that page as broken: specific to this page and these forms, not generic security advice. Answer each one against what you built, and fix what the answers expose.
+
+Done when nothing I can type in the browser makes it show or spend bob's money without bob's own sign-in, and I have your list of what you checked.`},
+		},
 	},
 
 	BreakIt: BreakIt{

@@ -177,48 +177,100 @@ func TestRunLeavesTheImagesUntouched(t *testing.T) {
 	}
 }
 
-// A prompt that reaches an assistant without naming a language is worse than
-// useless: the assistant picks one itself, and can pick differently on
-// different chapters, so a later chapter's code will not build on an earlier
-// one's. Every page must carry a language before any script runs.
+// A page that asks for code names the language it wants, so a prompt never
+// reaches an assistant that has to pick one itself.
+//
+// Chapter 9 is the exception and names none: it estimates capacity and writes
+// no code, so there is nothing for a language to apply to.
 func TestEveryPageBakesInALanguage(t *testing.T) {
 	outDir, indexPath := testRun(t)
 
+	buildsCode := map[int]bool{}
+	for _, c := range content.All {
+		for _, prompt := range c.BuildIt.Prompts {
+			if !prompt.Thinking {
+				buildsCode[c.Number] = true
+			}
+		}
+	}
+
 	pages, err := filepath.Glob(filepath.Join(outDir, "chapter-*.html"))
 	if err != nil {
-		t.Fatalf("globbing pages: %v", err)
+		t.Fatalf("globbing: %v", err)
 	}
-	pages = append(pages, indexPath)
-
-	want := "<span data-language-name>" + content.LanguageByID(content.DefaultLanguage).Name + "</span>"
-	for _, page := range pages {
+	want := content.LanguageByID(content.DefaultLanguage).Name
+	for _, page := range append(pages, indexPath) {
 		b, readErr := os.ReadFile(page)
 		if readErr != nil {
 			t.Fatalf("reading %s: %v", page, readErr)
 		}
+		name := filepath.Base(page)
+		number := 0
+		if name != "index.html" {
+			number, _ = strconv.Atoi(strings.TrimSuffix(strings.TrimPrefix(name, "chapter-"), ".html"))
+		}
+		if !buildsCode[number] {
+			continue
+		}
 		if !strings.Contains(string(b), want) {
-			t.Errorf("%s does not name a language", filepath.Base(page))
+			t.Errorf("%s does not name a language", name)
 		}
 	}
 }
 
-// Chapter 0 is the only chapter with nothing before it, so it is the only one
-// that must not tell the assistant to continue an existing codebase.
-func TestOnlyLaterChaptersAskToContinueTheCodebase(t *testing.T) {
+// No prompt sends the assistant off to read what earlier chapters built.
+//
+// The preamble used to, on every chapter after the first. It cost thousands of
+// tokens per chapter to rediscover what one opening sentence says, and on a
+// small context window the later chapters did not fit at all. Each prompt now
+// states the state it starts from.
+func TestNoPromptTellsTheAssistantToReadTheCodebase(t *testing.T) {
 	outDir, _ := testRun(t)
 
-	const carryOn = "Continue the codebase from earlier chapters"
+	banned := []string{
+		"Continue the codebase",
+		"read the codebase",
+		"read the existing code",
+		"from earlier chapters",
+		"in previous chapters",
+	}
 	for _, c := range content.All {
 		b, err := os.ReadFile(filepath.Join(outDir, "chapter-"+strconv.Itoa(c.Number)+".html"))
 		if err != nil {
 			t.Fatalf("reading chapter %d: %v", c.Number, err)
 		}
-		has := strings.Contains(string(b), carryOn)
-		if c.Number == 0 && has {
-			t.Error("chapter 0 asks the assistant to continue a codebase that does not exist yet")
+		for _, phrase := range banned {
+			if strings.Contains(string(b), phrase) {
+				t.Errorf("chapter %d says %q, which sends the assistant through the whole project",
+					c.Number, phrase)
+			}
 		}
-		if c.Number > 0 && !has {
-			t.Errorf("chapter %d does not ask the assistant to continue the existing codebase", c.Number)
+	}
+}
+
+// Every prompt opens by saying what it starts from, because nothing else does
+// any more. A prompt that opens with an instruction and no starting state
+// leaves the assistant to guess what already exists, which is how a chapter
+// rebuilds a component that was already there.
+//
+// This only measures length. Whether an opening describes the right state is a
+// judgement, and an earlier version of this test tried to make it by looking
+// for words like "currently" and "already": it failed prompts that plainly did
+// describe a situation and passed any sentence containing "The". A wrong test
+// gets worked around rather than obeyed. An opening too short to hold a
+// situation definitely does not hold one, and that is worth pinning.
+func TestEveryPromptOpensWithEnoughToStandOn(t *testing.T) {
+	const minWords = 12
+	for _, c := range content.All {
+		for _, prompt := range c.BuildIt.Prompts {
+			opening := prompt.Text
+			if i := strings.Index(opening, "\n\n"); i > 0 {
+				opening = opening[:i]
+			}
+			if n := len(strings.Fields(opening)); n < minWords {
+				t.Errorf("chapter %d prompt %q opens with %d words, too few to say what it starts from: %q",
+					c.Number, prompt.Label, n, opening)
+			}
 		}
 	}
 }
@@ -230,7 +282,7 @@ func TestPromptsNameNoLanguage(t *testing.T) {
 		"fmt.Println", "Go standard library", "Go variable", "a mutex"}
 	for _, c := range content.All {
 		for _, b := range banned {
-			if strings.Contains(c.BuildIt.Prompt, b) {
+			if strings.Contains(allPromptText(c), b) {
 				t.Errorf("chapter %d prompt names %q, which ties it to one language", c.Number, b)
 			}
 		}
@@ -307,30 +359,55 @@ func TestOnlyTheChoosingPageCarriesTheLanguageList(t *testing.T) {
 // operating system does not have its options counted as languages.
 var languageSelect = regexp.MustCompile(`(?s)<select[^>]*data-language-select.*?</select>`)
 
-// The standing rules travel with every prompt, because a prompt is copied out
-// of the page on its own and nothing else tells the assistant where code goes
-// or how to hold money. Stating them once in the preamble is also why no
-// individual prompt has to repeat them.
+// The standing rules travel with every prompt that asks for code, because a
+// prompt is copied out of the page on its own and nothing else tells the
+// assistant where code goes or how to hold money.
+//
+// A turn that produces an answer rather than a change carries none of it. Four
+// lines about rounding money are noise on a turn asking for an analogy, and
+// chapter 9 is nothing but such turns: it estimates capacity and writes no
+// code, so its page states no build rules at all.
 func TestEveryPromptCarriesTheStandingRules(t *testing.T) {
 	outDir, indexPath := testRun(t)
 
-	pages, err := filepath.Glob(filepath.Join(outDir, "chapter-*.html"))
-	if err != nil {
-		t.Fatalf("globbing: %v", err)
-	}
 	rules := map[string]string{
 		"folder layout": "peyva/&lt;component&gt;/, one folder per component",
 		"exactness":     "never floating point",
 		"precision":     "two decimal places",
+	}
+
+	buildsCode := map[int]bool{}
+	for _, c := range content.All {
+		for _, prompt := range c.BuildIt.Prompts {
+			if !prompt.Thinking && !prompt.Portal {
+				buildsCode[c.Number] = true
+			}
+		}
+	}
+
+	pages, err := filepath.Glob(filepath.Join(outDir, "chapter-*.html"))
+	if err != nil {
+		t.Fatalf("globbing: %v", err)
 	}
 	for _, page := range append(pages, indexPath) {
 		b, readErr := os.ReadFile(page)
 		if readErr != nil {
 			t.Fatalf("reading %s: %v", page, readErr)
 		}
+		name := filepath.Base(page)
+
+		number := 0
+		if name != "index.html" {
+			number, _ = strconv.Atoi(strings.TrimSuffix(strings.TrimPrefix(name, "chapter-"), ".html"))
+		}
+
 		for what, rule := range rules {
-			if !strings.Contains(string(b), rule) {
-				t.Errorf("%s: prompt does not state the %s rule", filepath.Base(page), what)
+			has := strings.Contains(string(b), rule)
+			if buildsCode[number] && !has {
+				t.Errorf("%s: asks for code but does not state the %s rule", name, what)
+			}
+			if !buildsCode[number] && has {
+				t.Errorf("%s: states the %s rule but asks for no code", name, what)
 			}
 		}
 	}
@@ -350,4 +427,14 @@ func TestScriptDoesNotRebuildThePreamble(t *testing.T) {
 			t.Errorf("app.js contains %q: the preamble belongs to the generator alone", fragment)
 		}
 	}
+}
+
+// allPromptText is every prompt of a chapter joined.
+func allPromptText(c content.ChapterContent) string {
+	var b strings.Builder
+	for _, p := range c.BuildIt.Prompts {
+		b.WriteString(p.Text)
+		b.WriteString("\n")
+	}
+	return b.String()
 }

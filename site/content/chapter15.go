@@ -36,17 +36,27 @@ var Chapter15 = ChapterContent{
 		Technique: "Analogical Prompting",
 		Why:       "Have the assistant generate its own analogy and reason through it before building. You learn more comparing its analogy to yours than from imposing yours: where the two differ is where one of you is wrong about the design.",
 		Source:    "The Prompt Report: Thought Generation, Analogical Prompting",
-		Prompt: `The Vault keeps everything in one file on one disk. If that disk dies, every balance dies with it.
+		Prompts: []Prompt{
+			{Label: "Analogy", Thinking: true, Intro: "Your analogy against theirs. Where they differ, one of you is wrong about the design.", Text: `A system keeps its records in one file on one disk. If that disk dies, every record dies with it. I want a second copy somewhere else.
 
-Before designing anything, give me a real-world analogy for keeping a second copy of records somewhere else, something with no computers in it. Say who writes first, who copies, how far behind the copy runs, and what happens when the original is destroyed. Then name the one part of your analogy that actually matters for this design.
+Before designing anything, give me a real-world analogy for keeping a second copy of records elsewhere, something with no computers in it. Say who writes first, who copies, how far behind the copy runs, and what happens when the original is destroyed.
 
-Now build it. The Vault gets a second copy, written to after each committed payment, and a way to promote it when the primary is unreachable. Keep the copying asynchronous. The caller must never wait for it.
+Then name the one part of your analogy that actually matters for this design.
+
+Done when I have your analogy and the single part of it you say carries over.`},
+			{Label: "Build", Intro: "Then build the thing the analogy described.", Text: `The Vault keeps every account in one file on one disk, and a payment is committed there and nowhere else.
+
+Give the Vault a second copy, written to after each committed payment, and a way to promote it when the primary is unreachable. Keep the copying asynchronous. The caller must never wait for it.
 
 The runner brings the second copy up with everything else, and can cut it off or restore it while the rest keeps running. Testing a replica by renaming its file behind the system's back proves less than it looks like it does.
 
-Then tell me where your analogy breaks down for real databases, and whether it led you into any mistake in the code you just wrote.
+Done when a payment appears in both copies, balance enquiries survive the primary being unavailable, and you can show me the window where a committed payment hasn't reached the second copy yet.`},
+			{Label: "Critique", Thinking: true, Intro: "Then find where the analogy lied to you.", Text: `You gave me a real-world analogy for keeping a second copy of records, then built asynchronous replication for the Vault from it.
 
-Done when a payment appears in both copies, balance enquiries survive the primary being unavailable, and you can show me the window where a committed payment hasn't reached the second copy yet.`,
+Tell me where that analogy breaks down for real databases, and whether it led you into any mistake in the code you wrote.
+
+Done when I know which parts of your analogy to stop trusting, and whether any of them reached the code.`},
+		},
 	},
 
 	BreakIt: BreakIt{

@@ -36,17 +36,20 @@ var Chapter11 = ChapterContent{
 		Technique: "Self-Refine",
 		Why:       "Produce, critique your own output against a stated standard, revise, repeat until the critique comes back empty. A cache bug doesn't crash. It returns a confident wrong number, so the critique pass catches what a passing test won't.",
 		Source:    "The Prompt Report: Self-Criticism, Self-Refine",
-		Prompt: `Every balance enquiry hits the Vault's storage, even when the same balance was read a moment ago and hasn't changed since.
+		Prompts: []Prompt{
+			{Label: "Build", Intro: "The cache first, plainly.", Text: `Every balance enquiry hits the Vault's storage, even when the same balance was read a moment ago and hasn't changed since.
 
 Add an in-memory cache in front of the Vault's reads, invalidated whenever a payment changes that account. An in-memory map, safe for concurrent access: no Redis, no cache library.
 
-Once it works, review your own implementation as if you were trying to make it serve a stale balance. Walk every path that changes a balance and check whether it invalidates. Consider a concurrent read and write, a payment that rolled back, and a payment that touches two accounts at once.
+Done when a repeated enquiry is served from cache and a payment makes the next enquiry show the new balance.`},
+			{Label: "Review", Intro: "Then attack it. A fresh look at finished code finds what the writing of it could not.", Text: `You have added an in-memory cache in front of the Vault's balance reads, invalidated when a payment changes an account.
 
-Report what you found as a list, fix it, then run that same review again on the fixed version. Keep going until a review turns up nothing, and tell me how many rounds it took.
+Review that implementation as if you were trying to make it serve a stale balance. Walk every path that changes a balance and check whether it invalidates. Consider a concurrent read and write, a payment that rolled back, and a payment that touches two accounts at once.
 
-Done when a repeated enquiry is served from cache, a payment makes the next enquiry show the new balance, and you've told me which staleness bug your first attempt had.`,
-		UIIntro: "The Portal stops looking like a first draft.",
-		UIPrompt: `Now make the Portal presentable.
+Report what you found as a list, fix it, then run that same review again on the fixed version. Keep going until a review turns up nothing.
+
+Done when a review finds nothing left, and you have told me how many rounds it took and which staleness bug the first version had.`},
+			{Label: "Portal", Portal: true, Intro: "The Portal stops looking like a first draft.", Text: `The Portal works. It shows a balance, sends money, lists a history, and looks like each of those was added the week it was needed, because it was. Now make it presentable.
 
 Judge what you have against these, one at a time: whose wallet this is never has to be guessed at; the menu makes it obvious where the customer is and what else they can do; it reads at a glance on a phone; money is aligned and always shows two decimals; the balance is the most prominent thing on its own screen; every action says what happened; nothing shifts as data loads; it is legible in both light and dark.
 
@@ -54,7 +57,8 @@ For each one, tell me whether it passes before you change anything. Fix what fai
 
 Still plain HTML and CSS. If you want a framework to do this, you have misread the task.
 
-Done when a critique pass finds nothing to fix.`,
+Done when a critique pass finds nothing to fix.`},
+		},
 	},
 
 	BreakIt: BreakIt{

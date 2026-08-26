@@ -33,16 +33,18 @@ type PageData struct {
 	// portal work.
 	UILine template.HTML
 
+	// ThinkingLine is the preamble for turns that produce an answer rather than
+	// a change.
+	ThinkingLine template.HTML
+
 	// Setup is rendered on the chapter that starts the project, with a copy
 	// button per file, so a reader never leaves the site to fetch one.
 	Setup []content.SetupFile
 
 	Languages []content.Language
 
-	// Prompt and UIPrompt are the chapter's prompts with {os} already expanded,
-	// so they are HTML rather than the raw strings on the chapter.
-	Prompt   template.HTML
-	UIPrompt template.HTML
+	// Prompts are the chapter's turns, in order, with {os} expanded.
+	Prompts []promptView
 
 	// Systems and SystemName mirror Languages: the choice is offered once, in
 	// setup, and every prompt that needs it reads it.
@@ -76,3 +78,18 @@ type PageData struct {
 	// LanguageName is baked in for the chapters that only display the choice.
 	LanguageName string
 }
+
+// promptView is one prompt as the page renders it.
+type promptView struct {
+	Label    string
+	Intro    string
+	Text     template.HTML
+	Portal   bool
+	Thinking bool
+	Step     int
+	Steps    int
+}
+
+// Numbered reports whether the turn should show its position. A chapter with a
+// single turn has nothing to count.
+func (p promptView) Numbered() bool { return p.Steps > 1 }

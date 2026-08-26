@@ -521,6 +521,17 @@ body {
   overflow-wrap: anywhere;
 }
 
+.prompt-step {
+  display: inline-block;
+  padding: 1px 7px;
+  margin-right: 6px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+}
+
 .prompt-wrap {
   position: relative;
 }

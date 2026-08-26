@@ -23,21 +23,70 @@ type BuildIt struct {
 	Technique string
 	Why       string
 	Source    string
-	Prompt    string
 
-	// UIIntro and UIPrompt are the portal's share of the chapter, empty in the
-	// chapters that add nothing to it. They are a separate prompt rather than
-	// more of Prompt because a reader copies one thing at a time, and a single
-	// prompt covering both would have the assistant build a component and a
-	// page in one pass with no place to stop between them.
+	// Prompts are the chapter's turns, in the order they are asked. A reader
+	// copies one, reads the answer, and copies the next.
 	//
-	// Technique shapes both. The chapters that grow the portal happen to be the
-	// ones whose technique suits a page as well as a component: chapter 11's
-	// self-critique loop is what turns a working portal into a presentable one,
-	// and chapter 12's permission to refuse is what stops a plain page quietly
-	// acquiring a framework.
-	UIIntro  string
-	UIPrompt string
+	// Most chapters have more than one because most techniques here have a
+	// shape: reason before building, or build then take the work apart. As a
+	// single block an assistant answers all of it in one pass, and the
+	// reasoning it was meant to do first comes back as a paragraph justifying
+	// code it had already written.
+	//
+	// Technique shapes every turn in a chapter, the portal's included. The
+	// chapters that grow the portal are the ones whose technique suits a page
+	// as well as a component: chapter 11's self-critique loop is what turns a
+	// working portal into a presentable one, and chapter 12's permission to
+	// refuse is what stops a plain page quietly acquiring a framework.
+	Prompts []Prompt
+}
+
+// Prompt is one turn of a chapter's Build It.
+//
+// Every one states the state it starts from, because a prompt is copied out of
+// the page on its own. Nothing tells the assistant to go and read what earlier
+// chapters built: on a large codebase that is thousands of tokens per chapter
+// to rediscover what one sentence can say, and on a small context window it
+// does not fit at all.
+type Prompt struct {
+	// Label names the turn: Build, Design, Review. Shown above the block.
+	Label string
+	// Intro is the one line of why, above the block.
+	Intro string
+	Text  string
+	// Portal marks a turn that builds the page rather than a component, so it
+	// carries the portal's rules instead of the component ones.
+	Portal bool
+
+	// Thinking marks a turn that produces an answer rather than a change: an
+	// analogy, a list of questions, three strategies scored against each
+	// other. It carries only the pointer to the spec, because the language to
+	// build in and how to round money are rules about work it is not doing.
+	Thinking bool
+}
+
+// First returns the chapter's opening prompt, or the zero Prompt if it somehow
+// has none. Callers that only want to know what a chapter asks for use this
+// rather than indexing, which panics on the empty case.
+func (b BuildIt) First() Prompt {
+	if len(b.Prompts) == 0 {
+		return Prompt{}
+	}
+	return b.Prompts[0]
+}
+
+// PortalPrompts and ComponentPrompts split the turns by what they build.
+func (b BuildIt) PortalPrompts() []Prompt    { return b.filter(true) }
+func (b BuildIt) ComponentPrompts() []Prompt { return b.filter(false) }
+
+func (b BuildIt) filter(portal bool) []Prompt {
+	var out []Prompt
+	for _, p := range b.Prompts {
+		if p.Portal == portal {
+			out = append(out, p)
+		}
+	}
+	return out
 }
 
 // RecognisedSources are the corpora a BuildIt.Source may cite. Both are

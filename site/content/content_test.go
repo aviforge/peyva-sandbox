@@ -48,14 +48,26 @@ func TestEveryChapterHasRequiredFields(t *testing.T) {
 		if c.BuildIt.Why == "" {
 			t.Errorf("chapter %d: BuildIt.Why is empty", c.Number)
 		}
-		if !strings.Contains(c.BuildIt.Prompt, "Done when") {
-			t.Errorf("chapter %d: BuildIt.Prompt is missing a 'Done when' line", c.Number)
+		if len(c.BuildIt.Prompts) == 0 {
+			t.Errorf("chapter %d: no prompts", c.Number)
 		}
-		// The prompt is copied out of the page on its own, so it must not
-		// depend on anything only visible here.
-		for _, dangling := range []string{"steps above", "the steps", "above in"} {
-			if strings.Contains(c.BuildIt.Prompt, dangling) {
-				t.Errorf("chapter %d: BuildIt.Prompt refers to off-page content (%q). It must stand alone", c.Number, dangling)
+		for _, prompt := range c.BuildIt.Prompts {
+			if prompt.Label == "" {
+				t.Errorf("chapter %d: a prompt has no label", c.Number)
+			}
+			// Every turn ends somewhere the reader can check, not only the
+			// last one. A middle turn without this is a turn nobody can tell
+			// they have finished.
+			if !strings.Contains(prompt.Text, "Done when") {
+				t.Errorf("chapter %d: prompt %q is missing a 'Done when' line", c.Number, prompt.Label)
+			}
+			// A prompt is copied out of the page on its own, so it must not
+			// depend on anything only visible here.
+			for _, dangling := range []string{"steps above", "the steps", "above in"} {
+				if strings.Contains(prompt.Text, dangling) {
+					t.Errorf("chapter %d: prompt %q refers to off-page content (%q). It must stand alone",
+						c.Number, prompt.Label, dangling)
+				}
 			}
 		}
 		if len(c.BreakIt.Exercises) == 0 {
@@ -268,8 +280,10 @@ func TestConfigChapterStatesBothHalvesOfTheRule(t *testing.T) {
 func everything(c ChapterContent) string {
 	parts := []string{
 		c.Title, c.Subtitle, c.QuickTip, c.HeroCaption,
-		c.BuildIt.Intro, c.BuildIt.Why, c.BuildIt.Prompt,
-		c.BuildIt.UIIntro, c.BuildIt.UIPrompt, c.BreakIt.Intro,
+		c.BuildIt.Intro, c.BuildIt.Why, c.BreakIt.Intro,
+	}
+	for _, p := range c.BuildIt.Prompts {
+		parts = append(parts, p.Label, p.Intro, p.Text)
 	}
 	parts = append(parts, c.Intuition...)
 	parts = append(parts, c.UnderTheHood...)
@@ -291,8 +305,7 @@ func TestNothingAfterScaleOutClaimsOneProcess(t *testing.T) {
 			continue
 		}
 		fields := map[string]string{
-			"Prompt":   c.BuildIt.Prompt,
-			"UIPrompt": c.BuildIt.UIPrompt,
+			"Prompts":  promptText(c),
 			"QuickTip": c.QuickTip,
 		}
 		for _, s := range append(append([]string{}, c.Intuition...), c.UnderTheHood...) {
@@ -321,9 +334,8 @@ func TestNothingAfterScaleOutClaimsOneProcess(t *testing.T) {
 func TestProseFieldsHoldNoBackticks(t *testing.T) {
 	for _, c := range All {
 		fields := map[string]string{
-			"Prompt":   c.BuildIt.Prompt,
-			"UIPrompt": c.BuildIt.UIPrompt,
-			"Why":      c.BuildIt.Why,
+			"Prompts": promptText(c),
+			"Why":     c.BuildIt.Why,
 		}
 		for name, text := range fields {
 			if strings.Contains(text, "`") {
@@ -337,4 +349,15 @@ func TestProseFieldsHoldNoBackticks(t *testing.T) {
 			t.Errorf("%s contains a backtick, which a raw string cannot hold", name)
 		}
 	}
+}
+
+// promptText is every prompt of a chapter joined, for checks that care whether
+// a phrase appears anywhere in what the reader is asked to paste.
+func promptText(c ChapterContent) string {
+	var b strings.Builder
+	for _, p := range c.BuildIt.Prompts {
+		b.WriteString(p.Text)
+		b.WriteString("\n")
+	}
+	return b.String()
 }

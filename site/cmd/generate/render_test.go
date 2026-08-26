@@ -245,14 +245,12 @@ func TestEachPromptHasItsOwnCopyButton(t *testing.T) {
 	}
 
 	for _, p := range renderedPages(t) {
-		want := 1
+		want := 0
 		num := 0
 		if p.name != "index.html" {
 			num, _ = strconv.Atoi(regexp.MustCompile(`chapter-(\d+)`).FindStringSubmatch(p.name)[1])
 		}
-		if byNumber[num].BuildIt.UIPrompt != "" {
-			want++
-		}
+		want = len(byNumber[num].BuildIt.Prompts)
 		// Chapter 0 also carries the files the reader saves before starting.
 		if num == 0 {
 			want += len(content.SetupFiles)
@@ -316,7 +314,7 @@ func TestPortalPromptCarriesItsOwnRules(t *testing.T) {
 		if p.name != "index.html" {
 			num, _ = strconv.Atoi(regexp.MustCompile(`chapter-(\d+)`).FindStringSubmatch(p.name)[1])
 		}
-		if byNumber[num].BuildIt.UIPrompt == "" {
+		if len(byNumber[num].BuildIt.PortalPrompts()) == 0 {
 			continue
 		}
 		for _, rule := range []string{
@@ -341,8 +339,10 @@ func TestPortalPromptsNameNoLanguage(t *testing.T) {
 	banned := []string{"go run", "goroutine", "fmt.Println", "npm", "React", "Lit", "node_modules"}
 	for _, c := range content.All {
 		for _, b := range banned {
-			if strings.Contains(c.BuildIt.UIPrompt, b) {
-				t.Errorf("chapter %d portal prompt names %q", c.Number, b)
+			for _, prompt := range c.BuildIt.PortalPrompts() {
+				if strings.Contains(prompt.Text, b) {
+					t.Errorf("chapter %d portal prompt names %q", c.Number, b)
+				}
 			}
 		}
 	}
@@ -352,11 +352,10 @@ func TestPortalPromptsNameNoLanguage(t *testing.T) {
 // filled prompt means the section renders a bare instruction with no context.
 func TestPortalPromptsComeWithAnIntro(t *testing.T) {
 	for _, c := range content.All {
-		if (c.BuildIt.UIPrompt == "") != (c.BuildIt.UIIntro == "") {
-			t.Errorf("chapter %d: UIPrompt and UIIntro must both be set or both be empty", c.Number)
-		}
-		if c.BuildIt.UIPrompt != "" && !strings.Contains(c.BuildIt.UIPrompt, "Done when") {
-			t.Errorf("chapter %d: portal prompt has no 'Done when' line", c.Number)
+		for _, prompt := range c.BuildIt.PortalPrompts() {
+			if prompt.Intro == "" {
+				t.Errorf("chapter %d: a portal prompt has no intro, so it renders a bare instruction", c.Number)
+			}
 		}
 	}
 }

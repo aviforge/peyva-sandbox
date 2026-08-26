@@ -42,9 +42,10 @@ var Chapter19 = ChapterContent{
 		Technique: "Structured output formatting",
 		Why:       "A runbook read at 2am has to be commands, not prose. Hand over the exact skeleton you want back, and phrase it as what to produce rather than what to avoid, which is what actually steers the output.",
 		Source:    "Anthropic: Prompting best practices, Control the format of responses",
-		Prompt: `I start peyva with the runner, which brings up three copies behind the proxy, each exposing a health endpoint.
+		Prompts: []Prompt{
+			{Label: "Config", Intro: "Sort the settings before moving any of them.", Text: `peyva reads settings straight from the environment in several places: the port a copy listens on, the ports the proxy routes between, where the Vault keeps its file.
 
-Settings are read straight from the environment in several places by now. Build Config: it reads every setting once at startup, checks each one, and hands them over. Nothing else reads the environment after that.
+Build Config: it reads every setting once at startup, checks each one, and hands them over. Nothing else reads the environment after that.
 
 First sort what peyva already has. Give me a table of every setting, and for each one the rule it fell under:
 
@@ -56,7 +57,10 @@ Two decimal places on money is not a setting. Neither is a balance that cannot g
 
 A missing or nonsense setting means naming it and exiting. Never a default that hides it.
 
-Then add a version string, set at build time, reported by the health endpoint. Then write me a rollback runbook.
+Done when every setting has been sorted with the rule it fell under, and starting without a required one names it and stops.`},
+			{Label: "Runbook", Intro: "Then the thing you read at 2am, in the shape you read it in.", Text: `peyva runs as three copies behind a proxy, each exposing a health endpoint, and Config now supplies every setting.
+
+Add a version string, set at build time, reported by that health endpoint. Then write me a rollback runbook.
 
 Format the runbook exactly like this and nothing else:
 
@@ -76,13 +80,13 @@ Format the runbook exactly like this and nothing else:
 
 Every command runs on {os}. Every line under Check, Fix and Verify is either a command I can paste or an exact output I can compare against. It's 2am and I'm not making judgement calls.
 
-Done when every setting has been sorted with its reason, starting without one names it and stops, deploying a deliberately broken version to one copy fails its health check before the other two are touched, and the runbook's Fix section reverts it without improvisation.`,
-		UIIntro: "The Portal stops having its address written into it.",
-		UIPrompt: `The Portal reaches peyva at an address written into its pages. Move it to peyva/portal/config.js: one object, loaded before anything else, holding the base URL and nothing that is not a setting.
+Done when deploying a deliberately broken version to one copy fails its health check before the other two are touched, and the runbook's Fix section reverts it without improvisation.`},
+			{Label: "Portal", Portal: true, Intro: "The Portal stops having its address written into it.", Text: `The Portal reaches peyva at an address written into its pages. Move it to peyva/portal/config.js: one object, loaded before anything else, holding the base URL and nothing that is not a setting.
 
 An empty base URL means same origin, which is the ordinary case now that peyva serves the page itself. Nothing in the Portal builds an address any other way.
 
-Done when I can point the Portal at a different port by editing that one line, without touching a page.`,
+Done when I can point the Portal at a different port by editing that one line, without touching a page.`},
+		},
 	},
 
 	BreakIt: BreakIt{

@@ -36,11 +36,15 @@ var Chapter10 = ChapterContent{
 		Technique: "Step-Back Prompting",
 		Why:       "Make the assistant abstract to the general principle before it touches the specifics. Reasoning down from what makes any service replaceable beats reasoning up from this code, which tends to optimise a design that was never going to scale.",
 		Source:    "The Prompt Report: Thought Generation, Step-Back Prompting",
-		Prompt: `I want to run several copies of the Gateway and Teller behind a router, so load spreads across them.
+		Prompts: []Prompt{
+			{Label: "Principle", Thinking: true, Intro: "The general rule first, with no code in front of it to reason backwards from.", Text: `I have a service that handles payment requests, and I want to run several copies of it behind a router so load spreads across them.
 
-Step back before you look at my code. In a few sentences, state the general property that lets any service run as several interchangeable copies. What may live inside one process, what may not, and why. Don't mention this codebase yet.
+Don't look at any code yet, and don't ask for it. In a few sentences, state the general property that lets any service run as several interchangeable copies. What may live inside one process, what may not, and why.
 
-Now apply that principle here. Audit the code against it and show me every place it currently fails: anything cached, counted, or held in a package-level variable.
+Done when I have the principle in general terms, with nothing about my project in it.`},
+			{Label: "Build", Intro: "Now apply it, and say what fails before fixing it.", Text: `The Gateway takes payment requests and the Teller acts on them, both in one process, with the Vault behind them holding balances. I want several copies of that process behind a router.
+
+Audit what you have against the property you just described, and show me every place it currently fails: anything cached, counted, or held in a variable that outlives one request.
 
 Then fix what you found, make the port configurable, and add a small round-robin reverse proxy in front using only the standard library.
 
@@ -53,7 +57,8 @@ No flags, no config file, no defaults that hide a missing value. If either is ab
 
 No service discovery, no external load balancer, no configuration framework.
 
-Done when three copies started this way spread ten payments between them with correct final balances, and killing one mid-traffic fails no request.`,
+Done when three copies started this way spread ten payments between them with correct final balances, and killing one mid-traffic fails no request.`},
+		},
 	},
 
 	BreakIt: BreakIt{

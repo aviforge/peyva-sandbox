@@ -95,12 +95,12 @@ func run(templatesDir, assetsDir, outDir, indexPath string) error {
 			AssetPrefix:   prefix,
 			StyleVersion:  styleVersion,
 			ScriptVersion: scriptVersion,
-			LanguageLine:  languageLine(defaultLanguage, chapter.Number),
+			LanguageLine:  languageLine(defaultLanguage),
 			UILine:        uiLine(defaultLanguage),
+			ThinkingLine:  thinkingLine(),
 			Setup:         setupFor(chapter.Number),
 			Languages:     content.Languages,
-			Prompt:        promptHTML(chapter.BuildIt.Prompt, defaultSystem),
-			UIPrompt:      promptHTML(chapter.BuildIt.UIPrompt, defaultSystem),
+			Prompts:       promptViews(chapter.BuildIt, defaultSystem),
 			Systems:       content.Systems,
 			SystemName:    defaultSystem.Prompt,
 			SystemMatters: namesASystem(chapter) || chapter.Number == content.RunnerChapter,
@@ -208,9 +208,12 @@ const languagePickerChapter = 0
 // describe what to build and never name a language, so without this the
 // assistant chooses one itself, and can choose differently on each chapter.
 //
-// Chapter 0 is the only one with nothing before it, so it is the only one that
-// does not ask the assistant to continue an existing codebase.
-func languageLine(l content.Language, chapterNumber int) template.HTML {
+// It deliberately does not tell the assistant to continue the codebase from
+// earlier chapters. Every prompt opens by saying what it starts from, which is
+// one sentence; rediscovering the same thing by reading the project costs
+// thousands of tokens per chapter, and by the later chapters does not fit in a
+// smaller context window at all.
+func languageLine(l content.Language) template.HTML {
 	// The language name is wrapped so the script can swap that word and nothing
 	// else. Rebuilding the sentence in JavaScript as well would mean two copies
 	// of these rules, and they drift: the first version of this already had the
@@ -218,9 +221,6 @@ func languageLine(l content.Language, chapterNumber int) template.HTML {
 	name := `<span data-language-name>` + template.HTMLEscapeString(l.Name) + `</span>`
 
 	line := "Build this in " + name + ", standard library only."
-	if chapterNumber > 0 {
-		line += "\nContinue the codebase from earlier chapters."
-	}
 	// Every word here is paid twenty-one times, once per prompt, so the rules
 	// are stated as tightly as they can be without losing what they mean. The
 	// minor-units clause stays because five of the twelve languages have no
@@ -279,11 +279,35 @@ func promptHTML(prompt string, sys content.System) template.HTML {
 	return template.HTML(strings.ReplaceAll(escaped, osPlaceholder, span))
 }
 
-// namesASystem reports whether either of a chapter's prompts asks for something
+// namesASystem reports whether any of a chapter's prompts asks for something
 // system specific.
 func namesASystem(c content.ChapterContent) bool {
-	return strings.Contains(c.BuildIt.Prompt, osPlaceholder) ||
-		strings.Contains(c.BuildIt.UIPrompt, osPlaceholder)
+	for _, p := range c.BuildIt.Prompts {
+		if strings.Contains(p.Text, osPlaceholder) {
+			return true
+		}
+	}
+	return false
+}
+
+// promptViews turns a chapter's prompts into what the page renders: the text
+// with {os} expanded, and the preamble that belongs to it. A component turn
+// carries the language and layout rules; a portal turn carries the page's.
+func promptViews(b content.BuildIt, sys content.System) []promptView {
+	out := make([]promptView, 0, len(b.Prompts))
+	for i, p := range b.Prompts {
+		out = append(out, promptView{
+			Label:    p.Label,
+			Intro:    p.Intro,
+			Text:     promptHTML(p.Text, sys),
+			Portal:   p.Portal,
+			Thinking: p.Thinking,
+			// A chapter with one turn does not number it: "1 of 1" is noise.
+			Step:  i + 1,
+			Steps: len(b.Prompts),
+		})
+	}
+	return out
 }
 
 // systemPickerChapter is where the reader chooses their operating system: the
@@ -304,6 +328,13 @@ func runnerScriptsFor(chapterNumber int) []content.RunnerScript {
 		return nil
 	}
 	return content.RunnerScripts
+}
+
+// thinkingLine is the preamble for a turn that writes no code. It keeps the
+// pointer to the spec, because an answer about this system still has to respect
+// what the system may never do, and drops everything else.
+func thinkingLine() template.HTML {
+	return template.HTML("The goal and invariants are in peyva/goal.md.")
 }
 
 // setupFor returns the files to save only for the chapter that starts the

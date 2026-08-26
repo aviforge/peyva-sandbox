@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Lock It Down: Security | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=190601633b">
+<link rel="stylesheet" href="styles.css?v=3863b148d6">
 </head>
 <body data-chapter-slug="chapter-18">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -181,36 +181,69 @@
       </ul>
       <p class="technique"><span class="technique-name">Chain-of-Verification (CoVe)</span>. Draft an answer, plan the questions that would catch it being wrong, answer those independently, then revise. Asking for secure code gets you the checklist; verifying your own draft finds the holes the checklist doesn&#39;t mention.</p>
       <p class="technique-source">Documented in The Prompt Report: Self-Criticism, Chain-of-Verification</p>
+      
+      <p class="prompt-divider"><span class="prompt-step">1 of 5</span> Draft</p>
+      <ul class="lead"><li>Build it first. The checking comes after, and needs something to check.</li></ul>
       <div class="prompt-wrap">
-        <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy prompt to clipboard" title="Copy prompt">
+        <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
         <pre class="prompt"><span class="prompt-lang" data-prompt-lang>Build this in <span data-language-name>Go</span>, standard library only.
-Continue the codebase from earlier chapters.
 Code in peyva/&lt;component&gt;/, one folder per component.
 Money: exact decimal or integer minor units, never floating point, two decimal places.
 The goal and invariants are in peyva/goal.md.</span>
 
-The Gateway trusts the &#34;from&#34; field on a payment request completely. Any caller can move money out of any account.
+The Gateway trusts the &#34;from&#34; field on a payment request completely. Any caller can move money out of any account by naming it.
 
-Work in four passes and show me each one.
+Make the Gateway prove who the caller is, and confirm they own the account they are spending from before the Teller ever sees the request. Move any credential out of source code into an environment variable.
 
-1. Draft. Make the Gateway prove who the caller is, and confirm they own the account they&#39;re spending from before the Teller ever sees the request. Move any credential out of source code into an environment variable.
-2. Plan the checks. Write the list of questions that would expose your draft as broken. Be specific to this system: no generic OWASP categories.
-3. Answer them. Take each question against the code you actually wrote, one at a time, and don&#39;t soften an answer because of what you concluded on another.
-4. Revise. Fix what the answers exposed, then state plainly what is still exploitable, including anything you left out of scope on purpose.
-
-Done when a request with no credential is refused, a caller authenticated as one owner spending from another&#39;s account is refused, no credential is left in source, and I have your list of what remains exploitable.</pre>
+Done when a request with no credential is refused, and a caller authenticated as one owner cannot spend from another&#39;s account.</pre>
       </div>
       
-      
-      <p class="prompt-divider">The Portal</p>
-      <ul class="lead">
-        <li>Picking a name off a list stops being enough to spend someone&#39;s money.</li>
-      </ul>
+      <p class="prompt-divider"><span class="prompt-step">2 of 5</span> Plan the checks</p>
+      <ul class="lead"><li>The questions before the answers, so they are not written to fit what you already believe.</li></ul>
       <div class="prompt-wrap">
-        <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy portal prompt to clipboard" title="Copy portal prompt">
+        <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
+          <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+        </button>
+        <pre class="prompt"><span class="prompt-lang" data-prompt-lang>The goal and invariants are in peyva/goal.md.</span>
+
+You put authentication in front of a payments API and an ownership check between the caller and the money.
+
+Write the list of questions that would expose that work as broken. Be specific to this system, these fields and these checks: no generic OWASP categories, no advice that would apply to any application.
+
+Don&#39;t answer them yet.
+
+Done when I have a list of questions that are all about this system, and none of them could be asked of any other.</pre>
+      </div>
+      
+      <p class="prompt-divider"><span class="prompt-step">3 of 5</span> Answer and revise</p>
+      <ul class="lead"><li>Then answer each one honestly, including the ones that go badly.</li></ul>
+      <div class="prompt-wrap">
+        <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
+          <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+        </button>
+        <pre class="prompt"><span class="prompt-lang" data-prompt-lang>Build this in <span data-language-name>Go</span>, standard library only.
+Code in peyva/&lt;component&gt;/, one folder per component.
+Money: exact decimal or integer minor units, never floating point, two decimal places.
+The goal and invariants are in peyva/goal.md.</span>
+
+You wrote a list of questions that would expose your authentication and ownership checks as broken.
+
+Take each one against the code you actually wrote, one at a time. Don&#39;t soften an answer because of what you concluded on another question.
+
+Then fix what the answers exposed, and state plainly what is still exploitable, including anything you left out of scope on purpose.
+
+Done when every question has an answer, the fixable ones are fixed, and I have your list of what remains exploitable.</pre>
+      </div>
+      
+      <p class="prompt-divider"><span class="prompt-step">4 of 5</span> Portal</p>
+      <ul class="lead"><li>The sign-in itself.</li></ul>
+      <div class="prompt-wrap">
+        <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
@@ -220,16 +253,35 @@ One customer's wallet at a time, never everyone's at once. A switcher at the top
 New work joins the menu.
 The goal and invariants are in peyva/goal.md.</span>
 
-The switcher has been taking whoever it is told. Anyone at the keyboard can pick alice and send her money, which was fine while peyva ran on one laptop and is not fine now.
+The Portal&#39;s switcher takes whoever it is told. Anyone at the keyboard can pick alice and send her money, which was fine while peyva ran on one laptop and is not fine now.
 
 Put a sign-in in front of it. Switching account means signing in as that account, and the switcher offers only accounts already signed in. Signing out removes one.
 
 A signed-in customer sees their own account and nobody else&#39;s, and can only send from their own.
 
-Then verify your own work. Write the list of questions that would expose it as broken: specific to this page and these forms, not generic security advice. Answer each against what you built, and fix what the answers expose.
-
-Done when signing in as alice shows alice, and nothing I can type in the browser makes it show or spend bob&#39;s money without bob&#39;s own sign-in.</pre>
+Done when signing in as alice shows alice, and the switcher offers nobody she has not signed in as.</pre>
       </div>
+      
+      <p class="prompt-divider"><span class="prompt-step">5 of 5</span> Portal checks</p>
+      <ul class="lead"><li>Then try to get past it, in writing.</li></ul>
+      <div class="prompt-wrap">
+        <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
+          <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+        </button>
+        <pre class="prompt"><span class="prompt-lang" data-prompt-lang>The Portal is plain HTML and CSS. No framework, no build step, no dependencies.
+It lives in peyva/portal/. Anything it needs from the server is <span data-language-name>Go</span>, standard library only.
+One customer's wallet at a time, never everyone's at once. A switcher at the top says whose.
+New work joins the menu.
+The goal and invariants are in peyva/goal.md.</span>
+
+You put a sign-in in front of a wallet page, where switching account means signing in as that account.
+
+Write the list of questions that would expose that page as broken: specific to this page and these forms, not generic security advice. Answer each one against what you built, and fix what the answers expose.
+
+Done when nothing I can type in the browser makes it show or spend bob&#39;s money without bob&#39;s own sign-in, and I have your list of what you checked.</pre>
+      </div>
+      
       
     </section>
 

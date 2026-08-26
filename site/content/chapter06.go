@@ -37,7 +37,8 @@ var Chapter06 = ChapterContent{
 		Technique: "Grounding: investigate before claiming",
 		Why:       "Ask for an optimisation and you'll get one, plus a confident claim that it's faster. The documented remedy is to forbid claims about code the assistant hasn't actually opened or run. Which here means timings taken before and after, not estimates.",
 		Source:    "Anthropic: Prompting best practices, Minimizing hallucinations in agentic coding",
-		Prompt: `The Vault stores accounts keyed by owner. Each account also carries a region, which nothing indexes.
+		Prompts: []Prompt{
+			{Label: "Build", Text: `The Vault stores accounts keyed by owner. Each account also carries a region, which nothing indexes.
 
 Do this in order and don't skip ahead:
 
@@ -49,15 +50,15 @@ Do this in order and don't skip ahead:
 
 Never state a performance claim you have not measured on this machine. Show me real numbers, not estimates, and if the improvement is smaller than expected, say so rather than explaining it away.
 
-Done when I have four real numbers: read time before and after, write time before and after.`,
-		UIIntro: "Send learns to check who it is paying, before the money moves.",
-		UIPrompt: `Someone typing a handle from memory should know they have the right person before they send. Have Send look the handle up as it is typed and show whose account it is.
+Done when I have four real numbers: read time before and after, write time before and after.`},
+			{Label: "Portal", Portal: true, Intro: "Send learns to check who it is paying, before the money moves.", Text: `Someone typing a handle from memory should know they have the right person before they send. Have Send look the handle up as it is typed and show whose account it is.
 
 Show the recipient's handle and owner, never their balance. That is not the sender's to see.
 
 Then show me, from a real timing you have run rather than an estimate, how long that lookup takes against a table with thousands of accounts, with the index and without it.
 
-Done when a wrong handle is obvious before sending, and you have shown me both timings.`,
+Done when a wrong handle is obvious before sending, and you have shown me both timings.`},
+		},
 	},
 
 	BreakIt: BreakIt{

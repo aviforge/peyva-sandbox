@@ -38,7 +38,8 @@ var Chapter02 = ChapterContent{
 		Technique: "Constrain the scope",
 		Why:       "Assistants overengineer by default: extra files, abstractions, flexibility nobody asked for. The remedy is to state the ceiling explicitly. Ask for a listener without one and you'll get an HTTP server with routes and JSON.",
 		Source:    "Anthropic: Prompting best practices, Overeagerness",
-		Prompt: `Build the Gateway, the way payment requests reach the system from outside.
+		Prompts: []Prompt{
+			{Label: "Build", Text: `peyva is one process holding the Vault, and the only way to reach it is to run it yourself. Build the Gateway, the way payment requests reach the system from outside.
 
 For now it does one thing: claim TCP port 9310, accept connections, log one line per connection with the caller's address, then close it.
 
@@ -46,7 +47,8 @@ Do not add HTTP handling, routes, JSON parsing, request or response types, grace
 
 The right amount of complexity is the minimum that does what I just described.
 
-Done when a request to port 9310 makes the Gateway log a connection, and starting a second copy fails with 'address already in use'.`,
+Done when a request to port 9310 makes the Gateway log a connection, and starting a second copy fails with 'address already in use'.`},
+		},
 	},
 
 	BreakIt: BreakIt{

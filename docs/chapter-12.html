@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Decoupling with Messages: Queues | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=190601633b">
+<link rel="stylesheet" href="styles.css?v=3863b148d6">
 </head>
 <body data-chapter-slug="chapter-12">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -181,13 +181,15 @@
       </ul>
       <p class="technique"><span class="technique-name">Allow it to say it can&#39;t</span>. An assistant would rather produce something than report that your constraints don&#39;t fit, so it quietly reaches for the dependency you ruled out. Giving explicit permission to stop and say so turns a silent workaround into a question you can answer.</p>
       <p class="technique-source">Documented in Anthropic: Reduce hallucinations, Allow Claude to say I don&#39;t know</p>
+      
+      <p class="prompt-divider"><span class="prompt-step">1 of 2</span> Build</p>
+      
       <div class="prompt-wrap">
-        <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy prompt to clipboard" title="Copy prompt">
+        <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
         <pre class="prompt"><span class="prompt-lang" data-prompt-lang>Build this in <span data-language-name>Go</span>, standard library only.
-Continue the codebase from earlier chapters.
 Code in peyva/&lt;component&gt;/, one folder per component.
 Money: exact decimal or integer minor units, never floating point, two decimal places.
 The goal and invariants are in peyva/goal.md.</span>
@@ -205,13 +207,10 @@ If the standard library genuinely can&#39;t express this, say so rather than rea
 Done when a deliberately slow notification doesn&#39;t delay the payment response, and work handed over while the Courier is stopped is delivered once it starts again.</pre>
       </div>
       
-      
-      <p class="prompt-divider">The Portal</p>
-      <ul class="lead">
-        <li>The Portal stops waiting for work the customer does not care about.</li>
-      </ul>
+      <p class="prompt-divider"><span class="prompt-step">2 of 2</span> Portal</p>
+      <ul class="lead"><li>The Portal stops waiting for work the customer does not care about.</li></ul>
       <div class="prompt-wrap">
-        <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy portal prompt to clipboard" title="Copy portal prompt">
+        <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
@@ -227,6 +226,7 @@ If plain HTML and CSS cannot show something arriving after the page has loaded w
 
 Done when a slow notification does not delay what the customer sees.</pre>
       </div>
+      
       
     </section>
 

@@ -38,25 +38,34 @@ var Chapter20 = ChapterContent{
 		Technique: "Rephrase and Respond (RaR)",
 		Why:       "Make the assistant restate the task in its own words before it answers. The restatement is the cheapest look you'll get at what it actually understood, and comparing it against the story in your head shows you what you didn't actually learn.",
 		Source:    "The Prompt Report: Zero-Shot, Rephrase and Respond",
-		Prompt: `I want you to build the Reconciler. The component that proves the Vault and the Ledger agree. For every account, the sum of its Ledger entries must equal the balance the Vault reports, and any account where they don't is reported with the size of the gap.
+		Prompts: []Prompt{
+			{Label: "Restate", Thinking: true, Intro: "Where your description and theirs differ, one of you has misunderstood the system.", Text: `peyva is a payments system built from these parts: a Gateway that takes requests from outside, a Teller that runs one payment end to end, a Vault that is the only thing that changes a balance, a Ledger that records every movement, a Courier that carries out work after a payment clears, and a Portal a customer uses.
 
-Before you write it, restate the job back to me in your own words. Read the whole system first, then describe what each component is for and how a payment travels from the Gateway through the Teller, the Vault, the Ledger and the Courier. Don't repeat my names for things back at me. Describe what the code actually does. At each hop, say what would happen if that component failed right then.
+Before writing anything, restate that back to me in your own words. Describe what each part is for, and how a payment travels from the Gateway to the point where the recipient has been told. Don't repeat my names for things back at me: say what each one actually does.
 
-I'll tell you where your restatement doesn't match mine before you write any code.
+At each hop, say what would happen if that part failed right then.
 
-Then build the Reconciler, and answer three things from the code rather than from general knowledge: which single component failing would hurt customers most, which failure the system currently handles worst, and which piece is over-engineered for its actual load.
+Done when I have your description of every part and the path a payment takes, and I can tell you where yours and mine disagree.`},
+			{Label: "Build", Intro: "Then the last component, and three honest answers about the whole thing.", Text: `peyva has a Vault holding balances and a Ledger recording every movement of money, and nothing checks that the two still agree.
+
+Build the Reconciler. For every account, the sum of its Ledger entries must equal the balance the Vault reports, and any account where they don't is reported with the size of the gap.
+
+Then answer three things from the code you have, not from general knowledge: which single part failing would hurt customers most, which failure the system currently handles worst, and which piece is over-engineered for its actual load.
 
 Where the code doesn't match how a real payments system would do it, say so plainly.
 
-Done when the Reconciler reports no discrepancies on a healthy system, reports the exact gap after I kill the process mid-payment, and your restatement and mine agree.`,
-		UIIntro: "The whole portal, explained back to you.",
-		UIPrompt: `Before touching it, describe the Portal back to me: every screen, what a customer can do on each, and which component answers it. Use your own words, not mine.
+Done when the Reconciler reports no discrepancies on a healthy system, reports the exact gap after I kill the process mid-payment, and I have your three answers.`},
+			{Label: "Portal restate", Portal: true, Thinking: true, Intro: "Describe the finished thing before finishing it.", Text: `A customer's wallet page has grown a screen at a time: a balance, sending money to a handle, a history, a note that a message was delivered, and a sign-in in front of all of it.
 
-Where your description and mine differ, one of us has misunderstood the system. Say which parts you are unsure of.
+Describe that page back to me: every screen, what a customer can do on each, and which part of the system answers it. Use your own words, not mine. Say which parts you are unsure of.
 
-Then finish it: one menu from which a customer opens an account, sees what they hold, sends money, reads their history and knows a message was delivered, with the switcher deciding whose wallet it all belongs to.
+Done when I have your description of every screen, and I can tell you where yours and mine disagree.`},
+			{Label: "Portal", Portal: true, Intro: "Then make it one thing rather than nine.", Text: `The Portal has a screen for each thing it learned to do, added a chapter at a time and looking like it.
 
-Done when someone who has never seen peyva can use it without being told how.`,
+Finish it: one menu from which a customer opens an account, sees what they hold, sends money, reads their history and knows a message was delivered, with the switcher deciding whose wallet it all belongs to.
+
+Done when someone who has never seen peyva can use it without being told how.`},
+		},
 	},
 
 	BreakIt: BreakIt{

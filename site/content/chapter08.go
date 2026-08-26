@@ -36,7 +36,8 @@ var Chapter08 = ChapterContent{
 		Technique: "Generated Knowledge Prompting",
 		Why:       "Have the assistant produce the relevant facts before it uses them. Making it enumerate how duplicates actually arise gives the design somewhere to put each case, instead of you meeting them in production.",
 		Source:    "The Prompt Report: Generated Knowledge",
-		Prompt: `The Teller will move money twice if it receives the same payment request twice, a retry after a timeout is indistinguishable from a genuine second payment.
+		Prompts: []Prompt{
+			{Label: "Build", Text: `The Teller will move money twice if it receives the same payment request twice, a retry after a timeout is indistinguishable from a genuine second payment.
 
 First, list the distinct ways a duplicate request reaches a payment system in the real world. For each, say whether the caller knows the first attempt succeeded.
 
@@ -44,11 +45,11 @@ Then make the Teller recognise a repeat: the caller supplies a reference with th
 
 Then go back over the list you wrote and tell me, case by case, which ones your design now handles and which it doesn't. Include what happens if two requests carrying the same brand-new reference arrive at the same instant.
 
-Done when the same reference twice pays once, two different references pay twice, and both duplicate responses are byte-identical.`,
-		UIIntro: "The Portal stops punishing an impatient customer.",
-		UIPrompt: `A customer who taps send twice must not pay twice. Send attaches the same reference to a resubmission of the same form, and shows the original result rather than a second payment.
+Done when the same reference twice pays once, two different references pay twice, and both duplicate responses are byte-identical.`},
+			{Label: "Portal", Portal: true, Intro: "The Portal stops punishing an impatient customer.", Text: `Send posts the form and takes whatever comes back, so a customer who taps it twice pays twice. Have it attach the same reference to a resubmission of the same form, and show the original result rather than a second payment.
 
-Done when double-submitting the form leaves one payment in History, and the page looks the same both times.`,
+Done when double-submitting the form leaves one payment in History, and the page looks the same both times.`},
+		},
 	},
 
 	BreakIt: BreakIt{

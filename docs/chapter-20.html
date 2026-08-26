@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Putting It All Together | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=190601633b">
+<link rel="stylesheet" href="styles.css?v=3863b148d6">
 </head>
 <body data-chapter-slug="chapter-20">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -181,37 +181,68 @@
       </ul>
       <p class="technique"><span class="technique-name">Rephrase and Respond (RaR)</span>. Make the assistant restate the task in its own words before it answers. The restatement is the cheapest look you&#39;ll get at what it actually understood, and comparing it against the story in your head shows you what you didn&#39;t actually learn.</p>
       <p class="technique-source">Documented in The Prompt Report: Zero-Shot, Rephrase and Respond</p>
+      
+      <p class="prompt-divider"><span class="prompt-step">1 of 4</span> Restate</p>
+      <ul class="lead"><li>Where your description and theirs differ, one of you has misunderstood the system.</li></ul>
       <div class="prompt-wrap">
-        <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy prompt to clipboard" title="Copy prompt">
+        <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
+          <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+        </button>
+        <pre class="prompt"><span class="prompt-lang" data-prompt-lang>The goal and invariants are in peyva/goal.md.</span>
+
+peyva is a payments system built from these parts: a Gateway that takes requests from outside, a Teller that runs one payment end to end, a Vault that is the only thing that changes a balance, a Ledger that records every movement, a Courier that carries out work after a payment clears, and a Portal a customer uses.
+
+Before writing anything, restate that back to me in your own words. Describe what each part is for, and how a payment travels from the Gateway to the point where the recipient has been told. Don&#39;t repeat my names for things back at me: say what each one actually does.
+
+At each hop, say what would happen if that part failed right then.
+
+Done when I have your description of every part and the path a payment takes, and I can tell you where yours and mine disagree.</pre>
+      </div>
+      
+      <p class="prompt-divider"><span class="prompt-step">2 of 4</span> Build</p>
+      <ul class="lead"><li>Then the last component, and three honest answers about the whole thing.</li></ul>
+      <div class="prompt-wrap">
+        <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
         <pre class="prompt"><span class="prompt-lang" data-prompt-lang>Build this in <span data-language-name>Go</span>, standard library only.
-Continue the codebase from earlier chapters.
 Code in peyva/&lt;component&gt;/, one folder per component.
 Money: exact decimal or integer minor units, never floating point, two decimal places.
 The goal and invariants are in peyva/goal.md.</span>
 
-I want you to build the Reconciler. The component that proves the Vault and the Ledger agree. For every account, the sum of its Ledger entries must equal the balance the Vault reports, and any account where they don&#39;t is reported with the size of the gap.
+peyva has a Vault holding balances and a Ledger recording every movement of money, and nothing checks that the two still agree.
 
-Before you write it, restate the job back to me in your own words. Read the whole system first, then describe what each component is for and how a payment travels from the Gateway through the Teller, the Vault, the Ledger and the Courier. Don&#39;t repeat my names for things back at me. Describe what the code actually does. At each hop, say what would happen if that component failed right then.
+Build the Reconciler. For every account, the sum of its Ledger entries must equal the balance the Vault reports, and any account where they don&#39;t is reported with the size of the gap.
 
-I&#39;ll tell you where your restatement doesn&#39;t match mine before you write any code.
-
-Then build the Reconciler, and answer three things from the code rather than from general knowledge: which single component failing would hurt customers most, which failure the system currently handles worst, and which piece is over-engineered for its actual load.
+Then answer three things from the code you have, not from general knowledge: which single part failing would hurt customers most, which failure the system currently handles worst, and which piece is over-engineered for its actual load.
 
 Where the code doesn&#39;t match how a real payments system would do it, say so plainly.
 
-Done when the Reconciler reports no discrepancies on a healthy system, reports the exact gap after I kill the process mid-payment, and your restatement and mine agree.</pre>
+Done when the Reconciler reports no discrepancies on a healthy system, reports the exact gap after I kill the process mid-payment, and I have your three answers.</pre>
       </div>
       
-      
-      <p class="prompt-divider">The Portal</p>
-      <ul class="lead">
-        <li>The whole portal, explained back to you.</li>
-      </ul>
+      <p class="prompt-divider"><span class="prompt-step">3 of 4</span> Portal restate</p>
+      <ul class="lead"><li>Describe the finished thing before finishing it.</li></ul>
       <div class="prompt-wrap">
-        <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy portal prompt to clipboard" title="Copy portal prompt">
+        <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
+          <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+        </button>
+        <pre class="prompt"><span class="prompt-lang" data-prompt-lang>The goal and invariants are in peyva/goal.md.</span>
+
+A customer&#39;s wallet page has grown a screen at a time: a balance, sending money to a handle, a history, a note that a message was delivered, and a sign-in in front of all of it.
+
+Describe that page back to me: every screen, what a customer can do on each, and which part of the system answers it. Use your own words, not mine. Say which parts you are unsure of.
+
+Done when I have your description of every screen, and I can tell you where yours and mine disagree.</pre>
+      </div>
+      
+      <p class="prompt-divider"><span class="prompt-step">4 of 4</span> Portal</p>
+      <ul class="lead"><li>Then make it one thing rather than nine.</li></ul>
+      <div class="prompt-wrap">
+        <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
@@ -221,14 +252,13 @@ One customer's wallet at a time, never everyone's at once. A switcher at the top
 New work joins the menu.
 The goal and invariants are in peyva/goal.md.</span>
 
-Before touching it, describe the Portal back to me: every screen, what a customer can do on each, and which component answers it. Use your own words, not mine.
+The Portal has a screen for each thing it learned to do, added a chapter at a time and looking like it.
 
-Where your description and mine differ, one of us has misunderstood the system. Say which parts you are unsure of.
-
-Then finish it: one menu from which a customer opens an account, sees what they hold, sends money, reads their history and knows a message was delivered, with the switcher deciding whose wallet it all belongs to.
+Finish it: one menu from which a customer opens an account, sees what they hold, sends money, reads their history and knows a message was delivered, with the switcher deciding whose wallet it all belongs to.
 
 Done when someone who has never seen peyva can use it without being told how.</pre>
       </div>
+      
       
     </section>
 

@@ -38,7 +38,7 @@ var Chapter04 = ChapterContent{
 		Technique: "Few-shot (multishot) prompting",
 		Why:       "Prose leaves field names and status codes up for grabs. Concrete input and output pairs pin the contract harder than a paragraph ever will, and the examples have to include the failures, or only the happy path gets built.",
 		Source:    "The Prompt Report: In-Context Learning; Anthropic, Use examples effectively",
-		Prompt: "Requests reach the Gateway but nothing acts on them. Have the Gateway speak HTTP, and build the Teller behind it.\n\n" +
+		Prompt: "Requests reach the Gateway but nothing acts on them. Have it speak HTTP, and build the Teller behind it.\n\n" +
 			"The Teller handles one payment end to end: validate the request, check the payer has enough, move the amount between accounts in the Vault, and return a reference the caller can quote later. The Teller is the only thing allowed to move money: the Gateway parses and forwards, and never touches a balance itself.\n\n" +
 			"Match these exactly:\n\n" +
 			"  {\"from\": \"alice\", \"to\": \"bob\", \"amount\": 20}\n" +

@@ -1,6 +1,10 @@
 package main
 
-import "site/content"
+import (
+	"html/template"
+
+	"site/content"
+)
 
 type roadmapView struct {
 	Number int
@@ -18,7 +22,7 @@ type PageData struct {
 	// LanguageLine is baked into the page so a prompt is never handed to an
 	// assistant without naming a language. Script swaps it when the reader
 	// chooses; it is never absent.
-	LanguageLine string
+	LanguageLine template.HTML
 	Languages    []content.Language
 
 	// LanguageIsChosenHere is true only on the chapter that owns the picker.

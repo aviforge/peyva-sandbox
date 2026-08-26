@@ -183,16 +183,18 @@
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
-        <pre class="prompt"><span class="prompt-lang" data-prompt-lang data-continues="1">Build this in Go, using its standard library.
-Continue the same codebase you built in earlier chapters.</span>
+        <pre class="prompt"><span class="prompt-lang" data-prompt-lang>Build this in <span data-language-name>Go</span>, standard library only.
+Continue the codebase from earlier chapters.
+Code in peyva/&lt;component&gt;/, one folder per component.
+Money: exact decimal or integer minor units, never floating point, two decimal places.</span>
 
 The Teller notifies the recipient inline, so the caller waits for that notification before getting their response.
 
 Build the Courier. The component that carries out work after a payment has cleared. The Teller hands it the notification and returns immediately; the Courier delivers on its own schedule.
 
-Scope: this is a single-process learning project on a laptop, one user, no deployment. Use only your standard library: an in-process queue and a worker. Do not introduce Kafka, RabbitMQ, NATS, Redis, Docker, or any broker or queue library. No retry policies, no dead-letter handling, no backpressure tuning.
+Scope: one process on a laptop, one user, no deployment. An in-process queue and a worker. Do not introduce Kafka, RabbitMQ, NATS, Redis, Docker, or any broker or queue library. No retry policies, no dead-letter handling, no backpressure tuning.
 
-If the standard library genuinely can&#39;t express this, stop and tell me so. I would rather hear that than receive a dependency I ruled out, or a workaround that hides the problem. Saying you can&#39;t do it within these constraints is an acceptable answer here, and a more useful one than a guess.
+If the standard library genuinely can&#39;t express this, say so rather than reaching for a dependency I ruled out. Admitting it is a more useful answer than a guess.
 
 Done when a deliberately slow notification doesn&#39;t delay the payment response, and work handed over while the Courier is stopped is delivered once it starts again.</pre>
       </div>

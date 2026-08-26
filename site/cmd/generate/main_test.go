@@ -188,7 +188,7 @@ func TestEveryPageBakesInALanguage(t *testing.T) {
 	}
 	pages = append(pages, indexPath)
 
-	want := "Build this in " + content.LanguageByID(content.DefaultLanguage).Name + ","
+	want := "<span data-language-name>" + content.LanguageByID(content.DefaultLanguage).Name + "</span>"
 	for _, page := range pages {
 		b, readErr := os.ReadFile(page)
 		if readErr != nil {
@@ -205,7 +205,7 @@ func TestEveryPageBakesInALanguage(t *testing.T) {
 func TestOnlyLaterChaptersAskToContinueTheCodebase(t *testing.T) {
 	outDir, _ := testRun(t)
 
-	const carryOn = "Continue the same codebase"
+	const carryOn = "Continue the codebase from earlier chapters"
 	for _, c := range content.All {
 		b, err := os.ReadFile(filepath.Join(outDir, "chapter-"+strconv.Itoa(c.Number)+".html"))
 		if err != nil {
@@ -294,6 +294,51 @@ func TestOnlyTheChoosingPageCarriesTheLanguageList(t *testing.T) {
 		}
 		if strings.Contains(body, "data-languages") {
 			t.Errorf("%s still embeds a language list", name)
+		}
+	}
+}
+
+// The standing rules travel with every prompt, because a prompt is copied out
+// of the page on its own and nothing else tells the assistant where code goes
+// or how to hold money. Stating them once in the preamble is also why no
+// individual prompt has to repeat them.
+func TestEveryPromptCarriesTheStandingRules(t *testing.T) {
+	outDir, indexPath := testRun(t)
+
+	pages, err := filepath.Glob(filepath.Join(outDir, "chapter-*.html"))
+	if err != nil {
+		t.Fatalf("globbing: %v", err)
+	}
+	rules := map[string]string{
+		"folder layout": "peyva/&lt;component&gt;/, one folder per component",
+		"exactness":     "never floating point",
+		"precision":     "two decimal places",
+	}
+	for _, page := range append(pages, indexPath) {
+		b, readErr := os.ReadFile(page)
+		if readErr != nil {
+			t.Fatalf("reading %s: %v", page, readErr)
+		}
+		for what, rule := range rules {
+			if !strings.Contains(string(b), rule) {
+				t.Errorf("%s: prompt does not state the %s rule", filepath.Base(page), what)
+			}
+		}
+	}
+}
+
+// The preamble is written by the generator and the script only swaps the
+// language word inside it. If the script ever rebuilds the sentence again, the
+// rules exist in two places and the copy that is not the generator will fall
+// behind, which is exactly what happened the first time.
+func TestScriptDoesNotRebuildThePreamble(t *testing.T) {
+	b, err := os.ReadFile(filepath.Join("..", "..", "assets", "app.js"))
+	if err != nil {
+		t.Fatalf("reading app.js: %v", err)
+	}
+	for _, fragment := range []string{"Build this in", "standard library", "floating point", "peyva/"} {
+		if strings.Contains(string(b), fragment) {
+			t.Errorf("app.js contains %q: the preamble belongs to the generator alone", fragment)
 		}
 	}
 }

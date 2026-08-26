@@ -183,10 +183,12 @@
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
-        <pre class="prompt"><span class="prompt-lang" data-prompt-lang data-continues="1">Build this in Go, using its standard library.
-Continue the same codebase you built in earlier chapters.</span>
+        <pre class="prompt"><span class="prompt-lang" data-prompt-lang>Build this in <span data-language-name>Go</span>, standard library only.
+Continue the codebase from earlier chapters.
+Code in peyva/&lt;component&gt;/, one folder per component.
+Money: exact decimal or integer minor units, never floating point, two decimal places.</span>
 
-Requests reach the Gateway but nothing acts on them. Have the Gateway speak HTTP, and build the Teller behind it.
+Requests reach the Gateway but nothing acts on them. Have it speak HTTP, and build the Teller behind it.
 
 The Teller handles one payment end to end: validate the request, check the payer has enough, move the amount between accounts in the Vault, and return a reference the caller can quote later. The Teller is the only thing allowed to move money: the Gateway parses and forwards, and never touches a balance itself.
 

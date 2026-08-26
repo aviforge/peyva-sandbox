@@ -159,12 +159,25 @@ const languagePickerChapter = 0
 //
 // Chapter 0 is the only one with nothing before it, so it is the only one that
 // does not ask the assistant to continue an existing codebase.
-func languageLine(l content.Language, chapterNumber int) string {
-	line := "Build this in " + l.Name + ", using its standard library."
+func languageLine(l content.Language, chapterNumber int) template.HTML {
+	// The language name is wrapped so the script can swap that word and nothing
+	// else. Rebuilding the sentence in JavaScript as well would mean two copies
+	// of these rules, and they drift: the first version of this already had the
+	// script writing an older wording that silently dropped two of them.
+	name := `<span data-language-name>` + template.HTMLEscapeString(l.Name) + `</span>`
+
+	line := "Build this in " + name + ", standard library only."
 	if chapterNumber > 0 {
-		line += "\nContinue the same codebase you built in earlier chapters."
+		line += "\nContinue the codebase from earlier chapters."
 	}
-	return line
+	// Every word here is paid twenty-one times, once per prompt, so the rules
+	// are stated as tightly as they can be without losing what they mean. The
+	// minor-units clause stays because five of the twelve languages have no
+	// decimal type in their standard library, and without it the assistant
+	// reaches for a dependency the first line just ruled out.
+	line += "\nCode in peyva/&lt;component&gt;/, one folder per component."
+	line += "\nMoney: exact decimal or integer minor units, never floating point, two decimal places."
+	return template.HTML(line)
 }
 
 func fileExists(path string) bool {

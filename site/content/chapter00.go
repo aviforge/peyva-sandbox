@@ -40,7 +40,7 @@ var Chapter00 = ChapterContent{
 		Source:    "The Prompt Report: Zero-Shot",
 		Prompt: "Build the Vault. The component that holds accounts and what's in them. Nothing else is allowed to change a balance.\n\n" +
 			"An account is an owner and an amount. Seed it with one account, alice, holding 100. Print the Vault's contents on startup, run until interrupted, then print a shutdown message.\n\n" +
-			"One file, standard library only. No persistence, no network. The Vault earns structure later, when a real problem demands it.\n\n" +
+			"One file. No persistence, no network.\n\n" +
 			"Done when running it prints alice's balance and it exits cleanly on Ctrl+C.",
 	},
 

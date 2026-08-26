@@ -158,28 +158,20 @@
   }
 
   function initLanguage() {
-    var lines = document.querySelectorAll('[data-prompt-lang]');
-    if (!lines.length) return;
+    var names = document.querySelectorAll('[data-language-name]');
+    if (!names.length) return;
 
+    // The generator writes the preamble and wraps the language in a span, so
+    // this only ever replaces that one word. Rebuilding the sentence here would
+    // put the rules in two places, and they drifted the first time it did.
     function apply(name) {
-      Array.prototype.forEach.call(lines, function (line) {
-        var text = 'Build this in ' + name + ', using its standard library.';
-        // Chapter 0 has nothing before it, so it never asks the assistant to
-        // continue an existing codebase.
-        if (line.getAttribute('data-continues')) {
-          text += '\nContinue the same codebase you built in earlier chapters.';
-        }
-        line.textContent = text;
-      });
-      Array.prototype.forEach.call(document.querySelectorAll('[data-language-name]'), function (el) {
+      Array.prototype.forEach.call(names, function (el) {
         el.textContent = name;
       });
     }
 
-    // Chapter 0 stores the name, not just the id, so the other chapters do not
-    // need a copy of the language list to look one up.
-    var name = safeGet('peyva:languageName');
-    if (name && name.length < 40) apply(name);
+    var saved = safeGet('peyva:languageName');
+    if (saved && saved.length < 40) apply(saved);
 
     // Only the chapter that owns the picker can change the choice. Every other
     // chapter reads it, so a reader cannot switch language halfway through and

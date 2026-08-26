@@ -131,6 +131,15 @@ func copyAssets(assetsDir, outDir string) error {
 			return err
 		}
 	}
+
+	// GitHub Pages runs the published folder through Jekyll unless this file
+	// is present. It has to be written here rather than kept by hand, or
+	// deleting outDir and regenerating silently drops it and Jekyll starts
+	// rewriting the output.
+	if err := os.WriteFile(filepath.Join(outDir, ".nojekyll"), nil, 0o644); err != nil {
+		return fmt.Errorf("writing .nojekyll: %w", err)
+	}
+
 	return copyImages(filepath.Join(assetsDir, "images"), filepath.Join(outDir, "images"))
 }
 

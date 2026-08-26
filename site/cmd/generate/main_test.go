@@ -109,3 +109,14 @@ func TestCopyImagesOnlyCopiesFlatWebPs(t *testing.T) {
 		t.Error("expected _pending subdirectory to NOT be copied, but it was")
 	}
 }
+
+// docs/ is disposable: deleting it and regenerating has to reproduce every
+// published file. .nojekyll was hand-made once and vanished on the first
+// clean rebuild, which would have let Jekyll rewrite the output.
+func TestRunWritesNoJekyllSoOutputSurvivesACleanRebuild(t *testing.T) {
+	outDir, _ := testRun(t)
+
+	if _, err := os.Stat(filepath.Join(outDir, ".nojekyll")); err != nil {
+		t.Errorf(".nojekyll was not generated: %v", err)
+	}
+}

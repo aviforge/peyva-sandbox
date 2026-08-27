@@ -142,6 +142,8 @@ func run(templatesDir, assetsDir, outDir, indexPath string) error {
 		return err
 	}
 	return renderLanding(tmpl, indexPath, LandingData{
+		Chapter:       content.ChapterContent{Number: -1},
+		Roadmap:       roadmap,
 		Chapters:      content.All,
 		Languages:     content.Languages,
 		AssetPrefix:   prefix,

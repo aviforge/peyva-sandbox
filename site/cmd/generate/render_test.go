@@ -479,9 +479,19 @@ func TestLandingPage(t *testing.T) {
 			t.Errorf("landing page missing %q", want)
 		}
 	}
+	// The chapter list is the sidebar, the same one every chapter shows.
+	if n := len(sidebarLink.FindAllString(body, -1)); n != len(content.All) {
+		t.Errorf("landing page sidebar lists %d chapters, want %d", n, len(content.All))
+	}
 	for _, c := range content.All {
 		if !strings.Contains(body, html.EscapeString(c.Title)) {
 			t.Errorf("landing page does not list chapter %d, %q", c.Number, c.Title)
+		}
+	}
+	// It wears the chapter shell, so the same sections in the same order.
+	for _, s := range requiredSections {
+		if !strings.Contains(body, s) {
+			t.Errorf("landing page missing section %q", s)
 		}
 	}
 	for _, absent := range []string{"data-copy-prompt", "data-language-select", "data-system-select", `<section class="block setup"`} {

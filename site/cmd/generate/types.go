@@ -16,6 +16,10 @@ type roadmapView struct {
 // way into chapter 0. It is not a chapter, so it carries none of a chapter's
 // machinery.
 type LandingData struct {
+	// Chapter is what the sidebar reads to mark the active entry. The landing
+	// page is no chapter, so its Number matches nothing and nothing is marked.
+	Chapter       content.ChapterContent
+	Roadmap       []roadmapView
 	Chapters      []content.ChapterContent
 	Languages     []content.Language
 	AssetPrefix   string

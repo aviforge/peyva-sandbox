@@ -11,6 +11,9 @@
     <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
   </button>
 
+  <ul class="chapter-list home-list">
+    {{if lt $.Chapter.Number 0}}<li class="active" data-slug="index">Home</li>{{else}}<li><a href="{{$.AssetPrefix}}index.html" data-slug="index">Home</a></li>{{end}}
+  </ul>
   <div class="nav-group-label">Chapters</div>
   <ul class="chapter-list">
     {{range .Roadmap}}

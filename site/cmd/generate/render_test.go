@@ -98,6 +98,9 @@ func TestEveryPageRendersCompletely(t *testing.T) {
 		if n := len(sidebarLink.FindAllString(p.body, -1)); n != len(content.All) {
 			t.Errorf("%s: sidebar lists %d chapters, want %d", p.name, n, len(content.All))
 		}
+		if !strings.Contains(p.body, `href="index.html" data-slug="index">Home</a>`) {
+			t.Errorf("%s: sidebar has no Home link", p.name)
+		}
 		if !strings.Contains(p.body, "| Peyva Sandbox</title>") {
 			t.Errorf("%s: title is missing the site name", p.name)
 		}
@@ -487,6 +490,10 @@ func TestLandingPage(t *testing.T) {
 		if !strings.Contains(body, html.EscapeString(c.Title)) {
 			t.Errorf("landing page does not list chapter %d, %q", c.Number, c.Title)
 		}
+	}
+	// Home is the active sidebar entry here, and a link everywhere else.
+	if !strings.Contains(body, `<li class="active" data-slug="index">Home</li>`) {
+		t.Error("landing page: Home is not the active sidebar entry")
 	}
 	// It wears the chapter shell, so the same sections in the same order.
 	for _, s := range requiredSections {

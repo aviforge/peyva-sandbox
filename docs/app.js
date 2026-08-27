@@ -119,7 +119,8 @@
     var fill = document.querySelector('[data-progress-fill]');
     var label = document.querySelector('[data-progress-label]');
 
-    var chapters = document.querySelectorAll('.chapter-list a, .chapter-list li.active');
+    // Home is in a list of its own so it is not counted as a chapter.
+    var chapters = document.querySelectorAll('.chapter-list:not(.home-list) a, .chapter-list:not(.home-list) li.active');
     var total = chapters.length;
     var completed = 0;
 

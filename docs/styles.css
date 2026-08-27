@@ -316,6 +316,12 @@ body {
   font-size: 14px;
 }
 
+/* Home sits above the chapters in the same list style, without the group
+   label, so it reads as the first stop rather than as chapter minus one. */
+.home-list {
+  margin-bottom: 4px;
+}
+
 /* The sidebar brand is a link home. Keep it looking like the brand. */
 a.brand {
   text-decoration: none;

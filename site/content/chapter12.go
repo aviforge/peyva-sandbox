@@ -34,20 +34,20 @@ var Chapter12 = ChapterContent{
 		Why:       "An assistant would rather produce something than tell you your constraints do not fit. Permission to stop changes that.",
 		Source:    "Anthropic: Reduce hallucinations, Allow Claude to say I don't know",
 		Prompts: []Prompt{
-			{Label: "Build", Text: `The Teller notifies the recipient inline, so the caller waits for that notification before getting their response.
+			{Label: "Build", Text: `The Teller sends the recipient's notification itself, so the caller waits for it before getting an answer.
 
-Build the Courier. The component that carries out work after a payment has cleared. The Teller hands it the notification and returns immediately; the Courier delivers on its own schedule.
+Build the Courier: the component that does the work after a payment has cleared. The Teller hands it the notification and returns at once.
 
-Scope: an in-process queue and a worker, inside each copy. Do not introduce Kafka, RabbitMQ, NATS, Redis, Docker, or any broker or queue library. No retry policies, no dead-letter handling, no backpressure tuning. Expose the backlog length somewhere I can read it.
+Scope: a queue in memory and a worker, inside each copy. No Kafka, RabbitMQ, NATS, Redis, Docker, or any broker or queue library. No retry rules, no dead letters, no tuning. Show me how many jobs are waiting.
 
-Several copies run at once now. Say what an in-process queue costs when the copy holding it dies with work still in it, and do not fix it here.
+Several copies run now. Say what a queue in memory costs when the copy holding it dies with work still in it, and do not fix that here.
 
-If the standard library genuinely cannot express this, say so rather than reaching for a dependency I ruled out.
+If the standard library genuinely cannot do this, say so rather than reaching for something I ruled out.
 
-Done when a deliberately slow notification doesn't delay the payment response, and work handed over while the Courier is stopped is delivered once it starts again.`},
-			{Label: "Portal", Portal: true, Text: `The page currently waits for the notification before it responds. Have it show the payment as done the moment the money has moved, and the message as delivered separately once the Courier has sent it.
+Done when a slow notification does not delay the payment answer, and work handed over while the Courier is stopped is delivered once it starts.`},
+			{Label: "Portal", Portal: true, Text: `The page waits for the notification before it answers. Have it show the payment as done the moment the money moved, and the message as sent separately once the Courier has sent it.
 
-If plain HTML and CSS cannot show something arriving after the page has loaded without me adding a dependency, say so and tell me what the smallest honest option is.
+If plain HTML and CSS cannot show something arriving after the page has loaded, say so and tell me the smallest honest option.
 
 Done when a slow notification does not delay what the customer sees.`},
 		},

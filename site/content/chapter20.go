@@ -35,31 +35,33 @@ var Chapter20 = ChapterContent{
 		Why:       "Routing, the cross-shard saga and in-flight accounting are three problems wearing one name. Solved separately, each can be checked on its own.",
 		Source:    "The Prompt Report: Decomposition, DECOMP",
 		Prompts: []Prompt{
-			{Label: "Decompose", Thinking: true, Text: `A payments system keeps every account in one store, and I want to split the accounts across two stores so that writes to different accounts can go to different stores.
+			{Label: "Decompose", Thinking: true, Text: `A payments system keeps every account in one store. I want to split them across two, so writes to different accounts go to different stores.
 
-Before designing anything, break that into the separate sub-problems it contains. For each, say what it takes as input, what it must guarantee, and which of the earlier mechanisms in this system it reuses: transactions, idempotency, the saga record. Then say which sub-problem you would build first and why, and which one you would not build in this chapter at all.
+Before designing anything, break that into the separate problems inside it. For each: what it takes in, what it must guarantee, and which earlier mechanism it reuses. Then say which you would build first and why, and which one you would not build at all here.
 
-Done when I have a list of sub-problems with their guarantees, an order, and a reason for the order.`},
-			{Label: "Route", Text: `The Vault runs as one process holding every account, and the copies find it by PEYVA_VAULT.
+Done when I have the problems with their guarantees, an order, and a reason for the order.`},
+			{Label: "Route", Text: `The Vault is one process holding every account, and the copies find it by PEYVA_VAULT.
 
-Solve the first sub-problem, routing. Run two Vaults, each owning the accounts whose handle hashes to it, each with its own file and Ledger. The copies compute the shard from the handle and send each request to the owning Vault. Extend the runner to start both, and say what you changed in it. Opening an account and enquiring a balance go to one shard. A payment whose two accounts share a shard runs as it always did, one transaction. A payment whose accounts differ is refused for now, with an error that says so.
+Solve the first problem, routing. Run two Vaults, each owning the accounts whose handle hashes to it, each with its own file and Ledger. The copies work out the shard from the handle and send each request to the Vault that owns it. Extend the runner to start both, and say what you changed.
 
-Done when accounts spread across both shards, a same-shard payment works, and a cross-shard payment is refused with a clear message.`},
-			{Label: "Cross-shard", Text: `Two Vault shards each own some accounts, and a payment between shards is refused.
+Opening an account and asking a balance go to one shard. A payment whose accounts share a shard runs as before, in one transaction. A payment across shards is refused for now, with an error that says so.
 
-Solve the second sub-problem. Run a cross-shard payment as a saga: debit on the payer's shard with the payment reference, recording it in flight; credit on the recipient's shard with the same reference; mark complete. A permanent failure of the credit reverses the debit as a new Ledger entry pair. A timeout on the credit retries with the same reference. A copy dying between debit and credit resumes from the record after restart. Everything is idempotent by reference at both shards.
+Done when accounts spread across both shards, a same-shard payment works, and a cross-shard payment is refused clearly.`},
+			{Label: "Cross-shard", Text: `Two Vault shards each own some accounts, and a payment between them is refused.
 
-Done when a cross-shard payment leaves balanced Ledger entries on both shards, a closed recipient account puts the money back, a kill between debit and credit completes on restart, and no sequence of retries credits twice.`},
-			{Label: "In flight", Text: `Two Vault shards own the accounts, and cross-shard payments run as sagas with an in-flight record.
+Solve the second problem. Run a cross-shard payment in three steps: take from the payer's shard with the payment reference, recording it as in flight; give on the recipient's shard with the same reference; mark it complete. A permanent failure of the second step puts the money back as a new pair of Ledger entries. A timeout retries with the same reference. A copy dying between the first two steps carries on from the record after a restart. Both shards ignore a reference they have already handled.
 
-Solve the third sub-problem. Expose, from each shard, the sum of its balances and the sum of its Ledger entries, and from the saga record every payment currently in flight with its amount, reference and the step it reached. Report any payment in flight longer than a threshold as stuck.
+Done when a cross-shard payment leaves balanced entries on both shards, a closed recipient puts the money back, a kill part-way through finishes on restart, and no amount of retrying gives twice.`},
+			{Label: "In flight", Text: `Two Vault shards own the accounts, and payments between them run in recorded steps.
 
-Then show me, with ten cross-shard payments running and one deliberately stalled, that the balances on both shards plus the money in flight add up to what was seeded plus what was opened.
+Solve the third problem. From each shard, expose the total of its balances and the total of its Ledger entries. From the records, expose every payment in flight with its amount, reference and the step it reached, and flag any in flight longer than a threshold as stuck.
 
-Done when a healthy two-shard system adds up, a stalled payment is reported as stuck with its reference and step, and the total still adds up while it is stuck.`},
-			{Label: "Replicate", Thinking: true, Text: `Two Vault shards own the accounts, each a single process with its own file, while the earlier single Vault had a replica following its log and a lease saying which copy may write.
+Then show me, with ten cross-shard payments running and one deliberately stalled, that both shards plus the money in flight add up to what was seeded plus what was opened.
 
-Answer from the code: what it would take to give each shard its own replica and lease, what the copies' routing would have to do when one shard is promoted, and which of those two changes you would make first. Do not build it.
+Done when a healthy two-shard system adds up, a stalled payment is flagged with its reference and step, and the total still adds up while it is stuck.`},
+			{Label: "Replicate", Thinking: true, Text: `Two Vault shards own the accounts, each one process with its own file, while the single Vault before them had a replica following its log and a lease saying which copy may write.
+
+Answer from the code: what it would take to give each shard its own replica and lease, what the copies would have to do about routing when one shard is promoted, and which of those two you would do first. Do not build it.
 
 Done when I have your answer on replicating a shard and the order you would do it in.`},
 		},

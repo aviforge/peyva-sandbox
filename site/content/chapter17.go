@@ -35,15 +35,15 @@ var Chapter17 = ChapterContent{
 		Why:       "Naming the reader and the moment they read it changes both what gets logged and how it reads.",
 		Source:    "The Prompt Report: Zero-Shot, Style Prompting",
 		Prompts: []Prompt{
-			{Label: "Build", Text: `The system logs by printing to the console and has no metrics. When something breaks there's no way to find out what happened.
+			{Label: "Build", Text: `The system logs by printing to the console and has no numbers. When something breaks there is no way to find out what happened.
 
-Write the observability for one specific reader: an on-call engineer, woken at 3am, who didn't write this code, is looking at yesterday's records for one failed payment, and cannot attach a debugger or reproduce it.
+Write it for one reader: an on-call engineer, woken at 3am, who did not write this code, looking at yesterday's records for one failed payment, unable to reproduce it.
 
-Give them structured logs carrying the payment reference on every line that payment touches, in the proxy, the copy, the Vault and the replica, each with a timestamp precise enough to see where the time went. Counters for payments, failures, unknown outcomes, Courier backlog and replication lag. A health endpoint on every process reporting real state: for a copy, whether the Vault it last used answered; for a Vault, whether it holds the lease and how far its replica is behind; never a hardcoded ok.
+Give them one event per line, carrying the payment reference on every line that payment touches, everywhere it goes, with timestamps fine enough to show where the time went. Counts of payments, failures, unknown outcomes, jobs waiting, and how far behind the replica is. A health address on every process that reports what is actually true, never a hardcoded ok.
 
-For each thing you log, ask whether it helps that person at 3am. If it doesn't, leave it out. Noise costs them more than a missing line.
+For each thing you log, ask whether it helps that person at 3am. If not, leave it out.
 
-Done when I can take one failed payment reference and reconstruct its whole path and timing from logs alone, and the health endpoint reports degraded when the replica is genuinely unreachable or the lease is not held.`},
+Done when I can take one failed reference and rebuild its whole path and timing from the logs, and health reports trouble when the replica is unreachable or the lease is not held.`},
 		},
 	},
 }

@@ -36,29 +36,29 @@ var Chapter16 = ChapterContent{
 		Why:       "Several strategies scored against stated criteria puts the choice in the open, where you can disagree with it.",
 		Source:    "The Prompt Report: Decomposition, Tree-of-Thought",
 		Prompts: []Prompt{
-			{Label: "Decide", Thinking: true, Text: `A payments system keeps balances in a primary store that replicates asynchronously, by a sequenced log, to a second copy. Promotion is manual. I need to decide what the system does when the primary, the second copy and the request handlers can't all reach each other.
+			{Label: "Decide", Thinking: true, Text: `Balances live in a primary that copies to a replica a moment later. Promotion is by hand. I need to decide what happens when the primary, the replica and the request handlers cannot all reach each other.
 
-Don't write code yet. Propose at least three genuinely distinct strategies for handling the partition: not three variations on one idea. For each, work out what a customer experiences during the partition, what happens to a payment accepted mid-partition, whether two stores could both accept writes, and what manual work recovery needs.
+No code yet. Give me at least three genuinely different strategies, not three versions of one. For each: what a customer sees while it lasts, what happens to a payment taken during it, whether two stores could both take writes, and what recovery costs by hand.
 
-Then prune. Eliminate the ones that are unacceptable for money movement specifically, and say what disqualified each. Recommend one of the survivors, say whether it needs the primary to wait for the replica before answering, and name the condition that would change your recommendation.
+Then cut. Say what ruled each rejected one out for money specifically. Recommend one, say whether it needs the primary to wait for the replica, and name the one condition that would change your mind.
 
-Done when I have three real options, a reason each rejected one was rejected, and a recommendation with the condition that would overturn it.`},
-			{Label: "Build", Text: `The Vault's primary replicates asynchronously to a replica by a sequenced log, promotion is manual, and you recommended a strategy for what happens when the two cannot reach each other.
+Done when I have three real options, a reason each was rejected, and a recommendation with the condition that would overturn it.`},
+			{Label: "Build", Text: `The Vault's primary copies to a replica a moment later, promotion is by hand, and you recommended what should happen when they cannot reach each other.
 
-Build the Warden: a small process on PEYVA_PORT that grants a lease to one Vault at a time. A lease has a holder, a number that only increases, and an expiry a few seconds out. A Vault asks for the lease on start and renews it at half the lease length; the Warden grants to the current holder if it renews in time, otherwise to whichever Vault asks next once the old lease has expired. Each Vault reads PEYVA_WARDEN for the Warden's port. Fill in the runner's START_WARDEN line so it starts with everything else.
+Build the Warden: a process on PEYVA_PORT granting a lease to one Vault at a time. A lease has a holder, a number that only goes up, and an expiry a few seconds out. A Vault asks on start and renews at half that. The Warden renews for the holder, or hands the lease on once the old one has expired. Vaults read PEYVA_WARDEN. Fill in the runner's START_WARDEN line.
 
-A Vault accepts writes only while it holds an unexpired lease, stopping a margin before expiry, and stamps every write with its lease number. The replica keeps following the primary's log, and promotion is now the replica obtaining the lease. The copies ask the Warden which Vault holds the lease, cache the answer, and ask again when a request to it fails.
+A Vault writes only while its lease is good, stopping a margin before expiry, and stamps every write with the lease number. Promotion is now the replica getting the lease. The copies ask the Warden which Vault to use, and ask again when a request fails.
 
-Implement your recommended strategy for writes. If it was to wait for the replica, have the primary answer a payment only after the replica acknowledges the sequence, and refuse payments when the replica is unreachable. Serve balance enquiries from whichever copy is reachable, saying which and how far behind it is.
+Then do what you recommended for writes. Answer enquiries from whichever copy is reachable, saying which and how far behind.
 
-Done when stopping the Warden makes both Vaults refuse writes within one lease length, stopping the primary makes the replica hold the lease and accept payments with no restart of anything else and no committed payment lost, restarting the old primary makes it a follower, and enquiries keep answering throughout.`},
-			{Label: "Portal", Portal: true, Text: `When the Vault's copies disagree, the balance the Portal shows may be behind, and the server now says how far.
+Done when stopping the Warden makes both Vaults refuse writes within one lease, stopping the primary makes the replica take over with nothing lost and no other restart, and enquiries answer throughout.`},
+			{Label: "Portal", Portal: true, Text: `When the copies disagree, the balance the Portal shows may be behind, and the server now says how far.
 
-Propose three genuinely different ways for the page to handle that, not three wordings of one. For each, say what a customer believes after reading it, and what they do next. Then recommend one and say what it costs.
+Give me three genuinely different ways for the page to handle that, not three wordings of one. For each, say what a customer believes after reading it and what they do next. Recommend one and say what it costs.
 
 Build the one you recommend.
 
-Done when a stale balance is visibly stale and a customer is not misled about their money.`},
+Done when an old balance is visibly old and nobody is misled about their money.`},
 		},
 	},
 }

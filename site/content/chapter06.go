@@ -33,26 +33,26 @@ var Chapter06 = ChapterContent{
 		Why:       "Forbid claims about code it has not run, and you get timings instead of confident guesses.",
 		Source:    "Anthropic: Prompting best practices, Minimizing hallucinations in agentic coding",
 		Prompts: []Prompt{
-			{Label: "Build", Text: `The Vault stores accounts keyed by owner. Each account also carries a region, which nothing indexes.
+			{Label: "Build", Text: `The Vault stores accounts by owner. Each also carries a region, which nothing indexes.
 
-Do this in order and don't skip ahead:
+In order, no skipping ahead:
 
-1. Seed the Vault with 50,000 accounts and randomised regions.
-2. Time a lookup of every account in one region. Report the number before changing anything, and show me the query plan the database gives for it.
+1. Seed 50,000 accounts with random regions.
+2. Time a lookup of every account in one region. Report the number and the query plan before changing anything.
 3. Add an index on region.
-4. Time the same lookup again and report both numbers side by side, with the new query plan.
-5. Time 1,000 account inserts with the index present, then with it dropped, and report that difference too.
+4. Time the same lookup. Report both numbers side by side, with the new plan.
+5. Time 1,000 inserts with the index, then without it. Report the difference.
 
-Never state a performance claim you have not measured on this machine. Show me real numbers, not estimates, and if the improvement is smaller than expected, say so rather than explaining it away.
+Never state a speed claim you have not measured here. Real numbers, not estimates. If the gain is smaller than expected, say so rather than explaining it away.
 
-Done when I have four real numbers: read time before and after, write time before and after, and two query plans that differ.`},
-			{Label: "Portal", Portal: true, Text: `Someone typing a handle from memory should know they have the right person before they send. Have Send look the handle up as it is typed and show whose account it is.
+Done when I have four measured numbers and two query plans that differ.`},
+			{Label: "Portal", Portal: true, Text: `Someone typing a handle from memory should know they have the right person before sending. Have Send look the handle up as it is typed and show whose account it is.
 
-Show the recipient's handle and owner, never their balance. That is not the sender's to see.
+Show the handle and the owner, never the balance. That is not the sender's to see.
 
-Then show me, from a real timing you have run rather than an estimate, how long that lookup takes against a table with thousands of accounts, with the index and without it.
+Then time that lookup for real against a table of thousands of accounts, with the index and without.
 
-Done when a wrong handle is obvious before sending, and you have shown me both timings.`},
+Done when a wrong handle is obvious before sending, and I have both timings.`},
 		},
 	},
 }

@@ -34,27 +34,27 @@ var Chapter11 = ChapterContent{
 		Why:       "A cache bug does not crash. It returns a confident wrong number, which a passing test will not catch.",
 		Source:    "The Prompt Report: Self-Criticism, Self-Refine",
 		Prompts: []Prompt{
-			{Label: "Build", Text: `Every balance enquiry reaches the Vault's storage, even when the same balance was read a moment ago and hasn't changed since. Three copies of the Gateway and Teller sit in front of the Vault, which runs as its own process.
+			{Label: "Build", Text: `Every balance enquiry reaches the Vault's storage, even when the same balance was read a moment ago. Three copies of the Gateway and Teller sit in front of the Vault, which is its own process.
 
-Add an in-memory cache of balances inside the Vault's process, in front of its reads, invalidated whenever a payment changes an account. An in-memory map, safe for concurrent access: no Redis, no cache library. The cache serves enquiries only; the check before a debit reads inside the transaction, never from the cache.
+Add a cache of balances in memory inside the Vault, cleared whenever a payment changes an account. A map, safe for use by several requests at once. No Redis, no cache library. It serves enquiries only: the check before a debit reads inside the transaction, never the cache.
 
-Before writing it, say why the cache cannot live in the copies, in two sentences.
+First, say in two sentences why the cache cannot live in the copies.
 
-Done when a repeated enquiry is served from cache, a payment makes the next enquiry from any copy show the new balance, and the balance check inside a payment never reads the cache.`},
-			{Label: "Review", Text: `You have added an in-memory cache inside the Vault's process in front of its balance reads, invalidated when a payment changes an account.
+Done when a repeated enquiry is served from cache, a payment makes the next enquiry from any copy show the new balance, and a payment's own check never reads the cache.`},
+			{Label: "Review", Text: `You added a cache of balances inside the Vault, cleared when a payment changes an account.
 
-Review that implementation as if you were trying to make it serve a stale balance. Walk every path that changes a balance and check whether it invalidates. Consider a concurrent read and write, a payment that rolled back after the cache was dropped, a payment that touches two accounts at once, and a read that refills the cache between the invalidation and the commit.
+Review it as if you were trying to make it serve an old balance. Walk every path that changes a balance and check that it clears. Consider a read and a write at once, a payment that rolled back after the cache was cleared, a payment touching two accounts, and a read that refills the cache between the clear and the commit.
 
-Report what you found as a list, fix it, then run that same review again on the fixed version. Keep going until a review turns up nothing.
+List what you found, fix it, then review the fixed version the same way. Keep going until a review turns up nothing.
 
-Done when a review finds nothing left, and you have told me how many rounds it took and which staleness bug the first version had.`},
+Done when a review finds nothing, and you have told me how many rounds it took and what the first version got wrong.`},
 			{Label: "Portal", Portal: true, Text: `The Portal shows a balance, sends money and lists a history, and looks like each was added the week it was needed. Make it presentable.
 
 Judge it against every rule in peyva/portal/design.md, one at a time, and against the visual idea you committed to in chapter 0. Say whether the page still has that idea or has drifted into something anonymous.
 
-Say whether each passes before changing anything. Fix what fails, judge again, and keep going until a pass finds nothing. Tell me what you fixed each round.
+Say whether each rule passes before changing anything. Fix what fails, judge again, and keep going until nothing fails. Tell me what you fixed each round.
 
-Done when a critique pass finds nothing to fix.`},
+Done when a pass finds nothing to fix.`},
 		},
 	},
 }

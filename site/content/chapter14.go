@@ -34,22 +34,22 @@ var Chapter14 = ChapterContent{
 		Why:       "One prompt for a whole multi-stage workflow gets you a sketch of all of it and a working version of none.",
 		Source:    "The Prompt Report: Decomposition, Least-to-Most",
 		Prompts: []Prompt{
-			{Label: "Build", Text: `A payment is currently one atomic step inside the Vault. I want the Teller to run payments that span several stages and can unwind if a later stage fails permanently.
+			{Label: "Build", Text: `A payment is one step inside the Vault. I want it run in stages that can unwind if a later stage fails for good.
 
-Build it in five stages, each on what the last one left. Stop after each and tell me it works before starting the next.
+Build it in five, each on what the last left. Stop after each and tell me it works.
 
-1. A durable record, per payment reference, of which stages have completed, stored in the Vault's database.
-2. Wire the existing money movement in as stage one, recording its completion.
-3. A stand-in for a second ledger peyva does not own: a small separate process with its own file, that credits an account, refuses permanently for a handle marked closed, and can be made unreachable. Add stage two: crediting the recipient there.
-4. A reversal for stage one (put the money back, as a new pair of Ledger entries referencing the original rather than by deleting the old ones), triggered when stage two fails in a way that can never succeed.
-5. Resumption: kill the copy between stage one and stage two, restart, and have the saga continue from its record rather than start again or stall.
+1. A saved record, per payment reference, of which stages are done.
+2. The existing money movement as stage one, recording that it finished.
+3. A stand-in for a ledger peyva does not own: a small process with its own file that credits an account, refuses for good on a handle marked closed, and can be made unreachable. Stage two credits the recipient there.
+4. An undo for stage one, as new Ledger entries pointing at the original, never a deletion. It runs when stage two fails in a way that can never succeed.
+5. Kill the copy between stages one and two, start it again, and have the payment carry on from its record.
 
-Distinguish permanent failures from retryable ones. Only permanent failures reverse; a timeout retries with the same reference.
+Only permanent failures undo. A timeout retries with the same reference.
 
-Done when a permanently failing stage two puts the money back, the Ledger shows both the original payment and its reversal, a saga interrupted between stages completes after a restart, and the payment's record shows every stage it passed through.`},
-			{Label: "Portal", Portal: true, Text: `A reversed payment currently looks like two unrelated rows. Show it as what it is: the original, and the reversal that answers it, tied together.
+Done when a permanently failing stage two puts the money back, the Ledger shows the payment and its undo, and an interrupted payment finishes after a restart.`},
+			{Label: "Portal", Portal: true, Text: `A reversed payment looks like two unrelated rows. Show it as what it is: the original, and the reversal that answers it, tied together.
 
-Build it in stages. First mark a reversed payment as reversed. Then link the two rows. Then say why it was reversed. Stop after each and show me before starting the next.
+Build it in stages. First mark it as reversed. Then link the two rows. Then say why. Stop after each and show me.
 
 Done when a customer can see that money left and came back, and why.`},
 		},

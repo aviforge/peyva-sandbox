@@ -171,7 +171,7 @@
       <p class="technique"><span class="technique-name">Generated Knowledge Prompting</span>. Enumerating how duplicates arise gives the design somewhere to put each case, before production does it for you.</p>
       <p class="technique-source">Documented in The Prompt Report: Generated Knowledge</p>
       <details class="standing-rules">
-        <summary>Every prompt below is copied with these rules, about 512 tokens for the chapter</summary>
+        <summary>Every prompt below is copied with these rules, about 422 tokens for the chapter</summary>
         <pre class="prompt-lang" id="rules-build">Build this in <span data-language-name>Go</span>, standard library only.
 Code in peyva/&lt;component&gt;/, one folder per component.
 Money: exact decimal or integer minor units, never floating point, two decimal places.
@@ -184,30 +184,30 @@ The goal and invariants are in peyva/goal.md, the look in peyva/portal/design.md
         
       </details>
       
-      <p class="prompt-divider"><span class="prompt-step">1 of 2</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~350 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">1 of 2</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~261 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-build">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
-        <pre class="prompt">The Teller will move money twice if it receives the same payment request twice, a retry after a timeout is indistinguishable from a genuine second payment.
+        <pre class="prompt">Send the same payment request twice and the Teller pays twice. A retry after a timeout looks exactly like a second payment.
 
-First, list the distinct ways a duplicate request reaches a payment system in the real world. For each, say whether the caller knows the first attempt succeeded.
+First, list the ways a duplicate reaches a payments system in the real world. For each, say whether the caller knows the first attempt worked.
 
-Then make the Teller recognise a repeat: the caller supplies a reference with the request, and a reference the Teller has already handled returns the original result without moving money again. Store the reference and its response in the same atomic unit that moves the money. Not before, not after. Let the database refuse a second insert of the same reference; do not check-then-insert in code.
+Then make the Teller spot a repeat. The caller sends a reference, and one already handled returns the first result without moving money again. Store the reference and its answer in the same transaction that moves the money. Let the database refuse the second insert; do not check first in code.
 
-Then go back over the list you wrote and tell me, case by case, which ones your design now handles and which it doesn&#39;t. Include what happens if two requests carrying the same brand-new reference arrive at the same instant, and prove it by sending them.
+Then go back over your list and say which cases you now handle and which you do not.
 
-Done when the same reference twice pays once, two different references pay twice, two simultaneous sends of one new reference pay once, and every duplicate response is byte-identical to the first.</pre>
+Done when the same reference twice pays once, two references pay twice, two simultaneous sends of one new reference pay once, and every repeat answer is identical.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">2 of 2</span> Portal<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~162 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">2 of 2</span> Portal<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~161 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-portal">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
-        <pre class="prompt">Send posts the form and takes whatever comes back, so a customer who taps twice pays twice. Attach the same reference to a resubmission, and show the original result.
+        <pre class="prompt">Send posts the form and takes whatever comes back, so a customer who taps twice pays twice. Attach the same reference to a resend, and show the original result.
 
 Done when double-submitting the form leaves one payment in History, and the page looks the same both times.</pre>
       </div>

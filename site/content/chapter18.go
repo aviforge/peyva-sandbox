@@ -34,37 +34,37 @@ var Chapter18 = ChapterContent{
 		Why:       "Asking for secure code gets you the checklist. Verifying your own draft finds the holes the checklist does not mention.",
 		Source:    "The Prompt Report: Self-Criticism, Chain-of-Verification",
 		Prompts: []Prompt{
-			{Label: "Draft", Text: `The Gateway trusts the "from" field on a payment request completely. Any caller can move money out of any account by naming it. The Vault accepts a write from anything that can reach its port.
+			{Label: "Draft", Text: `The Gateway believes the "from" field, so any caller can spend from any account. The Vault takes a write from anything that can reach its port.
 
-Make the Gateway prove who the caller is, and confirm they own the account they are spending from before the Teller ever sees the request. Make the Vault accept writes only from callers presenting a shared secret the copies hold. Move every credential out of source code into environment variables the processes refuse to start without.
+Make the Gateway prove who the caller is, and check they own the account they are spending from, before the Teller sees the request. Make the Vault take writes only from callers presenting a shared secret. Move every password and key out of the code into environment variables the processes refuse to start without.
 
-Done when a request with no credential is refused, a caller authenticated as one owner cannot spend from another's account, and a write sent straight to the Vault's port without the secret is refused.`},
-			{Label: "Plan the checks", Thinking: true, Text: `You put authentication in front of a payments API, an ownership check between the caller and the money, and a shared secret in front of the store.
+Done when a request with no credential is refused, a caller signed in as one owner cannot spend from another's account, and a write sent straight to the Vault's port without the secret is refused.`},
+			{Label: "Plan the checks", Thinking: true, Text: `You put a sign-in in front of a payments API, an ownership check between the caller and the money, and a shared secret in front of the store.
 
-Write the list of questions that would expose that work as broken. Be specific to this system, these fields and these checks: no generic OWASP categories, no advice that would apply to any application.
+Write the questions that would show that work to be broken. Specific to this system, these fields and these checks. No generic categories, nothing that would apply to any application.
 
-Don't answer them yet.
+Do not answer them yet.
 
-Done when I have a list of questions that are all about this system, and none of them could be asked of any other.`},
-			{Label: "Answer and revise", Text: `You wrote a list of questions that would expose your authentication and ownership checks as broken.
+Done when I have questions that are all about this system, and none of them could be asked of any other.`},
+			{Label: "Answer and revise", Text: `You wrote the questions that would show your sign-in and ownership checks to be broken.
 
-Take each one against the code you actually wrote, one at a time. Don't soften an answer because of what you concluded on another question.
+Take each one against the code you actually wrote, one at a time. Do not soften an answer because of what you concluded on another.
 
-Then fix what the answers exposed, and state plainly what is still exploitable, including anything you left out of scope on purpose.
+Then fix what the answers exposed, and say plainly what is still exploitable, including anything you left out on purpose.
 
 Done when every question has an answer, the fixable ones are fixed, and I have your list of what remains exploitable.`},
-			{Label: "Portal", Portal: true, Text: `The Portal's switcher takes whoever it is told. Anyone at the keyboard can pick alice and send her money, which was fine while peyva ran on one laptop and is not fine now.
+			{Label: "Portal", Portal: true, Text: `The Portal's switcher takes whoever it is told, so anyone at the keyboard can pick alice and spend her money. That was fine on one laptop and is not fine now.
 
 Put a sign-in in front of it. Switching account means signing in as that account, and the switcher offers only accounts already signed in. Signing out removes one.
 
 A signed-in customer sees their own account and nobody else's, and can only send from their own.
 
-Done when signing out as alice and back in as bob changes every screen to bob, and closing the tab does not leave either of them signed in.`},
+Done when signing out as alice and in as bob changes every screen to bob, and closing the tab leaves neither signed in.`},
 			{Label: "Portal checks", Portal: true, Text: `You put a sign-in in front of a wallet page, where switching account means signing in as that account.
 
-Write the list of questions that would expose that page as broken: specific to this page and these forms, not generic security advice. Answer each one against what you built, and fix what the answers expose.
+Write the questions that would show that page to be broken: specific to this page and these forms, not generic advice. Answer each against what you built, and fix what they expose.
 
-Done when nothing I can type in the browser makes it show or spend bob's money without bob's own sign-in, and I have your list of what you checked.`},
+Done when nothing I can type in the browser shows or spends bob's money without bob's own sign-in, and I have your list of what you checked.`},
 		},
 	},
 }

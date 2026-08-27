@@ -35,29 +35,29 @@ var Chapter15 = ChapterContent{
 		Why:       "Compare its analogy against yours. Where the two differ, one of you is wrong about the design.",
 		Source:    "The Prompt Report: Thought Generation, Analogical Prompting",
 		Prompts: []Prompt{
-			{Label: "Analogy", Thinking: true, Text: `A system keeps its records in one file on one disk. If that disk dies, every record dies with it. I want a second copy somewhere else that follows the first, change by change.
+			{Label: "Analogy", Thinking: true, Text: `A system keeps its records in one file on one disk. If that disk dies, every record dies with it. I want a second copy elsewhere that follows the first, change by change.
 
-Before designing anything, give me a real-world analogy for keeping a second copy of records elsewhere, something with no computers in it. Say who writes first, who copies, how the copier knows where it got up to, how far behind the copy runs, and what happens when the original is destroyed while the copier is behind.
+Before designing anything, give me a real-world comparison with no computers in it. Who writes first, who copies, how the copier knows where it got to, how far behind it runs, and what happens if the original is destroyed while the copier is behind.
 
-Then name the one part of your analogy that actually matters for this design.
+Then name the one part of it that actually matters here.
 
-Done when I have your analogy and the single part of it you say carries over.`},
-			{Label: "Build", Text: `The Vault runs as one process holding one SQLite file, and a payment is committed there and nowhere else.
+Done when I have your comparison and the single part you say carries over.`},
+			{Label: "Build", Text: `The Vault is one process holding one file, and a payment is saved there and nowhere else.
 
-Give the Vault a replication log: every committed change appended with a sequence number in the same transaction as the change. Then make the Vault able to run as a replica. Started with PEYVA_PRIMARY set to the primary's port, it applies the primary's log in order, fetching everything after its own last applied sequence, and reports its position and the primary's latest sequence on an endpoint. Keep the copying asynchronous: the primary answers the caller without waiting for the replica.
+Give it a log: every saved change, numbered, written in the same transaction as the change. Then let the Vault run as a replica instead. Started with PEYVA_PRIMARY set to the primary's port, it applies the primary's log in order from its own last number, and reports its number and the primary's latest.
 
-Add a manual promotion: an endpoint or signal that tells the replica to stop following and start accepting writes, reporting the sequence it was at when promoted. An old primary that is told a promotion has happened refuses every write from then on.
+Add a promotion by hand: something that tells the replica to stop following and start taking writes, reporting the number it was on. A primary told this has happened refuses every write from then on.
 
-The runner starts the replica with everything else when its START_REPLICA line is filled in. Fill it in. The replica must be able to be stopped and restarted while the primary keeps taking payments, and catch up from its position.
+Fill in the runner's START_REPLICA line. The replica must survive being stopped and restarted while payments carry on.
 
-Done when a payment appears in both copies with the same sequence, stopping the replica during ten payments and restarting it catches it up with none missing, and you can show me a number for how far behind it was.`},
-			{Label: "Critique", Thinking: true, Text: `You gave me a real-world analogy for keeping a second copy of records, then built log-based asynchronous replication for the Vault from it.
+Done when a payment reaches both copies with the same number, stopping the replica during ten payments and restarting it loses none, and you can show me how far behind it got.`},
+			{Label: "Critique", Thinking: true, Text: `You gave me a real-world comparison for keeping a second copy, then built replication from it.
 
-Tell me where that analogy breaks down for real databases, and whether it led you into any mistake in the code you wrote.
+Where does the comparison break down for real databases, and did it lead you into a mistake in the code?
 
-Then answer directly: if the primary dies with the replica three sequences behind and the replica is promoted, which invariants in goal.md are broken from the customer's point of view, and how would anyone find out?
+Then, directly: if the primary dies with the replica three changes behind and the replica is promoted, which rules in goal.md break from the customer's side, and how would anyone find out?
 
-Done when I know which parts of your analogy to stop trusting, whether any of them reached the code, and exactly what a promotion loses.`},
+Done when I know which parts of the comparison to stop trusting, whether any reached the code, and exactly what a promotion loses.`},
 		},
 	},
 }

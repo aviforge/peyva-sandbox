@@ -33,24 +33,25 @@ var Chapter03 = ChapterContent{
 		Why:       "Told where you are and why, it picks commands that run on your machine and warns you about the firewall prompt.",
 		Source:    "Anthropic: Prompting best practices, Add context to improve performance",
 		Prompts: []Prompt{
-			{Label: "Build", Text: `My environment: {os}. If you can run commands yourself, this machine is the one to run them on: act on it directly rather than assuming a separate machine you can only advise about. The Gateway is listening on TCP port 9310 on this machine, and I have a phone on the same Wi-Fi.
+			{Label: "Reach it", Text: `My environment: {os}. If you can run commands, run them here rather than advising about another machine. The Gateway is listening on TCP port 9310, and I have a phone on the same Wi-Fi.
 
-I want to reach the Gateway from the phone instead of from localhost. I'm doing this to understand how a service becomes reachable beyond the machine it runs on, so tell me what is actually happening rather than only what to type.
+I want to reach the Gateway from the phone. Tell me what is happening, not only what to type.
 
-Tell me the command for my OS to find this machine's network address, and how to know which of the addresses it prints is the right one. Then tell me whether the Gateway needs a code change to accept connections from another machine, or whether it already does.
+Give me the command to find this machine's network address, and how to tell which of the addresses it prints is the right one. Say whether the Gateway needs a change to accept connections from another machine. Warn me before any firewall prompt. If the phone cannot reach it, ask once whether this is a locked-down network, then have me try from a second terminal instead.
 
-If a firewall prompt is likely on my OS, warn me before I hit it. If the phone can't reach it, ask me one thing, whether this is a locked-down network, and go straight to having me check from a second terminal on this machine against that address instead. Don't make me report back symptoms first.
+Done when the phone, or that second terminal, reaches the Gateway and it logs the connection.`},
+			{Label: "Stream", Text: `The Gateway listens on TCP port 9310, accepts a connection, logs one line with the caller's address, then closes it.
 
-Then show me that TCP is a stream: have the Gateway read what arrives and print each read with its byte count, and send it one message from a client in two separate writes with a pause between them. Tell me what the Gateway would need in order to know where that message ended.
+Show me that TCP is a stream and not messages. Have it print each read with its byte count, then send one message from a client in two writes with a pause between them. Say what the Gateway would need in order to know where that message ended.
 
-Done when the phone (or that second terminal, if the network blocks it) reaches the Gateway, the Gateway logs the connection, and I have seen one message arrive as more than one read.`},
-			{Label: "Portal", Portal: true, Text: `The Gateway accepts connections but serves nothing. Have it return peyva/portal/index.html to anything that connects, so the page I could only open locally is now reachable from my phone on the same Wi-Fi.
+Done when I have seen one message arrive as more than one read.`},
+			{Label: "Portal", Portal: true, Text: `The Gateway accepts connections but serves nothing. Have it return peyva/portal/index.html to anything that connects, so the page is reachable from my phone.
 
-Tell me what changes about how the page loads its stylesheet once it arrives over a connection instead of from disk, before I hit it.
+Tell me what changes about how the page loads its stylesheet now it arrives over a connection instead of from disk.
 
-Leave the Gateway running once you've checked it works. The point is reaching it from my phone next, not just confirming it starts.
+Leave the Gateway running when you are done. The point is reaching it from the phone next.
 
-Done when the phone (or a second terminal on this machine, if the network blocks the phone) shows alice's balance.`},
+Done when the phone, or a second terminal, shows alice's balance.`},
 		},
 	},
 }

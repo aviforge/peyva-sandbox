@@ -32,18 +32,18 @@ var Chapter05 = ChapterContent{
 		Why:       "Specify the finish line rather than the steps, and the assistant works out the delta, including what you would have forgotten.",
 		Source:    "Anthropic: Prompting best practices, Provide clear success criteria",
 		Prompts: []Prompt{
-			{Label: "Build", Text: `Now: the Vault holds balances in memory. They vanish when the process stops, so every restart resets alice to her seeded amount.
+			{Label: "Build", Text: `Now: the Vault holds balances in memory, so every restart resets alice.
 
-Target: the Vault keeps accounts in a file on disk. It creates its storage on first run and seeds alice only if she isn't already there. Every read and every write of a balance goes to that file. No balance is cached in memory anywhere.
+Target: the Vault keeps accounts in a file on disk. It creates the file on first run and seeds alice only if she is not already there. Every read and write of a balance goes to that file, and no balance is kept in memory.
 
-Use SQLite. If the language's standard library has no SQLite binding, say so and use the single most widely used driver for it, preferring one that needs no C toolchain; that is the one exception to standard library only, and name it so I can see it. Don't change what the Gateway or the Teller look like from the outside.
+Use SQLite. If your language's standard library has no SQLite, say so and use the most widely used driver, preferring one that needs no C toolchain. Name it: that is the one exception to standard library only. Do not change how the Gateway or the Teller look from outside.
 
-Tell me what the database does between my write returning and the bytes being safe on disk, and what happens to a write if the power goes in that gap.
+Tell me what happens between my write returning and the bytes being safe on disk, and what a power cut in that gap costs.
 
-Done when restarting the process still reports alice's balance, and deleting the Vault's file is the only thing that loses it.`},
-			{Label: "Portal", Portal: true, Text: `The Portal reads balances from the Vault's file rather than from whatever was in memory when the page was written.
+Done when a restart still reports alice's balance, and deleting the file is the only thing that loses it.`},
+			{Label: "Portal", Portal: true, Text: `The Portal reads balances from the Vault's file, not from whatever was in memory when the page was written.
 
-Done when I make a payment, stop the process, start it again, reload the page, and the new balance is still there.`},
+Done when I make a payment, restart the process, reload the page, and the new balance is still there.`},
 		},
 	},
 }

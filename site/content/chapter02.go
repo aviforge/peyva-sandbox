@@ -33,15 +33,13 @@ var Chapter02 = ChapterContent{
 		Why:       "Ask for a listener without stating a ceiling and you get an HTTP server with routes and JSON.",
 		Source:    "Anthropic: Prompting best practices, Overeagerness",
 		Prompts: []Prompt{
-			{Label: "Build", Text: `peyva is one process holding the Vault, and the only way to reach it is to run it yourself. Build the Gateway, the way payment requests reach the system from outside.
+			{Label: "Build", Text: `peyva is one process holding the Vault, reachable only by running it yourself. Build the Gateway: the way requests reach the system from outside.
 
-For now it does one thing: claim TCP port 9310, accept connections, log one line per connection with the caller's address, then close it.
+It does one thing. Claim TCP port 9310, accept connections, log one line per connection with the caller's address, then close it.
 
-Do not add HTTP handling, routes, JSON parsing, request or response types, graceful shutdown, or any third-party package. The Gateway only owns a door right now. Everything else arrives in later chapters and would get in the way.
+No HTTP, no routes, no JSON, no request or response types, no graceful shutdown, no third-party package. The Gateway owns a door and nothing else. The right amount of complexity is the least that does what I just said.
 
-The right amount of complexity is the minimum that does what I just described.
-
-Done when a request to port 9310 makes the Gateway log a connection, and starting a second copy fails with 'address already in use'.`},
+Done when a request to port 9310 logs a connection, and a second copy fails with 'address already in use'.`},
 		},
 	},
 }

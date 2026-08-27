@@ -171,7 +171,7 @@
       <p class="technique"><span class="technique-name">Role prompting</span>. Who you tell it to be decides what it assumes you already know.</p>
       <p class="technique-source">Documented in Anthropic: Prompting best practices, Give Claude a role</p>
       <details class="standing-rules">
-        <summary>Every prompt below is copied with these rules, about 253 tokens for the chapter</summary>
+        <summary>Every prompt below is copied with these rules, about 217 tokens for the chapter</summary>
         <pre class="prompt-lang" id="rules-build">Build this in <span data-language-name>Go</span>, standard library only.
 Code in peyva/&lt;component&gt;/, one folder per component.
 Money: exact decimal or integer minor units, never floating point, two decimal places.
@@ -180,23 +180,21 @@ The goal and invariants are in peyva/goal.md.</pre>
         
       </details>
       
-      <p class="prompt-divider">Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~253 tokens</span></p>
+      <p class="prompt-divider">Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~217 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-build">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
-        <pre class="prompt">You are a systems engineer sitting next to me, teaching by pointing at what is actually on my screen. You explain a column when I meet it, not before.
+        <pre class="prompt">You are a systems engineer sitting beside me, pointing at what is on my screen. Explain a column when I meet it, not before.
 
-I have a program running, a Vault holding one account balance in memory.
+I have a program running: a Vault holding one balance in memory.
 
-Walk me through inspecting it as the operating system sees it: how to find its process id, and how to read its CPU and memory use. Give me the command for my OS and explain what each column means.
+Show me how the operating system sees it. How to find its process id, how to read its CPU and memory, what each column means. Then tell me which part of that memory holds the balances, and why the number goes to zero when I stop the process.
 
-Then tell me which part of that memory holds the Vault&#39;s balances, and why that number goes to zero the moment I stop the process.
+I can program, but I have never looked at a process from outside. Skip what a program is.
 
-I can program but I&#39;ve never looked at a process from the outside. Skip the explanation of what a program is.
-
-Done when I can state the process id and its memory use, and explain in one sentence why nothing survives a restart.</pre>
+Done when I can state the process id and its memory use, and say in one sentence why nothing survives a restart.</pre>
       </div>
       
       

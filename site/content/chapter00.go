@@ -36,22 +36,20 @@ var Chapter00 = ChapterContent{
 		Why:       "The task has one obvious shape. Scaffolding it would cost tokens and buy nothing.",
 		Source:    "The Prompt Report: Zero-Shot",
 		Prompts: []Prompt{
-			{Label: "Build", Text: `Build the Vault. The component that holds accounts and what's in them. Nothing else is allowed to change a balance.
+			{Label: "Build", Text: `Build the Vault: the component that holds accounts and what is in them. Nothing else may change a balance.
 
-An account is a handle, an owner and an amount. Seed two: alice holding 100, bob holding 0. Print the Vault's contents on startup, run until interrupted, then print a shutdown message.
+An account is a handle, an owner and an amount. Seed alice with 100 and bob with 0. Print the contents on startup, run until interrupted, print a message on the way out.
 
-One file. No persistence, no network.
+One file. No saving to disk, no network.
 
-Done when running it prints alice's balance and it exits cleanly on Ctrl+C.`},
-			{Label: "Portal", Portal: true, Text: `Write peyva/portal/index.html each time the program starts. It shows one account at a time, not a list of everyone: whose it is, and what they hold.
+Done when it prints alice's balance and exits cleanly on Ctrl+C.`},
+			{Label: "Portal", Portal: true, Text: `Write peyva/portal/index.html each time the program starts. It shows one account at a time, never a list of everyone.
 
-Give it the shell the rest of the book fills in. A switcher at the top naming whose wallet is on screen, and a menu down one side with Balance in it. Leave room in the menu for the entries later chapters add, and show nothing that is not built yet.
+Give it the shell the rest of the book fills in: a switcher at the top saying whose wallet is on screen, and a menu down the side with Balance in it. Leave room for what later chapters add, and show nothing that is not built yet.
 
-Both seeded accounts go into the page, so switching between them needs nothing from a server. Say what you used to do the switching and why.
+Put both accounts in the page, so switching needs no server. Say what you used, and why.
 
-No server. I open the file from disk.
-
-This is where the look gets set. Commit to the one visual idea the brief asks for. Everything after this chapter builds on it.
+No server: I open the file from disk. This is where the look is set, so commit to the one visual idea the brief asks for.
 
 Done when the page opens on alice holding 100.00 and the switcher shows me bob holding 0.00.`},
 		},

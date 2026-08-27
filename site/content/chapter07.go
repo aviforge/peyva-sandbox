@@ -36,32 +36,32 @@ var Chapter07 = ChapterContent{
 		Why:       "The failure modes are the hard part here, and thinking first surfaces the hole while it is still cheap.",
 		Source:    "The Prompt Report: Thought Generation, Chain-of-Thought",
 		Prompts: []Prompt{
-			{Label: "Build", Text: `The Teller moves money by updating two balances in the Vault. Nothing records that the movement happened, so if a balance looks wrong there's no way to prove how it got that way.
+			{Label: "Build", Text: `The Teller moves money by updating two balances. Nothing records that it happened, so a balance that looks wrong cannot be explained.
 
-Build the Ledger: an append-only, double-entry record. Every payment writes two balanced entries (a debit and a credit sharing one reference and timestamp), and the Vault's balances update in the same atomic unit. All of it commits, or none of it happened.
+Build the Ledger: a record only ever added to, where every payment writes two entries that balance, a debit and a credit sharing one reference and timestamp. The balances update in the same transaction. All of it commits, or none of it happened.
 
-Before writing code: walk me through what the data looks like if the process dies between the debit, the credit, and the Ledger write. Three scenarios, and for each tell me exactly who is owed what.
+Before writing code: what does the data look like if the process dies between the debit, the credit and the Ledger write? Three cases, and for each, who is owed what.
 
-Then make those states unreachable, and tell me which of your three scenarios is still possible afterwards, if any.
+Then make those states impossible, and tell me which of your three cases is still reachable.
 
-Done when a completed payment leaves two balanced Ledger entries and updated balances, a forced mid-payment failure leaves neither, and summing alice's Ledger entries equals her Vault balance.`},
-			{Label: "Isolation", Text: `The Teller checks that the payer has enough and then debits them, inside one transaction.
+Done when a finished payment leaves two balanced entries and updated balances, a forced failure mid-payment leaves neither, and alice's entries add up to her balance.`},
+			{Label: "Isolation", Text: `The Teller checks the payer has enough, then debits them, inside one transaction.
 
-Before changing anything, reason through this: two payments from alice of 60 each arrive at the same instant, and she holds 100. Walk through the interleaving where both read 100, both decide 60 fits, and both debit. Say what her balance is afterwards, whether the Ledger and the Vault still agree, and which invariant in goal.md was broken.
+Before changing anything: alice holds 100, and two payments of 60 arrive at the same instant. Walk me through the case where both read 100, both decide 60 fits, and both debit. What is her balance, do the Ledger and the balances still agree, and which rule in goal.md broke?
 
-Then tell me which isolation level, or which lock, the database you are using applies to that transaction, and whether it prevents that interleaving. Do not assume; find out from the database's own documentation or by testing it.
+Then find out, from the database's own documentation or by testing it, whether it already prevents that. Do not assume.
 
-Then fire those two payments concurrently, for real, and show me the result. If the second one is not refused, fix it so the read and the debit are one unit, and run it again.
+Then send those two payments at the same time for real and show me what happened. If the second is not refused, make the check and the debit one step nothing can slip between, and run it again.
 
-Done when two concurrent 60s from a balance of 100 leave exactly one applied, one refused, alice at 40, and the Ledger summing to her balance.`},
-			{Label: "Decide", Portal: true, Thinking: true, Text: `A customer's wallet page shows a balance and can send money. I want to add a history: every movement in and out of their own account.
+Done when two 60s against 100 leave one applied, one refused, alice at 40, and her entries adding up to her balance.`},
+			{Label: "Decide", Portal: true, Thinking: true, Text: `A wallet page shows a balance and can send money. I want to add a history of every movement in and out of the account.
 
-Before building it, walk me through what that view should show for a payment that failed halfway. Should it appear at all? If it should, how does a customer tell it apart from one that worked?
+Before building it: what should that show for a payment that failed halfway? Should it appear at all, and if so, how does a customer tell it apart from one that worked?
 
 Done when I know what a half-failed payment looks like on the page, and why.`},
-			{Label: "Portal", Portal: true, Text: `The Portal shows a balance and can send money, and says nothing about how the balance came to be what it is.
+			{Label: "Portal", Portal: true, Text: `The Portal shows a balance and can send money, and says nothing about how the balance got that way.
 
-Add History to the menu: every movement in and out of the customer's own account, newest first, each with its reference, amount and the other party. Show a failed payment the way you just described.
+Add History to the menu: every movement in and out of this account, newest first, each with its reference, amount and the other party. Show a failed payment the way you just described.
 
 Done when History explains alice's balance without me reading the database.`},
 		},

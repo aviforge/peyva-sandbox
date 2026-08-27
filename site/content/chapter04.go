@@ -35,9 +35,9 @@ var Chapter04 = ChapterContent{
 		Prompts: []Prompt{
 			{Label: "Build", Text: `Requests reach the Gateway but nothing acts on them. Have it speak HTTP, and build the Teller behind it.
 
-The Teller handles one payment end to end: validate the request, check the payer has enough, move the amount between accounts in the Vault, and return a reference the caller can quote later. The Teller is the only thing allowed to move money: the Gateway parses and forwards, and never touches a balance itself.
+The Teller handles one payment start to finish: check the request, check the payer has enough, move the money in the Vault, return a reference. Only the Teller moves money. The Gateway parses and forwards.
 
-Add one more endpoint: open an account for a handle that does not exist yet, starting at zero.
+Add one more endpoint: open an account for a new handle, starting at zero.
 
 Match these exactly:
 
@@ -53,23 +53,23 @@ Match these exactly:
   not json
   -> 400 {"error": "invalid JSON body"}
 
-Validate before touching any account. A 4xx means the request is wrong and the same request will fail again; reserve 5xx for the server failing. No authentication, no retries, no persistence: later chapters.
+Check everything before touching an account. No sign-in, no retries, no saving to disk: later chapters.
 
-Done when those four requests produce exactly those four responses, and alice's balance drops by 20 only on the first.`},
-			{Label: "Portal", Portal: true, Text: `The Portal's menu has one entry, Balance, and no way to move money out of the account it is showing. Add Send to it, and a way to open a new account by handle. A new account joins the switcher.
+Done when those four requests give exactly those four answers, and alice's balance drops by 20 only on the first.`},
+			{Label: "Portal", Portal: true, Text: `The Portal's menu has one entry, Balance, and no way to move money out. Add Send, and a way to open an account by handle. A new account joins the switcher.
 
 There is no From field. Money leaves whoever the switcher names.
 
-The forms post to the endpoints you just built and render what comes back. Match these:
+The forms post to the endpoints you just built and show what comes back. Match these:
 
   open an account   -> the new handle appears with a balance of 0.00
   send to a handle  -> the reference comes back and the payer's balance drops
-  amount left blank -> the page says which field is wrong, and nothing moves
-  unknown handle    -> the page says so, and nothing moves
+  amount left blank -> the page says which field is wrong, nothing moves
+  unknown handle    -> the page says so, nothing moves
 
 Every failure shows on the page, never a blank screen or a raw error.
 
-Done when those four cases each produce exactly what is written above, and switching to the recipient shows the money arrived.`},
+Done when those four cases behave exactly as written, and switching to the recipient shows the money arrived.`},
 		},
 	},
 }

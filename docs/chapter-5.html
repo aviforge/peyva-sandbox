@@ -171,7 +171,7 @@
       <p class="technique"><span class="technique-name">Explicit success criteria</span>. Specify the finish line rather than the steps, and the assistant works out the delta, including what you would have forgotten.</p>
       <p class="technique-source">Documented in Anthropic: Prompting best practices, Provide clear success criteria</p>
       <details class="standing-rules">
-        <summary>Every prompt below is copied with these rules, about 451 tokens for the chapter</summary>
+        <summary>Every prompt below is copied with these rules, about 403 tokens for the chapter</summary>
         <pre class="prompt-lang" id="rules-build">Build this in <span data-language-name>Go</span>, standard library only.
 Code in peyva/&lt;component&gt;/, one folder per component.
 Money: exact decimal or integer minor units, never floating point, two decimal places.
@@ -184,32 +184,32 @@ The goal and invariants are in peyva/goal.md, the look in peyva/portal/design.md
         
       </details>
       
-      <p class="prompt-divider"><span class="prompt-step">1 of 2</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~300 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">1 of 2</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~257 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-build">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
-        <pre class="prompt">Now: the Vault holds balances in memory. They vanish when the process stops, so every restart resets alice to her seeded amount.
+        <pre class="prompt">Now: the Vault holds balances in memory, so every restart resets alice.
 
-Target: the Vault keeps accounts in a file on disk. It creates its storage on first run and seeds alice only if she isn&#39;t already there. Every read and every write of a balance goes to that file. No balance is cached in memory anywhere.
+Target: the Vault keeps accounts in a file on disk. It creates the file on first run and seeds alice only if she is not already there. Every read and write of a balance goes to that file, and no balance is kept in memory.
 
-Use SQLite. If the language&#39;s standard library has no SQLite binding, say so and use the single most widely used driver for it, preferring one that needs no C toolchain; that is the one exception to standard library only, and name it so I can see it. Don&#39;t change what the Gateway or the Teller look like from the outside.
+Use SQLite. If your language&#39;s standard library has no SQLite, say so and use the most widely used driver, preferring one that needs no C toolchain. Name it: that is the one exception to standard library only. Do not change how the Gateway or the Teller look from outside.
 
-Tell me what the database does between my write returning and the bytes being safe on disk, and what happens to a write if the power goes in that gap.
+Tell me what happens between my write returning and the bytes being safe on disk, and what a power cut in that gap costs.
 
-Done when restarting the process still reports alice&#39;s balance, and deleting the Vault&#39;s file is the only thing that loses it.</pre>
+Done when a restart still reports alice&#39;s balance, and deleting the file is the only thing that loses it.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">2 of 2</span> Portal<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~151 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">2 of 2</span> Portal<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~146 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-portal">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
-        <pre class="prompt">The Portal reads balances from the Vault&#39;s file rather than from whatever was in memory when the page was written.
+        <pre class="prompt">The Portal reads balances from the Vault&#39;s file, not from whatever was in memory when the page was written.
 
-Done when I make a payment, stop the process, start it again, reload the page, and the new balance is still there.</pre>
+Done when I make a payment, restart the process, reload the page, and the new balance is still there.</pre>
       </div>
       
       

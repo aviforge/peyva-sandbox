@@ -35,25 +35,25 @@ var Chapter09 = ChapterContent{
 		Why:       "The plan is a table of failure and response. Written first, it is the code's specification; written after, it is a story about the code.",
 		Source:    "The Prompt Report: Zero-Shot, Plan-and-Solve",
 		Prompts: []Prompt{
-			{Label: "Plan", Thinking: true, Text: `A page sends a payment to a service over a network, and the service records the payment and answers with a reference. The request already carries a reference the service uses to recognise a repeat.
+			{Label: "Plan", Thinking: true, Text: `A page sends a payment over a network and gets a reference back. The request already carries a reference the other side uses to spot repeats.
 
-Before writing any code, make a plan as a table. Rows: every distinct way that call can end, including the response being lost after the money moved, the connection being refused, the call hanging, a 4xx, and a 5xx. Columns: whether the caller can know if money moved, whether retrying is safe, whether retrying is useful, and what the caller should do.
+Before any code, give me a table. One row for each way that call can end: the answer lost after the money moved, the connection refused, the call hanging, a 4xx, a 5xx. Columns: can the caller tell whether money moved, is retrying safe, is retrying useful, what should the caller do.
 
-Then say how long the timeout should be and how you would find that number from a running system rather than guessing it. Say how many retries, how the wait between them grows, and why the wait should not be exactly the same for every caller.
+Then say how long the time limit should be, and how you would find that number from a running system rather than guessing. Say how many retries, how the wait grows, and why every caller should not wait the same.
 
-Done when I have the table, a timeout with a method behind it, and a retry policy that never retries a case where retrying is unsafe or useless.`},
-			{Label: "Build", Text: `The Gateway forwards a payment to the Teller and waits for an answer with no deadline, and the Portal resends when it hears nothing.
+Done when I have the table, a time limit with a method behind it, and a retry rule that never retries what is unsafe or useless.`},
+			{Label: "Build", Text: `The Gateway waits for the Teller with no deadline, and the page resends when it hears nothing.
 
-Carry out the plan you wrote. Give every call across a process or network boundary a timeout. On an unknown outcome, retry with the same reference, with exponential backoff and jitter, a small fixed number of times. Never retry a 4xx. After the last attempt, answer the caller with an honest 'outcome unknown, quote this reference' rather than a failure.
+Carry out your plan. Put a time limit on every call to another program. When the outcome is unknown, retry with the same reference, waiting longer each time plus a random amount, a few times only. Never retry a 4xx. After the last try, answer 'outcome unknown, quote this reference' rather than reporting failure.
 
-Then prove it: make the Teller sleep past the timeout on the first attempt only, send one payment, and show me from the Ledger that it was applied once and from the log that it was attempted more than once.
+Then prove it. Make the Teller sleep past the limit on the first attempt only, send one payment, and show me one pair of Ledger entries and more than one attempt in the log.
 
-Done when a slow first attempt results in exactly one Ledger entry pair, a 400 is never retried, and the log shows the growing gaps between attempts.`},
-			{Label: "Portal", Portal: true, Text: `Send waits for an answer with no limit, and a customer who gives up and taps again has no idea whether the first tap paid.
+Done when a slow first attempt pays once, a 400 is never retried, and the log shows the gaps growing.`},
+			{Label: "Portal", Portal: true, Text: `Send waits with no limit, and a customer who gives up and taps again cannot tell whether the first tap paid.
 
-Give Send a deadline. Past it, the page says the outcome is unknown and shows the reference, and the button offers to check rather than to send again. Checking asks the server what happened to that reference.
+Give Send a deadline. Past it, the page says the outcome is unknown, shows the reference, and offers to check rather than to send again. Checking asks the server what happened to that reference.
 
-Done when a deliberately slow server leaves the customer with a reference and a way to find out, never with a second payment.`},
+Done when a slow server leaves the customer with a reference and a way to find out, never a second payment.`},
 		},
 	},
 }

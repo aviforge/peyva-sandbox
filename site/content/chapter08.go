@@ -34,16 +34,16 @@ var Chapter08 = ChapterContent{
 		Why:       "Enumerating how duplicates arise gives the design somewhere to put each case, before production does it for you.",
 		Source:    "The Prompt Report: Generated Knowledge",
 		Prompts: []Prompt{
-			{Label: "Build", Text: `The Teller will move money twice if it receives the same payment request twice, a retry after a timeout is indistinguishable from a genuine second payment.
+			{Label: "Build", Text: `Send the same payment request twice and the Teller pays twice. A retry after a timeout looks exactly like a second payment.
 
-First, list the distinct ways a duplicate request reaches a payment system in the real world. For each, say whether the caller knows the first attempt succeeded.
+First, list the ways a duplicate reaches a payments system in the real world. For each, say whether the caller knows the first attempt worked.
 
-Then make the Teller recognise a repeat: the caller supplies a reference with the request, and a reference the Teller has already handled returns the original result without moving money again. Store the reference and its response in the same atomic unit that moves the money. Not before, not after. Let the database refuse a second insert of the same reference; do not check-then-insert in code.
+Then make the Teller spot a repeat. The caller sends a reference, and one already handled returns the first result without moving money again. Store the reference and its answer in the same transaction that moves the money. Let the database refuse the second insert; do not check first in code.
 
-Then go back over the list you wrote and tell me, case by case, which ones your design now handles and which it doesn't. Include what happens if two requests carrying the same brand-new reference arrive at the same instant, and prove it by sending them.
+Then go back over your list and say which cases you now handle and which you do not.
 
-Done when the same reference twice pays once, two different references pay twice, two simultaneous sends of one new reference pay once, and every duplicate response is byte-identical to the first.`},
-			{Label: "Portal", Portal: true, Text: `Send posts the form and takes whatever comes back, so a customer who taps twice pays twice. Attach the same reference to a resubmission, and show the original result.
+Done when the same reference twice pays once, two references pay twice, two simultaneous sends of one new reference pay once, and every repeat answer is identical.`},
+			{Label: "Portal", Portal: true, Text: `Send posts the form and takes whatever comes back, so a customer who taps twice pays twice. Attach the same reference to a resend, and show the original result.
 
 Done when double-submitting the form leaves one payment in History, and the page looks the same both times.`},
 		},

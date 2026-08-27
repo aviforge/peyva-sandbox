@@ -15,16 +15,18 @@
     {{if lt $.Chapter.Number 0}}<li class="active" data-slug="index">Home</li>{{else}}<li><a href="{{$.AssetPrefix}}index.html" data-slug="index">Home</a></li>{{end}}
   </ul>
   <div class="nav-group-label">Chapters</div>
+  <input type="search" class="chapter-search" data-chapter-search placeholder="Find a chapter or a term" aria-label="Find a chapter or a term">
   <ul class="chapter-list">
     {{range .Roadmap}}
     {{if eq .Number $.Chapter.Number}}
-    <li class="active" data-slug="chapter-{{.Number}}">{{.Number}}. {{.Title}}</li>
+    <li class="active" data-slug="chapter-{{.Number}}" data-terms="{{.Terms}}">{{.Number}}. {{.Title}}</li>
     {{else if .Built}}
-    <li><a href="{{$.AssetPrefix}}chapter-{{.Number}}.html" data-slug="chapter-{{.Number}}">{{.Number}}. {{.Title}}</a></li>
+    <li data-terms="{{.Terms}}"><a href="{{$.AssetPrefix}}chapter-{{.Number}}.html" data-slug="chapter-{{.Number}}">{{.Number}}. {{.Title}}</a></li>
     {{else}}
     <li class="disabled">{{.Number}}. {{.Title}}</li>
     {{end}}
     {{end}}
   </ul>
+  <p class="chapter-search-empty" data-chapter-search-empty hidden>Nothing matches.</p>
 </nav>
 {{end}}

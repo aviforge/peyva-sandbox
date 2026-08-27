@@ -10,6 +10,10 @@ type roadmapView struct {
 	Number int
 	Title  string
 	Built  bool
+	// Terms is the chapter's concept terms, lowercased and joined, so the
+	// sidebar's find box can match a chapter by a word it teaches and not
+	// only by its title.
+	Terms string
 }
 
 // LandingData is what the entry point renders: the site in one screen, and a

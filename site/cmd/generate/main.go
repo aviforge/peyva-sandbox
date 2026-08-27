@@ -56,13 +56,22 @@ func run(templatesDir, assetsDir, outDir, indexPath string) error {
 	}
 
 	built := map[int]bool{}
+	terms := map[int]string{}
 	for _, c := range content.All {
 		built[c.Number] = true
+		var words []string
+		for _, x := range c.Concepts {
+			words = append(words, strings.ToLower(x.Term))
+		}
+		if c.Aside != nil {
+			words = append(words, strings.ToLower(c.Aside.Title))
+		}
+		terms[c.Number] = strings.Join(words, " ")
 	}
 
 	roadmap := make([]roadmapView, 0, len(content.Roadmap))
 	for _, r := range content.Roadmap {
-		roadmap = append(roadmap, roadmapView{Number: r.Number, Title: r.Title, Built: built[r.Number]})
+		roadmap = append(roadmap, roadmapView{Number: r.Number, Title: r.Title, Built: built[r.Number], Terms: terms[r.Number]})
 	}
 
 	if len(content.All) == 0 {

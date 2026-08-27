@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Operating in Production | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=307ce4c143">
+<link rel="stylesheet" href="styles.css?v=6c00ba1e30">
 </head>
 <body data-chapter-slug="chapter-19">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -29,97 +29,99 @@
     <li><a href="index.html" data-slug="index">Home</a></li>
   </ul>
   <div class="nav-group-label">Chapters</div>
+  <input type="search" class="chapter-search" data-chapter-search placeholder="Find a chapter or a term" aria-label="Find a chapter or a term">
   <ul class="chapter-list">
     
     
-    <li><a href="chapter-0.html" data-slug="chapter-0">0. What Are We Building?</a></li>
+    <li data-terms="user account balance vault transfer history invariant"><a href="chapter-0.html" data-slug="chapter-0">0. What Are We Building?</a></li>
     
     
     
-    <li><a href="chapter-1.html" data-slug="chapter-1">1. Inside One Computer</a></li>
+    <li data-terms="process operating system (os) cpu memory (ram) disk (storage) scheduler"><a href="chapter-1.html" data-slug="chapter-1">1. Inside One Computer</a></li>
     
     
     
-    <li><a href="chapter-2.html" data-slug="chapter-2">2. Finding Peyva (Processes &amp; Ports)</a></li>
+    <li data-terms="process id (pid) port binding loopback (127.0.0.1) gateway"><a href="chapter-2.html" data-slug="chapter-2">2. Finding Peyva (Processes &amp; Ports)</a></li>
     
     
     
-    <li><a href="chapter-3.html" data-slug="chapter-3">3. Across the Wire (Networking)</a></li>
+    <li data-terms="ip address protocol packets stream framing"><a href="chapter-3.html" data-slug="chapter-3">3. Across the Wire (Networking)</a></li>
     
     
     
-    <li><a href="chapter-4.html" data-slug="chapter-4">4. Designing the API</a></li>
+    <li data-terms="endpoint request body status codes validation teller"><a href="chapter-4.html" data-slug="chapter-4">4. Designing the API</a></li>
     
     
     
-    <li><a href="chapter-5.html" data-slug="chapter-5">5. Storing Money (Databases)</a></li>
+    <li data-terms="durable persistent source of truth migration"><a href="chapter-5.html" data-slug="chapter-5">5. Storing Money (Databases)</a></li>
     
     
     
-    <li><a href="chapter-6.html" data-slug="chapter-6">6. Finding Things Fast (Indexes)</a></li>
+    <li data-terms="full table scan index b-tree write amplification query plan"><a href="chapter-6.html" data-slug="chapter-6">6. Finding Things Fast (Indexes)</a></li>
     
     
     
-    <li><a href="chapter-7.html" data-slug="chapter-7">7. Making It Safe (Transactions)</a></li>
+    <li data-terms="transaction begin / commit rollback acid isolation level lost update ledger"><a href="chapter-7.html" data-slug="chapter-7">7. Making It Safe (Transactions)</a></li>
     
     
     
-    <li><a href="chapter-8.html" data-slug="chapter-8">8. Exactly Once (Idempotency)</a></li>
+    <li data-terms="idempotency key duplicate request idempotent at least once stored result"><a href="chapter-8.html" data-slug="chapter-8">8. Exactly Once (Idempotency)</a></li>
     
     
     
-    <li><a href="chapter-9.html" data-slug="chapter-9">9. Giving Up Well: Retries, Timeouts and Backoff</a></li>
+    <li data-terms="timeout unknown outcome retry exponential backoff jitter retry storm"><a href="chapter-9.html" data-slug="chapter-9">9. Giving Up Well: Retries, Timeouts and Backoff</a></li>
     
     
     
-    <li><a href="chapter-10.html" data-slug="chapter-10">10. Growing the Team: Scale Out</a></li>
+    <li data-terms="instance load balancer stateless horizontal scaling capacity estimate how big is peyva? (capacity estimation)"><a href="chapter-10.html" data-slug="chapter-10">10. Growing the Team: Scale Out</a></li>
     
     
     
-    <li><a href="chapter-11.html" data-slug="chapter-11">11. Sharing Work: Caching</a></li>
+    <li data-terms="cache hit and miss invalidation cache placement read-your-writes"><a href="chapter-11.html" data-slug="chapter-11">11. Sharing Work: Caching</a></li>
     
     
     
-    <li><a href="chapter-12.html" data-slug="chapter-12">12. Decoupling with Messages: Queues</a></li>
+    <li data-terms="message queue producer consumer / worker decoupling backlog courier"><a href="chapter-12.html" data-slug="chapter-12">12. Decoupling with Messages: Queues</a></li>
     
     
     
-    <li><a href="chapter-13.html" data-slug="chapter-13">13. Reliability Patterns: Transactional Outbox</a></li>
+    <li data-terms="outbox table same transaction outbox publisher at least once claiming"><a href="chapter-13.html" data-slug="chapter-13">13. Reliability Patterns: Transactional Outbox</a></li>
     
     
     
-    <li><a href="chapter-14.html" data-slug="chapter-14">14. Big Changes Safely: Sagas</a></li>
+    <li data-terms="saga local transaction compensating action saga record permanent vs retryable"><a href="chapter-14.html" data-slug="chapter-14">14. Big Changes Safely: Sagas</a></li>
     
     
     
-    <li><a href="chapter-15.html" data-slug="chapter-15">15. Data Copies: Replication</a></li>
+    <li data-terms="primary follower replication log replication lag promotion split-brain"><a href="chapter-15.html" data-slug="chapter-15">15. Data Copies: Replication</a></li>
     
     
     
-    <li><a href="chapter-16.html" data-slug="chapter-16">16. When Things Fail: CAP / Consistency</a></li>
+    <li data-terms="consistency (c) availability (a) partition (p) cap theorem lease fencing warden"><a href="chapter-16.html" data-slug="chapter-16">16. When Things Fail: CAP / Consistency</a></li>
     
     
     
-    <li><a href="chapter-17.html" data-slug="chapter-17">17. See Everything: Observability</a></li>
+    <li data-terms="observability structured logs correlation id metrics traces health endpoint"><a href="chapter-17.html" data-slug="chapter-17">17. See Everything: Observability</a></li>
     
     
     
-    <li><a href="chapter-18.html" data-slug="chapter-18">18. Lock It Down: Security</a></li>
+    <li data-terms="authn (authentication) authz (authorisation) encryption in transit secrets management trust boundary"><a href="chapter-18.html" data-slug="chapter-18">18. Lock It Down: Security</a></li>
     
     
     
-    <li class="active" data-slug="chapter-19">19. Operating in Production</li>
+    <li class="active" data-slug="chapter-19" data-terms="health check rolling deployment release rollback runbook config fail fast">19. Operating in Production</li>
     
     
     
-    <li><a href="chapter-20.html" data-slug="chapter-20">20. Splitting the Vault: Sharding</a></li>
+    <li data-terms="shard shard key routing cross-shard payment in progress rebalancing"><a href="chapter-20.html" data-slug="chapter-20">20. Splitting the Vault: Sharding</a></li>
     
     
     
-    <li><a href="chapter-21.html" data-slug="chapter-21">21. Putting It All Together</a></li>
+    <li data-terms="reconciler reconciliation discrepancy single point of failure conservation check"><a href="chapter-21.html" data-slug="chapter-21">21. Putting It All Together</a></li>
     
     
   </ul>
+  <p class="chapter-search-empty" data-chapter-search-empty hidden>Nothing matches.</p>
 </nav>
 
 <main class="content">
@@ -261,6 +263,6 @@ Done when I can point the Portal at a different port by editing that one line.</
   <p class="quick-tip"><strong>Quick tip:</strong> Deploy to one copy first: a health check catching a bad release there is far cheaper than catching it everywhere.</p>
 </main>
 </div>
-<script src="app.js?v=544ca21774"></script>
+<script src="app.js?v=41ed8d207d"></script>
 </body>
 </html>

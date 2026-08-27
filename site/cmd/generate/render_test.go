@@ -101,6 +101,12 @@ func TestEveryPageRendersCompletely(t *testing.T) {
 		if !strings.Contains(p.body, `href="index.html" data-slug="index">Home</a>`) {
 			t.Errorf("%s: sidebar has no Home link", p.name)
 		}
+		if !strings.Contains(p.body, "data-chapter-search") {
+			t.Errorf("%s: sidebar has no find box", p.name)
+		}
+		if !strings.Contains(p.body, `data-terms="`) {
+			t.Errorf("%s: sidebar entries carry no terms to find by", p.name)
+		}
 		if !strings.Contains(p.body, "| Peyva Sandbox</title>") {
 			t.Errorf("%s: title is missing the site name", p.name)
 		}

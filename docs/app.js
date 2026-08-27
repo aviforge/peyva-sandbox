@@ -308,6 +308,28 @@
     });
   }
 
+  // Find a chapter by a word in its title or in the terms it teaches. It is
+  // filtering, not search: the whole list is on the page already, so nothing
+  // is fetched and nothing is indexed. Enough for twenty-two chapters.
+  function initChapterSearch() {
+    var box = document.querySelector('[data-chapter-search]');
+    if (!box) return;
+    var items = document.querySelectorAll('.chapter-list:not(.home-list) > li');
+    var empty = document.querySelector('[data-chapter-search-empty]');
+
+    box.addEventListener('input', function () {
+      var q = box.value.trim().toLowerCase();
+      var shown = 0;
+      Array.prototype.forEach.call(items, function (li) {
+        var hay = (li.textContent + ' ' + (li.getAttribute('data-terms') || '')).toLowerCase();
+        var hit = !q || hay.indexOf(q) !== -1;
+        li.hidden = !hit;
+        if (hit) shown++;
+      });
+      if (empty) empty.hidden = shown > 0;
+    });
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
     initThemeToggle();
     initSidebarToggle();
@@ -315,6 +337,7 @@
     initCopyPrompt();
     initLanguage();
     initSystem();
+    initChapterSearch();
     refreshGate();
     updateProgress();
   });

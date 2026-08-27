@@ -316,6 +316,37 @@ body {
   font-size: 14px;
 }
 
+/* The find box sits between the Chapters label and the list, in the sidebar
+   palette so it reads as part of the navigation rather than a form. */
+.chapter-search {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 7px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--sidebar-active-bg);
+  background: var(--sidebar-active-bg);
+  color: var(--sidebar-text);
+  font: inherit;
+  font-size: 13px;
+  margin: -6px 0 2px;
+}
+
+.chapter-search::placeholder {
+  color: #8a93a8;
+}
+
+.chapter-search:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.chapter-search-empty {
+  margin: 0;
+  padding: 6px 12px;
+  font-size: 13px;
+  color: #8a93a8;
+}
+
 /* Home sits above the chapters in the same list style, without the group
    label, so it reads as the first stop rather than as chapter minus one. */
 .home-list {

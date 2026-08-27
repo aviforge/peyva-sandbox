@@ -9,8 +9,8 @@ type RoadmapEntry struct {
 // whose Number has no matching ChapterContent in All render as
 // disabled/non-clickable in the sidebar. Titles match the exact wording
 // baked into each chapter's hero image (docs/images/chapter-<N>.webp) where
-// one exists. Chapters 9 and 20 replaced or displaced illustrated chapters,
-// and chapter 21 reuses the finale's illustration with its number corrected.
+// one exists. Chapter 21 reuses the finale's illustration with its number
+// corrected; the capacity estimation illustration lives on as sidebar-10.
 var Roadmap = []RoadmapEntry{
 	{0, "What Are We Building?"},
 	{1, "Inside One Computer"},

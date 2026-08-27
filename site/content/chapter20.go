@@ -9,7 +9,7 @@ var Chapter20 = ChapterContent{
 	Difficulty: "Advanced",
 	QuickTip:   "A payment inside one shard is a transaction. A payment across two is a saga. Design so most are the first kind.",
 
-	HeroImage:   "images/chapter-20-sharding.webp",
+	HeroImage:   "images/chapter-20.webp",
 	HeroCaption: "Sharding = each store holds some of the accounts. Routing decides which, and cross-shard payments pay for the split.",
 
 	Why: []string{

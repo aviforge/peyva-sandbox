@@ -23,7 +23,7 @@ var Chapter10 = ChapterContent{
 
 	Aside: &Aside{
 		Title:       "How Big Is PEYVA? (Capacity Estimation)",
-		HeroImage:   "images/chapter-10-sidebar.webp",
+		HeroImage:   "images/sidebar-10.webp",
 		HeroCaption: "Capacity estimation helps us choose the right technology, plan scaling, and control cost: before we build.",
 		Why: []string{
 			"An estimate is a handful of assumptions multiplied out: users, actions per user per day, a peak factor, a record size. Each is a guess, and the value of the exercise is writing the guesses down where they can be argued with.",

@@ -9,7 +9,7 @@ var Chapter09 = ChapterContent{
 	Difficulty: "Intermediate",
 	QuickTip:   "A retry without an idempotency key is a duplicate payment with extra steps.",
 
-	HeroImage:   "images/chapter-9-retries.webp",
+	HeroImage:   "images/chapter-9.webp",
 	HeroCaption: "Every call over a network has three outcomes: it worked, it failed, and nobody knows. The third is the one you design for.",
 
 	Why: []string{

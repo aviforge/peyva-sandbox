@@ -378,12 +378,6 @@ body {
   font-style: italic;
 }
 
-/* The prompt is prose meant to be read and copied, so Build It gets two
-   thirds of the row rather than a one-third ribbon. */
-.build-it {
-  grid-column: span 2;
-}
-
 .technique {
   margin: 0 0 12px;
   font-size: 13px;
@@ -728,10 +722,6 @@ body {
 @media (max-width: 900px) {
   .section-grid {
     grid-template-columns: 1fr;
-  }
-
-  .build-it {
-    grid-column: span 1;
   }
 
   .sidebar-toggle {

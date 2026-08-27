@@ -448,3 +448,24 @@ func allPromptText(c content.ChapterContent) string {
 	}
 	return b.String()
 }
+
+// The find box hides a chapter by setting the hidden property on its li. That
+// property only hides anything if nothing in the stylesheet says otherwise, and
+// .chapter-list li sets display: block. An author rule beats the browser's own
+// [hidden] rule whatever its specificity, so without an explicit override the
+// box filtered nothing and every chapter stayed on screen.
+func TestStylesheetHidesFilteredChapters(t *testing.T) {
+	b, err := os.ReadFile(filepath.Join("..", "..", "assets", "styles.css"))
+	if err != nil {
+		t.Fatalf("reading styles.css: %v", err)
+	}
+	css := string(b)
+	if !strings.Contains(css, ".chapter-list li[hidden]") {
+		t.Error("styles.css does not hide a filtered chapter: .chapter-list li sets display, so hidden alone does nothing")
+	}
+	// Whichever selector sets display on a list item must come before the
+	// override, or the override loses to the later rule of equal weight.
+	if i, j := strings.Index(css, ".chapter-list li,"), strings.Index(css, ".chapter-list li[hidden]"); i >= 0 && j >= 0 && j < i {
+		t.Error("the [hidden] override is declared before .chapter-list li, so the display rule wins")
+	}
+}

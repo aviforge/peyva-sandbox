@@ -347,6 +347,13 @@ body {
   outline-offset: 1px;
 }
 
+/* .chapter-list li sets display, and an author rule beats the browser's own
+   [hidden] rule whatever its specificity. Without this the find box set hidden
+   on every chapter it filtered out and not one of them went away. */
+.chapter-list li[hidden] {
+  display: none;
+}
+
 .chapter-search-empty {
   margin: 0;
   padding: 6px 12px;

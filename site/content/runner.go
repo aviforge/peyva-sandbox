@@ -33,9 +33,8 @@ type RunnerScript struct {
 }
 
 // RunnerChapter is where the script is handed over: the chapter that first runs
-// more than one process. It is also the chapter that offers the operating
-// system picker, because that is the first point at which the answer changes
-// anything.
+// more than one process. Which system it is written for was chosen back in
+// chapter 0, beside the language.
 const RunnerChapter = 10
 
 // RunnerScripts is one entry per operating system. macOS and Linux share a

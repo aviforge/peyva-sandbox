@@ -2,10 +2,10 @@ package content
 
 // System is an operating system a reader can follow the book on.
 //
-// It exists for one reason: the runner in chapter 10 is a shell script, and a
-// shell script is the one thing in peyva that cannot be written once and work
-// everywhere. Everything else the reader builds is in their chosen language and
-// does not care what it runs on.
+// It exists because two things in the book cannot be written once and work
+// everywhere: the commands a chapter asks the reader to run, and the runner
+// script in chapter 10. Everything else the reader builds is in their chosen
+// language and does not care what it runs on.
 type System struct {
 	ID string `json:"id"`
 	// Name is what the picker shows.

@@ -166,8 +166,11 @@ func TestLanguageControlSitsWithThePromptItGoverns(t *testing.T) {
 			if strings.Contains(section, "data-language-select") {
 				t.Errorf("%s: the picker is still in Build It", p.name)
 			}
-			if n := len(optionTag.FindAllString(setup, -1)); n != len(content.Languages) {
-				t.Errorf("%s: offers %d languages, want %d", p.name, n, len(content.Languages))
+			// Setup carries both choices, so the options are the languages
+			// and the systems together.
+			want := len(content.Languages) + len(content.Systems)
+			if n := len(optionTag.FindAllString(setup, -1)); n != want {
+				t.Errorf("%s: offers %d options, want %d", p.name, n, want)
 			}
 			// The choice is on this page, so pointing at the page is no help.
 			if !strings.Contains(section, `href="#setup"`) {
@@ -213,40 +216,42 @@ func TestSystemChoiceReachesThePromptsThatNeedIt(t *testing.T) {
 		if p.name != "index.html" {
 			num, _ = strconv.Atoi(regexp.MustCompile(`chapter-(\d+)`).FindStringSubmatch(p.name)[1])
 		}
-		// A chapter whose prompt says {os} renders the name in a span. The
-		// chapter that owns the picker shows the select instead, which is the
-		// choice itself rather than a report of it.
-		wantsName := namesASystem(byNumber[num])
+		// A chapter renders the system name when a prompt says {os}, and on
+		// the chapter that hands over the runner script, which is written for
+		// one system and has to say which.
+		wantsName := namesASystem(byNumber[num]) || num == content.RunnerChapter
 		hasName := strings.Contains(p.body, "data-os-name")
 		if wantsName != hasName {
 			t.Errorf("%s: names an operating system = %v, want %v", p.name, hasName, wantsName)
 		}
 
-		// The picker belongs to the first chapter that needs a system, not to
-		// setup: nothing before it cares which one the reader is on. Only that
-		// chapter offers it, for the same reason only chapter 0 offers the
-		// language. A PowerShell runner in chapter 10 with bash commands to
-		// operate it in chapter 19 is worse than either alone.
-		wantPicker := num == systemPickerChapter() && p.name != "index.html"
+		// The picker sits in Setup beside the language, because chapter 3
+		// already asks for commands that run on the reader's machine. Sending
+		// them to chapter 10 to correct it means three chapters of commands
+		// for a system they are not on.
+		wantPicker := num == systemPickerChapter()
 		hasPicker := strings.Contains(p.body, "data-system-select")
 		if wantPicker != hasPicker {
 			t.Errorf("%s: offers the system picker = %v, want %v", p.name, hasPicker, wantPicker)
 		}
 		if wantPicker {
-			// Every system's script is present, and exactly one is shown.
-			for _, r := range content.RunnerScripts {
-				if !strings.Contains(p.body, `data-runner-for="`+r.SystemID+`"`) {
-					t.Errorf("%s: carries no runner script for %s", p.name, r.SystemID)
-				}
-			}
 			for _, sys := range content.Systems {
 				if !strings.Contains(p.body, `>`+sys.Name+`</option>`) {
 					t.Errorf("%s: the picker does not offer %s", p.name, sys.Name)
 				}
 			}
 		}
-		// Every other chapter that names a system has to say where to change it.
-		if wantsName && !wantPicker && !strings.Contains(p.body, "chosen in") {
+		// Every system's script is on the chapter that hands it over, and
+		// exactly one is shown.
+		if num == content.RunnerChapter {
+			for _, r := range content.RunnerScripts {
+				if !strings.Contains(p.body, `data-runner-for="`+r.SystemID+`"`) {
+					t.Errorf("%s: carries no runner script for %s", p.name, r.SystemID)
+				}
+			}
+		}
+		// A chapter that names a system has to say where to change it.
+		if wantsName && !strings.Contains(p.body, "change in Chapter") {
 			t.Errorf("%s: names a system with no way back to the choice", p.name)
 		}
 	}

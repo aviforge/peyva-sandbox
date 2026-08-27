@@ -173,10 +173,10 @@
     });
   }
 
-  // The operating system only changes the runner script, so unlike the language
-  // it appears in two prompts rather than all twenty-one. Same shape otherwise:
-  // the generator writes the text and wraps the choice in a span, and this only
-  // ever replaces what is inside that span.
+  // The operating system changes the commands a few chapters ask for and the
+  // runner script, rather than every prompt the way the language does. Same
+  // shape otherwise: the generator writes the text and wraps the choice in a
+  // span, and this only ever replaces what is inside that span.
   function initSystem() {
     var names = document.querySelectorAll('[data-os-name]');
     var select = document.querySelector('[data-system-select]');

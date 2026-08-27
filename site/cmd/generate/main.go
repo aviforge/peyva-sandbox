@@ -114,6 +114,7 @@ func run(templatesDir, assetsDir, outDir, indexPath string) error {
 
 			SystemIsChosenHere: chapter.Number == systemPicker,
 			SystemPickerHref:   fmt.Sprintf("chapter-%d.html", systemPicker),
+			SystemPickerNumber: systemPicker,
 			SystemPickerTitle:  systemPickerTitle,
 
 			LanguageIsChosenHere: chapter.Number == languagePickerChapter,
@@ -386,13 +387,15 @@ func promptViews(b content.BuildIt, lang content.Language, sys content.System) [
 }
 
 // systemPickerChapter is where the reader chooses their operating system: the
-// chapter that hands over the runner script.
+// same chapter that starts the project, beside the language.
 //
-// The choice sits there rather than in setup because nothing before it cares.
-// A reader on that chapter who needs a different shell changes it in front of
-// the script it produces, instead of being sent back ten chapters.
+// It used to sit on the chapter that hands over the runner script, on the
+// grounds that nothing before it cared. Chapter 3 cares: it opens by naming
+// the reader's machine and asks for commands that run on it, and a reader on
+// the wrong one had to jump seven chapters ahead to fix it. Both choices are
+// now made once, before any code exists.
 func systemPickerChapter() int {
-	return content.RunnerChapter
+	return languagePickerChapter
 }
 
 // runnerScriptsFor returns every system's runner script, but only for the

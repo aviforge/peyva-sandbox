@@ -73,6 +73,7 @@ type PageData struct {
 	// operate it in chapter 19.
 	SystemIsChosenHere bool
 	SystemPickerHref   string
+	SystemPickerNumber int
 	SystemPickerTitle  string
 
 	// ChapterTokens is what all of a chapter's prompts cost to send.

@@ -533,6 +533,25 @@ func TestPromptsStayShort(t *testing.T) {
 	}
 }
 
+// Four labels, so a reader learns them once. A fifth word on one chapter is
+// a word they have to work out on that page alone.
+func TestPromptLabelsComeFromTheFixedSet(t *testing.T) {
+	allowed := map[string]bool{"Think": true, "Build": true, "Check": true, "Page": true}
+	for _, c := range All {
+		for _, p := range allPrompts(c) {
+			if !allowed[p.Label] {
+				t.Errorf("chapter %d: prompt label %q is not one of Think, Build, Check, Page", c.Number, p.Label)
+			}
+			if p.Label == "Page" && !p.Portal {
+				t.Errorf("chapter %d: a Page turn must be a Portal turn", c.Number)
+			}
+			if p.Label == "Think" && !p.Thinking {
+				t.Errorf("chapter %d: a Think turn must be a Thinking turn", c.Number)
+			}
+		}
+	}
+}
+
 // A sidebar is held to the same bar as a chapter: claims of its own, a cited
 // technique no chapter's own Build It already teaches, and prompts that end
 // somewhere checkable.

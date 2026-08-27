@@ -35,7 +35,7 @@ var Chapter09 = ChapterContent{
 		Why:       "The plan is a table of failure and response. Written first, it is the code's specification; written after, it is a story about the code.",
 		Source:    "The Prompt Report: Zero-Shot, Plan-and-Solve",
 		Prompts: []Prompt{
-			{Label: "Plan", Thinking: true, Text: `A page sends a payment over a network and gets a reference back. The other side already spots repeats by that reference.
+			{Label: "Think", Thinking: true, Text: `A page sends a payment over a network and gets a reference back. The other side already spots repeats by that reference.
 
 Before any code, a table. One row per way the call can end: answer lost after the money moved, connection refused, call hangs, 4xx, 5xx. Columns: can the caller tell whether money moved, is retrying safe, is retrying useful, what to do.
 
@@ -49,7 +49,7 @@ Carry out your plan. A time limit on every call to another program. On no answer
 Prove it: make the Teller sleep past the limit on the first try only, send one payment, and show me one Ledger pair and several attempts in the log.
 
 Done when a slow first try pays once, a 400 is never retried, and the gaps in the log grow.`},
-			{Label: "Portal", Portal: true, Text: `Send waits forever, and a customer who taps again cannot tell whether the first tap paid.
+			{Label: "Page", Portal: true, Text: `Send waits forever, and a customer who taps again cannot tell whether the first tap paid.
 
 Give Send a deadline. Past it, the page says the outcome is unknown, shows the reference, and offers to check rather than send again.
 

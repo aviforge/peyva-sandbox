@@ -43,7 +43,7 @@ A queue in memory and a worker, inside each copy. No Kafka, RabbitMQ, Redis, or 
 Say what a queue in memory costs when its copy dies with work in it. Do not fix that here. If the standard library cannot do this, say so.
 
 Done when a slow notification does not delay the payment answer, and work handed over while the Courier is stopped is delivered once it starts.`},
-			{Label: "Portal", Portal: true, Text: `The page waits for the notification before it answers. Show the payment as done when the money moves, and the message as sent later, once the Courier has sent it.
+			{Label: "Page", Portal: true, Text: `The page waits for the notification before it answers. Show the payment as done when the money moves, and the message as sent later, once the Courier has sent it.
 
 If plain HTML and CSS cannot show something arriving after the page loads, say so and give me the smallest honest option.
 

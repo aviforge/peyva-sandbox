@@ -37,12 +37,12 @@ var Chapter10 = ChapterContent{
 			Why:       "Hidden guesses become a written list of assumptions you can argue with.",
 			Source:    "The Prompt Report: Zero-Shot, Self-Ask",
 			Prompts: []Prompt{
-				{Label: "Assumptions", Thinking: true, Text: `I need to size a payments system. One process today, and no idea what it needs to survive.
+				{Label: "Think", Thinking: true, Text: `I need to size a payments system. One process today, and no idea what it needs to survive.
 
 No numbers yet. Write out the questions the estimate depends on. Answer each with a stated guess, and label where it came from: industry norm, your guess, or arithmetic.
 
 Done when I have your questions and a labelled answer to each.`},
-				{Label: "Estimate", Thinking: true, Text: `You listed the questions a capacity estimate depends on, and answered each with a labelled guess.
+				{Label: "Think", Thinking: true, Text: `You listed the questions a capacity estimate depends on, and answered each with a labelled guess.
 
 Work out payments per second at peak, Ledger growth over two years, and network traffic at peak. Show each sum with the numbers filled in.
 
@@ -66,7 +66,7 @@ Done when I have a peak figure and a two-year storage figure, and know which gue
 		Why:       "Reasoning down from what makes any service replaceable beats reasoning up from code that was never going to scale.",
 		Source:    "The Prompt Report: Thought Generation, Step-Back Prompting",
 		Prompts: []Prompt{
-			{Label: "Principle", Thinking: true, Text: `I have a service handling payments, and I want several copies of it behind a router.
+			{Label: "Think", Thinking: true, Text: `I have a service handling payments, and I want several copies of it behind a router.
 
 Without looking at code: what lets any service run as interchangeable copies? What may live inside one process, what may not, and why. What does that mean for a database file inside the process, and for a transaction that spans the handler and the database?
 

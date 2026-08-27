@@ -33,19 +33,19 @@ var Chapter03 = ChapterContent{
 		Why:       "Told where you are and why, it picks commands that run on your machine and warns you about the firewall prompt.",
 		Source:    "Anthropic: Prompting best practices, Add context to improve performance",
 		Prompts: []Prompt{
-			{Label: "Reach it", Text: `My environment: {os}. Run commands here if you can. The Gateway listens on TCP port 9310, and I have a phone on the same Wi-Fi.
+			{Label: "Build", Text: `My environment: {os}. Run commands here if you can. The Gateway listens on TCP port 9310, and I have a phone on the same Wi-Fi.
 
 Get me from the phone to the Gateway. Give me the command to find this machine's address and say which of the addresses it prints is the right one. Say whether the Gateway needs a change to accept outside connections. Warn me before any firewall prompt.
 
 If the phone cannot reach it, ask once whether this network blocks that, then have me use a second terminal instead.
 
 Done when the phone, or the second terminal, reaches the Gateway and it logs the connection.`},
-			{Label: "Stream", Text: `The Gateway listens on TCP port 9310, accepts each connection, logs it, and closes it.
+			{Label: "Build", Text: `The Gateway listens on TCP port 9310, accepts each connection, logs it, and closes it.
 
 Show me that TCP carries bytes, not messages. Print each read with its size, then send one message from a client in two writes with a pause between. Say what the Gateway would need in order to know where the message ended.
 
 Done when I have seen one message arrive as more than one read.`},
-			{Label: "Portal", Portal: true, Text: `The Gateway accepts connections but serves nothing. Have it return peyva/portal/index.html to anything that connects.
+			{Label: "Page", Portal: true, Text: `The Gateway accepts connections but serves nothing. Have it return peyva/portal/index.html to anything that connects.
 
 Say what changes about how the page loads its stylesheet now it comes over a connection instead of from disk. Leave the Gateway running.
 

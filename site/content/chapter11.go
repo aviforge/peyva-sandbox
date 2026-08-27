@@ -41,14 +41,14 @@ Add a cache of balances in memory inside the Vault, cleared whenever a payment c
 First, two sentences on why the cache cannot live in the copies.
 
 Done when a repeated enquiry comes from cache, a payment makes the next enquiry from any copy show the new balance, and a payment's own check never reads the cache.`},
-			{Label: "Review", Text: `You added a cache of balances inside the Vault, cleared when a payment changes an account.
+			{Label: "Check", Text: `You added a cache of balances inside the Vault, cleared when a payment changes an account.
 
 Try to make it serve an old balance. Check every path that changes a balance clears it. Consider a read and a write at once, a payment rolled back after the clear, a payment touching two accounts, and a read refilling the cache between the clear and the commit.
 
 List what you found, fix it, review again. Repeat until a review finds nothing.
 
 Done when a review finds nothing, and I know how many rounds it took and what the first version got wrong.`},
-			{Label: "Portal", Portal: true, Text: `The Portal works, and looks like each piece was added the week it was needed. Make it presentable.
+			{Label: "Page", Portal: true, Text: `The Portal works, and looks like each piece was added the week it was needed. Make it presentable.
 
 Judge it against every rule in peyva/portal/design.md and the visual idea from chapter 0. Say what passes before changing anything. Fix what fails, judge again, repeat.
 

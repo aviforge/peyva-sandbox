@@ -42,7 +42,7 @@ Reasoning to follow: anything that must happen because of a payment is written i
 Build the second. The Vault writes the Courier's pending work with the money. The Courier in each copy takes work from the Vault, claims each item in one update so two copies cannot both take it, delivers, and marks it done.
 
 Done when killing a copy right after a payment leaves the work saved, any copy delivers it after a restart, and three copies collecting at once deliver each item once.`},
-			{Label: "Contrast", Thinking: true, Text: `You had the Vault write the Courier's pending work in the same transaction as the payment, instead of handing it over afterwards.
+			{Label: "Check", Thinking: true, Text: `You had the Vault write the Courier's pending work in the same transaction as the payment, instead of handing it over afterwards.
 
 Name the exact instant the rejected design loses work and yours does not.
 

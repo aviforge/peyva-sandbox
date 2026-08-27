@@ -39,7 +39,7 @@ Keep accounts in a file on disk instead, with SQLite. Create it on first run, se
 Say what happens between my write returning and the bytes being safe on disk.
 
 Done when a restart still shows alice's balance, and deleting the file is the only thing that loses it.`},
-			{Label: "Portal", Portal: true, Text: `The Portal still shows balances from memory. Read them from the Vault's file on disk instead.
+			{Label: "Page", Portal: true, Text: `The Portal still shows balances from memory. Read them from the Vault's file on disk instead.
 
 Done when I make a payment, restart, reload, and the new balance is still there.`},
 		},

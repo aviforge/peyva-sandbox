@@ -43,19 +43,19 @@ Build the Ledger: a record only ever added to. Every payment writes two entries 
 First: what does the data look like if the process dies between the debit, the credit and the Ledger write? Three cases, who is owed what. Then make them impossible.
 
 Done when a payment leaves two balanced entries, a failure mid-payment leaves none, and alice's entries add up to her balance.`},
-			{Label: "Isolation", Text: `The Teller checks the payer has enough, then debits them, in one transaction.
+			{Label: "Check", Text: `The Teller checks the payer has enough, then debits them, in one transaction.
 
 Alice holds 100. Two payments of 60 arrive at the same instant. Walk me through both reading 100, both deciding 60 fits, both debiting. What is her balance, and which rule in goal.md broke?
 
 Find out from the database's own documentation whether it already prevents this. Then send those two payments at once for real. If the second is not refused, make the check and the debit one step nothing can slip between.
 
 Done when two 60s against 100 leave one applied, one refused, and alice at 40.`},
-			{Label: "Decide", Portal: true, Thinking: true, Text: `A wallet page shows a balance and can send money. I want to add a history of every movement in and out.
+			{Label: "Think", Portal: true, Thinking: true, Text: `A wallet page shows a balance and can send money. I want to add a history of every movement in and out.
 
 What should it show for a payment that failed halfway? Should it appear at all, and how does a customer tell it from one that worked?
 
 Done when I know what a half-failed payment looks like on the page, and why.`},
-			{Label: "Portal", Portal: true, Text: `The Portal shows a balance and can send money, but not how the balance got that way.
+			{Label: "Page", Portal: true, Text: `The Portal shows a balance and can send money, but not how the balance got that way.
 
 Add History to the menu: every movement in and out, newest first, with reference, amount and the other party. Show a failed payment the way you just described.
 

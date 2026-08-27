@@ -54,7 +54,7 @@ Match these exactly:
 Check everything before touching an account. No sign-in, no retries, no disk yet.
 
 Done when those four requests give those four answers, and alice drops by 20 only on the first.`},
-			{Label: "Portal", Portal: true, Text: `The Portal shows a balance and nothing else. Add Send, and a way to open an account by handle.
+			{Label: "Page", Portal: true, Text: `The Portal shows a balance and nothing else. Add Send, and a way to open an account by handle.
 
 No From field: money leaves whoever the switcher names. The forms post to the endpoints you built and show what comes back:
 

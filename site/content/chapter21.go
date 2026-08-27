@@ -34,7 +34,7 @@ var Chapter21 = ChapterContent{
 		Why:       "The restatement is the cheapest look you will get at what it actually understood.",
 		Source:    "The Prompt Report: Zero-Shot, Rephrase and Respond",
 		Prompts: []Prompt{
-			{Label: "Restate", Thinking: true, Text: `peyva is: a proxy spreading requests across copies, a Gateway taking requests from outside, a Teller running one payment end to end, two Vault shards that alone change balances and hold the Ledger, a follower tracking a Vault's log, a Warden saying which Vault may write, a Courier doing the work after a payment, and a Portal the customer uses.
+			{Label: "Think", Thinking: true, Text: `peyva is: a proxy spreading requests across copies, a Gateway taking requests from outside, a Teller running one payment end to end, two Vault shards that alone change balances and hold the Ledger, a follower tracking a Vault's log, a Warden saying which Vault may write, a Courier doing the work after a payment, and a Portal the customer uses.
 
 Say that back in your own words, not mine: what each part is for, and how a payment travels from the proxy to the recipient being told. At each hop, what happens if that part fails right then, and what makes it safe.
 
@@ -46,12 +46,12 @@ Build the Reconciler. On every shard, each account's Ledger entries must add up 
 Then, from the code: which single part failing would hurt customers most, which failure the system handles worst, and which piece is built for more than it carries.
 
 Done when the Reconciler finds nothing on a healthy system, reports the exact gap after I kill a shard mid-payment, and I have your three answers.`},
-			{Label: "Portal restate", Portal: true, Thinking: true, Text: `The wallet page has grown a screen at a time: balance, send, history, a note that a message was delivered, and a sign-in in front.
+			{Label: "Think", Portal: true, Thinking: true, Text: `The wallet page has grown a screen at a time: balance, send, history, a note that a message was delivered, and a sign-in in front.
 
 Describe it back to me: every screen, what a customer can do on each, and which part of the system answers it. Say what you are unsure of.
 
 Done when I have your description and can tell you where we disagree.`},
-			{Label: "Portal", Portal: true, Text: `The Portal has a screen for each thing it learned to do, added a chapter at a time and looking like it.
+			{Label: "Page", Portal: true, Text: `The Portal has a screen for each thing it learned to do, added a chapter at a time and looking like it.
 
 Finish it: one menu where a customer opens an account, sees what they hold, sends money, reads their history and sees that a message was delivered.
 

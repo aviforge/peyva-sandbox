@@ -35,7 +35,7 @@ var Chapter19 = ChapterContent{
 		Why:       "A runbook read at 2am has to be commands, not prose. Hand over the exact skeleton you want back.",
 		Source:    "Anthropic: Prompting best practices, Control the format of responses",
 		Prompts: []Prompt{
-			{Label: "Config", Text: `peyva reads settings from the environment in several places: ports, the primary a follower tracks, where each Vault keeps its file, the shared secret.
+			{Label: "Build", Text: `peyva reads settings from the environment in several places: ports, the primary a follower tracks, where each Vault keeps its file, the shared secret.
 
 Build Config: read every setting once at startup, check it, hand it over. Nothing else reads the environment.
 
@@ -50,7 +50,7 @@ Two decimal places on money is not a setting. When unsure, ask whether I should 
 A missing setting means naming it and stopping. Never a default that hides it.
 
 Done when every setting is sorted, and starting any process without a required one names it and stops.`},
-			{Label: "Runbook", Text: `peyva runs as a Vault, a follower, a Warden, three copies and a proxy, each with a health address.
+			{Label: "Build", Text: `peyva runs as a Vault, a follower, a Warden, three copies and a proxy, each with a health address.
 
 Report a version string from every health address. Then write me a rollback runbook for a bad release of the copies, in exactly this shape:
 
@@ -72,7 +72,7 @@ Report a version string from every health address. Then write me a rollback runb
 Every command runs on {os} and can be pasted as is.
 
 Done when a broken release to one copy fails its health check before the other two are touched, and Fix reverts it without improvising.`},
-			{Label: "Portal", Portal: true, Text: `The Portal has peyva's address written into its pages. Move it to peyva/portal/config.js: one object, loaded first, holding the base URL and nothing else.
+			{Label: "Page", Portal: true, Text: `The Portal has peyva's address written into its pages. Move it to peyva/portal/config.js: one object, loaded first, holding the base URL and nothing else.
 
 Empty means same origin, which is the ordinary case now.
 

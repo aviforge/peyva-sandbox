@@ -36,7 +36,7 @@ var Chapter16 = ChapterContent{
 		Why:       "Several strategies scored against stated criteria puts the choice in the open, where you can disagree with it.",
 		Source:    "The Prompt Report: Decomposition, Tree-of-Thought",
 		Prompts: []Prompt{
-			{Label: "Decide", Thinking: true, Text: `Balances live in a primary that copies to a follower a moment later. Promotion is by hand. I need to decide what happens when the primary, the follower and the request handlers cannot all reach each other.
+			{Label: "Think", Thinking: true, Text: `Balances live in a primary that copies to a follower a moment later. Promotion is by hand. I need to decide what happens when the primary, the follower and the request handlers cannot all reach each other.
 
 No code. At least three genuinely different strategies. For each: what a customer sees while it lasts, what happens to a payment taken during it, whether two stores could both take writes, and what a person must do afterwards to put things right.
 
@@ -52,7 +52,7 @@ A Vault writes only while its lease is good, and stamps every write with the lea
 Then do what you recommended for writes. If that means waiting for the follower before answering, do that, and refuse payments while it is unreachable.
 
 Done when stopping the Warden stops all writes within one lease, stopping the primary makes the follower take over with nothing lost, and the old primary comes back as a follower.`},
-			{Label: "Portal", Portal: true, Text: `When the copies disagree, the balance the Portal shows may be behind, and the server now says how far.
+			{Label: "Page", Portal: true, Text: `When the copies disagree, the balance the Portal shows may be behind, and the server now says how far.
 
 Three genuinely different ways for the page to handle that. For each, what a customer believes after reading it. Recommend one, say what it costs, and build it.
 

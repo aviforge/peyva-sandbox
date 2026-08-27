@@ -48,7 +48,10 @@ type BuildIt struct {
 // to rediscover what one sentence can say, and on a small context window it
 // does not fit at all.
 type Prompt struct {
-	// Label names the turn: Build, Design, Review. Shown above the block.
+	// Label names what kind of turn it is, from a fixed set of four so the
+	// same word means the same thing on every page: Think produces an answer
+	// and no code, Build makes a component, Check takes apart what was just
+	// built, Page builds the Portal. Shown above the block.
 	Label string
 	Text  string
 	// Portal marks a turn that builds the page rather than a component, so it

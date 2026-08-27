@@ -320,7 +320,7 @@ body {
    as the point of the site, not one block among three. */
 .block.usp {
   border-color: var(--accent);
-  margin-bottom: 16px;
+  margin-top: 16px;
 }
 
 /* The find box sits between the Chapters label and the list, in the sidebar

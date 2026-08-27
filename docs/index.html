@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=834a569020">
+<link rel="stylesheet" href="styles.css?v=649754374d">
 </head>
 <body data-chapter-slug="index">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -132,47 +132,29 @@
     <p class="chapter-subtitle">Learn distributed systems by building one. A wallet where alice sends bob $20, and the money arrives exactly once.</p>
   </div>
 
-  <section class="block usp">
-    <h2>No solutions. On purpose.</h2>
-    <ul class="why-list">
-      <li>Every other course hands you the finished code. You read it, nod, and learn nothing you can use.</li>
-      <li>Here there is none. You prompt for it, run it, and watch it break the way the chapter said it would. Then you work out why.</li>
-      <li>The chapter tells you how it should fail. It never tells you how to fix it. That part is yours, and it is the only part that sticks.</li>
-    </ul>
-  </section>
-
   <div class="section-grid">
     <section class="block">
       <h2>1. What</h2>
-      <ul class="why-list">
-        <li>You build peyva, a small payments system, one piece per chapter.</li>
-        <li>Each piece is added because the chapter before it showed you a failure. Nothing is there for its own sake.</li>
-        <li>By the end: several copies behind a proxy, a store with a follower and a lease, a queue, an outbox, sharding, and a check that the money still adds up.</li>
-      </ul>
+      <p>You build peyva, a small payments system, one piece per chapter. Each piece is there because the chapter before it broke without it.</p>
     </section>
 
     <section class="block">
       <h2>2. Why</h2>
-      <ul class="why-list">
-        <li>Money is the one kind of data where every distributed systems mistake is visible and costs something.</li>
-        <li>Reading about a lost update is forgettable. Watching alice lose 60 on your own machine is not.</li>
-        <li>Five rules never break: money is never created or lost, never negative, never paid twice, only one component changes it, every move is written down. Every chapter tries to break one.</li>
-        <li>Your assistant writes the code. You decide what it must do, and check that it did. That is the skill, and no solution file teaches it.</li>
-      </ul>
+      <p>Money is the one kind of data where every distributed systems mistake is visible and costs something. Five rules never break, and every chapter tries to break one.</p>
     </section>
 
     <section class="block">
       <h2>3. How</h2>
-      <p class="lead-line">How a chapter works, in three steps.</p>
-      <ul class="why-list">
-        <li><b>Read</b> the What and the Why. About a hundred words each.</li>
-        <li><b>Copy</b> each prompt into your own AI coding assistant. It writes the code, in the language you chose.</li>
-        <li><b>Run it</b> and watch it fail the way the chapter said it would. Then fix it.</li>
-      </ul>
-      <p class="lead-line">You need an AI coding assistant, one language, and one laptop. Chapter 0 asks for the language and your operating system, then hands you three files to save.</p>
-      <p><a class="landing-start" href="chapter-0.html">Start with Chapter 0</a></p>
+      <p>How a chapter works: read the What and the Why, copy the prompts into your AI assistant, then run it and watch it fail the way the chapter said it would.</p>
     </section>
   </div>
+
+  <section class="block usp">
+    <h2>No solutions. On purpose.</h2>
+    <p>Every other course hands you the finished code. Here there is none. The chapter tells you how it should fail, never how to fix it, and the working out is the only part that sticks.</p>
+  </section>
+
+  <p><a class="landing-start" href="chapter-0.html">Start with Chapter 0</a></p>
 </main>
 </div>
 <script src="app.js?v=41ed8d207d"></script>

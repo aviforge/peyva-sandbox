@@ -25,7 +25,7 @@ var Chapter07 = ChapterContent{
 		{Term: "Transaction", Description: "A group of changes that all succeed or all fail, never half."},
 		{Term: "BEGIN / COMMIT", Description: "The start and the permanent end of a transaction. Nothing is final until COMMIT."},
 		{Term: "Rollback", Description: "Undoing every change in a transaction because one step failed."},
-		{Term: "ACID", Description: "The database keeps changes together, apart, and safe on disk. The C, consistency, is your own rules, which it cannot know."},
+		{Term: "ACID", Description: "Four promises. Three are the database's job: changes land together, do not tread on each other, and survive a crash. The fourth, consistency, is your own rules, which it cannot know."},
 		{Term: "Isolation Level", Description: "How much one running transaction sees of another. The strictest gives the same answer as running them one after another. Weaker ones are faster and let known bugs through."},
 		{Term: "Lost Update", Description: "Two transactions read the same balance, each subtracts from what it read, and one subtraction disappears."},
 		{Term: "Ledger", Description: "The record of every movement of money, only ever added to. The proof behind each balance."},

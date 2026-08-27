@@ -26,7 +26,7 @@ var Chapter21 = ChapterContent{
 		{Term: "Reconciliation", Description: "Comparing two records that were written separately, to catch the day one of them is wrong."},
 		{Term: "Discrepancy", Description: "An account whose Ledger entries do not add up to its balance, and by how much."},
 		{Term: "Single Point of Failure", Description: "A part with no stand-in, whose loss stops the system rather than slowing it."},
-		{Term: "Conservation Check", Description: "Every balance, plus money in flight, adds up to what you started with. Every Ledger entry adds up to zero. If either fails, money was created or lost."},
+		{Term: "Conservation Check", Description: "Every balance, plus money in progress, adds up to what you started with. Every Ledger entry adds up to zero. If either fails, money was created or lost."},
 	},
 
 	BuildIt: BuildIt{

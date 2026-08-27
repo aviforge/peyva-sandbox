@@ -15,18 +15,18 @@ var Chapter15 = ChapterContent{
 	Why: []string{
 		"Copying the file is not replication. A copy has no place-marker, so you cannot say how far behind it is, or carry on after a break.",
 		"A replication log is every saved change, numbered, written in the same transaction as the change.",
-		"The replica's state is one number: the last change it applied. How far behind is the primary's latest minus that.",
-		"The primary answers before the replica has the change. A payment saved in that gap exists in one place only.",
-		"Promotion keeps whatever the replica had. For money, whatever it never received must be counted and reported.",
+		"The follower's state is one number: the last change it applied. How far behind is the primary's latest minus that.",
+		"The primary answers before the follower has the change. A payment saved in that gap exists in one place only.",
+		"Promotion keeps whatever the follower had. For money, whatever it never received must be counted and reported.",
 		"After a promotion the old primary must never write again. Two writers is split-brain.",
 	},
 
 	Concepts: []ConceptItem{
 		{Term: "Primary", Description: "The copy that takes writes and is the official one. Only ever one at a time, and making sure of that is the hard part."},
-		{Term: "Replica", Description: "A second copy that applies the primary's changes in order, and can be promoted. Reads from it may be slightly old."},
+		{Term: "Follower", Description: "A second copy that applies the primary's changes in order, and can be promoted. Reads from it may be slightly old."},
 		{Term: "Replication Log", Description: "Every saved change, numbered in order, written in the same transaction as the change itself."},
-		{Term: "Replication Lag", Description: "The primary's latest number minus the replica's. A payment numbered above the replica's exists in one place only."},
-		{Term: "Promotion", Description: "Making the replica the primary. Anything it had not yet received is lost, and the old primary must never write again."},
+		{Term: "Replication Lag", Description: "The primary's latest number minus the follower's. A payment numbered above the follower's exists in one place only."},
+		{Term: "Promotion", Description: "Making the follower the primary. Anything it had not yet received is lost, and the old primary must never write again."},
 		{Term: "Split-Brain", Description: "Two copies both believing they are the primary, both taking writes. Breaks every money rule at once."},
 	},
 

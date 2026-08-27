@@ -16,8 +16,8 @@ var Chapter20 = ChapterContent{
 		"More copies never made writing faster. Splitting the accounts does: writes to different accounts go to different stores.",
 		"The shard key is a hash of the handle, so any copy works it out. It also puts alice and bob apart half the time.",
 		"A payment across two shards cannot be one transaction. It is the saga from chapter 14, now on the everyday path.",
-		"Between taking and giving, the money is in flight. The totals only add up if you count it.",
-		"Adding a shard moves accounts. Consistent hashing keeps the number small; it does not make the move free.",
+		"Between taking and giving, the money is in progress. The totals only add up if you count it.",
+		"Adding a shard moves accounts between stores. A careful choice of hash keeps that number small; it does not make the move free.",
 		"Each shard needs its own second copy and its own lease. Two shards are two of every failure. That is why this comes last.",
 	},
 
@@ -26,8 +26,8 @@ var Chapter20 = ChapterContent{
 		{Term: "Shard Key", Description: "What decides which shard an account lives on, here a hash of the handle. Any copy can work it out, so no lookup table is needed."},
 		{Term: "Routing", Description: "Sending each request to the shard that owns the account. A payment names two, and they may live apart."},
 		{Term: "Cross-Shard Payment", Description: "Taking from one shard and giving on another. It cannot be one transaction, so it runs as a saga."},
-		{Term: "In Flight", Description: "Money taken from one shard and not yet given on the other. Count it, or the totals look wrong during every such payment."},
-		{Term: "Rebalancing", Description: "Moving accounts when a shard is added or removed, while payments carry on. Consistent hashing keeps the number small."},
+		{Term: "In Progress", Description: "Money taken from one shard and not yet given on the other. Count it, or the totals look wrong during every such payment."},
+		{Term: "Rebalancing", Description: "Moving accounts when a shard is added or removed, while payments carry on. A careful choice of hash keeps the number that move small."},
 	},
 
 	BuildIt: BuildIt{

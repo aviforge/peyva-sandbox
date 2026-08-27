@@ -36,27 +36,25 @@ var Chapter16 = ChapterContent{
 		Why:       "Several strategies scored against stated criteria puts the choice in the open, where you can disagree with it.",
 		Source:    "The Prompt Report: Decomposition, Tree-of-Thought",
 		Prompts: []Prompt{
-			{Label: "Decide", Thinking: true, Text: `Balances live in a primary that copies to a replica a moment later. Promotion is by hand. I need to decide what happens when the primary, the replica and the request handlers cannot all reach each other.
+			{Label: "Decide", Thinking: true, Text: `Balances live in a primary that copies to a follower a moment later. Promotion is by hand. I need to decide what happens when the primary, the follower and the request handlers cannot all reach each other.
 
-No code yet. Give me at least three genuinely different strategies, not three versions of one. For each: what a customer sees while it lasts, what happens to a payment taken during it, whether two stores could both take writes, and what a person has to do afterwards to put things right.
+No code. At least three genuinely different strategies. For each: what a customer sees while it lasts, what happens to a payment taken during it, whether two stores could both take writes, and what a person must do afterwards to put things right.
 
-Then cut. Say what ruled each rejected one out for money specifically. Recommend one, say whether it needs the primary to wait for the replica, and name the one condition that would change your mind.
+Then cut. Say what rules each rejected one out for money. Recommend one, and name the condition that would change your mind.
 
-Done when I have three real options, a reason each was rejected, and a recommendation with the condition that would overturn it.`},
-			{Label: "Build", Text: `The Vault's primary copies to a replica a moment later, promotion is by hand, and you recommended what should happen when they cannot reach each other.
+Done when I have three real options, a reason each was rejected, and a recommendation.`},
+			{Label: "Build", Text: `The Vault's primary copies to a follower a moment later, promotion is by hand, and you recommended what should happen when they cannot reach each other.
 
-Build the Warden: a process on PEYVA_PORT granting a lease to one Vault at a time. A lease has a holder, a number that only goes up, and an expiry a few seconds out. A Vault asks on start and renews at half that. The Warden renews for the holder, or hands the lease on once the old one has expired. Vaults read PEYVA_WARDEN. Fill in the runner's START_WARDEN line.
+Build the Warden: a process on PEYVA_PORT that grants a lease to one Vault at a time, for a few seconds, renewed at half that. Each lease carries a number that only goes up. Vaults read PEYVA_WARDEN. Fill in START_WARDEN in the runner.
 
-A Vault writes only while its lease is good, stopping a margin before expiry, and stamps every write with the lease number. Promotion is now the replica getting the lease. The copies ask the Warden which Vault to use, and ask again when a request fails.
+A Vault writes only while its lease is good, and stamps every write with the lease number. Promotion is now the follower getting the lease. The copies ask the Warden which Vault to use.
 
-Then do what you recommended for writes. If that means waiting for the replica before answering, do that, and refuse payments while it is unreachable. Answer enquiries from whichever copy is reachable, saying which and how far behind.
+Then do what you recommended for writes. If that means waiting for the follower before answering, do that, and refuse payments while it is unreachable.
 
-Done when stopping the Warden makes both Vaults refuse writes within one lease, stopping the primary makes the replica take over with nothing lost, restarting the old primary makes it a follower, and enquiries answer throughout.`},
+Done when stopping the Warden stops all writes within one lease, stopping the primary makes the follower take over with nothing lost, and the old primary comes back as a follower.`},
 			{Label: "Portal", Portal: true, Text: `When the copies disagree, the balance the Portal shows may be behind, and the server now says how far.
 
-Give me three genuinely different ways for the page to handle that, not three wordings of one. For each, say what a customer believes after reading it and what they do next. Recommend one and say what it costs.
-
-Build the one you recommend.
+Three genuinely different ways for the page to handle that. For each, what a customer believes after reading it. Recommend one, say what it costs, and build it.
 
 Done when an old balance is visibly old and nobody is misled about their money.`},
 		},

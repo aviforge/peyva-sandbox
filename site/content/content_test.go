@@ -518,6 +518,21 @@ func allPrompts(c ChapterContent) []Prompt {
 	return out
 }
 
+// A prompt is read in full before it is copied, so it is the most-read text
+// on the page. Past a certain length a reader stops reading and starts
+// skimming, and a skimmed prompt gets pasted with a constraint unseen. The cap
+// is generous for the multi-stage builds and tight for everything else.
+func TestPromptsStayShort(t *testing.T) {
+	const maxWords = 170
+	for _, c := range All {
+		for _, p := range allPrompts(c) {
+			if n := len(strings.Fields(p.Text)); n > maxWords {
+				t.Errorf("chapter %d prompt %q is %d words, over %d", c.Number, p.Label, n, maxWords)
+			}
+		}
+	}
+}
+
 // A sidebar is held to the same bar as a chapter: claims of its own, a cited
 // technique no chapter's own Build It already teaches, and prompts that end
 // somewhere checkable.

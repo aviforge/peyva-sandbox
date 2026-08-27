@@ -171,7 +171,7 @@
       <p class="technique"><span class="technique-name">Grounding: investigate before claiming</span>. Forbid claims about code it has not run, and you get timings instead of confident guesses.</p>
       <p class="technique-source">Documented in Anthropic: Prompting best practices, Minimizing hallucinations in agentic coding</p>
       <details class="standing-rules">
-        <summary>Every prompt below is copied with these rules, about 430 tokens for the chapter</summary>
+        <summary>Every prompt below is copied with these rules, about 357 tokens for the chapter</summary>
         <pre class="prompt-lang" id="rules-build">Build this in <span data-language-name>Go</span>, standard library only.
 Code in peyva/&lt;component&gt;/, one folder per component.
 Money: exact decimal or integer minor units, never floating point, two decimal places.
@@ -184,40 +184,38 @@ The goal and invariants are in peyva/goal.md, the look in peyva/portal/design.md
         
       </details>
       
-      <p class="prompt-divider"><span class="prompt-step">1 of 2</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~230 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">1 of 2</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~186 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-build">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
-        <pre class="prompt">The Vault stores accounts by owner. Each also carries a region, which nothing indexes.
+        <pre class="prompt">The Vault stores accounts by owner, and each carries a region that nothing indexes.
 
-In order, no skipping ahead:
+In order:
 
 1. Seed 50,000 accounts with random regions.
-2. Time a lookup of every account in one region. Report the number and the query plan before changing anything.
+2. Time a lookup of every account in one region. Show the number and the query plan.
 3. Add an index on region.
-4. Time the same lookup. Report both numbers side by side, with the new plan.
-5. Time 1,000 inserts with the index, then without it. Report the difference.
+4. Time it again. Show both numbers and the new plan.
+5. Time 1,000 inserts with the index, then without.
 
-Never state a speed claim you have not measured here. Real numbers, not estimates. If the gain is smaller than expected, say so rather than explaining it away.
+Only report what you measured here. If the gain is smaller than expected, say so.
 
 Done when I have four measured numbers and two query plans that differ.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">2 of 2</span> Portal<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~200 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">2 of 2</span> Portal<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~171 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-portal">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
-        <pre class="prompt">Someone typing a handle from memory should know they have the right person before sending. Have Send look the handle up as it is typed and show whose account it is.
+        <pre class="prompt">Someone typing a handle should know they have the right person before sending. Have Send look the handle up as it is typed and show whose account it is.
 
-Show the handle and the owner, never the balance. That is not the sender&#39;s to see.
+Show the handle and owner, never the balance.
 
-Then time that lookup for real against a table of thousands of accounts, with the index and without.
-
-Done when a wrong handle is obvious before sending, and I have both timings.</pre>
+Done when a wrong handle is obvious before sending, and you have timed the lookup with the index and without.</pre>
       </div>
       
       

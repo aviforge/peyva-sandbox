@@ -33,22 +33,22 @@ var Chapter13 = ChapterContent{
 		Why:       "Naming the naive design stops the assistant rediscovering it, and forces it to say what its version does differently.",
 		Source:    "The Prompt Report: Few-Shot CoT, Contrastive CoT",
 		Prompts: []Prompt{
-			{Label: "Build", Text: `The Courier takes work from a queue in memory inside each copy. If a copy dies with work in it, that work is gone and nothing knows.
+			{Label: "Build", Text: `The Courier takes work from a queue in memory. If its copy dies with work in it, the work is gone and nothing knows.
 
-Reasoning to reject: save the payment, then hand the work over, because the gap is too small to matter. It is not a probability, it is a gap, and a crash inside it loses work with no record anything was owed.
+Reasoning to reject: save the payment, then hand the work over, because the gap is too small to matter. A crash in that gap loses work with no record it was owed.
 
-Reasoning to follow: anything that must happen because a payment happened is written in the same transaction as the payment.
+Reasoning to follow: anything that must happen because of a payment is written in the same transaction as the payment.
 
-Build the second. The Vault writes the Courier's pending work in the transaction that moves the money. The Courier in each copy takes work from the Vault, claims each item in a single update so two copies cannot both take it, delivers it, and marks it done.
+Build the second. The Vault writes the Courier's pending work with the money. The Courier in each copy takes work from the Vault, claims each item in one update so two copies cannot both take it, delivers, and marks it done.
 
-Done when killing a copy right after a payment leaves the work saved and untaken, restarting any copy delivers it, and three copies collecting at once deliver each item once.`},
-			{Label: "Contrast", Thinking: true, Text: `You had the Vault write the Courier's pending work in the same transaction as the payment, instead of handing it over after the commit.
+Done when killing a copy right after a payment leaves the work saved, any copy delivers it after a restart, and three copies collecting at once deliver each item once.`},
+			{Label: "Contrast", Thinking: true, Text: `You had the Vault write the Courier's pending work in the same transaction as the payment, instead of handing it over afterwards.
 
-Name the exact instant at which the rejected design loses work and yours does not.
+Name the exact instant the rejected design loses work and yours does not.
 
-Then: what happens if the Courier dies after delivering but before marking the item done, and is that acceptable for a notification? What happens if a copy claims an item and dies before delivering it, and what would it take for someone else to deliver it?
+Then: what if the Courier dies after delivering but before marking it done? What if a copy claims an item and dies before delivering it?
 
-Done when I can point at the single instant that separates the two, and I know the two cases yours still handles imperfectly.`},
+Done when I can point at the instant that separates the two, and I know the two cases yours still handles imperfectly.`},
 		},
 	},
 }

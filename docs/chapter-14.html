@@ -171,7 +171,7 @@
       <p class="technique"><span class="technique-name">Least-to-Most Prompting</span>. One prompt for a whole multi-stage workflow gets you a sketch of all of it and a working version of none.</p>
       <p class="technique-source">Documented in The Prompt Report: Decomposition, Least-to-Most</p>
       <details class="standing-rules">
-        <summary>Every prompt below is copied with these rules, about 494 tokens for the chapter</summary>
+        <summary>Every prompt below is copied with these rules, about 428 tokens for the chapter</summary>
         <pre class="prompt-lang" id="rules-build">Build this in <span data-language-name>Go</span>, standard library only.
 Code in peyva/&lt;component&gt;/, one folder per component.
 Money: exact decimal or integer minor units, never floating point, two decimal places.
@@ -184,36 +184,36 @@ The goal and invariants are in peyva/goal.md, the look in peyva/portal/design.md
         
       </details>
       
-      <p class="prompt-divider"><span class="prompt-step">1 of 2</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~321 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">1 of 2</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~272 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-build">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
-        <pre class="prompt">A payment is one step inside the Vault. I want it run in stages that can unwind if a later stage fails for good.
+        <pre class="prompt">A payment is one step inside the Vault. I want it to run in stages that can be undone if a later stage fails for good.
 
-Build it in five, each on what the last left. Stop after each and tell me it works.
+Build it in five pieces. Stop after each and show me it works.
 
-1. A saved record, per payment reference, of which stages are done.
-2. The existing money movement as stage one, recording that it finished.
-3. A stand-in for a ledger peyva does not own: a small process with its own file that credits an account, refuses for good on a handle marked closed, and can be made unreachable. Stage two credits the recipient there.
-4. An undo for stage one, as new Ledger entries pointing at the original, never a deletion. It runs when stage two fails in a way that can never succeed.
-5. Kill the copy between stages one and two, start it again, and have the payment carry on from its record.
+1. A saved record, per payment, of which stages are done.
+2. The existing money movement as stage one.
+3. A stand-in for an outside ledger: a small process with its own file that credits an account, refuses for good on a closed handle, and can be switched off. Stage two credits the recipient there.
+4. An undo for stage one when stage two fails for good: new Ledger entries pointing at the original, never a deletion.
+5. Kill the copy between the stages, restart, and have the payment carry on.
 
-Only permanent failures undo. A timeout retries with the same reference.
+A timeout is not a permanent failure. It retries with the same reference.
 
-Done when a permanently failing stage two puts the money back, the Ledger shows the payment and its undo, and an interrupted payment finishes after a restart.</pre>
+Done when a closed recipient puts the money back, and an interrupted payment finishes after a restart.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">2 of 2</span> Portal<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~173 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">2 of 2</span> Portal<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~156 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-portal">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
-        <pre class="prompt">A reversed payment looks like two unrelated rows. Show it as what it is: the original, and the reversal that answers it, tied together.
+        <pre class="prompt">A reversed payment looks like two unrelated rows. Show it as the original and the reversal that answers it, tied together, with the reason.
 
-Build it in stages. First mark it as reversed. Then link the two rows. Then say why. Stop after each and show me.
+Build it in three steps and show me each.
 
 Done when a customer can see that money left and came back, and why.</pre>
       </div>

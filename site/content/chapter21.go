@@ -34,30 +34,26 @@ var Chapter21 = ChapterContent{
 		Why:       "The restatement is the cheapest look you will get at what it actually understood.",
 		Source:    "The Prompt Report: Zero-Shot, Rephrase and Respond",
 		Prompts: []Prompt{
-			{Label: "Restate", Thinking: true, Text: `peyva is made of these parts: a proxy spreading requests across copies, a Gateway taking requests from outside, a Teller running one payment end to end, two Vault shards that are the only things that change a balance and hold the Ledger, a replica following a Vault's log, a Warden saying which Vault may write, a Courier doing the work after a payment clears, and a Portal the customer uses.
+			{Label: "Restate", Thinking: true, Text: `peyva is: a proxy spreading requests across copies, a Gateway taking requests from outside, a Teller running one payment end to end, two Vault shards that alone change balances and hold the Ledger, a follower tracking a Vault's log, a Warden saying which Vault may write, a Courier doing the work after a payment, and a Portal the customer uses.
 
-Before writing anything, say that back in your own words: what each part is for, and how a payment travels from the proxy to the recipient being told. Do not repeat my names back at me.
+Say that back in your own words, not mine: what each part is for, and how a payment travels from the proxy to the recipient being told. At each hop, what happens if that part fails right then, and what makes it safe.
 
-At each hop, say what would happen if that part failed right then, and which mechanism makes that safe.
+Done when I have your description and can tell you where we disagree.`},
+			{Label: "Build", Text: `peyva has two Vault shards holding balances and Ledger entries, payments in progress between them, and nothing checks that any of it still agrees.
 
-Done when I have your description of every part and the path a payment takes, and I can tell you where yours and mine disagree.`},
-			{Label: "Build", Text: `peyva has two Vault shards holding balances and Ledger entries, payments in flight between them, and nothing checks that any of it still agrees.
+Build the Reconciler. On every shard, each account's Ledger entries must add up to its balance; report any gap with its size. Across the system, every balance plus money in progress equals what was seeded plus what was opened. Flag any payment in progress too long. Check followers too. It reports and never corrects.
 
-Build the Reconciler. On every shard, each account's Ledger entries must add up to the balance it reports, and any gap is reported with its size. Across the system, every balance plus money in flight equals what was seeded plus what was opened, and every Ledger entry adds up to zero. Flag any payment in flight too long. Check a shard's replica too. It reports; it never corrects.
-
-Then answer three things from the code you have, not from general knowledge: which single part failing would hurt customers most, which failure the system handles worst, and which piece is built for more than it will ever carry.
-
-Where the code does not match how a real payments system would do it, say so plainly.
+Then, from the code: which single part failing would hurt customers most, which failure the system handles worst, and which piece is built for more than it carries.
 
 Done when the Reconciler finds nothing on a healthy system, reports the exact gap after I kill a shard mid-payment, and I have your three answers.`},
-			{Label: "Portal restate", Portal: true, Thinking: true, Text: `The wallet page has grown a screen at a time: a balance, sending money, a history, a note that a message was delivered, and a sign-in in front of all of it.
+			{Label: "Portal restate", Portal: true, Thinking: true, Text: `The wallet page has grown a screen at a time: balance, send, history, a note that a message was delivered, and a sign-in in front.
 
-Describe it back to me: every screen, what a customer can do on each, and which part of the system answers it. Your own words, not mine. Say which parts you are unsure of.
+Describe it back to me: every screen, what a customer can do on each, and which part of the system answers it. Say what you are unsure of.
 
-Done when I have your description of every screen, and I can tell you where yours and mine disagree.`},
+Done when I have your description and can tell you where we disagree.`},
 			{Label: "Portal", Portal: true, Text: `The Portal has a screen for each thing it learned to do, added a chapter at a time and looking like it.
 
-Finish it: one menu where a customer opens an account, sees what they hold, sends money, reads their history and knows a message was delivered, with the switcher deciding whose wallet it all is.
+Finish it: one menu where a customer opens an account, sees what they hold, sends money, reads their history and sees that a message was delivered.
 
 Done when someone who has never seen peyva can use it without being told how.`},
 		},

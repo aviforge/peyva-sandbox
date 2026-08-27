@@ -171,7 +171,7 @@
       <p class="technique"><span class="technique-name">Style Prompting</span>. Naming the reader and the moment they read it changes both what gets logged and how it reads.</p>
       <p class="technique-source">Documented in The Prompt Report: Zero-Shot, Style Prompting</p>
       <details class="standing-rules">
-        <summary>Every prompt below is copied with these rules, about 290 tokens for the chapter</summary>
+        <summary>Every prompt below is copied with these rules, about 262 tokens for the chapter</summary>
         <pre class="prompt-lang" id="rules-build">Build this in <span data-language-name>Go</span>, standard library only.
 Code in peyva/&lt;component&gt;/, one folder per component.
 Money: exact decimal or integer minor units, never floating point, two decimal places.
@@ -180,21 +180,21 @@ The goal and invariants are in peyva/goal.md.</pre>
         
       </details>
       
-      <p class="prompt-divider">Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~290 tokens</span></p>
+      <p class="prompt-divider">Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~262 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-build">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
-        <pre class="prompt">The system logs by printing to the console and counts nothing. When something breaks there is no way to find out what happened.
+        <pre class="prompt">The system prints to the console and counts nothing. When something breaks, there is no way to find out what happened.
 
-Write it for one reader: an on-call engineer, woken at 3am, who did not write this code, looking at yesterday&#39;s records for one failed payment, unable to reproduce it.
+Write it for one reader: an on-call engineer, woken at 3am, who did not write this code, looking at yesterday&#39;s records for one failed payment.
 
-Give them one event per line, carrying the payment reference on every line that payment touches, everywhere it goes, with timestamps fine enough to show where the time went. Counts of payments, failures, unknown outcomes, jobs waiting, and how far behind the replica is. A health address on every process that reports what is actually true, never a hardcoded ok.
+One event per line, with the payment reference on every line that payment touches, and timestamps fine enough to show where the time went. Counts of payments, failures, unknown outcomes, jobs waiting, and how far behind the follower is. A health address on every process that reports what is actually true, never a hardcoded ok.
 
-For each thing you log, ask whether it helps that person at 3am. If not, leave it out.
+If a line would not help that person at 3am, leave it out.
 
-Done when I can take one failed reference and rebuild its whole path and timing from the logs, and health reports trouble when the replica is unreachable or the lease is not held.</pre>
+Done when one failed reference rebuilds its whole path from the logs alone, and health reports trouble when the follower is unreachable or the lease is not held.</pre>
       </div>
       
       

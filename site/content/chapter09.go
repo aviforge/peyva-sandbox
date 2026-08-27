@@ -35,23 +35,23 @@ var Chapter09 = ChapterContent{
 		Why:       "The plan is a table of failure and response. Written first, it is the code's specification; written after, it is a story about the code.",
 		Source:    "The Prompt Report: Zero-Shot, Plan-and-Solve",
 		Prompts: []Prompt{
-			{Label: "Plan", Thinking: true, Text: `A page sends a payment over a network and gets a reference back. The request already carries a reference the other side uses to spot repeats.
+			{Label: "Plan", Thinking: true, Text: `A page sends a payment over a network and gets a reference back. The other side already spots repeats by that reference.
 
-Before any code, give me a table. One row for each way that call can end: the answer lost after the money moved, the connection refused, the call hanging, a 4xx, a 5xx. Columns: can the caller tell whether money moved, is retrying safe, is retrying useful, what should the caller do.
+Before any code, a table. One row per way the call can end: answer lost after the money moved, connection refused, call hangs, 4xx, 5xx. Columns: can the caller tell whether money moved, is retrying safe, is retrying useful, what to do.
 
-Then say how long the time limit should be, and how you would find that number from a running system rather than guessing. Say how many retries, how the wait grows, and why every caller should not wait the same.
+Then: how long to wait before giving up, and how you would find that number rather than guess it. How many retries, how the wait grows, and why everyone should not wait the same.
 
-Done when I have the table, a time limit with a method behind it, and a retry rule that never retries what is unsafe or useless.`},
-			{Label: "Build", Text: `The Gateway waits for the Teller with no deadline, and the page resends when it hears nothing.
+Done when I have the table and a retry rule that never retries what is unsafe or useless.`},
+			{Label: "Build", Text: `The Gateway waits for the Teller forever, and the page resends when it hears nothing.
 
-Carry out your plan. Put a time limit on every call to another program. When the outcome is unknown, retry with the same reference, waiting longer each time plus a random amount, a few times only. Never retry a 4xx. After the last try, answer 'outcome unknown, quote this reference' rather than reporting failure.
+Carry out your plan. A time limit on every call to another program. On no answer, retry with the same reference, waiting longer each time plus a random bit, a few times only. Never retry a 4xx. After the last try, say 'outcome unknown, quote this reference'.
 
-Then prove it. Make the Teller sleep past the limit on the first attempt only, send one payment, and show me one pair of Ledger entries and more than one attempt in the log.
+Prove it: make the Teller sleep past the limit on the first try only, send one payment, and show me one Ledger pair and several attempts in the log.
 
-Done when a slow first attempt pays once, a 400 is never retried, and the log shows the gaps growing.`},
-			{Label: "Portal", Portal: true, Text: `Send waits with no limit, and a customer who gives up and taps again cannot tell whether the first tap paid.
+Done when a slow first try pays once, a 400 is never retried, and the gaps in the log grow.`},
+			{Label: "Portal", Portal: true, Text: `Send waits forever, and a customer who taps again cannot tell whether the first tap paid.
 
-Give Send a deadline. Past it, the page says the outcome is unknown, shows the reference, and offers to check rather than to send again. Checking asks the server what happened to that reference.
+Give Send a deadline. Past it, the page says the outcome is unknown, shows the reference, and offers to check rather than send again.
 
 Done when a slow server leaves the customer with a reference and a way to find out, never a second payment.`},
 		},

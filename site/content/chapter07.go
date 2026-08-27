@@ -36,32 +36,28 @@ var Chapter07 = ChapterContent{
 		Why:       "The failure modes are the hard part here, and thinking first surfaces the hole while it is still cheap.",
 		Source:    "The Prompt Report: Thought Generation, Chain-of-Thought",
 		Prompts: []Prompt{
-			{Label: "Build", Text: `The Teller moves money by updating two balances. Nothing records that it happened, so a balance that looks wrong cannot be explained.
+			{Label: "Build", Text: `The Teller moves money by updating two balances. Nothing records that it happened.
 
-Build the Ledger: a record only ever added to, where every payment writes two entries that balance, a debit and a credit sharing one reference and timestamp. The balances update in the same transaction. All of it commits, or none of it happened.
+Build the Ledger: a record only ever added to. Every payment writes two entries that balance, a debit and a credit with one shared reference, and the balances update in the same transaction. All of it, or none of it.
 
-Before writing code: what does the data look like if the process dies between the debit, the credit and the Ledger write? Three cases, and for each, who is owed what.
+First: what does the data look like if the process dies between the debit, the credit and the Ledger write? Three cases, who is owed what. Then make them impossible.
 
-Then make those states impossible, and tell me which of your three cases is still reachable.
+Done when a payment leaves two balanced entries, a failure mid-payment leaves none, and alice's entries add up to her balance.`},
+			{Label: "Isolation", Text: `The Teller checks the payer has enough, then debits them, in one transaction.
 
-Done when a finished payment leaves two balanced entries and updated balances, a forced failure mid-payment leaves neither, and alice's entries add up to her balance.`},
-			{Label: "Isolation", Text: `The Teller checks the payer has enough, then debits them, inside one transaction.
+Alice holds 100. Two payments of 60 arrive at the same instant. Walk me through both reading 100, both deciding 60 fits, both debiting. What is her balance, and which rule in goal.md broke?
 
-Before changing anything: alice holds 100, and two payments of 60 arrive at the same instant. Walk me through the case where both read 100, both decide 60 fits, and both debit. What is her balance, do the Ledger and the balances still agree, and which rule in goal.md broke?
+Find out from the database's own documentation whether it already prevents this. Then send those two payments at once for real. If the second is not refused, make the check and the debit one step nothing can slip between.
 
-Then find out, from the database's own documentation or by testing it, whether it already prevents that. Do not assume.
+Done when two 60s against 100 leave one applied, one refused, and alice at 40.`},
+			{Label: "Decide", Portal: true, Thinking: true, Text: `A wallet page shows a balance and can send money. I want to add a history of every movement in and out.
 
-Then send those two payments at the same time for real and show me what happened. If the second is not refused, make the check and the debit one step nothing can slip between, and run it again.
-
-Done when two 60s against 100 leave one applied, one refused, alice at 40, and her entries adding up to her balance.`},
-			{Label: "Decide", Portal: true, Thinking: true, Text: `A wallet page shows a balance and can send money. I want to add a history of every movement in and out of the account.
-
-Before building it: what should that show for a payment that failed halfway? Should it appear at all, and if so, how does a customer tell it apart from one that worked?
+What should it show for a payment that failed halfway? Should it appear at all, and how does a customer tell it from one that worked?
 
 Done when I know what a half-failed payment looks like on the page, and why.`},
-			{Label: "Portal", Portal: true, Text: `The Portal shows a balance and can send money, and says nothing about how the balance got that way.
+			{Label: "Portal", Portal: true, Text: `The Portal shows a balance and can send money, but not how the balance got that way.
 
-Add History to the menu: every movement in and out of this account, newest first, each with its reference, amount and the other party. Show a failed payment the way you just described.
+Add History to the menu: every movement in and out, newest first, with reference, amount and the other party. Show a failed payment the way you just described.
 
 Done when History explains alice's balance without me reading the database.`},
 		},

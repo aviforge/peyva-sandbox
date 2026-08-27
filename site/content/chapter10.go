@@ -37,18 +37,18 @@ var Chapter10 = ChapterContent{
 			Why:       "Hidden guesses become a written list of assumptions you can argue with.",
 			Source:    "The Prompt Report: Zero-Shot, Self-Ask",
 			Prompts: []Prompt{
-				{Label: "Assumptions", Thinking: true, Text: `I need to size a payments system that moves money between accounts. One process today, and no idea what it needs to survive.
+				{Label: "Assumptions", Thinking: true, Text: `I need to size a payments system. One process today, and no idea what it needs to survive.
 
-No numbers yet. Work out which questions the estimate depends on, and write them out. Answer each yourself with a stated assumption, and label where it came from: industry norm, your own guess, or arithmetic from an earlier answer.
+No numbers yet. Write out the questions the estimate depends on. Answer each with a stated guess, and label where it came from: industry norm, your guess, or arithmetic.
 
-Done when I have your questions and an answer to each, every one labelled.`},
-				{Label: "Estimate", Thinking: true, Text: `You worked out the questions a capacity estimate depends on, and answered each with a labelled assumption.
+Done when I have your questions and a labelled answer to each.`},
+				{Label: "Estimate", Thinking: true, Text: `You listed the questions a capacity estimate depends on, and answered each with a labelled guess.
 
-Use your own answers to work out payments per second at peak, Ledger growth over two years, and network traffic at peak. Show each sum with the numbers filled in, so I can check the arithmetic rather than trust it.
+Work out payments per second at peak, Ledger growth over two years, and network traffic at peak. Show each sum with the numbers filled in.
 
-Then say which assumption the answer is most sensitive to, what the number becomes if you are wrong about it by double, and which one you most want me to confirm.
+Then: which guess moves the answer most, what happens if it is off by double, and which one you most want me to confirm.
 
-Done when I have a peak figure and a two-year storage figure I can defend, and I know which assumption to revisit first.`},
+Done when I have a peak figure and a two-year storage figure, and know which guess to revisit first.`},
 			},
 		},
 	},
@@ -66,26 +66,18 @@ Done when I have a peak figure and a two-year storage figure I can defend, and I
 		Why:       "Reasoning down from what makes any service replaceable beats reasoning up from code that was never going to scale.",
 		Source:    "The Prompt Report: Thought Generation, Step-Back Prompting",
 		Prompts: []Prompt{
-			{Label: "Principle", Thinking: true, Text: `I have a service handling payment requests, and I want several copies of it behind a router.
+			{Label: "Principle", Thinking: true, Text: `I have a service handling payments, and I want several copies of it behind a router.
 
-Do not look at any code. In a few sentences, state the general property that lets any service run as interchangeable copies: what may live inside one process, what may not, and why. Then say what that means for a database file sitting inside the process, and for a transaction that spans the handler and the database.
+Without looking at code: what lets any service run as interchangeable copies? What may live inside one process, what may not, and why. What does that mean for a database file inside the process, and for a transaction that spans the handler and the database?
 
 Done when I have the principle in general terms, with nothing about my project in it.`},
 			{Label: "Build", Text: `The Gateway, the Teller, the Vault's file and the Ledger all sit in one process. I want several copies of the Gateway and Teller behind a router.
 
-Audit it against the property you just described, and show me every place it fails, the database file included.
+Show me every place that breaks the principle you just gave, the database file included. Then fix it: the Vault becomes its own process, the only one with the database, and the whole payment happens inside it in one transaction from one call by the Teller. The copies hold nothing of their own. Add a small round-robin proxy in front.
 
-Then fix it. The Vault becomes its own process, the only one holding the database, on PEYVA_PORT, speaking HTTP. The whole payment happens inside it in one transaction, driven by one call from the Teller. The copies read PEYVA_VAULT for its port and hold nothing of their own. Add a small round-robin proxy in front.
+Settings come from the environment only: PEYVA_PORT for everything, PEYVA_VAULT for the copies, PEYVA_PEERS for the proxy. A missing one means say so and exit.
 
-Settings come from the environment and nowhere else:
-
-  PEYVA_PORT   the port to listen on. Everything reads it.
-  PEYVA_VAULT  the copies only: the Vault's port.
-  PEYVA_PEERS  the proxy only: the copies' ports, comma separated.
-
-No flags, no config file, no service discovery. A missing variable means say so and exit.
-
-Done when the runner starts the Vault, three copies and the proxy, ten payments spread across the copies with correct balances and one Ledger, and killing a copy mid-traffic fails no request.`},
+Done when the runner starts the Vault, three copies and the proxy, ten payments across them leave correct balances and one Ledger, and killing a copy mid-traffic fails no request.`},
 		},
 	},
 }

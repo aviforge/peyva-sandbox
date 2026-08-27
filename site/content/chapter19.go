@@ -35,51 +35,48 @@ var Chapter19 = ChapterContent{
 		Why:       "A runbook read at 2am has to be commands, not prose. Hand over the exact skeleton you want back.",
 		Source:    "Anthropic: Prompting best practices, Control the format of responses",
 		Prompts: []Prompt{
-			{Label: "Config", Text: `peyva reads settings straight from the environment in several places: the ports, the primary a replica follows, where each Vault keeps its file, the secret the copies present.
+			{Label: "Config", Text: `peyva reads settings from the environment in several places: ports, the primary a follower tracks, where each Vault keeps its file, the shared secret.
 
-Build Config: it reads every setting once at startup, checks each, and hands them over. Nothing else reads the environment.
+Build Config: read every setting once at startup, check it, hand it over. Nothing else reads the environment.
 
-First sort what peyva already has. Give me a table of every setting and the rule it fell under:
+First, a table of every setting and which rule it falls under:
 
   config  differs between one run or one machine and the next
   config  a secret, which never belongs in the repository
   code    only one correct value exists, and changing it would be a bug
 
-Two decimal places on money is not a setting. Neither is a balance that cannot go negative. When unsure, ask whether I should be able to change it at 3am with no review.
+Two decimal places on money is not a setting. When unsure, ask whether I should be able to change it at 3am with no review.
 
-A missing or nonsense setting means naming it and stopping. Never a default that hides it.
+A missing setting means naming it and stopping. Never a default that hides it.
 
-Done when every setting is sorted with the rule it fell under, and starting any process without a required one names it and stops.`},
-			{Label: "Runbook", Text: `peyva runs as a Vault, a replica, a Warden, three copies and a proxy, each with a health address.
+Done when every setting is sorted, and starting any process without a required one names it and stops.`},
+			{Label: "Runbook", Text: `peyva runs as a Vault, a follower, a Warden, three copies and a proxy, each with a health address.
 
-Add a version string, set at build time, reported by every health address. Then write me a rollback runbook for a bad release of the copies.
-
-Use exactly this shape and nothing else:
+Report a version string from every health address. Then write me a rollback runbook for a bad release of the copies, in exactly this shape:
 
   ## Symptom
   One line: how I know I have this problem.
 
   ## Check
-  Numbered commands, one per line, with the output that confirms it.
+  Numbered commands, each with the output that confirms it.
 
   ## Can this release be rolled back?
-  One line: whether it changed anything the previous version cannot read.
+  One line: did it write anything the old version cannot read.
 
   ## Fix
-  Numbered commands, one per line, no placeholders. Anything that starts or
-  stops a process goes through the runner, not a process id I hunt for.
+  Numbered commands, no placeholders, through the runner.
 
   ## Verify
   One command and the exact output that means I am recovered.
 
-Every command runs on {os}, and every line is either a command I can paste or an output I can compare against.
+Every command runs on {os} and can be pasted as is.
 
-Done when releasing a broken version to one copy fails its health check before the other two are touched, and the Fix section reverts it without improvising.`},
-			{Label: "Portal", Portal: true, Text: `The Portal reaches peyva at an address written into its pages. Move it to peyva/portal/config.js: one object, loaded first, holding the base URL and nothing that is not a setting.
+Done when a broken release to one copy fails its health check before the other two are touched, and Fix reverts it without improvising.`},
+			{Label: "Portal", Portal: true, Text: `The Portal has peyva's address written into its pages. Move it to peyva/portal/config.js: one object, loaded first, holding the base URL and nothing else.
 
-An empty base URL means same origin, which is the ordinary case now that peyva serves the page itself. Nothing builds an address any other way.
+Empty means same origin, which is the ordinary case now.
 
-Done when I can point the Portal at a different port by editing that one line, without touching a page.`},
+Done when I can point the Portal at a different port by editing that one line.`},
 		},
 	},
 }

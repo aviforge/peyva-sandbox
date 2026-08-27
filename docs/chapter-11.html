@@ -171,7 +171,7 @@
       <p class="technique"><span class="technique-name">Self-Refine</span>. A cache bug does not crash. It returns a confident wrong number, which a passing test will not catch.</p>
       <p class="technique-source">Documented in The Prompt Report: Self-Criticism, Self-Refine</p>
       <details class="standing-rules">
-        <summary>Every prompt below is copied with these rules, about 683 tokens for the chapter</summary>
+        <summary>Every prompt below is copied with these rules, about 574 tokens for the chapter</summary>
         <pre class="prompt-lang" id="rules-build">Build this in <span data-language-name>Go</span>, standard library only.
 Code in peyva/&lt;component&gt;/, one folder per component.
 Money: exact decimal or integer minor units, never floating point, two decimal places.
@@ -184,22 +184,22 @@ The goal and invariants are in peyva/goal.md, the look in peyva/portal/design.md
         
       </details>
       
-      <p class="prompt-divider"><span class="prompt-step">1 of 3</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~234 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">1 of 3</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~211 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-build">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
-        <pre class="prompt">Every balance enquiry reaches the Vault&#39;s storage, even when the same balance was read a moment ago. Three copies of the Gateway and Teller sit in front of the Vault, which is its own process.
+        <pre class="prompt">Every balance enquiry reaches the Vault&#39;s storage, even for a balance read a moment ago. Three copies sit in front of the Vault, which is its own process.
 
-Add a cache of balances in memory inside the Vault, cleared whenever a payment changes an account. A map, safe for use by several requests at once. No Redis, no cache library. It serves enquiries only: the check before a debit reads inside the transaction, never the cache.
+Add a cache of balances in memory inside the Vault, cleared whenever a payment changes an account. A map safe for several requests at once, no Redis, no library. Enquiries only: the check before a debit never reads the cache.
 
-First, say in two sentences why the cache cannot live in the copies.
+First, two sentences on why the cache cannot live in the copies.
 
-Done when a repeated enquiry is served from cache, a payment makes the next enquiry from any copy show the new balance, and a payment&#39;s own check never reads the cache.</pre>
+Done when a repeated enquiry comes from cache, a payment makes the next enquiry from any copy show the new balance, and a payment&#39;s own check never reads the cache.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">2 of 3</span> Review<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~220 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">2 of 3</span> Review<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~193 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-build">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
@@ -207,24 +207,22 @@ Done when a repeated enquiry is served from cache, a payment makes the next enqu
         </button>
         <pre class="prompt">You added a cache of balances inside the Vault, cleared when a payment changes an account.
 
-Review it as if you were trying to make it serve an old balance. Walk every path that changes a balance and check that it clears. Consider a read and a write at once, a payment that rolled back after the cache was cleared, a payment touching two accounts, and a read that refills the cache between the clear and the commit.
+Try to make it serve an old balance. Check every path that changes a balance clears it. Consider a read and a write at once, a payment rolled back after the clear, a payment touching two accounts, and a read refilling the cache between the clear and the commit.
 
-List what you found, fix it, then review the fixed version the same way. Keep going until a review turns up nothing.
+List what you found, fix it, review again. Repeat until a review finds nothing.
 
-Done when a review finds nothing, and you have told me how many rounds it took and what the first version got wrong.</pre>
+Done when a review finds nothing, and I know how many rounds it took and what the first version got wrong.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">3 of 3</span> Portal<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~229 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">3 of 3</span> Portal<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~170 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-portal">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
-        <pre class="prompt">The Portal shows a balance, sends money and lists a history, and looks like each was added the week it was needed. Make it presentable.
+        <pre class="prompt">The Portal works, and looks like each piece was added the week it was needed. Make it presentable.
 
-Judge it against every rule in peyva/portal/design.md, one at a time, and against the visual idea you committed to in chapter 0. Say whether the page still has that idea or has drifted into something anonymous.
-
-Say whether each rule passes before changing anything. Fix what fails, judge again, and keep going until nothing fails. Tell me what you fixed each round.
+Judge it against every rule in peyva/portal/design.md and the visual idea from chapter 0. Say what passes before changing anything. Fix what fails, judge again, repeat.
 
 Done when a pass finds nothing to fix.</pre>
       </div>

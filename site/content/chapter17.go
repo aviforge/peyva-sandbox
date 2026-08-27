@@ -35,15 +35,15 @@ var Chapter17 = ChapterContent{
 		Why:       "Naming the reader and the moment they read it changes both what gets logged and how it reads.",
 		Source:    "The Prompt Report: Zero-Shot, Style Prompting",
 		Prompts: []Prompt{
-			{Label: "Build", Text: `The system logs by printing to the console and counts nothing. When something breaks there is no way to find out what happened.
+			{Label: "Build", Text: `The system prints to the console and counts nothing. When something breaks, there is no way to find out what happened.
 
-Write it for one reader: an on-call engineer, woken at 3am, who did not write this code, looking at yesterday's records for one failed payment, unable to reproduce it.
+Write it for one reader: an on-call engineer, woken at 3am, who did not write this code, looking at yesterday's records for one failed payment.
 
-Give them one event per line, carrying the payment reference on every line that payment touches, everywhere it goes, with timestamps fine enough to show where the time went. Counts of payments, failures, unknown outcomes, jobs waiting, and how far behind the replica is. A health address on every process that reports what is actually true, never a hardcoded ok.
+One event per line, with the payment reference on every line that payment touches, and timestamps fine enough to show where the time went. Counts of payments, failures, unknown outcomes, jobs waiting, and how far behind the follower is. A health address on every process that reports what is actually true, never a hardcoded ok.
 
-For each thing you log, ask whether it helps that person at 3am. If not, leave it out.
+If a line would not help that person at 3am, leave it out.
 
-Done when I can take one failed reference and rebuild its whole path and timing from the logs, and health reports trouble when the replica is unreachable or the lease is not held.`},
+Done when one failed reference rebuilds its whole path from the logs alone, and health reports trouble when the follower is unreachable or the lease is not held.`},
 		},
 	},
 }

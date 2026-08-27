@@ -36,22 +36,20 @@ var Chapter00 = ChapterContent{
 		Why:       "The task has one obvious shape. Scaffolding it would cost tokens and buy nothing.",
 		Source:    "The Prompt Report: Zero-Shot",
 		Prompts: []Prompt{
-			{Label: "Build", Text: `Build the Vault: the component that holds accounts and what is in them. Nothing else may change a balance.
+			{Label: "Build", Text: `Build the Vault: the component that holds every account, and the only thing allowed to change a balance.
 
-An account is a handle, an owner and an amount. Seed alice with 100 and bob with 0. Print the contents on startup, run until interrupted, print a message on the way out.
+An account is a handle, an owner and an amount. Seed alice with 100 and bob with 0. Print them on startup, run until interrupted, then print a goodbye.
 
-One file. No saving to disk, no network.
+One file. No disk, no network.
 
 Done when it prints alice's balance and exits cleanly on Ctrl+C.`},
-			{Label: "Portal", Portal: true, Text: `Write peyva/portal/index.html each time the program starts. It shows one account at a time, never a list of everyone.
+			{Label: "Portal", Portal: true, Text: `Write peyva/portal/index.html each time the program starts. It shows one customer's wallet, never everyone's.
 
-Give it the shell the rest of the book fills in: a switcher at the top saying whose wallet is on screen, and a menu down the side with Balance in it. Leave room for what later chapters add, and show nothing that is not built yet.
+A switcher at the top says whose. A menu down the side has one entry, Balance, with room for more later. Put both accounts in the page so switching needs no server.
 
-Put both accounts in the page, so switching needs no server. Say what you used to do the switching, and why.
+I open the file from disk. This is where the look is set, so commit to the one visual idea the brief asks for.
 
-No server: I open the file from disk. This is where the look is set, so commit to the one visual idea the brief asks for.
-
-Done when the page opens on alice holding 100.00 and the switcher shows me bob holding 0.00.`},
+Done when the page opens on alice at 100.00 and the switcher shows bob at 0.00.`},
 		},
 	},
 }

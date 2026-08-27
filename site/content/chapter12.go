@@ -34,20 +34,18 @@ var Chapter12 = ChapterContent{
 		Why:       "An assistant would rather produce something than tell you your constraints do not fit. Permission to stop changes that.",
 		Source:    "Anthropic: Reduce hallucinations, Allow Claude to say I don't know",
 		Prompts: []Prompt{
-			{Label: "Build", Text: `The Teller sends the recipient's notification itself, so the caller waits for it before getting an answer.
+			{Label: "Build", Text: `The Teller sends the recipient's notification itself, so the caller waits for it.
 
-Build the Courier: the component that does the work after a payment has cleared. The Teller hands it the notification and returns at once.
+Build the Courier: it does the work after a payment clears. The Teller hands it the notification and returns at once.
 
-Scope: a queue in memory and a worker, inside each copy. No Kafka, RabbitMQ, NATS, Redis, Docker, or any broker or queue library. No retry rules, no dead letters, no tuning. Show me how many jobs are waiting.
+A queue in memory and a worker, inside each copy. No Kafka, RabbitMQ, Redis, or any queue library. No retries, no tuning. Show how many jobs are waiting.
 
-Several copies run now. Say what a queue in memory costs when the copy holding it dies with work still in it, and do not fix that here.
-
-If the standard library genuinely cannot do this, say so rather than reaching for something I ruled out.
+Say what a queue in memory costs when its copy dies with work in it. Do not fix that here. If the standard library cannot do this, say so.
 
 Done when a slow notification does not delay the payment answer, and work handed over while the Courier is stopped is delivered once it starts.`},
-			{Label: "Portal", Portal: true, Text: `The page waits for the notification before it answers. Have it show the payment as done the moment the money moved, and the message as sent separately once the Courier has sent it.
+			{Label: "Portal", Portal: true, Text: `The page waits for the notification before it answers. Show the payment as done when the money moves, and the message as sent later, once the Courier has sent it.
 
-If plain HTML and CSS cannot show something arriving after the page has loaded, say so and tell me the smallest honest option.
+If plain HTML and CSS cannot show something arriving after the page loads, say so and give me the smallest honest option.
 
 Done when a slow notification does not delay what the customer sees.`},
 		},

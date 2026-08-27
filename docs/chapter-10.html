@@ -173,32 +173,32 @@
       <p class="technique"><span class="technique-name">Self-Ask</span>. Hidden guesses become a written list of assumptions you can argue with.</p>
       <p class="technique-source">Documented in The Prompt Report: Zero-Shot, Self-Ask</p>
       
-      <p class="prompt-divider"><span class="prompt-step">1 of 2</span> Assumptions<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~120 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">1 of 2</span> Assumptions<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~93 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-thinking">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
-        <pre class="prompt">I need to size a payments system that moves money between accounts. One process today, and no idea what it needs to survive.
+        <pre class="prompt">I need to size a payments system. One process today, and no idea what it needs to survive.
 
-No numbers yet. Work out which questions the estimate depends on, and write them out. Answer each yourself with a stated assumption, and label where it came from: industry norm, your own guess, or arithmetic from an earlier answer.
+No numbers yet. Write out the questions the estimate depends on. Answer each with a stated guess, and label where it came from: industry norm, your guess, or arithmetic.
 
-Done when I have your questions and an answer to each, every one labelled.</pre>
+Done when I have your questions and a labelled answer to each.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">2 of 2</span> Estimate<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~164 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">2 of 2</span> Estimate<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~127 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-thinking">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
-        <pre class="prompt">You worked out the questions a capacity estimate depends on, and answered each with a labelled assumption.
+        <pre class="prompt">You listed the questions a capacity estimate depends on, and answered each with a labelled guess.
 
-Use your own answers to work out payments per second at peak, Ledger growth over two years, and network traffic at peak. Show each sum with the numbers filled in, so I can check the arithmetic rather than trust it.
+Work out payments per second at peak, Ledger growth over two years, and network traffic at peak. Show each sum with the numbers filled in.
 
-Then say which assumption the answer is most sensitive to, what the number becomes if you are wrong about it by double, and which one you most want me to confirm.
+Then: which guess moves the answer most, what happens if it is off by double, and which one you most want me to confirm.
 
-Done when I have a peak figure and a two-year storage figure I can defend, and I know which assumption to revisit first.</pre>
+Done when I have a peak figure and a two-year storage figure, and know which guess to revisit first.</pre>
       </div>
       
     </section>
@@ -213,7 +213,7 @@ Done when I have a peak figure and a two-year storage figure I can defend, and I
       <p class="technique"><span class="technique-name">Step-Back Prompting</span>. Reasoning down from what makes any service replaceable beats reasoning up from code that was never going to scale.</p>
       <p class="technique-source">Documented in The Prompt Report: Thought Generation, Step-Back Prompting</p>
       <details class="standing-rules">
-        <summary>Every prompt below is copied with these rules, about 751 tokens for the chapter</summary>
+        <summary>Every prompt below is copied with these rules, about 603 tokens for the chapter</summary>
         <pre class="prompt-lang" id="rules-build">Build this in <span data-language-name>Go</span>, standard library only.
 Code in peyva/&lt;component&gt;/, one folder per component.
 Money: exact decimal or integer minor units, never floating point, two decimal places.
@@ -222,20 +222,20 @@ The goal and invariants are in peyva/goal.md.</pre>
         <pre class="prompt-lang" id="rules-thinking">The goal and invariants are in peyva/goal.md.</pre>
       </details>
       
-      <p class="prompt-divider"><span class="prompt-step">1 of 2</span> Principle<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~137 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">1 of 2</span> Principle<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~120 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-thinking">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
-        <pre class="prompt">I have a service handling payment requests, and I want several copies of it behind a router.
+        <pre class="prompt">I have a service handling payments, and I want several copies of it behind a router.
 
-Do not look at any code. In a few sentences, state the general property that lets any service run as interchangeable copies: what may live inside one process, what may not, and why. Then say what that means for a database file sitting inside the process, and for a transaction that spans the handler and the database.
+Without looking at code: what lets any service run as interchangeable copies? What may live inside one process, what may not, and why. What does that mean for a database file inside the process, and for a transaction that spans the handler and the database?
 
 Done when I have the principle in general terms, with nothing about my project in it.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">2 of 2</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~330 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">2 of 2</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~263 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-build">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
@@ -243,19 +243,11 @@ Done when I have the principle in general terms, with nothing about my project i
         </button>
         <pre class="prompt">The Gateway, the Teller, the Vault&#39;s file and the Ledger all sit in one process. I want several copies of the Gateway and Teller behind a router.
 
-Audit it against the property you just described, and show me every place it fails, the database file included.
+Show me every place that breaks the principle you just gave, the database file included. Then fix it: the Vault becomes its own process, the only one with the database, and the whole payment happens inside it in one transaction from one call by the Teller. The copies hold nothing of their own. Add a small round-robin proxy in front.
 
-Then fix it. The Vault becomes its own process, the only one holding the database, on PEYVA_PORT, speaking HTTP. The whole payment happens inside it in one transaction, driven by one call from the Teller. The copies read PEYVA_VAULT for its port and hold nothing of their own. Add a small round-robin proxy in front.
+Settings come from the environment only: PEYVA_PORT for everything, PEYVA_VAULT for the copies, PEYVA_PEERS for the proxy. A missing one means say so and exit.
 
-Settings come from the environment and nowhere else:
-
-  PEYVA_PORT   the port to listen on. Everything reads it.
-  PEYVA_VAULT  the copies only: the Vault&#39;s port.
-  PEYVA_PEERS  the proxy only: the copies&#39; ports, comma separated.
-
-No flags, no config file, no service discovery. A missing variable means say so and exit.
-
-Done when the runner starts the Vault, three copies and the proxy, ten payments spread across the copies with correct balances and one Ledger, and killing a copy mid-traffic fails no request.</pre>
+Done when the runner starts the Vault, three copies and the proxy, ten payments across them leave correct balances and one Ledger, and killing a copy mid-traffic fails no request.</pre>
       </div>
       
       

@@ -368,7 +368,7 @@ the one visual idea chapter 0 committed to. Keep to it rather than restyling.
       <p class="technique"><span class="technique-name">Zero-shot prompting</span>. The task has one obvious shape. Scaffolding it would cost tokens and buy nothing.</p>
       <p class="technique-source">Documented in The Prompt Report: Zero-Shot</p>
       <details class="standing-rules">
-        <summary>Every prompt below is copied with these rules, about 416 tokens for the chapter</summary>
+        <summary>Every prompt below is copied with these rules, about 356 tokens for the chapter</summary>
         <pre class="prompt-lang" id="rules-build">Build this in <span data-language-name>Go</span>, standard library only.
 Code in peyva/&lt;component&gt;/, one folder per component.
 Money: exact decimal or integer minor units, never floating point, two decimal places.
@@ -381,36 +381,34 @@ The goal and invariants are in peyva/goal.md, the look in peyva/portal/design.md
         
       </details>
       
-      <p class="prompt-divider"><span class="prompt-step">1 of 2</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~154 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">1 of 2</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~146 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-build">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
-        <pre class="prompt">Build the Vault: the component that holds accounts and what is in them. Nothing else may change a balance.
+        <pre class="prompt">Build the Vault: the component that holds every account, and the only thing allowed to change a balance.
 
-An account is a handle, an owner and an amount. Seed alice with 100 and bob with 0. Print the contents on startup, run until interrupted, print a message on the way out.
+An account is a handle, an owner and an amount. Seed alice with 100 and bob with 0. Print them on startup, run until interrupted, then print a goodbye.
 
-One file. No saving to disk, no network.
+One file. No disk, no network.
 
 Done when it prints alice&#39;s balance and exits cleanly on Ctrl+C.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">2 of 2</span> Portal<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~262 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">2 of 2</span> Portal<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~210 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-portal">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
-        <pre class="prompt">Write peyva/portal/index.html each time the program starts. It shows one account at a time, never a list of everyone.
+        <pre class="prompt">Write peyva/portal/index.html each time the program starts. It shows one customer&#39;s wallet, never everyone&#39;s.
 
-Give it the shell the rest of the book fills in: a switcher at the top saying whose wallet is on screen, and a menu down the side with Balance in it. Leave room for what later chapters add, and show nothing that is not built yet.
+A switcher at the top says whose. A menu down the side has one entry, Balance, with room for more later. Put both accounts in the page so switching needs no server.
 
-Put both accounts in the page, so switching needs no server. Say what you used to do the switching, and why.
+I open the file from disk. This is where the look is set, so commit to the one visual idea the brief asks for.
 
-No server: I open the file from disk. This is where the look is set, so commit to the one visual idea the brief asks for.
-
-Done when the page opens on alice holding 100.00 and the switcher shows me bob holding 0.00.</pre>
+Done when the page opens on alice at 100.00 and the switcher shows bob at 0.00.</pre>
       </div>
       
       

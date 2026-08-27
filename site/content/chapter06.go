@@ -33,26 +33,24 @@ var Chapter06 = ChapterContent{
 		Why:       "Forbid claims about code it has not run, and you get timings instead of confident guesses.",
 		Source:    "Anthropic: Prompting best practices, Minimizing hallucinations in agentic coding",
 		Prompts: []Prompt{
-			{Label: "Build", Text: `The Vault stores accounts by owner. Each also carries a region, which nothing indexes.
+			{Label: "Build", Text: `The Vault stores accounts by owner, and each carries a region that nothing indexes.
 
-In order, no skipping ahead:
+In order:
 
 1. Seed 50,000 accounts with random regions.
-2. Time a lookup of every account in one region. Report the number and the query plan before changing anything.
+2. Time a lookup of every account in one region. Show the number and the query plan.
 3. Add an index on region.
-4. Time the same lookup. Report both numbers side by side, with the new plan.
-5. Time 1,000 inserts with the index, then without it. Report the difference.
+4. Time it again. Show both numbers and the new plan.
+5. Time 1,000 inserts with the index, then without.
 
-Never state a speed claim you have not measured here. Real numbers, not estimates. If the gain is smaller than expected, say so rather than explaining it away.
+Only report what you measured here. If the gain is smaller than expected, say so.
 
 Done when I have four measured numbers and two query plans that differ.`},
-			{Label: "Portal", Portal: true, Text: `Someone typing a handle from memory should know they have the right person before sending. Have Send look the handle up as it is typed and show whose account it is.
+			{Label: "Portal", Portal: true, Text: `Someone typing a handle should know they have the right person before sending. Have Send look the handle up as it is typed and show whose account it is.
 
-Show the handle and the owner, never the balance. That is not the sender's to see.
+Show the handle and owner, never the balance.
 
-Then time that lookup for real against a table of thousands of accounts, with the index and without.
-
-Done when a wrong handle is obvious before sending, and I have both timings.`},
+Done when a wrong handle is obvious before sending, and you have timed the lookup with the index and without.`},
 		},
 	},
 }

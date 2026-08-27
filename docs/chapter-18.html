@@ -171,7 +171,7 @@
       <p class="technique"><span class="technique-name">Chain-of-Verification (CoVe)</span>. Asking for secure code gets you the checklist. Verifying your own draft finds the holes the checklist does not mention.</p>
       <p class="technique-source">Documented in The Prompt Report: Self-Criticism, Chain-of-Verification</p>
       <details class="standing-rules">
-        <summary>Every prompt below is copied with these rules, about 950 tokens for the chapter</summary>
+        <summary>Every prompt below is copied with these rules, about 829 tokens for the chapter</summary>
         <pre class="prompt-lang" id="rules-build">Build this in <span data-language-name>Go</span>, standard library only.
 Code in peyva/&lt;component&gt;/, one folder per component.
 Money: exact decimal or integer minor units, never floating point, two decimal places.
@@ -184,35 +184,35 @@ The goal and invariants are in peyva/goal.md, the look in peyva/portal/design.md
         <pre class="prompt-lang" id="rules-thinking">The goal and invariants are in peyva/goal.md.</pre>
       </details>
       
-      <p class="prompt-divider"><span class="prompt-step">1 of 5</span> Draft<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~222 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">1 of 5</span> Draft<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~199 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-build">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
-        <pre class="prompt">The Gateway believes the &#34;from&#34; field, so any caller can spend from any account. The Vault takes a write from anything that can reach its port.
+        <pre class="prompt">The Gateway believes the &#34;from&#34; field, so anyone can spend from any account. The Vault takes writes from anything that reaches its port.
 
-Make the Gateway prove who the caller is, and check they own the account they are spending from, before the Teller sees the request. Make the Vault take writes only from callers presenting a shared secret. Move every password and key out of the code into environment variables the processes refuse to start without.
+Make the Gateway prove who is calling and check they own the account, before the Teller sees the request. Make the Vault take writes only from callers with a shared secret. Every password and key comes from the environment, and a process refuses to start without it.
 
-Done when a request with no credential is refused, a caller signed in as one owner cannot spend from another&#39;s account, and a write sent straight to the Vault&#39;s port without the secret is refused.</pre>
+Done when a request with no credential is refused, alice cannot spend from bob&#39;s account, and a write sent straight to the Vault without the secret is refused.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">2 of 5</span> Plan the checks<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~126 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">2 of 5</span> Plan the checks<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~109 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-thinking">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
-        <pre class="prompt">You put a sign-in in front of a payments API, an ownership check between the caller and the money, and a shared secret in front of the store.
+        <pre class="prompt">You put a sign-in in front of a payments API, an ownership check before the money, and a shared secret in front of the store.
 
-Write the questions that would show that work to be broken. Specific to this system, these fields and these checks. No generic categories, nothing that would apply to any application.
+Write the questions that would show that work to be broken. Specific to this system, these fields and these checks. Nothing that could be asked of any application.
 
 Do not answer them yet.
 
-Done when I have questions that are all about this system, and none of them could be asked of any other.</pre>
+Done when I have questions that are all about this system and no other.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">3 of 5</span> Answer and revise<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~173 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">3 of 5</span> Answer and revise<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~139 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-build">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
@@ -220,29 +220,25 @@ Done when I have questions that are all about this system, and none of them coul
         </button>
         <pre class="prompt">You wrote the questions that would show your sign-in and ownership checks to be broken.
 
-Take each one against the code you actually wrote, one at a time. Do not soften an answer because of what you concluded on another.
+Answer each one against the code you actually wrote. Then fix what the answers exposed, and say plainly what is still exploitable.
 
-Then fix what the answers exposed, and say plainly what is still exploitable, including anything you left out on purpose.
-
-Done when every question has an answer, the fixable ones are fixed, and I have your list of what remains exploitable.</pre>
+Done when every question has an answer, the fixable ones are fixed, and I have your list of what remains.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">4 of 5</span> Portal<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~229 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">4 of 5</span> Portal<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~199 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-portal">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
-        <pre class="prompt">The Portal&#39;s switcher takes whoever it is told, so anyone at the keyboard can pick alice and spend her money. That was fine on one laptop and is not fine now.
+        <pre class="prompt">The Portal&#39;s switcher takes whoever it is told, so anyone at the keyboard can spend alice&#39;s money.
 
-Put a sign-in in front of it. Switching account means signing in as that account, and the switcher offers only accounts already signed in. Signing out removes one.
-
-A signed-in customer sees their own account and nobody else&#39;s, and can only send from their own.
+Put a sign-in in front of it. Switching means signing in as that account, and the switcher offers only accounts already signed in. A signed-in customer sees only their own account and sends only from it.
 
 Done when signing out as alice and in as bob changes every screen to bob, and closing the tab leaves neither signed in.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">5 of 5</span> Portal checks<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~200 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">5 of 5</span> Portal checks<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~183 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-portal">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
@@ -250,9 +246,9 @@ Done when signing out as alice and in as bob changes every screen to bob, and cl
         </button>
         <pre class="prompt">You put a sign-in in front of a wallet page, where switching account means signing in as that account.
 
-Write the questions that would show that page to be broken: specific to this page and these forms, not generic advice. Answer each against what you built, and fix what they expose.
+Write the questions that would show that page to be broken, specific to this page and these forms. Answer each against what you built, and fix what they expose.
 
-Done when nothing I can type in the browser shows or spends bob&#39;s money without bob&#39;s own sign-in, and I have your list of what you checked.</pre>
+Done when nothing I can type in the browser shows or spends bob&#39;s money without bob&#39;s sign-in.</pre>
       </div>
       
       

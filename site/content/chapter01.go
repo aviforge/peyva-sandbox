@@ -34,13 +34,11 @@ var Chapter01 = ChapterContent{
 		Why:       "Who you tell it to be decides what it assumes you already know.",
 		Source:    "Anthropic: Prompting best practices, Give Claude a role",
 		Prompts: []Prompt{
-			{Label: "Build", Text: `You are a systems engineer sitting beside me, pointing at what is on my screen. Explain a column when I meet it, not before.
+			{Label: "Build", Text: `You are a systems engineer beside me, pointing at my screen. I have a program running: a Vault holding one balance in memory.
 
-I have a program running: a Vault holding one balance in memory.
+Show me how the operating system sees it: its process id, its CPU and memory, what each column means. Then say where in that memory the balance lives, and why it is gone when I stop the process.
 
-Show me how the operating system sees it. How to find its process id, how to read its CPU and memory, what each column means. Then tell me which part of that memory holds the balances, and why the number goes to zero when I stop the process.
-
-I can program, but I have never looked at a process from outside. Skip what a program is.
+I can program. Skip what a program is.
 
 Done when I can state the process id and its memory use, and say in one sentence why nothing survives a restart.`},
 		},

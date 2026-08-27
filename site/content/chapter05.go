@@ -32,18 +32,16 @@ var Chapter05 = ChapterContent{
 		Why:       "Specify the finish line rather than the steps, and the assistant works out the delta, including what you would have forgotten.",
 		Source:    "Anthropic: Prompting best practices, Provide clear success criteria",
 		Prompts: []Prompt{
-			{Label: "Build", Text: `Now: the Vault holds balances in memory, so every restart resets alice.
+			{Label: "Build", Text: `The Vault holds balances in memory, so every restart resets alice to her starting amount.
 
-Target: the Vault keeps accounts in a file on disk. It creates the file on first run and seeds alice only if she is not already there. Every read and write of a balance goes to that file, and no balance is kept in memory.
+Keep accounts in a file on disk instead, with SQLite. Create it on first run, seed alice only if she is missing, and keep no balance in memory. If your language has no SQLite built in, say so and use the most common driver, preferring one with no C toolchain. Name it. The Gateway and Teller do not change from outside.
 
-Use SQLite. If your language's standard library has no SQLite, say so and use the most widely used driver, preferring one that needs no C toolchain. Name it: that is the one exception to standard library only. Do not change how the Gateway or the Teller look from outside.
+Say what happens between my write returning and the bytes being safe on disk.
 
-Tell me what happens between my write returning and the bytes being safe on disk, and what a power cut in that gap costs.
+Done when a restart still shows alice's balance, and deleting the file is the only thing that loses it.`},
+			{Label: "Portal", Portal: true, Text: `The Portal still shows balances from memory. Read them from the Vault's file on disk instead.
 
-Done when a restart still reports alice's balance, and deleting the file is the only thing that loses it.`},
-			{Label: "Portal", Portal: true, Text: `The Portal reads balances from the Vault's file, not from whatever was in memory when the page was written.
-
-Done when I make a payment, restart the process, reload the page, and the new balance is still there.`},
+Done when I make a payment, restart, reload, and the new balance is still there.`},
 		},
 	},
 }

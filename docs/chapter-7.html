@@ -171,7 +171,7 @@
       <p class="technique"><span class="technique-name">Chain-of-thought prompting</span>. The failure modes are the hard part here, and thinking first surfaces the hole while it is still cheap.</p>
       <p class="technique-source">Documented in The Prompt Report: Thought Generation, Chain-of-Thought</p>
       <details class="standing-rules">
-        <summary>Every prompt below is copied with these rules, about 803 tokens for the chapter</summary>
+        <summary>Every prompt below is copied with these rules, about 671 tokens for the chapter</summary>
         <pre class="prompt-lang" id="rules-build">Build this in <span data-language-name>Go</span>, standard library only.
 Code in peyva/&lt;component&gt;/, one folder per component.
 Money: exact decimal or integer minor units, never floating point, two decimal places.
@@ -184,62 +184,58 @@ The goal and invariants are in peyva/goal.md, the look in peyva/portal/design.md
         <pre class="prompt-lang" id="rules-thinking">The goal and invariants are in peyva/goal.md.</pre>
       </details>
       
-      <p class="prompt-divider"><span class="prompt-step">1 of 4</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~260 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">1 of 4</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~206 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-build">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
-        <pre class="prompt">The Teller moves money by updating two balances. Nothing records that it happened, so a balance that looks wrong cannot be explained.
+        <pre class="prompt">The Teller moves money by updating two balances. Nothing records that it happened.
 
-Build the Ledger: a record only ever added to, where every payment writes two entries that balance, a debit and a credit sharing one reference and timestamp. The balances update in the same transaction. All of it commits, or none of it happened.
+Build the Ledger: a record only ever added to. Every payment writes two entries that balance, a debit and a credit with one shared reference, and the balances update in the same transaction. All of it, or none of it.
 
-Before writing code: what does the data look like if the process dies between the debit, the credit and the Ledger write? Three cases, and for each, who is owed what.
+First: what does the data look like if the process dies between the debit, the credit and the Ledger write? Three cases, who is owed what. Then make them impossible.
 
-Then make those states impossible, and tell me which of your three cases is still reachable.
-
-Done when a finished payment leaves two balanced entries and updated balances, a forced failure mid-payment leaves neither, and alice&#39;s entries add up to her balance.</pre>
+Done when a payment leaves two balanced entries, a failure mid-payment leaves none, and alice&#39;s entries add up to her balance.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">2 of 4</span> Isolation<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~255 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">2 of 4</span> Isolation<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~200 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-build">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
-        <pre class="prompt">The Teller checks the payer has enough, then debits them, inside one transaction.
+        <pre class="prompt">The Teller checks the payer has enough, then debits them, in one transaction.
 
-Before changing anything: alice holds 100, and two payments of 60 arrive at the same instant. Walk me through the case where both read 100, both decide 60 fits, and both debit. What is her balance, do the Ledger and the balances still agree, and which rule in goal.md broke?
+Alice holds 100. Two payments of 60 arrive at the same instant. Walk me through both reading 100, both deciding 60 fits, both debiting. What is her balance, and which rule in goal.md broke?
 
-Then find out, from the database&#39;s own documentation or by testing it, whether it already prevents that. Do not assume.
+Find out from the database&#39;s own documentation whether it already prevents this. Then send those two payments at once for real. If the second is not refused, make the check and the debit one step nothing can slip between.
 
-Then send those two payments at the same time for real and show me what happened. If the second is not refused, make the check and the debit one step nothing can slip between, and run it again.
-
-Done when two 60s against 100 leave one applied, one refused, alice at 40, and her entries adding up to her balance.</pre>
+Done when two 60s against 100 leave one applied, one refused, and alice at 40.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">3 of 4</span> Decide<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~104 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">3 of 4</span> Decide<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~91 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-thinking">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
-        <pre class="prompt">A wallet page shows a balance and can send money. I want to add a history of every movement in and out of the account.
+        <pre class="prompt">A wallet page shows a balance and can send money. I want to add a history of every movement in and out.
 
-Before building it: what should that show for a payment that failed halfway? Should it appear at all, and if so, how does a customer tell it apart from one that worked?
+What should it show for a payment that failed halfway? Should it appear at all, and how does a customer tell it from one that worked?
 
 Done when I know what a half-failed payment looks like on the page, and why.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">4 of 4</span> Portal<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~184 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">4 of 4</span> Portal<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~174 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-portal">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
-        <pre class="prompt">The Portal shows a balance and can send money, and says nothing about how the balance got that way.
+        <pre class="prompt">The Portal shows a balance and can send money, but not how the balance got that way.
 
-Add History to the menu: every movement in and out of this account, newest first, each with its reference, amount and the other party. Show a failed payment the way you just described.
+Add History to the menu: every movement in and out, newest first, with reference, amount and the other party. Show a failed payment the way you just described.
 
 Done when History explains alice&#39;s balance without me reading the database.</pre>
       </div>

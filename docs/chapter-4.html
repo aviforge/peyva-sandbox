@@ -171,7 +171,7 @@
       <p class="technique"><span class="technique-name">Few-shot (multishot) prompting</span>. Prose leaves field names and status codes up for grabs. Examples pin them down, failures included.</p>
       <p class="technique-source">Documented in The Prompt Report: In-Context Learning; Anthropic, Use examples effectively</p>
       <details class="standing-rules">
-        <summary>Every prompt below is copied with these rules, about 586 tokens for the chapter</summary>
+        <summary>Every prompt below is copied with these rules, about 519 tokens for the chapter</summary>
         <pre class="prompt-lang" id="rules-build">Build this in <span data-language-name>Go</span>, standard library only.
 Code in peyva/&lt;component&gt;/, one folder per component.
 Money: exact decimal or integer minor units, never floating point, two decimal places.
@@ -184,7 +184,7 @@ The goal and invariants are in peyva/goal.md, the look in peyva/portal/design.md
         
       </details>
       
-      <p class="prompt-divider"><span class="prompt-step">1 of 2</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~301 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">1 of 2</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~275 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-build">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
@@ -192,9 +192,7 @@ The goal and invariants are in peyva/goal.md, the look in peyva/portal/design.md
         </button>
         <pre class="prompt">Requests reach the Gateway but nothing acts on them. Have it speak HTTP, and build the Teller behind it.
 
-The Teller handles one payment start to finish: check the request, check the payer has enough, move the money in the Vault, return a reference. Only the Teller moves money. The Gateway parses and forwards.
-
-Add one more endpoint: open an account for a new handle, starting at zero.
+The Teller handles a payment start to finish: check the request, check the payer has enough, move the money in the Vault, return a reference. Only the Teller moves money. Add an endpoint that opens an account at zero.
 
 Match these exactly:
 
@@ -210,31 +208,29 @@ Match these exactly:
   not json
   -&gt; 400 {&#34;error&#34;: &#34;invalid JSON body&#34;}
 
-Check everything before touching an account. No sign-in, no retries, no saving to disk: later chapters.
+Check everything before touching an account. No sign-in, no retries, no disk yet.
 
-Done when those four requests give exactly those four answers, and alice&#39;s balance drops by 20 only on the first.</pre>
+Done when those four requests give those four answers, and alice drops by 20 only on the first.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">2 of 2</span> Portal<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~285 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">2 of 2</span> Portal<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~244 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-portal">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
-        <pre class="prompt">The Portal&#39;s menu has one entry, Balance, and no way to move money out. Add Send, and a way to open an account by handle. A new account joins the switcher.
+        <pre class="prompt">The Portal shows a balance and nothing else. Add Send, and a way to open an account by handle.
 
-There is no From field. Money leaves whoever the switcher names.
+No From field: money leaves whoever the switcher names. The forms post to the endpoints you built and show what comes back:
 
-The forms post to the endpoints you just built and show what comes back. Match these:
-
-  open an account   -&gt; the new handle appears with a balance of 0.00
-  send to a handle  -&gt; the reference comes back and the payer&#39;s balance drops
+  open an account   -&gt; the handle appears at 0.00
+  send to a handle  -&gt; the reference shows and the balance drops
   amount left blank -&gt; the page says which field is wrong, nothing moves
   unknown handle    -&gt; the page says so, nothing moves
 
-Every failure shows on the page, never a blank screen or a raw error.
+Never a blank screen or a raw error.
 
-Done when those four cases behave exactly as written, and switching to the recipient shows the money arrived.</pre>
+Done when those four cases behave as written, and switching to the recipient shows the money arrived.</pre>
       </div>
       
       

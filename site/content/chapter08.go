@@ -34,18 +34,16 @@ var Chapter08 = ChapterContent{
 		Why:       "Enumerating how duplicates arise gives the design somewhere to put each case, before production does it for you.",
 		Source:    "The Prompt Report: Generated Knowledge",
 		Prompts: []Prompt{
-			{Label: "Build", Text: `Send the same payment request twice and the Teller pays twice. A retry after a timeout looks exactly like a second payment.
+			{Label: "Build", Text: `Send the same payment twice and the Teller pays twice. A retry after a timeout looks just like a second payment.
 
-First, list the ways a duplicate reaches a payments system in the real world. For each, say whether the caller knows the first attempt worked.
+First, list the ways a duplicate reaches a payments system in real life.
 
-Then make the Teller spot a repeat. The caller sends a reference, and one already handled returns the first result without moving money again. Store the reference and its answer in the same transaction that moves the money. Let the database refuse the second insert; do not check first in code.
+Then have the caller send a reference with each payment. A reference already handled returns the first answer without moving money. Store the reference and its answer in the same transaction as the money. Let the database refuse the second insert; do not check first in code.
 
-Then go back over your list and say which cases you now handle and which you do not.
+Done when the same reference twice pays once, two references pay twice, two sends of one new reference at the same instant pay once, and every repeat answer is identical.`},
+			{Label: "Portal", Portal: true, Text: `A customer who taps Send twice pays twice. Attach the same reference to a resend and show the original result.
 
-Done when the same reference twice pays once, two references pay twice, two simultaneous sends of one new reference pay once, and every repeat answer is identical.`},
-			{Label: "Portal", Portal: true, Text: `Send posts the form and takes whatever comes back, so a customer who taps twice pays twice. Attach the same reference to a resend, and show the original result.
-
-Done when double-submitting the form leaves one payment in History, and the page looks the same both times.`},
+Done when double-submitting leaves one payment in History, and the page looks the same both times.`},
 		},
 	},
 }

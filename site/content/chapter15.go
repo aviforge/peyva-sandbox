@@ -35,29 +35,29 @@ var Chapter15 = ChapterContent{
 		Why:       "Compare its analogy against yours. Where the two differ, one of you is wrong about the design.",
 		Source:    "The Prompt Report: Thought Generation, Analogical Prompting",
 		Prompts: []Prompt{
-			{Label: "Analogy", Thinking: true, Text: `A system keeps its records in one file on one disk. If that disk dies, every record dies with it. I want a second copy elsewhere that follows the first, change by change.
+			{Label: "Analogy", Thinking: true, Text: `A system keeps its records in one file on one disk. If that disk dies, everything dies with it. I want a second copy elsewhere that follows the first, change by change.
 
-Before designing anything, give me a real-world comparison with no computers in it. Who writes first, who copies, how the copier knows where it got to, how far behind it runs, and what happens if the original is destroyed while the copier is behind.
+Give me a comparison with no computers in it. Who writes first, who copies, how the copier knows where it got to, how far behind it runs, and what happens if the original is destroyed while the copier is behind.
 
-Then name the one part of it that actually matters here.
+Name the one part of it that matters here.
 
-Done when I have your comparison and the single part you say carries over.`},
-			{Label: "Build", Text: `The Vault is one process holding one file, and a payment is saved there and nowhere else.
+Done when I have your comparison and the single part that carries over.`},
+			{Label: "Build", Text: `The Vault is one process with one file, and a payment is saved there and nowhere else.
 
-Give it a log: every saved change, numbered, written in the same transaction as the change. Then let the Vault run as a replica instead. Started with PEYVA_PRIMARY set to the primary's port, it applies the primary's log in order from its own last number, and reports its number and the primary's latest.
+Give it a log: every saved change, numbered, written in the same transaction as the change. Then let a Vault run as a follower instead. Started with PEYVA_PRIMARY, it applies the primary's log in order from its own last number, and reports both numbers.
 
-Add a promotion by hand: something that tells the replica to stop following and start taking writes, reporting the number it was on. A primary told this has happened refuses every write from then on.
+Add a promotion by hand: tell the follower to stop following and start taking writes. A primary told this has happened refuses every write from then on.
 
-Fill in the runner's START_REPLICA line. The replica must survive being stopped and restarted while payments carry on.
+Fill in the runner's START_REPLICA line.
 
-Done when a payment reaches both copies with the same number, stopping the replica during ten payments and restarting it loses none, and you can show me how far behind it got.`},
-			{Label: "Critique", Thinking: true, Text: `You gave me a real-world comparison for keeping a second copy, then built replication from it.
+Done when a payment reaches both copies with the same number, stopping the follower during ten payments and restarting it loses none, and you can show how far behind it got.`},
+			{Label: "Critique", Thinking: true, Text: `You gave me a comparison for keeping a second copy, then built replication from it.
 
 Where does the comparison break down for real databases, and did it lead you into a mistake in the code?
 
-Then, directly: if the primary dies with the replica three changes behind and the replica is promoted, which rules in goal.md break from the customer's side, and how would anyone find out?
+Then: if the primary dies with the follower three changes behind and the follower is promoted, which rules in goal.md break for the customer, and how would anyone find out?
 
-Done when I know which parts of the comparison to stop trusting, whether any reached the code, and exactly what a promotion loses.`},
+Done when I know which parts of the comparison to stop trusting, and exactly what a promotion loses.`},
 		},
 	},
 }

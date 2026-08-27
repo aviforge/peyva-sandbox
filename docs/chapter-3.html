@@ -171,7 +171,7 @@
       <p class="technique"><span class="technique-name">Add context and motivation</span>. Told where you are and why, it picks commands that run on your machine and warns you about the firewall prompt.</p>
       <p class="technique-source">Documented in Anthropic: Prompting best practices, Add context to improve performance</p>
       <details class="standing-rules">
-        <summary>Every prompt below is copied with these rules, about 611 tokens for the chapter</summary>
+        <summary>Every prompt below is copied with these rules, about 531 tokens for the chapter</summary>
         <pre class="prompt-lang" id="rules-build">Build this in <span data-language-name>Go</span>, standard library only.
 Code in peyva/&lt;component&gt;/, one folder per component.
 Money: exact decimal or integer minor units, never floating point, two decimal places.
@@ -184,45 +184,43 @@ The goal and invariants are in peyva/goal.md, the look in peyva/portal/design.md
         
       </details>
       
-      <p class="prompt-divider"><span class="prompt-step">1 of 3</span> Reach it<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~245 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">1 of 3</span> Reach it<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~206 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-build">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
-        <pre class="prompt">My environment: <span data-os-name>Windows, in PowerShell</span>. If you can run commands, run them here rather than advising about another machine. The Gateway is listening on TCP port 9310, and I have a phone on the same Wi-Fi.
+        <pre class="prompt">My environment: <span data-os-name>Windows, in PowerShell</span>. Run commands here if you can. The Gateway listens on TCP port 9310, and I have a phone on the same Wi-Fi.
 
-I want to reach the Gateway from the phone. Tell me what is happening, not only what to type.
+Get me from the phone to the Gateway. Give me the command to find this machine&#39;s address and say which of the addresses it prints is the right one. Say whether the Gateway needs a change to accept outside connections. Warn me before any firewall prompt.
 
-Give me the command to find this machine&#39;s network address, and how to tell which of the addresses it prints is the right one. Say whether the Gateway needs a change to accept connections from another machine. Warn me before any firewall prompt. If the phone cannot reach it, ask once whether this is a locked-down network, then have me try from a second terminal instead.
+If the phone cannot reach it, ask once whether this network blocks that, then have me use a second terminal instead.
 
-Done when the phone, or that second terminal, reaches the Gateway and it logs the connection.</pre>
+Done when the phone, or the second terminal, reaches the Gateway and it logs the connection.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">2 of 3</span> Stream<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~164 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">2 of 3</span> Stream<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~151 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-build">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
-        <pre class="prompt">The Gateway listens on TCP port 9310, accepts a connection, logs one line with the caller&#39;s address, then closes it.
+        <pre class="prompt">The Gateway listens on TCP port 9310, accepts each connection, logs it, and closes it.
 
-Show me that TCP is a stream and not messages. Have it print each read with its byte count, then send one message from a client in two writes with a pause between them. Say what the Gateway would need in order to know where that message ended.
+Show me that TCP carries bytes, not messages. Print each read with its size, then send one message from a client in two writes with a pause between. Say what the Gateway would need in order to know where the message ended.
 
 Done when I have seen one message arrive as more than one read.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">3 of 3</span> Portal<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~202 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">3 of 3</span> Portal<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~174 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-portal">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
-        <pre class="prompt">The Gateway accepts connections but serves nothing. Have it return peyva/portal/index.html to anything that connects, so the page is reachable from my phone.
+        <pre class="prompt">The Gateway accepts connections but serves nothing. Have it return peyva/portal/index.html to anything that connects.
 
-Tell me what changes about how the page loads its stylesheet now it arrives over a connection instead of from disk.
-
-Leave the Gateway running when you are done. The point is reaching it from the phone next.
+Say what changes about how the page loads its stylesheet now it comes over a connection instead of from disk. Leave the Gateway running.
 
 Done when the phone, or a second terminal, shows alice&#39;s balance.</pre>
       </div>

@@ -34,22 +34,22 @@ var Chapter14 = ChapterContent{
 		Why:       "One prompt for a whole multi-stage workflow gets you a sketch of all of it and a working version of none.",
 		Source:    "The Prompt Report: Decomposition, Least-to-Most",
 		Prompts: []Prompt{
-			{Label: "Build", Text: `A payment is one step inside the Vault. I want it run in stages that can unwind if a later stage fails for good.
+			{Label: "Build", Text: `A payment is one step inside the Vault. I want it to run in stages that can be undone if a later stage fails for good.
 
-Build it in five, each on what the last left. Stop after each and tell me it works.
+Build it in five pieces. Stop after each and show me it works.
 
-1. A saved record, per payment reference, of which stages are done.
-2. The existing money movement as stage one, recording that it finished.
-3. A stand-in for a ledger peyva does not own: a small process with its own file that credits an account, refuses for good on a handle marked closed, and can be made unreachable. Stage two credits the recipient there.
-4. An undo for stage one, as new Ledger entries pointing at the original, never a deletion. It runs when stage two fails in a way that can never succeed.
-5. Kill the copy between stages one and two, start it again, and have the payment carry on from its record.
+1. A saved record, per payment, of which stages are done.
+2. The existing money movement as stage one.
+3. A stand-in for an outside ledger: a small process with its own file that credits an account, refuses for good on a closed handle, and can be switched off. Stage two credits the recipient there.
+4. An undo for stage one when stage two fails for good: new Ledger entries pointing at the original, never a deletion.
+5. Kill the copy between the stages, restart, and have the payment carry on.
 
-Only permanent failures undo. A timeout retries with the same reference.
+A timeout is not a permanent failure. It retries with the same reference.
 
-Done when a permanently failing stage two puts the money back, the Ledger shows the payment and its undo, and an interrupted payment finishes after a restart.`},
-			{Label: "Portal", Portal: true, Text: `A reversed payment looks like two unrelated rows. Show it as what it is: the original, and the reversal that answers it, tied together.
+Done when a closed recipient puts the money back, and an interrupted payment finishes after a restart.`},
+			{Label: "Portal", Portal: true, Text: `A reversed payment looks like two unrelated rows. Show it as the original and the reversal that answers it, tied together, with the reason.
 
-Build it in stages. First mark it as reversed. Then link the two rows. Then say why. Stop after each and show me.
+Build it in three steps and show me each.
 
 Done when a customer can see that money left and came back, and why.`},
 		},

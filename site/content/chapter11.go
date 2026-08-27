@@ -13,20 +13,20 @@ var Chapter11 = ChapterContent{
 	HeroCaption: "Cache = keep frequently used data nearby, so it's fast to get back.",
 
 	Why: []string{
-		"A cache is a second copy, and every second copy can disagree with the first.",
-		"Only the process that sees every write can invalidate correctly. So the cache lives in the Vault, not the copies.",
-		"Invalidate after commit, never before. Drop it early and a concurrent read refills it with the old value.",
-		"A payment touches two accounts. Invalidate both.",
-		"A balance on a page can be milliseconds old. The balance checked before a debit cannot be cached at all.",
-		"A cache bug returns a fast, confident, wrong number. It never crashes.",
+		"A cache is a second copy, and any second copy can disagree with the first.",
+		"Only the program that sees every write can clear the cache correctly. So the cache lives in the Vault, not in the copies.",
+		"Clear it after the write is saved, never before. Clear it early and another read puts the old value straight back.",
+		"A payment changes two accounts. Clear both.",
+		"A balance on a page may be a moment old. The balance checked before taking money may not be cached at all.",
+		"A cache bug never crashes. It hands back a fast, confident, wrong number.",
 	},
 
 	Concepts: []ConceptItem{
-		{Term: "Cache", Description: "A fast, small store that holds recently or frequently requested data close at hand."},
-		{Term: "Hit and Miss", Description: "A hit answers from the cache without asking storage. A miss fetches from storage and caches it for next time."},
-		{Term: "Invalidation", Description: "Removing or updating a cached value when the underlying data changes, so the cache never lies."},
-		{Term: "Cache Placement", Description: "Which process holds the cache. Only a process that sees every write can invalidate correctly, so a cache of balances lives with the Vault, not in the copies."},
-		{Term: "Read-Your-Writes", Description: "A customer who just paid must see the new balance. Any cache that can serve them the old one has broken a promise they will notice."},
+		{Term: "Cache", Description: "A small fast store holding what was asked for recently, so the next ask is quick."},
+		{Term: "Hit and Miss", Description: "A hit answers from the cache. A miss goes to storage and keeps the answer for next time."},
+		{Term: "Invalidation", Description: "Clearing or updating a cached value when the real one changes, so the cache never lies."},
+		{Term: "Cache Placement", Description: "Which program holds the cache. Only one that sees every write can clear it correctly, so balances are cached in the Vault, not the copies."},
+		{Term: "Read-Your-Writes", Description: "Someone who just paid must see the new balance. A cache that can hand them the old one has broken a promise they will notice."},
 	},
 
 	BuildIt: BuildIt{

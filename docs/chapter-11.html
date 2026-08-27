@@ -149,14 +149,14 @@
     <section class="block">
       <h2>1. What</h2>
       <ul class="concepts">
-        <li><strong>Cache</strong>. A fast, small store that holds recently or frequently requested data close at hand.</li><li><strong>Hit and Miss</strong>. A hit answers from the cache without asking storage. A miss fetches from storage and caches it for next time.</li><li><strong>Invalidation</strong>. Removing or updating a cached value when the underlying data changes, so the cache never lies.</li><li><strong>Cache Placement</strong>. Which process holds the cache. Only a process that sees every write can invalidate correctly, so a cache of balances lives with the Vault, not in the copies.</li><li><strong>Read-Your-Writes</strong>. A customer who just paid must see the new balance. Any cache that can serve them the old one has broken a promise they will notice.</li>
+        <li><strong>Cache</strong>. A small fast store holding what was asked for recently, so the next ask is quick.</li><li><strong>Hit and Miss</strong>. A hit answers from the cache. A miss goes to storage and keeps the answer for next time.</li><li><strong>Invalidation</strong>. Clearing or updating a cached value when the real one changes, so the cache never lies.</li><li><strong>Cache Placement</strong>. Which program holds the cache. Only one that sees every write can clear it correctly, so balances are cached in the Vault, not the copies.</li><li><strong>Read-Your-Writes</strong>. Someone who just paid must see the new balance. A cache that can hand them the old one has broken a promise they will notice.</li>
       </ul>
     </section>
 
     <section class="block why">
       <h2>2. Why</h2>
       <ul class="why-list">
-        <li>A cache is a second copy, and every second copy can disagree with the first.</li><li>Only the process that sees every write can invalidate correctly. So the cache lives in the Vault, not the copies.</li><li>Invalidate after commit, never before. Drop it early and a concurrent read refills it with the old value.</li><li>A payment touches two accounts. Invalidate both.</li><li>A balance on a page can be milliseconds old. The balance checked before a debit cannot be cached at all.</li><li>A cache bug returns a fast, confident, wrong number. It never crashes.</li>
+        <li>A cache is a second copy, and any second copy can disagree with the first.</li><li>Only the program that sees every write can clear the cache correctly. So the cache lives in the Vault, not in the copies.</li><li>Clear it after the write is saved, never before. Clear it early and another read puts the old value straight back.</li><li>A payment changes two accounts. Clear both.</li><li>A balance on a page may be a moment old. The balance checked before taking money may not be cached at all.</li><li>A cache bug never crashes. It hands back a fast, confident, wrong number.</li>
       </ul>
     </section>
 

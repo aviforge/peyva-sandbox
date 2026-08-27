@@ -149,14 +149,14 @@
     <section class="block">
       <h2>1. What</h2>
       <ul class="concepts">
-        <li><strong>Consistency (C)</strong>. Every read returns the latest committed write, as if there were a single copy. Also called linearisability.</li><li><strong>Availability (A)</strong>. Every request to a working node gets a non-error answer, even if the answer is out of date.</li><li><strong>Partition (P)</strong>. Part of the system cannot reach another part. Not a choice: it happens, and the design has to say what it does while it lasts.</li><li><strong>CAP Theorem</strong>. During a partition, a system can keep consistency or availability, not both. Outside a partition, the same design trades latency against consistency instead.</li><li><strong>Lease</strong>. Time-limited permission to be primary, granted by a third party and renewed before it expires. A holder that cannot renew stops writing when the clock runs out.</li><li><strong>Fencing</strong>. Making sure a node that has lost its lease cannot write, even if it believes it still holds one. Each lease carries a number that only goes up, and a write with an old number is refused.</li><li><strong>Warden</strong>. The component that grants the lease. It says which Vault is primary, for how long, and refuses to name two at once.</li>
+        <li><strong>Consistency (C)</strong>. Every read gives the newest saved value, as though there were only one copy.</li><li><strong>Availability (A)</strong>. Every request to a working copy gets an answer rather than an error, even if the answer is old.</li><li><strong>Partition (P)</strong>. Part of the system cannot reach another part. Not a choice: it happens, and the design must say what it does meanwhile.</li><li><strong>CAP Theorem</strong>. While parts cannot reach each other, you keep either consistency or availability, not both. When they can, the trade is speed against freshness instead.</li><li><strong>Lease</strong>. Permission to be the primary, for a fixed time, given by someone else and renewed before it runs out.</li><li><strong>Fencing</strong>. Making sure a copy that lost its lease cannot write, even if it thinks it still holds one. Each lease has a number that only goes up, and an old number is refused.</li><li><strong>Warden</strong>. The component that hands out the lease. It says which Vault may write, for how long, and never names two at once.</li>
       </ul>
     </section>
 
     <section class="block why">
       <h2>2. Why</h2>
       <ul class="why-list">
-        <li>CAP: during a partition you can refuse some requests or answer some of them wrongly. Partitions are not optional.</li><li>Consistency means every read sees the latest write. Availability means every request gets a non-error answer.</li><li>Choose per operation. Enquiries can be stale and say so. Payments cannot, so they are CP.</li><li>With no partition, the trade is latency against consistency. For money, wait for the replica&#39;s acknowledgement.</li><li>A lease is time-limited permission to be primary, granted by a third party and renewed before expiry. Lose contact and the clock ends it.</li><li>The grantor here is one process, itself a single point of failure. Real systems use a majority (Raft, Paxos). This book stops at one.</li>
+        <li>When part of the system cannot reach another part, you either refuse some requests or answer some of them wrongly.</li><li>Consistency means every read sees the newest value. Availability means every request gets an answer rather than an error.</li><li>Choose per action. A balance can be a little old if the page says so. A payment cannot.</li><li>When everything can talk, the trade is speed against freshness. For money, wait for the second copy to confirm.</li><li>A lease is permission to be the primary for a fixed time, given by someone else. Lose contact and the clock takes it away.</li><li>The Warden is one program, so it can fail. Real systems use a group that votes, like Raft or Paxos. This book stops at one.</li>
       </ul>
     </section>
 
@@ -235,7 +235,7 @@ Done when a stale balance is visibly stale and a customer is not misled about th
 
   </div>
 
-  <p class="quick-tip"><strong>Quick tip:</strong> For money, prefer CP. Reject a request rather than show the wrong balance.</p>
+  <p class="quick-tip"><strong>Quick tip:</strong> For money, choose consistency. Refuse the payment rather than risk moving it wrongly.</p>
 </main>
 </div>
 <script src="app.js?v=aa8908cb82"></script>

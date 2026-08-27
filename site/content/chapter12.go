@@ -13,20 +13,20 @@ var Chapter12 = ChapterContent{
 	HeroCaption: "Queues let different parts of the system work at their own speed and not depend on each other directly. This is called decoupling.",
 
 	Why: []string{
-		"A response should wait for what the caller needs and nothing else. They need the money moved, not the notification sent.",
-		"A queue separates deciding that work must happen from doing it.",
-		"A queue in memory dies with the process, and nothing records what was owed. This chapter builds that flaw on purpose.",
-		"Backlog length is the most honest health signal a system has.",
-		"The page must show the payment as done when the money moved, and the notification as a separate, later thing.",
+		"A reply should wait for what the caller needs and nothing more. They need the money moved, not the message sent.",
+		"A queue separates deciding that work must happen from actually doing it.",
+		"A queue held in memory dies with the program, and nothing records what was owed. This chapter builds that flaw on purpose.",
+		"The number of jobs waiting is the most honest health signal you have.",
+		"The page shows the payment as done when the money moved, and the message as sent separately, later.",
 	},
 
 	Concepts: []ConceptItem{
-		{Term: "Message Queue", Description: "A buffer that holds messages until a worker is ready to process them."},
-		{Term: "Producer", Description: "The part of the system that adds messages to the queue: peyva, after a transfer completes."},
-		{Term: "Consumer / Worker", Description: "The part that reads messages off the queue and does the actual work, at its own pace."},
-		{Term: "Decoupling", Description: "Producer and consumer don't call each other directly or wait on each other. The queue sits between them."},
-		{Term: "Backlog", Description: "How many messages are waiting. Growing means the consumer is falling behind; it is the first number to watch."},
-		{Term: "Courier", Description: "The component that carries out work after a payment clears, reading from the queue at its own pace."},
+		{Term: "Message Queue", Description: "A holding line for jobs, until a worker is ready to take one."},
+		{Term: "Producer", Description: "The part that puts jobs on the queue: peyva, once a payment is done."},
+		{Term: "Consumer / Worker", Description: "The part that takes jobs off the queue and does them, at its own pace."},
+		{Term: "Decoupling", Description: "Producer and worker never call or wait on each other. The queue sits between them."},
+		{Term: "Backlog", Description: "How many jobs are waiting. Growing means the worker is falling behind, and it is the first number to watch."},
+		{Term: "Courier", Description: "The component that does the work following a payment, taking it from the queue at its own pace."},
 	},
 
 	BuildIt: BuildIt{

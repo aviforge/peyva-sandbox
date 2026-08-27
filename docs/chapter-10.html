@@ -149,14 +149,14 @@
     <section class="block">
       <h2>1. What</h2>
       <ul class="concepts">
-        <li><strong>Instance</strong>. One running copy of the stateless part of peyva, identical to every other. Also just called a copy.</li><li><strong>Load Balancer</strong>. Sits in front of all the copies and spreads incoming requests across them. Holds the port the outside world knows.</li><li><strong>Stateless</strong>. Keeps no unique data of its own. Any copy can handle any request, because the state lives in the Vault&#39;s own process.</li><li><strong>Horizontal Scaling</strong>. Adding more copies to handle more load, instead of making one machine bigger.</li><li><strong>Capacity Estimate</strong>. Users, actions per user, a peak factor and a record size, multiplied out. Tells you which part will fill up first, before you build any of it.</li>
+        <li><strong>Instance</strong>. One running copy of the part of peyva that holds nothing of its own. Also just called a copy.</li><li><strong>Load Balancer</strong>. Sits in front of the copies and spreads requests across them. It holds the port the outside world knows.</li><li><strong>Stateless</strong>. Keeps no data of its own, so any copy can answer any request. The data lives in the Vault.</li><li><strong>Horizontal Scaling</strong>. Adding more copies to handle more load, instead of buying one bigger machine.</li><li><strong>Capacity Estimate</strong>. How many users, how often they act, how much busier the peak is, how big a record is. Multiply out, and you know what fills up first.</li>
       </ul>
     </section>
 
     <section class="block why">
       <h2>2. Why</h2>
       <ul class="why-list">
-        <li>Copies are interchangeable only if nothing that matters lives inside one of them.</li><li>A database file inside each copy is three banks with three sets of balances. The Vault becomes its own process.</li><li>A transaction cannot span processes. The whole payment runs inside the Vault in one transaction; the Teller makes one call.</li><li>More copies scale parsing and waiting, not writes. Every payment still ends at one Vault.</li><li>The load balancer now holds the known port. A copy dying mid-request looks like a timeout to it.</li><li>Whether any of this is needed is arithmetic. The sidebar below does it.</li>
+        <li>Copies are only swappable if none of them holds something the others lack.</li><li>A database file inside each copy is three banks with three sets of balances. So the Vault becomes a program of its own.</li><li>A transaction cannot stretch across two programs. The whole payment now runs inside the Vault, and the Teller makes one call.</li><li>More copies help with reading requests and waiting around. They do not make writing faster: every payment still ends at one Vault.</li><li>The load balancer now holds the port everyone knows. A copy dying mid-request looks to it like a timeout.</li><li>Whether any of this is needed is arithmetic. The sidebar below does it.</li>
       </ul>
     </section>
 
@@ -168,7 +168,7 @@
         <figcaption>Capacity estimation helps us choose the right technology, plan scaling, and control cost: before we build. <a class="hero-expand-hint" href="images/sidebar-10.webp" target="_blank" rel="noopener">Click to view full size</a></figcaption>
       </figure>
       <ul class="why-list">
-        <li>An estimate is a few assumptions multiplied out: users, actions per day, a peak factor, a record size.</li><li>100,000 users at three payments a day is 300,000 a day: about 3.5 per second, 35 at a ten-times peak.</li><li>At a kilobyte per payment, two years of Ledger is about 220 GB.</li><li>Size for the peak, not the average. The busiest hour is the one that matters.</li><li>Roughly right before building beats exactly right after. Know which assumption moves the answer most.</li>
+        <li>An estimate is a few guesses multiplied out: how many users, how often, how much busier the peak is, how big a record is.</li><li>100,000 users at three payments a day is 300,000 a day: about 3.5 a second, 35 at a ten times peak.</li><li>At a kilobyte a payment, two years of Ledger is around 220 GB.</li><li>Size for the peak, not the average. The busiest hour is the one that matters.</li><li>Roughly right before you build beats exactly right afterwards. Know which guess moves the answer most.</li>
       </ul>
       <p class="technique"><span class="technique-name">Self-Ask</span>. Hidden guesses become a written list of assumptions you can argue with.</p>
       <p class="technique-source">Documented in The Prompt Report: Zero-Shot, Self-Ask</p>
@@ -718,7 +718,7 @@ esac
 
   </div>
 
-  <p class="quick-tip"><strong>Quick tip:</strong> Copies can only be interchangeable if none of them hold state the others do not have.</p>
+  <p class="quick-tip"><strong>Quick tip:</strong> The moment one copy holds something the others lack, the same request starts getting different answers.</p>
 </main>
 </div>
 <script src="app.js?v=aa8908cb82"></script>

@@ -149,14 +149,14 @@
     <section class="block">
       <h2>1. What</h2>
       <ul class="concepts">
-        <li><strong>Endpoint</strong>. A specific thing the API lets you do: POST /transfer, for moving money.</li><li><strong>Request Body</strong>. The details of what you&#39;re asking for, e.g. {&#34;from&#34;: &#34;alice&#34;, &#34;to&#34;: &#34;bob&#34;, &#34;amount&#34;: 20}.</li><li><strong>Status Codes</strong>. A predictable signal of what happened: 2xx it worked, 4xx your request is wrong, 5xx the server failed and the same request might work later.</li><li><strong>Validation</strong>. Checking the request makes sense before doing any work, rejecting bad orders instead of guessing.</li><li><strong>Teller</strong>. The component that handles a payment end to end. The Gateway forwards requests and never touches a balance itself.</li>
+        <li><strong>Endpoint</strong>. One specific thing the API lets you do: POST /transfer, for moving money.</li><li><strong>Request Body</strong>. The details of what you are asking for, e.g. {&#34;from&#34;: &#34;alice&#34;, &#34;to&#34;: &#34;bob&#34;, &#34;amount&#34;: 20}.</li><li><strong>Status Codes</strong>. What happened, as a number: 2xx it worked, 4xx your request is wrong, 5xx the server failed and it might work later.</li><li><strong>Validation</strong>. Checking the request makes sense before doing any work, instead of guessing what was meant.</li><li><strong>Teller</strong>. The component that handles a payment from start to finish. The Gateway passes requests on and never touches a balance.</li>
       </ul>
     </section>
 
     <section class="block why">
       <h2>2. Why</h2>
       <ul class="why-list">
-        <li>An API is a contract about failure. The caller must tell &#39;your request is wrong&#39; from &#39;try again later&#39;.</li><li>4xx means the same request fails again. 5xx means it might work later. Get this backwards and clients retry the wrong things.</li><li>Validate everything before touching state. A debit followed by &#39;unknown recipient&#39; creates money from an error path.</li><li>The reference is the caller&#39;s only handle on what happened. Generate it once, never reuse it.</li><li>200 means the money moved and was recorded. Sending it earlier is a promise you may not keep.</li>
+        <li>An API promises what happens when things fail, not only when they work.</li><li>4xx means the same request will fail again. 5xx means it might work later. Swap them and callers retry the wrong things.</li><li>Check everything before you change anything. A debit followed by &#39;no such recipient&#39; has created money out of an error.</li><li>The reference is all the caller has to ask about a payment later. Make a new one each time, never reuse one.</li><li>200 means the money moved and was written down. Sending it sooner is a promise you might not keep.</li>
       </ul>
     </section>
 

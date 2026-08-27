@@ -149,14 +149,14 @@
     <section class="block">
       <h2>1. What</h2>
       <ul class="concepts">
-        <li><strong>Message Queue</strong>. A buffer that holds messages until a worker is ready to process them.</li><li><strong>Producer</strong>. The part of the system that adds messages to the queue: peyva, after a transfer completes.</li><li><strong>Consumer / Worker</strong>. The part that reads messages off the queue and does the actual work, at its own pace.</li><li><strong>Decoupling</strong>. Producer and consumer don&#39;t call each other directly or wait on each other. The queue sits between them.</li><li><strong>Backlog</strong>. How many messages are waiting. Growing means the consumer is falling behind; it is the first number to watch.</li><li><strong>Courier</strong>. The component that carries out work after a payment clears, reading from the queue at its own pace.</li>
+        <li><strong>Message Queue</strong>. A holding line for jobs, until a worker is ready to take one.</li><li><strong>Producer</strong>. The part that puts jobs on the queue: peyva, once a payment is done.</li><li><strong>Consumer / Worker</strong>. The part that takes jobs off the queue and does them, at its own pace.</li><li><strong>Decoupling</strong>. Producer and worker never call or wait on each other. The queue sits between them.</li><li><strong>Backlog</strong>. How many jobs are waiting. Growing means the worker is falling behind, and it is the first number to watch.</li><li><strong>Courier</strong>. The component that does the work following a payment, taking it from the queue at its own pace.</li>
       </ul>
     </section>
 
     <section class="block why">
       <h2>2. Why</h2>
       <ul class="why-list">
-        <li>A response should wait for what the caller needs and nothing else. They need the money moved, not the notification sent.</li><li>A queue separates deciding that work must happen from doing it.</li><li>A queue in memory dies with the process, and nothing records what was owed. This chapter builds that flaw on purpose.</li><li>Backlog length is the most honest health signal a system has.</li><li>The page must show the payment as done when the money moved, and the notification as a separate, later thing.</li>
+        <li>A reply should wait for what the caller needs and nothing more. They need the money moved, not the message sent.</li><li>A queue separates deciding that work must happen from actually doing it.</li><li>A queue held in memory dies with the program, and nothing records what was owed. This chapter builds that flaw on purpose.</li><li>The number of jobs waiting is the most honest health signal you have.</li><li>The page shows the payment as done when the money moved, and the message as sent separately, later.</li>
       </ul>
     </section>
 

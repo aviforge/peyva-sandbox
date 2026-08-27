@@ -7,26 +7,26 @@ var Chapter14 = ChapterContent{
 	Subtitle:   "We can't do everything in one shot. So we do it in steps. If one step fails, we undo the earlier steps so nothing is left half-done.",
 	Category:   "Reliability",
 	Difficulty: "Advanced",
-	QuickTip:   "Compensations run in strict reverse order: the last completed step is undone first.",
+	QuickTip:   "Undo in reverse: the last finished step is the first one undone.",
 
 	HeroImage:   "images/chapter-14.webp",
 	HeroCaption: "Sagas help us complete a big task in steps and roll back safely if something goes wrong.",
 
 	Why: []string{
-		"A transaction reaches as far as one database. A second system with its own store has no shared COMMIT.",
-		"A saga is a sequence of local transactions plus a record of how far it got. Between steps, the world sees a half-done payment.",
-		"Undo is a new forward entry, never a deletion. The history shows money left and came back.",
-		"Only permanent failures compensate. A timeout retries, because the step may have succeeded.",
-		"Each step is idempotent and recorded, so a coordinator that dies can resume from the last completed step.",
-		"Compensations can fail too. A stuck saga goes to a human, not into an infinite retry.",
+		"A transaction covers one database. Two systems with their own databases share no COMMIT.",
+		"A saga is small steps, each saved on its own, plus a record of how far you got. Between steps, the world sees a half-done payment.",
+		"Undo is a new entry forward, never a deletion. The history shows the money leaving and coming back.",
+		"Only undo after a failure that can never succeed. A timeout gets tried again, because the step may have worked.",
+		"Each step is safe to repeat and written down, so a crash picks up at the last finished step.",
+		"An undo can fail too. A payment stuck like that goes to a person, not into an endless retry.",
 	},
 
 	Concepts: []ConceptItem{
-		{Term: "Saga", Description: "A sequence of local transactions across systems, coordinated so the whole workflow either completes or is undone step by step."},
-		{Term: "Local Transaction", Description: "Each step's own transaction, scoped to its own store: not shared with the other steps."},
-		{Term: "Compensating Action", Description: "The 'undo' for a step that already succeeded, run in reverse order when a later step fails permanently. A new entry, never a deletion."},
-		{Term: "Saga Record", Description: "Which steps of a payment have completed, stored durably, so the saga can be resumed after a crash rather than guessed at."},
-		{Term: "Permanent vs Retryable", Description: "A closed account is permanent and triggers compensation. A timeout is retryable and must not, because the step may have succeeded."},
+		{Term: "Saga", Description: "A long job done as a sequence of small steps, each saved on its own, that can be undone step by step."},
+		{Term: "Local Transaction", Description: "One step's own transaction, inside its own database, not shared with the other steps."},
+		{Term: "Compensating Action", Description: "The undo for a step that already worked, run when a later step fails for good. A new entry, never a deletion."},
+		{Term: "Saga Record", Description: "Which steps of a payment are done, saved to disk, so a crash can pick up where it stopped."},
+		{Term: "Permanent vs Retryable", Description: "A closed account will always be closed, so undo. A timeout might have worked, so try again instead."},
 	},
 
 	BuildIt: BuildIt{

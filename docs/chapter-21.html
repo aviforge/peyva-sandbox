@@ -149,14 +149,14 @@
     <section class="block">
       <h2>1. What</h2>
       <ul class="concepts">
-        <li><strong>Reconciler</strong>. The component that checks the Vault against the Ledger and reports where they disagree.</li><li><strong>Reconciliation</strong>. Comparing two records that were written independently, to catch the case where one of them is wrong.</li><li><strong>Discrepancy</strong>. An account whose Ledger entries do not sum to the balance the Vault reports, and the size of the gap.</li><li><strong>Single Point of Failure</strong>. A part with no stand-in, whose loss stops the system rather than slowing it.</li><li><strong>Conservation Check</strong>. The sum of every balance on every shard, plus money in flight, equals what was seeded plus what was opened, and the sum of every Ledger entry is zero. If either fails, money was created or lost.</li>
+        <li><strong>Reconciler</strong>. The component that checks balances against the Ledger and reports where they disagree.</li><li><strong>Reconciliation</strong>. Comparing two records that were written separately, to catch the day one of them is wrong.</li><li><strong>Discrepancy</strong>. An account whose Ledger entries do not add up to its balance, and by how much.</li><li><strong>Single Point of Failure</strong>. A part with no stand-in, whose loss stops the system rather than slowing it.</li><li><strong>Conservation Check</strong>. Every balance, plus money in flight, adds up to what you started with. Every Ledger entry adds up to zero. If either fails, money was created or lost.</li>
       </ul>
     </section>
 
     <section class="block why">
       <h2>2. Why</h2>
       <ul class="why-list">
-        <li>Every mechanism guards one invariant at one boundary: transactions, idempotency, the outbox, the lease. A system is wrong at the first boundary without one.</li><li>Reconciliation assumes everything else has a bug. Balances and Ledger should always agree; the Reconciler exists for when they do not.</li><li>A discrepancy is reported, never auto-corrected. A reconciler that fixes balances is a second writer of balances.</li><li>Find single points of failure by walking a payment&#39;s path and asking what happens if this dies now.</li><li>Every component here earned its place by a failure a chapter demonstrated. One that cannot name its failure is the one to question.</li><li>Restating the system in your own words is the cheapest test of understanding it.</li>
+        <li>Each piece guards one rule at one crossing: transactions, keys, the outbox, the lease. The first crossing without a guard is where money goes wrong.</li><li>Reconciling assumes everything else has a bug. Balances and the Ledger should always agree; the Reconciler is for the day they do not.</li><li>Report a difference, never fix it automatically. Something that quietly corrects balances has become a second thing writing them.</li><li>Find the weak points by walking a payment&#39;s path and asking, at each step, what happens if this dies now.</li><li>Every part here earned its place by a failure some chapter showed you. One that cannot name its failure is the one to question.</li><li>Saying the system back in your own words is the cheapest test of whether you understand it.</li>
       </ul>
     </section>
 

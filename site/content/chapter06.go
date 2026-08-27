@@ -7,25 +7,25 @@ var Chapter06 = ChapterContent{
 	Subtitle:   "You don't scan every page. You use the index.",
 	Category:   "Databases",
 	Difficulty: "Intermediate",
-	QuickTip:   "An index speeds up reads at the cost of slightly slower writes. Every index has to stay current too.",
+	QuickTip:   "An index makes reads fast and writes a little slower. Every one has to be kept up to date.",
 
 	HeroImage:   "images/chapter-6.webp",
 	HeroCaption: "Index = a map for your data. Fast lookups, less scanning.",
 
 	Why: []string{
-		"Without an index, finding one row means reading every row. Fine at a thousand, fatal at ten million.",
-		"An index is a sorted copy of one column pointing at rows. A B-tree keeps lookups to a few page reads at any size.",
-		"Every index is a write cost. Each insert also writes every index on the table.",
-		"An index only helps queries that use its column. Anything else still scans.",
-		"Performance claims are measurements. Ask for the query plan and time it on this machine.",
+		"With no index, finding one row means reading every row. Fine at a thousand rows, hopeless at ten million.",
+		"An index is a sorted list pointing at the rows. Looking something up takes a few steps whatever the size.",
+		"Indexes are paid for in writing. Every insert also updates every index on the table.",
+		"An index only helps a search on its own column. Anything else still reads the whole table.",
+		"Never trust a speed claim you have not timed. Ask for the query plan, then time it on this machine.",
 	},
 
 	Concepts: []ConceptItem{
-		{Term: "Full Table Scan", Description: "Checking every row one by one until you find the match: correct, but slow as the table grows."},
-		{Term: "Index", Description: "A separate structure that maps a value (like a name) directly to where its row lives."},
-		{Term: "B-Tree", Description: "The balanced tree most databases use to keep an index searchable in a handful of page reads, however large it grows."},
-		{Term: "Write Amplification", Description: "Each row write also writes every index on the table. More indexes, slower inserts."},
-		{Term: "Query Plan", Description: "The database's account of how it will run a query: which index it will use, or that it will scan. Ask for it before believing a query is fast."},
+		{Term: "Full Table Scan", Description: "Checking every row one by one until you find the match. Correct, and slower as the table grows."},
+		{Term: "Index", Description: "A separate sorted list that points straight at the rows holding a value."},
+		{Term: "B-Tree", Description: "The shape databases keep an index in, so a lookup takes a handful of steps however large it grows."},
+		{Term: "Write Amplification", Description: "Every row you write also updates every index on the table. More indexes, slower writes."},
+		{Term: "Query Plan", Description: "The database's own account of how it will run a query, and whether it will use an index. Ask for it before believing a query is fast."},
 	},
 
 	BuildIt: BuildIt{

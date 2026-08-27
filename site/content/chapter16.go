@@ -7,28 +7,28 @@ var Chapter16 = ChapterContent{
 	Subtitle:   "During a network failure, you can keep only two of these three: Consistency, Availability, Partition Tolerance.",
 	Category:   "Distributed Systems",
 	Difficulty: "Advanced",
-	QuickTip:   "For money, prefer CP. Reject a request rather than show the wrong balance.",
+	QuickTip:   "For money, choose consistency. Refuse the payment rather than risk moving it wrongly.",
 
 	HeroImage:   "images/chapter-16.webp",
 	HeroCaption: "Different situations call for different trade-offs. peyva has to choose.",
 
 	Why: []string{
-		"CAP: during a partition you can refuse some requests or answer some of them wrongly. Partitions are not optional.",
-		"Consistency means every read sees the latest write. Availability means every request gets a non-error answer.",
-		"Choose per operation. Enquiries can be stale and say so. Payments cannot, so they are CP.",
-		"With no partition, the trade is latency against consistency. For money, wait for the replica's acknowledgement.",
-		"A lease is time-limited permission to be primary, granted by a third party and renewed before expiry. Lose contact and the clock ends it.",
-		"The grantor here is one process, itself a single point of failure. Real systems use a majority (Raft, Paxos). This book stops at one.",
+		"When part of the system cannot reach another part, you either refuse some requests or answer some of them wrongly.",
+		"Consistency means every read sees the newest value. Availability means every request gets an answer rather than an error.",
+		"Choose per action. A balance can be a little old if the page says so. A payment cannot.",
+		"When everything can talk, the trade is speed against freshness. For money, wait for the second copy to confirm.",
+		"A lease is permission to be the primary for a fixed time, given by someone else. Lose contact and the clock takes it away.",
+		"The Warden is one program, so it can fail. Real systems use a group that votes, like Raft or Paxos. This book stops at one.",
 	},
 
 	Concepts: []ConceptItem{
-		{Term: "Consistency (C)", Description: "Every read returns the latest committed write, as if there were a single copy. Also called linearisability."},
-		{Term: "Availability (A)", Description: "Every request to a working node gets a non-error answer, even if the answer is out of date."},
-		{Term: "Partition (P)", Description: "Part of the system cannot reach another part. Not a choice: it happens, and the design has to say what it does while it lasts."},
-		{Term: "CAP Theorem", Description: "During a partition, a system can keep consistency or availability, not both. Outside a partition, the same design trades latency against consistency instead."},
-		{Term: "Lease", Description: "Time-limited permission to be primary, granted by a third party and renewed before it expires. A holder that cannot renew stops writing when the clock runs out."},
-		{Term: "Fencing", Description: "Making sure a node that has lost its lease cannot write, even if it believes it still holds one. Each lease carries a number that only goes up, and a write with an old number is refused."},
-		{Term: "Warden", Description: "The component that grants the lease. It says which Vault is primary, for how long, and refuses to name two at once."},
+		{Term: "Consistency (C)", Description: "Every read gives the newest saved value, as though there were only one copy."},
+		{Term: "Availability (A)", Description: "Every request to a working copy gets an answer rather than an error, even if the answer is old."},
+		{Term: "Partition (P)", Description: "Part of the system cannot reach another part. Not a choice: it happens, and the design must say what it does meanwhile."},
+		{Term: "CAP Theorem", Description: "While parts cannot reach each other, you keep either consistency or availability, not both. When they can, the trade is speed against freshness instead."},
+		{Term: "Lease", Description: "Permission to be the primary, for a fixed time, given by someone else and renewed before it runs out."},
+		{Term: "Fencing", Description: "Making sure a copy that lost its lease cannot write, even if it thinks it still holds one. Each lease has a number that only goes up, and an old number is refused."},
+		{Term: "Warden", Description: "The component that hands out the lease. It says which Vault may write, for how long, and never names two at once."},
 	},
 
 	BuildIt: BuildIt{

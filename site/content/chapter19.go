@@ -13,21 +13,21 @@ var Chapter19 = ChapterContent{
 	HeroCaption: "Great restaurants aren't just built well. They are operated well every day. That's how customers stay happy.",
 
 	Why: []string{
-		"Config is what differs between runs: ports, addresses, secrets. Anything with one correct value is code.",
-		"A missing setting stops the process at startup. A default hides it until it fails somewhere unrelated.",
-		"Read settings once, in one place. Scattered reads are scattered places a default creeps in.",
-		"Deploy one copy first and check health. A bad release becomes one degraded copy, not an outage.",
-		"A rollback is a deploy of the previous version. The version string on the health endpoint shows who runs what.",
-		"Rolling back code does not roll back data. The runbook must say whether this release can be rolled back at all.",
+		"Settings are what change between runs: ports, addresses, passwords. Anything with only one correct value is code.",
+		"A missing setting should stop the program at startup. A default hides it until it fails somewhere unrelated.",
+		"Read every setting once, in one place. Read them all over the code and a default sneaks in somewhere.",
+		"Release to one copy first and check it. A bad version then costs you one copy, not the whole system.",
+		"A rollback is just releasing the previous version. The version on the health check tells you which copy runs what.",
+		"Going back to old code does not go back to old data. The runbook must say whether this release can be undone at all.",
 	},
 
 	Concepts: []ConceptItem{
-		{Term: "Health Check", Description: "An endpoint that confirms peyva and what it depends on are working, and says which version is running."},
-		{Term: "Rolling Deployment", Description: "Releasing a new version one copy at a time, checking health between, instead of all at once."},
-		{Term: "Release Rollback", Description: "Reverting to the previous working version when a release causes problems. Not chapter 7's transaction rollback, and it does not undo data the new version wrote."},
-		{Term: "Runbook", Description: "A step-by-step guide for handling a specific, known kind of incident. Commands and expected output, not prose."},
-		{Term: "Config", Description: "The component that reads every setting from outside the code and checks it. A setting is what differs between one run and the next, secrets included; anything with one correct value stays in code."},
-		{Term: "Fail Fast", Description: "Refusing to start when a setting is missing, rather than guessing and failing later somewhere unrelated."},
+		{Term: "Health Check", Description: "An address that says whether this program and what it needs are working, and which version is running."},
+		{Term: "Rolling Deployment", Description: "Releasing a new version one copy at a time, checking health in between."},
+		{Term: "Release Rollback", Description: "Going back to the last working version. Not chapter 7's rollback, and it does not undo data the new version wrote."},
+		{Term: "Runbook", Description: "A step by step guide for one known kind of incident. Commands and expected output, not prose."},
+		{Term: "Config", Description: "The component that reads every setting from outside the code and checks it. A setting is what changes between runs; anything with one correct value stays in code."},
+		{Term: "Fail Fast", Description: "Refusing to start when a setting is missing, instead of guessing and failing later somewhere else."},
 	},
 
 	BuildIt: BuildIt{

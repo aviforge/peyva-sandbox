@@ -13,20 +13,20 @@ var Chapter01 = ChapterContent{
 	HeroCaption: "A computer is like a house. Many things work together inside it to get one job done.",
 
 	Why: []string{
-		"A process is the unit of failure. When it dies, its memory dies with it.",
-		"The OS can pause your process between any two instructions.",
-		"Memory is fast and forgets on restart. Disk is a thousand times slower and remembers.",
-		"One core runs one instruction stream. Concurrency is interleaving you do not control.",
-		"A distributed system is several of these. The network makes none of them more reliable.",
+		"A process is the thing that fails. When it dies, everything in its memory dies with it.",
+		"The OS can pause your program between any two lines, at any time.",
+		"Memory is fast and forgets on restart. Disk is far slower and remembers.",
+		"One core does one thing at a time. Two jobs that look simultaneous are taking turns, and you do not choose the order.",
+		"A distributed system is several of these. Adding a network makes none of them more reliable.",
 	},
 
 	Concepts: []ConceptItem{
-		{Term: "Process", Description: "A program that is running, with its own memory that no other process can reach."},
-		{Term: "Operating System (OS)", Description: "Decides which process gets the CPU, how much memory it may hold, and what it may touch."},
-		{Term: "CPU", Description: "Executes instructions. One core runs one thing at a time, however many programs are open."},
-		{Term: "Memory (RAM)", Description: "Where a process keeps what it is working on. Fast, and empty again the moment the process stops."},
-		{Term: "Disk (Storage)", Description: "Where data outlives the process that wrote it. Slower than memory by a wide margin."},
-		{Term: "Scheduler", Description: "The part of the OS that decides which process runs next and for how long. It can pause yours between any two instructions."},
+		{Term: "Process", Description: "A program that is running, with its own memory that no other program can reach."},
+		{Term: "Operating System (OS)", Description: "Decides which program gets the CPU, how much memory it may hold, and what it may touch."},
+		{Term: "CPU", Description: "Runs instructions. One core does one thing at a time, however many programs are open."},
+		{Term: "Memory (RAM)", Description: "Where a program keeps what it is working on. Fast, and empty again the moment the program stops."},
+		{Term: "Disk (Storage)", Description: "Where data outlives the program that wrote it. Far slower than memory."},
+		{Term: "Scheduler", Description: "The part of the OS that picks which program runs next, and for how long. It can pause yours between any two instructions."},
 	},
 
 	BuildIt: BuildIt{

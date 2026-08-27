@@ -13,19 +13,19 @@ var Chapter13 = ChapterContent{
 	HeroCaption: "Transactional Outbox makes sure important work is never lost, even if something fails right after saving.",
 
 	Why: []string{
-		"'Commit, then publish' has a window between two instructions, and a crash inside it loses work with no record.",
-		"The outbox writes the work in the same transaction as the payment. Both exist or neither does.",
-		"A crash after delivering and before marking done delivers twice. The outbox trades 'maybe never' for 'maybe twice'.",
-		"At-least-once plus deduplication is the recurring shape: idempotency keys for payments, an outbox for downstream work.",
-		"Several collectors can grab the same row. Claim it in one update, or dedupe downstream. Pretending it cannot happen is not an option.",
+		"Save the payment, then send the message: a crash in the gap between those two lines loses the message, with no record it was owed.",
+		"The outbox writes the message in the same transaction as the payment. Both exist, or neither does.",
+		"Crash between sending and marking it done, and it goes twice. You have traded 'maybe never' for 'maybe twice'.",
+		"Deliver at least once, then spot the repeats. The same idea as chapter 8's key, now applied to the work after a payment.",
+		"Three copies reading one table can grab the same job. Have each claim it in a single update, and let the database decide.",
 	},
 
 	Concepts: []ConceptItem{
-		{Term: "Outbox Table", Description: "A table in the same database as the transfer, holding messages that still need to be published."},
-		{Term: "Same Transaction", Description: "The transfer and the outbox row are written together, inside the transaction from Chapter 7: never as two separate steps."},
-		{Term: "Outbox Publisher", Description: "A background worker that reads unsent outbox rows and publishes them to the queue, then marks them sent."},
-		{Term: "At Least Once", Description: "A crash between publishing and marking the row done sends the message twice. The receiver has to cope, which is what Chapter 8 built."},
-		{Term: "Claiming", Description: "Marking a row as taken before working on it, in one database update, so two collectors do not both take it. Not the same as marking it done."},
+		{Term: "Outbox Table", Description: "A table in the same database as the payment, holding messages still to be sent."},
+		{Term: "Same Transaction", Description: "The payment and the message are written together, in the transaction from chapter 7, never as two steps."},
+		{Term: "Outbox Publisher", Description: "A worker that reads unsent rows, sends them, then marks them done."},
+		{Term: "At Least Once", Description: "A crash after sending and before marking done sends it twice. The receiver has to cope, which is what chapter 8 built."},
+		{Term: "Claiming", Description: "Taking a row in a single update before working on it, so two workers do not both take it. Not the same as marking it done."},
 	},
 
 	BuildIt: BuildIt{

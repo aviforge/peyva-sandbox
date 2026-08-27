@@ -7,17 +7,17 @@ var Chapter10 = ChapterContent{
 	Subtitle:   "When more customers come, we open more counters and add more staff so everyone gets served fast.",
 	Category:   "System Design",
 	Difficulty: "Intermediate",
-	QuickTip:   "Copies can only be interchangeable if none of them hold state the others do not have.",
+	QuickTip:   "The moment one copy holds something the others lack, the same request starts getting different answers.",
 
 	HeroImage:   "images/chapter-10.webp",
 	HeroCaption: "Scale out = add more servers/instances to handle more load in parallel.",
 
 	Why: []string{
-		"Copies are interchangeable only if nothing that matters lives inside one of them.",
-		"A database file inside each copy is three banks with three sets of balances. The Vault becomes its own process.",
-		"A transaction cannot span processes. The whole payment runs inside the Vault in one transaction; the Teller makes one call.",
-		"More copies scale parsing and waiting, not writes. Every payment still ends at one Vault.",
-		"The load balancer now holds the known port. A copy dying mid-request looks like a timeout to it.",
+		"Copies are only swappable if none of them holds something the others lack.",
+		"A database file inside each copy is three banks with three sets of balances. So the Vault becomes a program of its own.",
+		"A transaction cannot stretch across two programs. The whole payment now runs inside the Vault, and the Teller makes one call.",
+		"More copies help with reading requests and waiting around. They do not make writing faster: every payment still ends at one Vault.",
+		"The load balancer now holds the port everyone knows. A copy dying mid-request looks to it like a timeout.",
 		"Whether any of this is needed is arithmetic. The sidebar below does it.",
 	},
 
@@ -26,11 +26,11 @@ var Chapter10 = ChapterContent{
 		HeroImage:   "images/sidebar-10.webp",
 		HeroCaption: "Capacity estimation helps us choose the right technology, plan scaling, and control cost: before we build.",
 		Why: []string{
-			"An estimate is a few assumptions multiplied out: users, actions per day, a peak factor, a record size.",
-			"100,000 users at three payments a day is 300,000 a day: about 3.5 per second, 35 at a ten-times peak.",
-			"At a kilobyte per payment, two years of Ledger is about 220 GB.",
+			"An estimate is a few guesses multiplied out: how many users, how often, how much busier the peak is, how big a record is.",
+			"100,000 users at three payments a day is 300,000 a day: about 3.5 a second, 35 at a ten times peak.",
+			"At a kilobyte a payment, two years of Ledger is around 220 GB.",
 			"Size for the peak, not the average. The busiest hour is the one that matters.",
-			"Roughly right before building beats exactly right after. Know which assumption moves the answer most.",
+			"Roughly right before you build beats exactly right afterwards. Know which guess moves the answer most.",
 		},
 		BuildIt: BuildIt{
 			Technique: "Self-Ask",
@@ -54,11 +54,11 @@ Done when I have a peak-throughput figure and a two-year storage figure I can de
 	},
 
 	Concepts: []ConceptItem{
-		{Term: "Instance", Description: "One running copy of the stateless part of peyva, identical to every other. Also just called a copy."},
-		{Term: "Load Balancer", Description: "Sits in front of all the copies and spreads incoming requests across them. Holds the port the outside world knows."},
-		{Term: "Stateless", Description: "Keeps no unique data of its own. Any copy can handle any request, because the state lives in the Vault's own process."},
-		{Term: "Horizontal Scaling", Description: "Adding more copies to handle more load, instead of making one machine bigger."},
-		{Term: "Capacity Estimate", Description: "Users, actions per user, a peak factor and a record size, multiplied out. Tells you which part will fill up first, before you build any of it."},
+		{Term: "Instance", Description: "One running copy of the part of peyva that holds nothing of its own. Also just called a copy."},
+		{Term: "Load Balancer", Description: "Sits in front of the copies and spreads requests across them. It holds the port the outside world knows."},
+		{Term: "Stateless", Description: "Keeps no data of its own, so any copy can answer any request. The data lives in the Vault."},
+		{Term: "Horizontal Scaling", Description: "Adding more copies to handle more load, instead of buying one bigger machine."},
+		{Term: "Capacity Estimate", Description: "How many users, how often they act, how much busier the peak is, how big a record is. Multiply out, and you know what fills up first."},
 	},
 
 	BuildIt: BuildIt{

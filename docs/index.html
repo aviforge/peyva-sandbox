@@ -339,14 +339,14 @@ the one visual idea chapter 0 committed to. Keep to it rather than restyling.
     <section class="block">
       <h2>1. What</h2>
       <ul class="concepts">
-        <li><strong>User</strong>. A person with an identity in the system. Owns exactly one account.</li><li><strong>Account</strong>. A handle, an owner and an amount. The handle is how everyone else refers to it.</li><li><strong>Balance</strong>. How much an account holds. Must never go negative, be lost, or be double-spent.</li><li><strong>Vault</strong>. The component holding every account and what&#39;s in it. Nothing else is allowed to change a balance.</li><li><strong>Transfer</strong>. A request to move money between accounts.</li><li><strong>History</strong>. The record of every movement in and out of an account, in the order it happened.</li><li><strong>Invariant</strong>. A statement that must be true of the system at every moment, whatever is happening. The five in goal.md are the whole point of the book.</li>
+        <li><strong>User</strong>. A person with an identity in the system. Owns exactly one account.</li><li><strong>Account</strong>. A handle, an owner and an amount. The handle is how everyone else refers to it.</li><li><strong>Balance</strong>. How much an account holds. Never negative, never lost, never spent twice.</li><li><strong>Vault</strong>. The component holding every account and what is in it. Nothing else may change a balance.</li><li><strong>Transfer</strong>. A request to move money between accounts.</li><li><strong>History</strong>. The record of every movement in and out of an account, in the order it happened.</li><li><strong>Invariant</strong>. A rule that must be true at every moment, whatever else is going on. The five in goal.md are the point of this book.</li>
       </ul>
     </section>
 
     <section class="block why">
       <h2>2. Why</h2>
       <ul class="why-list">
-        <li>A wallet is the smallest system where every distributed systems bug costs real money.</li><li>Five invariants rule the book: money is never created or lost, never negative, never paid twice, only the Vault changes it, every move is recorded.</li><li>They are checkable: total balances equal what was seeded, and an account&#39;s history sums to its balance.</li><li>Money is exact. Floats cannot hold 0.10, so use decimals or integer minor units.</li><li>One process in memory is the right design until a failure proves otherwise.</li><li>No reference implementation, on purpose. Prompt it, run it, watch it fail as predicted.</li>
+        <li>A wallet is the smallest system where every mistake costs someone real money.</li><li>Five rules never break: money is never created or lost, never negative, never paid twice, only the Vault changes it, every move is written down.</li><li>You can check them. All the balances added up equal what you started with, and each account&#39;s history adds up to its balance.</li><li>Never store money as a fraction: a computer cannot hold 0.10 exactly. Count whole pennies.</li><li>One program holding everything in memory is the right start. Add a piece when a failure demands it, not before.</li><li>There is no finished code to copy, on purpose. You prompt for it, run it, and watch it fail as the chapter said.</li>
       </ul>
     </section>
 

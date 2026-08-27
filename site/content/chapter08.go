@@ -13,20 +13,20 @@ var Chapter08 = ChapterContent{
 	HeroCaption: "Idempotency = same request (same key) -> same effect (once).",
 
 	Why: []string{
-		"Exactly-once delivery is impossible. A caller whose request timed out cannot know if it was processed.",
-		"So aim for exactly-once effect: deliver at least once, and recognise repeats by a key the caller supplies.",
-		"Store the key and the result in the same transaction as the money. Before or after, and a crash breaks it.",
-		"Return the stored response verbatim. Recomputing can give a different answer.",
-		"Two first-time sends of the same key at once: a unique constraint makes the database refuse the second.",
-		"The key is scoped to the caller. Two customers picking the same key must not collide.",
+		"No network can promise a message arrives exactly once. A caller whose request timed out cannot know whether it went through.",
+		"So make the effect happen once even when the message arrives twice: the caller attaches a key, and you spot the repeat.",
+		"Save the key and the reply in the same transaction as the money. Save it before or after, and a crash breaks it.",
+		"Send back the saved reply word for word. Working the answer out again can give a different one.",
+		"Two copies of a brand new key arriving at the same instant: let the database refuse the second, not your own code.",
+		"A key belongs to one caller. Two customers who pick the same key must not collide.",
 	},
 
 	Concepts: []ConceptItem{
-		{Term: "Idempotency Key", Description: "A unique ID the client attaches to a request so retries can be recognised as duplicates."},
-		{Term: "Duplicate Request", Description: "The same idempotency key arriving more than once, usually from a retry after a slow or dropped response."},
-		{Term: "Idempotent", Description: "An operation that has the same effect whether it runs once or many times with the same key."},
-		{Term: "At Least Once", Description: "The best a network can offer: a message may arrive more than once, and never arriving is indistinguishable from a lost reply. Exactly-once delivery does not exist."},
-		{Term: "Stored Result", Description: "The response saved next to the key, so a repeat returns exactly what the first attempt returned rather than a freshly computed answer."},
+		{Term: "Idempotency Key", Description: "A unique ID the caller puts on a request, so a repeat can be spotted as a repeat."},
+		{Term: "Duplicate Request", Description: "The same key arriving twice, usually because the first reply was slow or lost and the caller tried again."},
+		{Term: "Idempotent", Description: "An action with the same result whether it runs once or ten times with the same key."},
+		{Term: "At Least Once", Description: "The best a network offers: a message may arrive more than once, and 'never arrived' looks the same as 'the reply was lost'."},
+		{Term: "Stored Result", Description: "The reply saved next to the key, so a repeat gets exactly the first answer back rather than a fresh one."},
 	},
 
 	BuildIt: BuildIt{

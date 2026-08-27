@@ -149,14 +149,14 @@
     <section class="block">
       <h2>1. What</h2>
       <ul class="concepts">
-        <li><strong>Process ID (PID)</strong>. A number the OS assigns to identify one running program among many.</li><li><strong>Port</strong>. A number (like 9310) a process binds to, so the OS knows where to route calls.</li><li><strong>Binding</strong>. A process claiming a port on an address. The OS hands that pair to one process at a time, so a second copy is refused.</li><li><strong>Loopback (127.0.0.1)</strong>. The address meaning &#39;this same machine&#39;, used to reach a process running locally.</li><li><strong>Gateway</strong>. The component that holds the port and takes requests from outside, the system&#39;s one front door.</li>
+        <li><strong>Process ID (PID)</strong>. A number the OS gives each running program, to tell one from another.</li><li><strong>Port</strong>. A number, like 9310, that a program claims so the OS knows which one to hand a call to.</li><li><strong>Binding</strong>. Claiming an address and port. The OS gives that pair to one program at a time, so a second copy is refused.</li><li><strong>Loopback (127.0.0.1)</strong>. The address meaning &#39;this same machine&#39;. Used to reach a program running locally.</li><li><strong>Gateway</strong>. The component that holds the port and takes requests from outside. The system&#39;s one front door.</li>
       </ul>
     </section>
 
     <section class="block why">
       <h2>2. Why</h2>
       <ul class="why-list">
-        <li>A port is a rendezvous. One process owns an address and port pair; a second copy is refused.</li><li>That refusal is the first hint that running several copies needs something in front of them.</li><li>127.0.0.1 is reachable only from this machine. 0.0.0.0 is reachable by anything that can route to it.</li><li>Every accepted connection costs memory and a file descriptor until it is closed.</li><li>One front door means one place to count, refuse or redirect every request later.</li>
+        <li>A port is a door number. One program holds it at a time, and a second copy asking for it is refused.</li><li>That refusal is the first sign that running several copies will need something in front of them.</li><li>127.0.0.1 can only be reached from this machine. 0.0.0.0 can be reached by anything on the network.</li><li>Every open connection costs memory until it is closed. A program that never closes them runs out.</li><li>One front door is one place to later count, refuse or redirect every request.</li>
       </ul>
     </section>
 
@@ -201,7 +201,7 @@ Done when a request to port 9310 makes the Gateway log a connection, and startin
 
   </div>
 
-  <p class="quick-tip"><strong>Quick tip:</strong> One process holds a given address and port at a time. That is what makes it somewhere you can reliably knock.</p>
+  <p class="quick-tip"><strong>Quick tip:</strong> One program holds an address and port at a time. That is what makes it a door you can knock on.</p>
 </main>
 </div>
 <script src="app.js?v=aa8908cb82"></script>

@@ -7,25 +7,25 @@ var Chapter02 = ChapterContent{
 	Subtitle:   "To reach someone, you need the right address and the receptionist lets you in.",
 	Category:   "Foundations",
 	Difficulty: "Beginner",
-	QuickTip:   "One process holds a given address and port at a time. That is what makes it somewhere you can reliably knock.",
+	QuickTip:   "One program holds an address and port at a time. That is what makes it a door you can knock on.",
 
 	HeroImage:   "images/chapter-2.webp",
 	HeroCaption: "A process is the running app. A port is the door callers knock on.",
 
 	Why: []string{
-		"A port is a rendezvous. One process owns an address and port pair; a second copy is refused.",
-		"That refusal is the first hint that running several copies needs something in front of them.",
-		"127.0.0.1 is reachable only from this machine. 0.0.0.0 is reachable by anything that can route to it.",
-		"Every accepted connection costs memory and a file descriptor until it is closed.",
-		"One front door means one place to count, refuse or redirect every request later.",
+		"A port is a door number. One program holds it at a time, and a second copy asking for it is refused.",
+		"That refusal is the first sign that running several copies will need something in front of them.",
+		"127.0.0.1 can only be reached from this machine. 0.0.0.0 can be reached by anything on the network.",
+		"Every open connection costs memory until it is closed. A program that never closes them runs out.",
+		"One front door is one place to later count, refuse or redirect every request.",
 	},
 
 	Concepts: []ConceptItem{
-		{Term: "Process ID (PID)", Description: "A number the OS assigns to identify one running program among many."},
-		{Term: "Port", Description: "A number (like 9310) a process binds to, so the OS knows where to route calls."},
-		{Term: "Binding", Description: "A process claiming a port on an address. The OS hands that pair to one process at a time, so a second copy is refused."},
-		{Term: "Loopback (127.0.0.1)", Description: "The address meaning 'this same machine', used to reach a process running locally."},
-		{Term: "Gateway", Description: "The component that holds the port and takes requests from outside, the system's one front door."},
+		{Term: "Process ID (PID)", Description: "A number the OS gives each running program, to tell one from another."},
+		{Term: "Port", Description: "A number, like 9310, that a program claims so the OS knows which one to hand a call to."},
+		{Term: "Binding", Description: "Claiming an address and port. The OS gives that pair to one program at a time, so a second copy is refused."},
+		{Term: "Loopback (127.0.0.1)", Description: "The address meaning 'this same machine'. Used to reach a program running locally."},
+		{Term: "Gateway", Description: "The component that holds the port and takes requests from outside. The system's one front door."},
 	},
 
 	BuildIt: BuildIt{

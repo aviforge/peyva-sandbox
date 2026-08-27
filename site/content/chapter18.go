@@ -13,20 +13,20 @@ var Chapter18 = ChapterContent{
 	HeroCaption: "Security is not a feature, it's a foundation. We build it in, not bolt it on.",
 
 	Why: []string{
-		"The 'from' field is a claim. Acting on it unchecked lets any caller spend from any account.",
-		"Authentication says who is calling. Authorisation says whether alice may spend from bob. Both, or neither counts.",
-		"Check at the edge, in one place, before the money. A spread-out check has one handler that forgot.",
-		"Secrets come from the environment, never source. The process refuses to start without them.",
-		"Internal calls are not trusted for being internal. Anything on the network can reach the Vault's port.",
-		"Review by asking how this system breaks, not by applying a generic checklist.",
+		"The 'from' field is just something the caller typed. Believe it and anyone can spend from anyone's account.",
+		"One check proves who is calling. A second checks whether they own the account. You need both.",
+		"Check once, at the front door, before any money moves. Spread the check around and one place will forget it.",
+		"Passwords and keys come from outside the code. The program refuses to start without them.",
+		"A caller is not trusted for being inside. Anything on the network can reach the Vault's port too.",
+		"Review by asking how this system breaks, not by reading a checklist that fits any system.",
 	},
 
 	Concepts: []ConceptItem{
-		{Term: "AuthN (Authentication)", Description: "Verifying who someone is. Proving Alice is really Alice."},
-		{Term: "AuthZ (Authorisation)", Description: "Checking what an authenticated user is allowed to do, least privilege by default."},
-		{Term: "Encryption in Transit", Description: "Protecting data as it travels over the network (TLS), so it can't be read if intercepted."},
-		{Term: "Secrets Management", Description: "Storing credentials and keys securely, never hardcoded in source code."},
-		{Term: "Trust Boundary", Description: "The line across which a caller's claims stop being believed. The Gateway is one; the Vault's port is another, because anything on the network can reach it."},
+		{Term: "AuthN (Authentication)", Description: "Proving who is calling: that alice really is alice."},
+		{Term: "AuthZ (Authorisation)", Description: "Checking what that person is allowed to do. Give the least access that works."},
+		{Term: "Encryption in Transit", Description: "Scrambling data as it crosses the network (TLS), so it is useless to anyone reading along the way."},
+		{Term: "Secrets Management", Description: "Keeping passwords and keys outside the code, never typed into a file you commit."},
+		{Term: "Trust Boundary", Description: "The line where you stop believing what a caller says about itself. The front door is one; the Vault's port is another."},
 	},
 
 	BuildIt: BuildIt{

@@ -149,14 +149,14 @@
     <section class="block">
       <h2>1. What</h2>
       <ul class="concepts">
-        <li><strong>AuthN (Authentication)</strong>. Verifying who someone is. Proving Alice is really Alice.</li><li><strong>AuthZ (Authorisation)</strong>. Checking what an authenticated user is allowed to do, least privilege by default.</li><li><strong>Encryption in Transit</strong>. Protecting data as it travels over the network (TLS), so it can&#39;t be read if intercepted.</li><li><strong>Secrets Management</strong>. Storing credentials and keys securely, never hardcoded in source code.</li><li><strong>Trust Boundary</strong>. The line across which a caller&#39;s claims stop being believed. The Gateway is one; the Vault&#39;s port is another, because anything on the network can reach it.</li>
+        <li><strong>AuthN (Authentication)</strong>. Proving who is calling: that alice really is alice.</li><li><strong>AuthZ (Authorisation)</strong>. Checking what that person is allowed to do. Give the least access that works.</li><li><strong>Encryption in Transit</strong>. Scrambling data as it crosses the network (TLS), so it is useless to anyone reading along the way.</li><li><strong>Secrets Management</strong>. Keeping passwords and keys outside the code, never typed into a file you commit.</li><li><strong>Trust Boundary</strong>. The line where you stop believing what a caller says about itself. The front door is one; the Vault&#39;s port is another.</li>
       </ul>
     </section>
 
     <section class="block why">
       <h2>2. Why</h2>
       <ul class="why-list">
-        <li>The &#39;from&#39; field is a claim. Acting on it unchecked lets any caller spend from any account.</li><li>Authentication says who is calling. Authorisation says whether alice may spend from bob. Both, or neither counts.</li><li>Check at the edge, in one place, before the money. A spread-out check has one handler that forgot.</li><li>Secrets come from the environment, never source. The process refuses to start without them.</li><li>Internal calls are not trusted for being internal. Anything on the network can reach the Vault&#39;s port.</li><li>Review by asking how this system breaks, not by applying a generic checklist.</li>
+        <li>The &#39;from&#39; field is just something the caller typed. Believe it and anyone can spend from anyone&#39;s account.</li><li>One check proves who is calling. A second checks whether they own the account. You need both.</li><li>Check once, at the front door, before any money moves. Spread the check around and one place will forget it.</li><li>Passwords and keys come from outside the code. The program refuses to start without them.</li><li>A caller is not trusted for being inside. Anything on the network can reach the Vault&#39;s port too.</li><li>Review by asking how this system breaks, not by reading a checklist that fits any system.</li>
       </ul>
     </section>
 

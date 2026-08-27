@@ -149,14 +149,14 @@
     <section class="block">
       <h2>1. What</h2>
       <ul class="concepts">
-        <li><strong>Primary</strong>. The store that accepts writes and is the source of truth. There is one at a time, and enforcing that is harder than it sounds.</li><li><strong>Replica</strong>. A second copy of the store that applies the primary&#39;s changes in order and can be promoted. Reads may be served from it if the reader accepts they may be behind.</li><li><strong>Replication Log</strong>. Every committed change, appended with a sequence number in the same transaction. The replica applies it in order; the last applied number is its position.</li><li><strong>Replication Lag</strong>. Primary&#39;s latest sequence minus the replica&#39;s position. A committed payment with a sequence above the replica&#39;s position exists in one place only.</li><li><strong>Promotion</strong>. Turning the replica into the primary. With async replication, everything past its position at that moment is lost, and the old primary must be fenced off from writing again.</li><li><strong>Split-Brain</strong>. Two stores each believing they are the primary and both accepting writes. Breaks every money invariant at once.</li>
+        <li><strong>Primary</strong>. The copy that takes writes and is the official one. Only ever one at a time, and making sure of that is the hard part.</li><li><strong>Replica</strong>. A second copy that applies the primary&#39;s changes in order, and can be promoted. Reads from it may be slightly old.</li><li><strong>Replication Log</strong>. Every saved change, numbered in order, written in the same transaction as the change itself.</li><li><strong>Replication Lag</strong>. The primary&#39;s latest number minus the replica&#39;s. A payment numbered above the replica&#39;s exists in one place only.</li><li><strong>Promotion</strong>. Making the replica the primary. Anything it had not yet received is lost, and the old primary must never write again.</li><li><strong>Split-Brain</strong>. Two copies both believing they are the primary, both taking writes. Breaks every money rule at once.</li>
       </ul>
     </section>
 
     <section class="block why">
       <h2>2. Why</h2>
       <ul class="why-list">
-        <li>Copying the file is not replication. A copy has no position, so you cannot say how far behind it is or resume it.</li><li>A replication log is every committed change with a sequence number, appended in the same transaction.</li><li>The replica&#39;s state is one number: the last sequence it applied. Lag is the primary&#39;s latest minus that.</li><li>Asynchronous means a committed payment briefly exists in one place. If the primary dies then, the replica never had it.</li><li>Promotion keeps whatever the replica has. For money, the lost tail must be counted and reported.</li><li>After promotion the old primary must never write again. Two writers is split-brain.</li>
+        <li>Copying the file is not replication. A copy has no place-marker, so you cannot say how far behind it is, or carry on after a break.</li><li>A replication log is every saved change, numbered, written in the same transaction as the change.</li><li>The replica&#39;s state is one number: the last change it applied. How far behind is the primary&#39;s latest minus that.</li><li>The primary answers before the replica has the change. A payment saved in that gap exists in one place only.</li><li>Promotion keeps whatever the replica had. For money, whatever it never received must be counted and reported.</li><li>After a promotion the old primary must never write again. Two writers is split-brain.</li>
       </ul>
     </section>
 
@@ -231,7 +231,7 @@ Done when I know which parts of your analogy to stop trusting, whether any of th
 
   </div>
 
-  <p class="quick-tip"><strong>Quick tip:</strong> Async replication means the replica can be briefly behind. Everything you have to decide about a partition lives in that gap.</p>
+  <p class="quick-tip"><strong>Quick tip:</strong> The second copy is always a moment behind. Everything you have to decide about failure lives in that gap.</p>
 </main>
 </div>
 <script src="app.js?v=aa8908cb82"></script>

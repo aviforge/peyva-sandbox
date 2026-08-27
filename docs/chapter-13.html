@@ -149,14 +149,14 @@
     <section class="block">
       <h2>1. What</h2>
       <ul class="concepts">
-        <li><strong>Outbox Table</strong>. A table in the same database as the transfer, holding messages that still need to be published.</li><li><strong>Same Transaction</strong>. The transfer and the outbox row are written together, inside the transaction from Chapter 7: never as two separate steps.</li><li><strong>Outbox Publisher</strong>. A background worker that reads unsent outbox rows and publishes them to the queue, then marks them sent.</li><li><strong>At Least Once</strong>. A crash between publishing and marking the row done sends the message twice. The receiver has to cope, which is what Chapter 8 built.</li><li><strong>Claiming</strong>. Marking a row as taken before working on it, in one database update, so two collectors do not both take it. Not the same as marking it done.</li>
+        <li><strong>Outbox Table</strong>. A table in the same database as the payment, holding messages still to be sent.</li><li><strong>Same Transaction</strong>. The payment and the message are written together, in the transaction from chapter 7, never as two steps.</li><li><strong>Outbox Publisher</strong>. A worker that reads unsent rows, sends them, then marks them done.</li><li><strong>At Least Once</strong>. A crash after sending and before marking done sends it twice. The receiver has to cope, which is what chapter 8 built.</li><li><strong>Claiming</strong>. Taking a row in a single update before working on it, so two workers do not both take it. Not the same as marking it done.</li>
       </ul>
     </section>
 
     <section class="block why">
       <h2>2. Why</h2>
       <ul class="why-list">
-        <li>&#39;Commit, then publish&#39; has a window between two instructions, and a crash inside it loses work with no record.</li><li>The outbox writes the work in the same transaction as the payment. Both exist or neither does.</li><li>A crash after delivering and before marking done delivers twice. The outbox trades &#39;maybe never&#39; for &#39;maybe twice&#39;.</li><li>At-least-once plus deduplication is the recurring shape: idempotency keys for payments, an outbox for downstream work.</li><li>Several collectors can grab the same row. Claim it in one update, or dedupe downstream. Pretending it cannot happen is not an option.</li>
+        <li>Save the payment, then send the message: a crash in the gap between those two lines loses the message, with no record it was owed.</li><li>The outbox writes the message in the same transaction as the payment. Both exist, or neither does.</li><li>Crash between sending and marking it done, and it goes twice. You have traded &#39;maybe never&#39; for &#39;maybe twice&#39;.</li><li>Deliver at least once, then spot the repeats. The same idea as chapter 8&#39;s key, now applied to the work after a payment.</li><li>Three copies reading one table can grab the same job. Have each claim it in a single update, and let the database decide.</li>
       </ul>
     </section>
 

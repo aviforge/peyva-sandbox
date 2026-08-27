@@ -149,14 +149,14 @@
     <section class="block">
       <h2>1. What</h2>
       <ul class="concepts">
-        <li><strong>Saga</strong>. A sequence of local transactions across systems, coordinated so the whole workflow either completes or is undone step by step.</li><li><strong>Local Transaction</strong>. Each step&#39;s own transaction, scoped to its own store: not shared with the other steps.</li><li><strong>Compensating Action</strong>. The &#39;undo&#39; for a step that already succeeded, run in reverse order when a later step fails permanently. A new entry, never a deletion.</li><li><strong>Saga Record</strong>. Which steps of a payment have completed, stored durably, so the saga can be resumed after a crash rather than guessed at.</li><li><strong>Permanent vs Retryable</strong>. A closed account is permanent and triggers compensation. A timeout is retryable and must not, because the step may have succeeded.</li>
+        <li><strong>Saga</strong>. A long job done as a sequence of small steps, each saved on its own, that can be undone step by step.</li><li><strong>Local Transaction</strong>. One step&#39;s own transaction, inside its own database, not shared with the other steps.</li><li><strong>Compensating Action</strong>. The undo for a step that already worked, run when a later step fails for good. A new entry, never a deletion.</li><li><strong>Saga Record</strong>. Which steps of a payment are done, saved to disk, so a crash can pick up where it stopped.</li><li><strong>Permanent vs Retryable</strong>. A closed account will always be closed, so undo. A timeout might have worked, so try again instead.</li>
       </ul>
     </section>
 
     <section class="block why">
       <h2>2. Why</h2>
       <ul class="why-list">
-        <li>A transaction reaches as far as one database. A second system with its own store has no shared COMMIT.</li><li>A saga is a sequence of local transactions plus a record of how far it got. Between steps, the world sees a half-done payment.</li><li>Undo is a new forward entry, never a deletion. The history shows money left and came back.</li><li>Only permanent failures compensate. A timeout retries, because the step may have succeeded.</li><li>Each step is idempotent and recorded, so a coordinator that dies can resume from the last completed step.</li><li>Compensations can fail too. A stuck saga goes to a human, not into an infinite retry.</li>
+        <li>A transaction covers one database. Two systems with their own databases share no COMMIT.</li><li>A saga is small steps, each saved on its own, plus a record of how far you got. Between steps, the world sees a half-done payment.</li><li>Undo is a new entry forward, never a deletion. The history shows the money leaving and coming back.</li><li>Only undo after a failure that can never succeed. A timeout gets tried again, because the step may have worked.</li><li>Each step is safe to repeat and written down, so a crash picks up at the last finished step.</li><li>An undo can fail too. A payment stuck like that goes to a person, not into an endless retry.</li>
       </ul>
     </section>
 
@@ -222,7 +222,7 @@ Done when a customer can see that money left and came back, and why.</pre>
 
   </div>
 
-  <p class="quick-tip"><strong>Quick tip:</strong> Compensations run in strict reverse order: the last completed step is undone first.</p>
+  <p class="quick-tip"><strong>Quick tip:</strong> Undo in reverse: the last finished step is the first one undone.</p>
 </main>
 </div>
 <script src="app.js?v=aa8908cb82"></script>

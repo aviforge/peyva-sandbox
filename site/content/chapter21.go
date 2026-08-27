@@ -13,20 +13,20 @@ var Chapter21 = ChapterContent{
 	HeroCaption: "System design is not one clever box. It's how all the pieces cooperate under load, failure and change.",
 
 	Why: []string{
-		"Every mechanism guards one invariant at one boundary: transactions, idempotency, the outbox, the lease. A system is wrong at the first boundary without one.",
-		"Reconciliation assumes everything else has a bug. Balances and Ledger should always agree; the Reconciler exists for when they do not.",
-		"A discrepancy is reported, never auto-corrected. A reconciler that fixes balances is a second writer of balances.",
-		"Find single points of failure by walking a payment's path and asking what happens if this dies now.",
-		"Every component here earned its place by a failure a chapter demonstrated. One that cannot name its failure is the one to question.",
-		"Restating the system in your own words is the cheapest test of understanding it.",
+		"Each piece guards one rule at one crossing: transactions, keys, the outbox, the lease. The first crossing without a guard is where money goes wrong.",
+		"Reconciling assumes everything else has a bug. Balances and the Ledger should always agree; the Reconciler is for the day they do not.",
+		"Report a difference, never fix it automatically. Something that quietly corrects balances has become a second thing writing them.",
+		"Find the weak points by walking a payment's path and asking, at each step, what happens if this dies now.",
+		"Every part here earned its place by a failure some chapter showed you. One that cannot name its failure is the one to question.",
+		"Saying the system back in your own words is the cheapest test of whether you understand it.",
 	},
 
 	Concepts: []ConceptItem{
-		{Term: "Reconciler", Description: "The component that checks the Vault against the Ledger and reports where they disagree."},
-		{Term: "Reconciliation", Description: "Comparing two records that were written independently, to catch the case where one of them is wrong."},
-		{Term: "Discrepancy", Description: "An account whose Ledger entries do not sum to the balance the Vault reports, and the size of the gap."},
+		{Term: "Reconciler", Description: "The component that checks balances against the Ledger and reports where they disagree."},
+		{Term: "Reconciliation", Description: "Comparing two records that were written separately, to catch the day one of them is wrong."},
+		{Term: "Discrepancy", Description: "An account whose Ledger entries do not add up to its balance, and by how much."},
 		{Term: "Single Point of Failure", Description: "A part with no stand-in, whose loss stops the system rather than slowing it."},
-		{Term: "Conservation Check", Description: "The sum of every balance on every shard, plus money in flight, equals what was seeded plus what was opened, and the sum of every Ledger entry is zero. If either fails, money was created or lost."},
+		{Term: "Conservation Check", Description: "Every balance, plus money in flight, adds up to what you started with. Every Ledger entry adds up to zero. If either fails, money was created or lost."},
 	},
 
 	BuildIt: BuildIt{

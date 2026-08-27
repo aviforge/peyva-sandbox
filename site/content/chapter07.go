@@ -13,22 +13,22 @@ var Chapter07 = ChapterContent{
 	HeroCaption: "All or nothing. If something fails, nothing changes.",
 
 	Why: []string{
-		"A payment is three writes: debit, credit, record. A crash between any two creates, destroys or hides money.",
-		"The database gives you atomicity, isolation and durability. Consistency is your invariant; it will commit a negative balance if asked.",
-		"Two payments that both read 100 and both debit 60 leave alice at 40 with 120 spent. That is a lost update, inside two atomic transactions.",
-		"The fix is serialisable isolation or a lock, so the check and the debit are one unit. SQLite gets this from its single write lock.",
-		"Double-entry: every move is a debit and a matching credit. Entries sum to zero; an account's entries sum to its balance.",
-		"The record is the proof and the balance is derived from it. Nothing edits or deletes an entry; a mistake gets a new entry.",
+		"A payment is three writes: take from one, give to the other, write it down. A crash between any two creates, destroys or hides money.",
+		"The database keeps writes together and safe. It does not know your rules, and will happily save a negative balance.",
+		"Two payments both read 100, both agree 60 fits, both write 40. Alice ends at 40 having sent 120.",
+		"The fix is to make the check and the debit one step nothing can slip between: a lock, or the strictest isolation level.",
+		"Double-entry: every move takes from one account and gives to another. All entries add up to zero, and each account's add up to its balance.",
+		"The record is the proof; the balance is worked out from it. Never edit an entry. Fix a mistake with a new one.",
 	},
 
 	Concepts: []ConceptItem{
-		{Term: "Transaction", Description: "A group of database changes that succeed or fail together, never partially."},
-		{Term: "BEGIN / COMMIT", Description: "Marks the start and the permanent end of a transaction. Nothing is final until COMMIT."},
+		{Term: "Transaction", Description: "A group of changes that all succeed or all fail, never half."},
+		{Term: "BEGIN / COMMIT", Description: "The start and the permanent end of a transaction. Nothing is final until COMMIT."},
 		{Term: "Rollback", Description: "Undoing every change in a transaction because one step failed."},
-		{Term: "ACID", Description: "Atomicity, Isolation and Durability are what the database provides. Consistency is your invariants, which the database cannot know."},
-		{Term: "Isolation Level", Description: "How much one running transaction can see of another. Serialisable means the outcome equals some one-at-a-time ordering; weaker levels each permit named anomalies."},
-		{Term: "Lost Update", Description: "Two transactions read the same balance, each subtracts from what it read, and one's subtraction vanishes. Atomicity alone does not prevent it."},
-		{Term: "Ledger", Description: "The append-only record of every movement of money, the proof behind each balance the Vault reports."},
+		{Term: "ACID", Description: "The database keeps changes together, apart, and safe on disk. The C, consistency, is your own rules, which it cannot know."},
+		{Term: "Isolation Level", Description: "How much one running transaction sees of another. The strictest gives the same answer as running them one after another. Weaker ones are faster and let known bugs through."},
+		{Term: "Lost Update", Description: "Two transactions read the same balance, each subtracts from what it read, and one subtraction disappears."},
+		{Term: "Ledger", Description: "The record of every movement of money, only ever added to. The proof behind each balance."},
 	},
 
 	BuildIt: BuildIt{

@@ -7,27 +7,27 @@ var Chapter15 = ChapterContent{
 	Subtitle:   "Having copies in multiple places keeps our data safe from fires, theft, or accidents. The copy follows the original a moment later.",
 	Category:   "Reliability",
 	Difficulty: "Advanced",
-	QuickTip:   "Async replication means the replica can be briefly behind. Everything you have to decide about a partition lives in that gap.",
+	QuickTip:   "The second copy is always a moment behind. Everything you have to decide about failure lives in that gap.",
 
 	HeroImage:   "images/chapter-15.webp",
 	HeroCaption: "Replication = keep copies of data in multiple places so we can be safe, available and fast.",
 
 	Why: []string{
-		"Copying the file is not replication. A copy has no position, so you cannot say how far behind it is or resume it.",
-		"A replication log is every committed change with a sequence number, appended in the same transaction.",
-		"The replica's state is one number: the last sequence it applied. Lag is the primary's latest minus that.",
-		"Asynchronous means a committed payment briefly exists in one place. If the primary dies then, the replica never had it.",
-		"Promotion keeps whatever the replica has. For money, the lost tail must be counted and reported.",
-		"After promotion the old primary must never write again. Two writers is split-brain.",
+		"Copying the file is not replication. A copy has no place-marker, so you cannot say how far behind it is, or carry on after a break.",
+		"A replication log is every saved change, numbered, written in the same transaction as the change.",
+		"The replica's state is one number: the last change it applied. How far behind is the primary's latest minus that.",
+		"The primary answers before the replica has the change. A payment saved in that gap exists in one place only.",
+		"Promotion keeps whatever the replica had. For money, whatever it never received must be counted and reported.",
+		"After a promotion the old primary must never write again. Two writers is split-brain.",
 	},
 
 	Concepts: []ConceptItem{
-		{Term: "Primary", Description: "The store that accepts writes and is the source of truth. There is one at a time, and enforcing that is harder than it sounds."},
-		{Term: "Replica", Description: "A second copy of the store that applies the primary's changes in order and can be promoted. Reads may be served from it if the reader accepts they may be behind."},
-		{Term: "Replication Log", Description: "Every committed change, appended with a sequence number in the same transaction. The replica applies it in order; the last applied number is its position."},
-		{Term: "Replication Lag", Description: "Primary's latest sequence minus the replica's position. A committed payment with a sequence above the replica's position exists in one place only."},
-		{Term: "Promotion", Description: "Turning the replica into the primary. With async replication, everything past its position at that moment is lost, and the old primary must be fenced off from writing again."},
-		{Term: "Split-Brain", Description: "Two stores each believing they are the primary and both accepting writes. Breaks every money invariant at once."},
+		{Term: "Primary", Description: "The copy that takes writes and is the official one. Only ever one at a time, and making sure of that is the hard part."},
+		{Term: "Replica", Description: "A second copy that applies the primary's changes in order, and can be promoted. Reads from it may be slightly old."},
+		{Term: "Replication Log", Description: "Every saved change, numbered in order, written in the same transaction as the change itself."},
+		{Term: "Replication Lag", Description: "The primary's latest number minus the replica's. A payment numbered above the replica's exists in one place only."},
+		{Term: "Promotion", Description: "Making the replica the primary. Anything it had not yet received is lost, and the old primary must never write again."},
+		{Term: "Split-Brain", Description: "Two copies both believing they are the primary, both taking writes. Breaks every money rule at once."},
 	},
 
 	BuildIt: BuildIt{

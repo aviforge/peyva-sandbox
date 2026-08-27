@@ -4,7 +4,7 @@ var Chapter20 = ChapterContent{
 	Number:     20,
 	Slug:       "chapter-20",
 	Title:      "Splitting the Vault: Sharding",
-	Subtitle:   "One store can only grow so far. Splitting accounts across several is how the store scales, and it is where every guarantee that relied on one database has to be rebuilt.",
+	Subtitle:   "One store can only grow so far. Split the accounts across several, and everything that relied on one database has to be rebuilt.",
 	Category:   "Distributed Systems",
 	Difficulty: "Advanced",
 	QuickTip:   "A payment inside one shard is a transaction. A payment across two is a saga. Design so most are the first kind.",
@@ -13,21 +13,21 @@ var Chapter20 = ChapterContent{
 	HeroCaption: "Sharding = each store holds some of the accounts. Routing decides which, and cross-shard payments pay for the split.",
 
 	Why: []string{
-		"Copies never scaled writes. Sharding does: each Vault owns some accounts, so writes to different accounts never share a store.",
-		"The shard key is a hash of the handle. Any copy computes it. It also puts alice and bob on different shards half the time.",
-		"A cross-shard payment cannot be one transaction. It is the saga from before, now on the main path.",
-		"Between the debit and the credit, money is in flight. Conservation only holds if in-flight amounts are counted.",
-		"Adding a shard moves accounts. Consistent hashing limits how many; it does not make the move free.",
-		"Each shard needs its own replica and lease. Two shards are two of every failure mode. That is why this comes late.",
+		"More copies never made writing faster. Splitting the accounts does: writes to different accounts go to different stores.",
+		"The shard key is a hash of the handle, so any copy works it out. It also puts alice and bob apart half the time.",
+		"A payment across two shards cannot be one transaction. It is the saga from chapter 14, now on the everyday path.",
+		"Between taking and giving, the money is in flight. The totals only add up if you count it.",
+		"Adding a shard moves accounts. Consistent hashing keeps the number small; it does not make the move free.",
+		"Each shard needs its own second copy and its own lease. Two shards are two of every failure. That is why this comes last.",
 	},
 
 	Concepts: []ConceptItem{
-		{Term: "Shard", Description: "One Vault holding a subset of the accounts, with its own database and its own Ledger entries for those accounts."},
-		{Term: "Shard Key", Description: "The value that decides which shard an account lives on, here a hash of the handle. Any copy can compute it, so routing needs no lookup."},
-		{Term: "Routing", Description: "Sending each request to the shard that owns the account. A payment names two accounts, and they may be on different shards."},
-		{Term: "Cross-Shard Payment", Description: "A debit on one shard and a credit on another, which cannot share a transaction. Run as a saga with a durable record and a compensation."},
-		{Term: "In Flight", Description: "Money debited on one shard and not yet credited on the other. Any check of the whole system has to count it, or conservation appears to fail during every cross-shard payment."},
-		{Term: "Rebalancing", Description: "Moving accounts between shards when one is added or removed, while payments continue. Consistent hashing limits how many move."},
+		{Term: "Shard", Description: "One Vault holding some of the accounts, with its own database and its own Ledger for them."},
+		{Term: "Shard Key", Description: "What decides which shard an account lives on, here a hash of the handle. Any copy can work it out, so no lookup table is needed."},
+		{Term: "Routing", Description: "Sending each request to the shard that owns the account. A payment names two, and they may live apart."},
+		{Term: "Cross-Shard Payment", Description: "Taking from one shard and giving on another. It cannot be one transaction, so it runs as a saga."},
+		{Term: "In Flight", Description: "Money taken from one shard and not yet given on the other. Count it, or the totals look wrong during every such payment."},
+		{Term: "Rebalancing", Description: "Moving accounts when a shard is added or removed, while payments carry on. Consistent hashing keeps the number small."},
 	},
 
 	BuildIt: BuildIt{

@@ -149,14 +149,14 @@
     <section class="block">
       <h2>1. What</h2>
       <ul class="concepts">
-        <li><strong>IP Address</strong>. Where a machine lives on the network, the equivalent of a street address.</li><li><strong>Protocol</strong>. The agreed-upon way of talking. peyva speaks TCP/IP, with HTTP on top of it later.</li><li><strong>Packets</strong>. Chunks the network moves data in. Any one can be lost, delayed, duplicated or arrive out of order; TCP repairs that within one connection.</li><li><strong>Stream</strong>. What TCP hands your program: bytes in order, with no marks saying where one message ends. Framing is the application&#39;s job.</li><li><strong>Framing</strong>. How a protocol marks message boundaries on a stream: a length prefix, a delimiter, or a header that says how many bytes follow.</li>
+        <li><strong>IP Address</strong>. Where a machine lives on the network. A street address for computers.</li><li><strong>Protocol</strong>. The agreed way of talking. peyva speaks TCP/IP, with HTTP on top of it later.</li><li><strong>Packets</strong>. The chunks the network moves data in. Any one can be lost, delayed, duplicated or arrive out of order.</li><li><strong>Stream</strong>. What TCP hands your program: bytes in order, with nothing marking where one message ends.</li><li><strong>Framing</strong>. How you mark where a message ends: a length at the front, an end marker, or a header saying how many bytes follow.</li>
       </ul>
     </section>
 
     <section class="block why">
       <h2>2. Why</h2>
       <ul class="why-list">
-        <li>TCP is a byte stream, not messages. One write can arrive as three reads, or three writes as one.</li><li>Where a request ends is your job: a length prefix, a delimiter, or a header like Content-Length.</li><li>TCP orders and retransmits while the connection lives. It does not promise delivery if the connection drops.</li><li>Packets get lost, duplicated, delayed and reordered. TCP hides that within one connection only.</li><li>Reachability is layered: bind address, firewall, routing. Any failure looks the same to the caller: a timeout.</li>
+        <li>TCP gives you bytes, not messages. One send can arrive as three reads, or three sends as one.</li><li>Marking where a request ends is your job: a length at the front, an end marker, or a header like Content-Length.</li><li>TCP keeps bytes in order and resends lost ones. It cannot promise delivery if the connection drops.</li><li>Packets get lost, duplicated, delayed and reordered. TCP hides that inside one connection, and nowhere else.</li><li>Three things must allow a connection: the address you listen on, the firewall, and the network. All three failures look the same: a timeout.</li>
       </ul>
     </section>
 

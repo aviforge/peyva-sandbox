@@ -13,21 +13,21 @@ var Chapter17 = ChapterContent{
 	HeroCaption: "Observability = dashboards + alarms + logs (and traces). It helps us understand the system like a pizza shop watches its kitchen.",
 
 	Why: []string{
-		"You cannot debug a distributed system by attaching to it. The failure happened an hour ago on one of three copies.",
-		"Every log line about a payment carries its reference. One grep should reconstruct its whole path.",
-		"Metrics say something is wrong. Logs say what happened. Correlated timestamps say where the time went.",
-		"A health check that always says ok is a lie the load balancer believes. Degraded is a real answer.",
-		"Watch the numbers that predict failure: outbox backlog, replication lag, unknown outcomes.",
-		"Every useless line is one the on-call engineer reads past at 3am. Log less, with more per line.",
+		"You cannot debug this by stopping it. The failure was an hour ago, on one of three copies, in a request that has finished.",
+		"Every line about a payment carries its reference. One search should then show its whole path.",
+		"Numbers tell you something is wrong. Lines tell you what happened. Their timestamps tell you where the time went.",
+		"A health check that always says ok is a lie the load balancer believes. 'Struggling' is a real answer.",
+		"Watch what warns you early: jobs waiting, how far behind the copy is, payments with an unknown outcome.",
+		"Every useless line is one someone reads past at 3am. Log less, and put more in each line.",
 	},
 
 	Concepts: []ConceptItem{
-		{Term: "Observability", Description: "How much you can tell about what a running system is doing from the outside, without attaching a debugger to it."},
-		{Term: "Structured Logs", Description: "One event per line, with named fields rather than prose, so a payment reference can be filtered on rather than searched for."},
-		{Term: "Correlation ID", Description: "The value every line about one request carries, here the payment reference, so its path across processes can be reassembled."},
-		{Term: "Metrics", Description: "Numbers over time: payments, failures, outbox backlog, replication lag, unknown outcomes."},
-		{Term: "Traces", Description: "A request's journey across processes: where it went and how long each hop took. Correlated timestamps are the minimum version."},
-		{Term: "Health Endpoint", Description: "Reports whether this process and what it depends on are working. Degraded when the Vault, the lease or the replica are not what they should be."},
+		{Term: "Observability", Description: "How much you can tell about a running system from the outside, without stopping it or attaching a debugger."},
+		{Term: "Structured Logs", Description: "One event per line with named fields instead of sentences, so you can filter by payment reference."},
+		{Term: "Correlation ID", Description: "The value every line about one request carries, here the payment reference, so you can piece its path together."},
+		{Term: "Metrics", Description: "Numbers over time: payments, failures, unknown outcomes, jobs waiting, how far behind the second copy is."},
+		{Term: "Traces", Description: "Where a request went and how long each hop took. Lines sharing a reference, with timestamps, are the simple version."},
+		{Term: "Health Endpoint", Description: "Says whether this program and the things it needs are working. Never a hardcoded ok."},
 	},
 
 	BuildIt: BuildIt{

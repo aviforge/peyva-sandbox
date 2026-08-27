@@ -13,19 +13,19 @@ var Chapter04 = ChapterContent{
 	HeroCaption: "Simple. Predictable. Hard to misuse.",
 
 	Why: []string{
-		"An API is a contract about failure. The caller must tell 'your request is wrong' from 'try again later'.",
-		"4xx means the same request fails again. 5xx means it might work later. Get this backwards and clients retry the wrong things.",
-		"Validate everything before touching state. A debit followed by 'unknown recipient' creates money from an error path.",
-		"The reference is the caller's only handle on what happened. Generate it once, never reuse it.",
-		"200 means the money moved and was recorded. Sending it earlier is a promise you may not keep.",
+		"An API promises what happens when things fail, not only when they work.",
+		"4xx means the same request will fail again. 5xx means it might work later. Swap them and callers retry the wrong things.",
+		"Check everything before you change anything. A debit followed by 'no such recipient' has created money out of an error.",
+		"The reference is all the caller has to ask about a payment later. Make a new one each time, never reuse one.",
+		"200 means the money moved and was written down. Sending it sooner is a promise you might not keep.",
 	},
 
 	Concepts: []ConceptItem{
-		{Term: "Endpoint", Description: "A specific thing the API lets you do: POST /transfer, for moving money."},
-		{Term: "Request Body", Description: "The details of what you're asking for, e.g. {\"from\": \"alice\", \"to\": \"bob\", \"amount\": 20}."},
-		{Term: "Status Codes", Description: "A predictable signal of what happened: 2xx it worked, 4xx your request is wrong, 5xx the server failed and the same request might work later."},
-		{Term: "Validation", Description: "Checking the request makes sense before doing any work, rejecting bad orders instead of guessing."},
-		{Term: "Teller", Description: "The component that handles a payment end to end. The Gateway forwards requests and never touches a balance itself."},
+		{Term: "Endpoint", Description: "One specific thing the API lets you do: POST /transfer, for moving money."},
+		{Term: "Request Body", Description: "The details of what you are asking for, e.g. {\"from\": \"alice\", \"to\": \"bob\", \"amount\": 20}."},
+		{Term: "Status Codes", Description: "What happened, as a number: 2xx it worked, 4xx your request is wrong, 5xx the server failed and it might work later."},
+		{Term: "Validation", Description: "Checking the request makes sense before doing any work, instead of guessing what was meant."},
+		{Term: "Teller", Description: "The component that handles a payment from start to finish. The Gateway passes requests on and never touches a balance."},
 	},
 
 	BuildIt: BuildIt{

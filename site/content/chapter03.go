@@ -13,19 +13,19 @@ var Chapter03 = ChapterContent{
 	HeroCaption: "peyva sends data between machines over the network.",
 
 	Why: []string{
-		"TCP is a byte stream, not messages. One write can arrive as three reads, or three writes as one.",
-		"Where a request ends is your job: a length prefix, a delimiter, or a header like Content-Length.",
-		"TCP orders and retransmits while the connection lives. It does not promise delivery if the connection drops.",
-		"Packets get lost, duplicated, delayed and reordered. TCP hides that within one connection only.",
-		"Reachability is layered: bind address, firewall, routing. Any failure looks the same to the caller: a timeout.",
+		"TCP gives you bytes, not messages. One send can arrive as three reads, or three sends as one.",
+		"Marking where a request ends is your job: a length at the front, an end marker, or a header like Content-Length.",
+		"TCP keeps bytes in order and resends lost ones. It cannot promise delivery if the connection drops.",
+		"Packets get lost, duplicated, delayed and reordered. TCP hides that inside one connection, and nowhere else.",
+		"Three things must allow a connection: the address you listen on, the firewall, and the network. All three failures look the same: a timeout.",
 	},
 
 	Concepts: []ConceptItem{
-		{Term: "IP Address", Description: "Where a machine lives on the network, the equivalent of a street address."},
-		{Term: "Protocol", Description: "The agreed-upon way of talking. peyva speaks TCP/IP, with HTTP on top of it later."},
-		{Term: "Packets", Description: "Chunks the network moves data in. Any one can be lost, delayed, duplicated or arrive out of order; TCP repairs that within one connection."},
-		{Term: "Stream", Description: "What TCP hands your program: bytes in order, with no marks saying where one message ends. Framing is the application's job."},
-		{Term: "Framing", Description: "How a protocol marks message boundaries on a stream: a length prefix, a delimiter, or a header that says how many bytes follow."},
+		{Term: "IP Address", Description: "Where a machine lives on the network. A street address for computers."},
+		{Term: "Protocol", Description: "The agreed way of talking. peyva speaks TCP/IP, with HTTP on top of it later."},
+		{Term: "Packets", Description: "The chunks the network moves data in. Any one can be lost, delayed, duplicated or arrive out of order."},
+		{Term: "Stream", Description: "What TCP hands your program: bytes in order, with nothing marking where one message ends."},
+		{Term: "Framing", Description: "How you mark where a message ends: a length at the front, an end marker, or a header saying how many bytes follow."},
 	},
 
 	BuildIt: BuildIt{

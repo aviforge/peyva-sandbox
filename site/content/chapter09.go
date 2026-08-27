@@ -4,7 +4,7 @@ var Chapter09 = ChapterContent{
 	Number:     9,
 	Slug:       "chapter-9",
 	Title:      "Giving Up Well: Retries, Timeouts and Backoff",
-	Subtitle:   "A call that has not answered is not a call that failed. Deciding when to stop waiting, and what to do next, is the whole skill.",
+	Subtitle:   "A call that has not answered is not a call that failed. Knowing when to stop waiting is the whole skill.",
 	Category:   "Reliability",
 	Difficulty: "Intermediate",
 	QuickTip:   "A retry without an idempotency key is a duplicate payment with extra steps.",
@@ -13,21 +13,21 @@ var Chapter09 = ChapterContent{
 	HeroCaption: "Every call over a network has three outcomes: it worked, it failed, and nobody knows. The third is the one you design for.",
 
 	Why: []string{
-		"A remote call has three outcomes: success, failure, and no answer. The third may be a slow success.",
-		"Every call across a process boundary needs a timeout, chosen from how long a good answer takes.",
-		"Retry only with the same reference. Without one, a retry is a duplicate payment.",
-		"Retry immediately and you pile onto a struggling service. Back off, and add jitter so callers do not retry in step.",
+		"A call has three endings, not two: it worked, it failed, or you never heard back. The third may be a slow success.",
+		"Every call to another program needs a time limit, set from how long a good answer really takes.",
+		"Only retry with the same reference. Without one, a retry is a second payment.",
+		"Trying again at once piles onto a service already in trouble. Wait longer each time, plus a random bit so callers do not return together.",
 		"Never retry a 4xx. It will be a 4xx again.",
-		"Bound the retries. After that, the honest answer is 'unknown, quote this reference', not a loop.",
+		"Stop after a few tries. The honest answer is then 'we do not know, quote this reference', not an endless loop.",
 	},
 
 	Concepts: []ConceptItem{
-		{Term: "Timeout", Description: "The longest a caller waits before treating a call as unanswered. Chosen from measured latency, not guessed."},
-		{Term: "Unknown Outcome", Description: "The call timed out. It may have succeeded, failed, or be about to succeed. The caller cannot tell and must not assume."},
-		{Term: "Retry", Description: "Sending the same request again after an unknown outcome. Safe only when the request carries a reference the receiver deduplicates."},
-		{Term: "Exponential Backoff", Description: "Waiting longer between each retry: one second, then two, then four. Gives the peer time to recover instead of piling on."},
-		{Term: "Jitter", Description: "A random fraction added to each wait so that many callers do not retry in lockstep."},
-		{Term: "Retry Storm", Description: "Callers timing out and retrying at once, multiplying load on a service exactly when it is struggling."},
+		{Term: "Timeout", Description: "How long a caller waits before giving up on an answer. Set it from how long a good answer really takes."},
+		{Term: "Unknown Outcome", Description: "The call timed out. It may have worked, failed, or be about to work. The caller cannot tell, and must not guess."},
+		{Term: "Retry", Description: "Sending the same request again. Safe only when it carries a reference the other side uses to spot repeats."},
+		{Term: "Exponential Backoff", Description: "Waiting longer before each try: one second, then two, then four. Gives the other side time to recover."},
+		{Term: "Jitter", Description: "A small random amount added to each wait, so that many callers do not all try again at the same instant."},
+		{Term: "Retry Storm", Description: "Everyone giving up and trying again at once, piling load on a service exactly when it is struggling."},
 	},
 
 	BuildIt: BuildIt{

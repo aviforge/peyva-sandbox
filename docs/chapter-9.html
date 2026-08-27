@@ -131,7 +131,7 @@
     <button type="button" class="mark-complete" data-mark-complete>Mark chapter as complete</button>
     <p class="chapter-eyebrow">Chapter 9</p>
     <h1>Giving Up Well: Retries, Timeouts and Backoff</h1>
-    <p class="chapter-subtitle">A call that has not answered is not a call that failed. Deciding when to stop waiting, and what to do next, is the whole skill.</p>
+    <p class="chapter-subtitle">A call that has not answered is not a call that failed. Knowing when to stop waiting is the whole skill.</p>
     <div class="tags">
       <span class="tag">Reliability</span>
       <span class="tag">Intermediate</span>
@@ -149,14 +149,14 @@
     <section class="block">
       <h2>1. What</h2>
       <ul class="concepts">
-        <li><strong>Timeout</strong>. The longest a caller waits before treating a call as unanswered. Chosen from measured latency, not guessed.</li><li><strong>Unknown Outcome</strong>. The call timed out. It may have succeeded, failed, or be about to succeed. The caller cannot tell and must not assume.</li><li><strong>Retry</strong>. Sending the same request again after an unknown outcome. Safe only when the request carries a reference the receiver deduplicates.</li><li><strong>Exponential Backoff</strong>. Waiting longer between each retry: one second, then two, then four. Gives the peer time to recover instead of piling on.</li><li><strong>Jitter</strong>. A random fraction added to each wait so that many callers do not retry in lockstep.</li><li><strong>Retry Storm</strong>. Callers timing out and retrying at once, multiplying load on a service exactly when it is struggling.</li>
+        <li><strong>Timeout</strong>. How long a caller waits before giving up on an answer. Set it from how long a good answer really takes.</li><li><strong>Unknown Outcome</strong>. The call timed out. It may have worked, failed, or be about to work. The caller cannot tell, and must not guess.</li><li><strong>Retry</strong>. Sending the same request again. Safe only when it carries a reference the other side uses to spot repeats.</li><li><strong>Exponential Backoff</strong>. Waiting longer before each try: one second, then two, then four. Gives the other side time to recover.</li><li><strong>Jitter</strong>. A small random amount added to each wait, so that many callers do not all try again at the same instant.</li><li><strong>Retry Storm</strong>. Everyone giving up and trying again at once, piling load on a service exactly when it is struggling.</li>
       </ul>
     </section>
 
     <section class="block why">
       <h2>2. Why</h2>
       <ul class="why-list">
-        <li>A remote call has three outcomes: success, failure, and no answer. The third may be a slow success.</li><li>Every call across a process boundary needs a timeout, chosen from how long a good answer takes.</li><li>Retry only with the same reference. Without one, a retry is a duplicate payment.</li><li>Retry immediately and you pile onto a struggling service. Back off, and add jitter so callers do not retry in step.</li><li>Never retry a 4xx. It will be a 4xx again.</li><li>Bound the retries. After that, the honest answer is &#39;unknown, quote this reference&#39;, not a loop.</li>
+        <li>A call has three endings, not two: it worked, it failed, or you never heard back. The third may be a slow success.</li><li>Every call to another program needs a time limit, set from how long a good answer really takes.</li><li>Only retry with the same reference. Without one, a retry is a second payment.</li><li>Trying again at once piles onto a service already in trouble. Wait longer each time, plus a random bit so callers do not return together.</li><li>Never retry a 4xx. It will be a 4xx again.</li><li>Stop after a few tries. The honest answer is then &#39;we do not know, quote this reference&#39;, not an endless loop.</li>
       </ul>
     </section>
 

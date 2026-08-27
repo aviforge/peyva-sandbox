@@ -38,7 +38,7 @@ var Chapter16 = ChapterContent{
 		Prompts: []Prompt{
 			{Label: "Decide", Thinking: true, Text: `Balances live in a primary that copies to a replica a moment later. Promotion is by hand. I need to decide what happens when the primary, the replica and the request handlers cannot all reach each other.
 
-No code yet. Give me at least three genuinely different strategies, not three versions of one. For each: what a customer sees while it lasts, what happens to a payment taken during it, whether two stores could both take writes, and what recovery costs by hand.
+No code yet. Give me at least three genuinely different strategies, not three versions of one. For each: what a customer sees while it lasts, what happens to a payment taken during it, whether two stores could both take writes, and what a person has to do afterwards to put things right.
 
 Then cut. Say what ruled each rejected one out for money specifically. Recommend one, say whether it needs the primary to wait for the replica, and name the one condition that would change your mind.
 
@@ -49,9 +49,9 @@ Build the Warden: a process on PEYVA_PORT granting a lease to one Vault at a tim
 
 A Vault writes only while its lease is good, stopping a margin before expiry, and stamps every write with the lease number. Promotion is now the replica getting the lease. The copies ask the Warden which Vault to use, and ask again when a request fails.
 
-Then do what you recommended for writes. Answer enquiries from whichever copy is reachable, saying which and how far behind.
+Then do what you recommended for writes. If that means waiting for the replica before answering, do that, and refuse payments while it is unreachable. Answer enquiries from whichever copy is reachable, saying which and how far behind.
 
-Done when stopping the Warden makes both Vaults refuse writes within one lease, stopping the primary makes the replica take over with nothing lost and no other restart, and enquiries answer throughout.`},
+Done when stopping the Warden makes both Vaults refuse writes within one lease, stopping the primary makes the replica take over with nothing lost, restarting the old primary makes it a follower, and enquiries answer throughout.`},
 			{Label: "Portal", Portal: true, Text: `When the copies disagree, the balance the Portal shows may be behind, and the server now says how far.
 
 Give me three genuinely different ways for the page to handle that, not three wordings of one. For each, say what a customer believes after reading it and what they do next. Recommend one and say what it costs.

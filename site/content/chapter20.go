@@ -49,7 +49,7 @@ Opening an account and asking a balance go to one shard. A payment whose account
 Done when accounts spread across both shards, a same-shard payment works, and a cross-shard payment is refused clearly.`},
 			{Label: "Cross-shard", Text: `Two Vault shards each own some accounts, and a payment between them is refused.
 
-Solve the second problem. Run a cross-shard payment in three steps: take from the payer's shard with the payment reference, recording it as in flight; give on the recipient's shard with the same reference; mark it complete. A permanent failure of the second step puts the money back as a new pair of Ledger entries. A timeout retries with the same reference. A copy dying between the first two steps carries on from the record after a restart. Both shards ignore a reference they have already handled.
+Solve the second problem. Run a cross-shard payment in three steps: take from the payer's shard with the payment reference, recording it as in flight; give on the recipient's shard with the same reference; mark it complete. A permanent failure of the second step puts the money back as a new pair of Ledger entries. A timeout retries with the same reference. A copy dying between the first two steps carries on from the record after a restart. A shard that has already handled a reference treats it as done rather than doing it again.
 
 Done when a cross-shard payment leaves balanced entries on both shards, a closed recipient puts the money back, a kill part-way through finishes on restart, and no amount of retrying gives twice.`},
 			{Label: "In flight", Text: `Two Vault shards own the accounts, and payments between them run in recorded steps.

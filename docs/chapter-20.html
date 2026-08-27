@@ -171,7 +171,7 @@
       <p class="technique"><span class="technique-name">Decomposed Prompting</span>. Routing, the cross-shard saga and in-flight accounting are three problems wearing one name. Solved separately, each can be checked on its own.</p>
       <p class="technique-source">Documented in The Prompt Report: Decomposition, DECOMP</p>
       <details class="standing-rules">
-        <summary>Every prompt below is copied with these rules, about 982 tokens for the chapter</summary>
+        <summary>Every prompt below is copied with these rules, about 991 tokens for the chapter</summary>
         <pre class="prompt-lang" id="rules-build">Build this in <span data-language-name>Go</span>, standard library only.
 Code in peyva/&lt;component&gt;/, one folder per component.
 Money: exact decimal or integer minor units, never floating point, two decimal places.
@@ -208,7 +208,7 @@ Opening an account and asking a balance go to one shard. A payment whose account
 Done when accounts spread across both shards, a same-shard payment works, and a cross-shard payment is refused clearly.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">3 of 5</span> Cross-shard<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~252 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">3 of 5</span> Cross-shard<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~261 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-build">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
@@ -216,7 +216,7 @@ Done when accounts spread across both shards, a same-shard payment works, and a 
         </button>
         <pre class="prompt">Two Vault shards each own some accounts, and a payment between them is refused.
 
-Solve the second problem. Run a cross-shard payment in three steps: take from the payer&#39;s shard with the payment reference, recording it as in flight; give on the recipient&#39;s shard with the same reference; mark it complete. A permanent failure of the second step puts the money back as a new pair of Ledger entries. A timeout retries with the same reference. A copy dying between the first two steps carries on from the record after a restart. Both shards ignore a reference they have already handled.
+Solve the second problem. Run a cross-shard payment in three steps: take from the payer&#39;s shard with the payment reference, recording it as in flight; give on the recipient&#39;s shard with the same reference; mark it complete. A permanent failure of the second step puts the money back as a new pair of Ledger entries. A timeout retries with the same reference. A copy dying between the first two steps carries on from the record after a restart. A shard that has already handled a reference treats it as done rather than doing it again.
 
 Done when a cross-shard payment leaves balanced entries on both shards, a closed recipient puts the money back, a kill part-way through finishes on restart, and no amount of retrying gives twice.</pre>
       </div>

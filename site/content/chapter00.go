@@ -47,7 +47,7 @@ Done when it prints alice's balance and exits cleanly on Ctrl+C.`},
 
 Give it the shell the rest of the book fills in: a switcher at the top saying whose wallet is on screen, and a menu down the side with Balance in it. Leave room for what later chapters add, and show nothing that is not built yet.
 
-Put both accounts in the page, so switching needs no server. Say what you used, and why.
+Put both accounts in the page, so switching needs no server. Say what you used to do the switching, and why.
 
 No server: I open the file from disk. This is where the look is set, so commit to the one visual idea the brief asks for.
 

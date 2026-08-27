@@ -6,22 +6,25 @@ honest layer at a time.
 **[Read it here](https://aviforge.github.io/peyva-sandbox/)**, or open
 `docs/index.html` from a clone. Nothing to install or build.
 
-Each chapter opens with the claims it stands behind, then the vocabulary, then
-a prompt you hand to your own AI assistant rather than code to copy. There is
-no reference implementation and there will not be one: the point is to prompt
-for it, run it, and watch it fail the way the chapter says it will. Chapter 0 gives you a spec to save as `peyva/goal.md`, holding
-the goal, the rules money must never break, and the constraints. Every prompt
-after that points at it. Chapter 0 asks which language you want to build in, and every
-prompt after it asks for that one, so what you build in chapter 12 still fits
-what you built in chapter 4.
+Each chapter has three parts: What (the terms), Why (the claims, a hundred
+words), and How (prompts you hand to your own AI assistant rather than code
+to copy). There is no reference implementation and there will not be one:
+you prompt for it, run it, and watch it fail the way the chapter says it will.
 
-Chapters that grow the portal carry two prompts: one for the component, one
-for the page, each copied on its own. The portal is plain HTML and CSS with no
-dependencies, so it is the same portal whichever backend language you pick.
+Chapter 0 hands you three files to save first: `peyva/goal.md` with the goal,
+the rules money must never break and the constraints; `peyva/portal/design.md`
+with the look; and a standing-instructions file for your assistant. Every
+prompt after that points at them.
 
-The choice is offered once, in chapter 0. Later chapters show which language is
-in force and link back there to change it. Twelve are available: Go, Python,
-JavaScript, TypeScript, Java, C#, C++, Rust, Ruby, PHP, Kotlin and Swift.
+Chapter 0 also asks two things and locks the prompts until both are answered:
+the language you build in, and the operating system you are on. Seven
+languages: Go, Python, TypeScript, Java, C#, Rust and Kotlin. The system
+decides which commands and which runner script you get. Later chapters show
+both choices and link back to change them.
+
+Chapters that grow the Portal carry a Portal prompt as well, copied on its
+own. The Portal is plain HTML and CSS with no dependencies, so it is the same
+whichever language serves it.
 
 ## Contents
 

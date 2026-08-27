@@ -46,7 +46,7 @@ In order:
 Only report what you measured here. If the gain is smaller than expected, say so.
 
 Done when I have four measured numbers and two query plans that differ.`},
-			{Label: "Page", Portal: true, Text: `Someone typing a handle should know they have the right person before sending. Have Send look the handle up as it is typed and show whose account it is.
+			{Label: "Portal", Portal: true, Text: `Someone typing a handle should know they have the right person before sending. Have Send look the handle up as it is typed and show whose account it is.
 
 Show the handle and owner, never the balance.
 

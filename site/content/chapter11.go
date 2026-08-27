@@ -48,7 +48,7 @@ Try to make it serve an old balance. Check every path that changes a balance cle
 List what you found, fix it, review again. Repeat until a review finds nothing.
 
 Done when a review finds nothing, and I know how many rounds it took and what the first version got wrong.`},
-			{Label: "Page", Portal: true, Text: `The Portal works, and looks like each piece was added the week it was needed. Make it presentable.
+			{Label: "Portal", Portal: true, Text: `The Portal works, and looks like each piece was added the week it was needed. Make it presentable.
 
 Judge it against every rule in peyva/portal/design.md and the visual idea from chapter 0. Say what passes before changing anything. Fix what fails, judge again, repeat.
 

@@ -43,7 +43,7 @@ An account is a handle, an owner and an amount. Seed alice with 100 and bob with
 One file. No disk, no network.
 
 Done when it prints alice's balance and exits cleanly on Ctrl+C.`},
-			{Label: "Page", Portal: true, Text: `Write peyva/portal/index.html each time the program starts. It shows one customer's wallet, never everyone's.
+			{Label: "Portal", Portal: true, Text: `Write peyva/portal/index.html each time the program starts. It shows one customer's wallet, never everyone's.
 
 A switcher at the top says whose. A menu down the side has one entry, Balance, with room for more later. Put both accounts in the page so switching needs no server.
 

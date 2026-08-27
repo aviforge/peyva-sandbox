@@ -96,7 +96,7 @@ func TestRunWritesIndexBesideTheChaptersItFronts(t *testing.T) {
 		// The version query is a content digest, so match the path only.
 		`href="styles.css?v=`,
 		`src="app.js?v=`,
-		`src="images/chapter-0.webp"`,
+		`href="chapter-0.html"`,
 		`href="chapter-1.html"`,
 	} {
 		if !strings.Contains(body, want) {
@@ -206,7 +206,8 @@ func TestEveryPageBakesInALanguage(t *testing.T) {
 		t.Fatalf("globbing: %v", err)
 	}
 	want := content.LanguageByID(content.DefaultLanguage).Name
-	for _, page := range append(pages, indexPath) {
+	_ = indexPath
+	for _, page := range pages {
 		b, readErr := os.ReadFile(page)
 		if readErr != nil {
 			t.Fatalf("reading %s: %v", page, readErr)
@@ -320,13 +321,13 @@ func TestOnlyOneChapterOffersTheLanguageChoice(t *testing.T) {
 		t.Errorf("the picker belongs on chapter 0, found it on %s", withPicker[0])
 	}
 
-	// The entry point is chapter 0 rendered again, so it carries the picker too.
+	// The entry point is the landing page, which offers no choices at all.
 	b, err := os.ReadFile(indexPath)
 	if err != nil {
 		t.Fatalf("reading index: %v", err)
 	}
-	if !strings.Contains(string(b), "data-language-select") {
-		t.Error("the entry point is chapter 0 and should offer the picker")
+	if strings.Contains(string(b), "data-language-select") {
+		t.Error("the landing page offers the picker, which belongs to chapter 0")
 	}
 }
 
@@ -341,7 +342,8 @@ func TestOnlyTheChoosingPageCarriesTheLanguageList(t *testing.T) {
 	if err != nil {
 		t.Fatalf("globbing: %v", err)
 	}
-	for _, page := range append(pages, indexPath) {
+	_ = indexPath
+	for _, page := range pages {
 		b, readErr := os.ReadFile(page)
 		if readErr != nil {
 			t.Fatalf("reading %s: %v", page, readErr)
@@ -352,7 +354,7 @@ func TestOnlyTheChoosingPageCarriesTheLanguageList(t *testing.T) {
 		// from a second select in the same section, and counting options across
 		// the whole page reads those as languages.
 		hasOptions := strings.Contains(languageSelect.FindString(body), "<option value=")
-		wantsOptions := name == "chapter-0.html" || name == "index.html"
+		wantsOptions := name == "chapter-0.html"
 		if hasOptions != wantsOptions {
 			t.Errorf("%s: carries language options = %v, want %v", name, hasOptions, wantsOptions)
 		}
@@ -396,7 +398,8 @@ func TestEveryPromptCarriesTheStandingRules(t *testing.T) {
 	if err != nil {
 		t.Fatalf("globbing: %v", err)
 	}
-	for _, page := range append(pages, indexPath) {
+	_ = indexPath
+	for _, page := range pages {
 		b, readErr := os.ReadFile(page)
 		if readErr != nil {
 			t.Fatalf("reading %s: %v", page, readErr)

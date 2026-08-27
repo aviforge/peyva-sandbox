@@ -2,423 +2,78 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>What Are We Building? | Peyva Sandbox</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=7cc68be33c">
+<link rel="stylesheet" href="styles.css?v=2048c5b0e2">
 </head>
-<body data-chapter-slug="chapter-0">
-<button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
-</button>
-<div class="sidebar-backdrop" data-sidebar-backdrop></div>
-<div class="layout">
-<nav class="sidebar">
-  <div class="brand">
-    <span class="brand-mark">P</span>
-    <div>
-      <div class="brand-name">Peyva Sandbox</div>
-      <div class="brand-tagline">Learn distributed systems by building one.</div>
+<body class="landing">
+<main class="landing-main">
+  <header class="landing-hero">
+    <div class="brand">
+      <span class="brand-mark large">P</span>
+      <div>
+        <div class="brand-name">Peyva Sandbox</div>
+        <div class="brand-tagline">Learn distributed systems by building one.</div>
+      </div>
     </div>
-  </div>
-  <button type="button" class="theme-toggle" data-theme-toggle aria-label="Toggle theme" title="Toggle theme">
-    <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path></svg>
-    <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-  </button>
+    <h1>Build a wallet. Break it. Fix it. Twenty-two times.</h1>
+    <p class="landing-lead">peyva is a small payments system: alice sends bob $20, and the money arrives exactly once. You build it one piece at a time, and each piece exists because the chapter before it showed you a failure.</p>
+    <a class="landing-start" href="chapter-0.html">Start with Chapter 0</a>
+  </header>
 
-  <div class="nav-group-label">Chapters</div>
-  <ul class="chapter-list">
-    
-    
-    <li class="active" data-slug="chapter-0">0. What Are We Building?</li>
-    
-    
-    
-    <li><a href="chapter-1.html" data-slug="chapter-1">1. Inside One Computer</a></li>
-    
-    
-    
-    <li><a href="chapter-2.html" data-slug="chapter-2">2. Finding Peyva (Processes &amp; Ports)</a></li>
-    
-    
-    
-    <li><a href="chapter-3.html" data-slug="chapter-3">3. Across the Wire (Networking)</a></li>
-    
-    
-    
-    <li><a href="chapter-4.html" data-slug="chapter-4">4. Designing the API</a></li>
-    
-    
-    
-    <li><a href="chapter-5.html" data-slug="chapter-5">5. Storing Money (Databases)</a></li>
-    
-    
-    
-    <li><a href="chapter-6.html" data-slug="chapter-6">6. Finding Things Fast (Indexes)</a></li>
-    
-    
-    
-    <li><a href="chapter-7.html" data-slug="chapter-7">7. Making It Safe (Transactions)</a></li>
-    
-    
-    
-    <li><a href="chapter-8.html" data-slug="chapter-8">8. Exactly Once (Idempotency)</a></li>
-    
-    
-    
-    <li><a href="chapter-9.html" data-slug="chapter-9">9. Giving Up Well: Retries, Timeouts and Backoff</a></li>
-    
-    
-    
-    <li><a href="chapter-10.html" data-slug="chapter-10">10. Growing the Team: Scale Out</a></li>
-    
-    
-    
-    <li><a href="chapter-11.html" data-slug="chapter-11">11. Sharing Work: Caching</a></li>
-    
-    
-    
-    <li><a href="chapter-12.html" data-slug="chapter-12">12. Decoupling with Messages: Queues</a></li>
-    
-    
-    
-    <li><a href="chapter-13.html" data-slug="chapter-13">13. Reliability Patterns: Transactional Outbox</a></li>
-    
-    
-    
-    <li><a href="chapter-14.html" data-slug="chapter-14">14. Big Changes Safely: Sagas</a></li>
-    
-    
-    
-    <li><a href="chapter-15.html" data-slug="chapter-15">15. Data Copies: Replication</a></li>
-    
-    
-    
-    <li><a href="chapter-16.html" data-slug="chapter-16">16. When Things Fail: CAP / Consistency</a></li>
-    
-    
-    
-    <li><a href="chapter-17.html" data-slug="chapter-17">17. See Everything: Observability</a></li>
-    
-    
-    
-    <li><a href="chapter-18.html" data-slug="chapter-18">18. Lock It Down: Security</a></li>
-    
-    
-    
-    <li><a href="chapter-19.html" data-slug="chapter-19">19. Operating in Production</a></li>
-    
-    
-    
-    <li><a href="chapter-20.html" data-slug="chapter-20">20. Splitting the Vault: Sharding</a></li>
-    
-    
-    
-    <li><a href="chapter-21.html" data-slug="chapter-21">21. Putting It All Together</a></li>
-    
-    
-  </ul>
-</nav>
-
-<main class="content">
-  <div class="overall-progress" data-progress>
-    <div class="overall-progress-track">
-      <div class="overall-progress-fill" data-progress-fill></div>
-    </div>
-    <span class="overall-progress-label" data-progress-label>0% complete</span>
-  </div>
-
-  <div class="chapter-header">
-    <button type="button" class="mark-complete" data-mark-complete>Mark chapter as complete</button>
-    <p class="chapter-eyebrow">Chapter 0</p>
-    <h1>What Are We Building?</h1>
-    <p class="chapter-subtitle">A peer-to-peer wallet, built one honest layer at a time.</p>
-    <div class="tags">
-      <span class="tag">Foundations</span>
-      <span class="tag">Beginner</span>
-    </div>
-  </div>
-
-  <figure class="hero-panel">
-    <a class="hero-link" href="images/chapter-0.webp" target="_blank" rel="noopener"><img src="images/chapter-0.webp" alt="Alice sends Bob $20: the story, and what&#39;s really happening underneath."></a>
-    <figcaption>Alice sends Bob $20: the story, and what&#39;s really happening underneath. <a class="hero-expand-hint" href="images/chapter-0.webp" target="_blank" rel="noopener">Click to view full size</a></figcaption>
-  </figure>
-
-  
-  <section class="block setup" id="setup">
-    <h2>Setup <span class="badge">Once</span>
-        <label class="language-picker">Build in
-          <select class="language-select" data-language-select aria-label="Language every chapter&#39;s prompt asks for">
-            <option value="" data-unset>Choose one</option>
-            <option value="go">Go</option><option value="python">Python</option><option value="typescript">TypeScript</option><option value="java">Java</option><option value="csharp">C#</option><option value="rust">Rust</option><option value="kotlin">Kotlin</option>
-          </select>
-        </label>
-        <label class="language-picker">On
-          <select class="language-select" data-system-select aria-label="Operating system every command and script is written for">
-            <option value="" data-unset>Choose one</option>
-            <option value="windows" data-prompt="Windows, in PowerShell">Windows (PowerShell)</option><option value="windows-bat" data-prompt="Windows, in a batch file">Windows (batch)</option><option value="macos" data-prompt="macOS, in bash or zsh">macOS</option><option value="linux" data-prompt="Linux, in bash">Linux</option>
-          </select>
-        </label>
-    </h2>
-    <ul class="lead">
-      <li>3 files, saved before you write a line of code.</li>
-    </ul>
-    
-    <p class="prompt-divider">peyva/goal.md</p>
-    <ul class="lead">
-      <li>What the system is for, and what must never happen to money.</li>
-    </ul>
-    
-    <div class="prompt-wrap">
-      <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this file to clipboard" title="Copy this file">
-        <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-        <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-      </button>
-      <pre class="prompt"># peyva
-
-A peer-to-peer wallet. Alice sends Bob $20, and the money arrives exactly once.
-
-## What it must do
-
-- Hold an account for each user: a handle, an owner and an amount.
-- Move money between accounts on request.
-- Answer what an account holds, and how it came to hold it.
-- Give one customer a page of their own: what they hold, sending money to a
-  handle, and the history behind the number. Reached from a menu, not a
-  command line.
-- Let whoever is at the keyboard change which customer that is.
-
-## What must never happen
-
-These hold in every chapter. If a change would break one, the change is wrong.
-
-- Money is never created and never lost. Every debit has a matching credit.
-- No balance goes negative.
-- No payment is applied twice, however many times it is submitted.
-- Only the Vault changes a balance. Nothing else writes one.
-- Every movement of money is recorded. The balance is the answer, the record is
-  the proof.
-
-## Constraints
-
-- Standard library only. No frameworks, no brokers, no third-party libraries.
-  The one exception is the runner, a script you are given rather than build.
-- Every process is configured only by environment: PEYVA_PORT for what it
-  listens on, PEYVA_VAULT for the copies, PEYVA_PEERS for the proxy,
-  PEYVA_PRIMARY for a replica, PEYVA_WARDEN for whoever asks who may write.
-- Settings that differ between runs or machines are config. Settings with only
-  one correct value, the money rules above among them, are code and stay in it.
-- Runs on one laptop. No containers, no cloud, no deployment.
-- One process until chapter 10, several after it. A transaction never spans
-  two of them.
-- Code lives in peyva/&lt;component&gt;/, one folder per component.
-- Money is exact: a decimal type, or integer minor units where the language has
-  none. Never floating point. Two decimal places.
-- The Portal is plain HTML and CSS. No build step, no dependencies.
-- The Portal shows one customer&#39;s wallet at a time, never everyone&#39;s at once.
-  A switcher at the top says whose.
-- Structure is earned. A component appears when a problem needs it, not before.
-
-## Components
-
-Each appears in the chapter that builds it. Until then it does not exist.
-
-- Vault: holds every account and what is in it. Chapter 0.
-- Portal: one customer&#39;s own wallet, with a switcher for whose. Chapter 0, and
-  a little more in most chapters after it.
-- Gateway: takes requests from outside. Chapter 2.
-- Teller: handles one payment end to end, and is the only thing that moves
-  money. Chapter 4.
-- Ledger: the append-only record behind every balance. Chapter 7.
-- Runner: starts every process, says which are alive, and stops all of them.
-  Chapter 10.
-- Courier: carries out work after a payment clears. Chapter 12.
-- Warden: grants a time-limited lease to the one Vault allowed to write.
-  Chapter 16.
-- Config: reads every setting from outside the code and checks it. Chapter 19.
-- Reconciler: proves the Vault and the Ledger still agree. Chapter 21.
-</pre>
-    </div>
-    
-    <p class="prompt-divider">peyva/portal/design.md</p>
-    <ul class="lead">
-      <li>What the Portal should look like, and what it should never look like.</li>
-    </ul>
-    
-    <div class="prompt-wrap">
-      <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this file to clipboard" title="Copy this file">
-        <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-        <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-      </button>
-      <pre class="prompt"># The look
-
-The Portal is a wallet someone opens several times a day to check one number.
-Calm, quick, exact.
-
-## What good wallets already agree on
-
-Monzo, Revolut, Wise, Cash App and Apple Wallet converge on the same handful of
-moves. Take these. Do not reproduce any of them.
-
-- The balance is the largest thing on the screen. Nothing competes with it.
-- Money is set in tabular figures, so digits do not shift as values change,
-  aligned on the decimal point, always two places.
-- A transaction row reads across: who, what it was for, then the amount hard
-  right. The date is the quietest thing in the row.
-- Money in and money out differ by sign and weight, not by colour alone.
-- History is grouped under date headings, most recent first.
-- Anything not yet settled looks pending. It is never silently missing.
-- One accent colour, spent on the primary action and almost nothing else.
-
-## Then make it yours
-
-Choose one visual idea and carry it through every screen: a distinctive way of
-setting numerals, a single strong accent against near neutral, a card shape, a
-motif that repeats. Write the idea in a comment at the top of the stylesheet so
-it survives the next chapter.
-
-## Rules
-
-- A type scale of at most five sizes. One family for prose, one for figures.
-- One corner radius, one border colour, one shadow. Reuse them everywhere.
-- Spacing from one scale, used generously. Crowding reads as unfinished.
-- Every action says what happened, and to what.
-- Every screen has an empty state that says what to do next, an error state that
-  says what went wrong, and a loading state that does not move the layout.
-- Legible in light and dark, following the reader&#39;s system setting.
-- Anything tappable is at least 44 pixels.
-- Nothing changes position after the page has loaded.
-</pre>
-    </div>
-    
-    <p class="prompt-divider">Your assistant&#39;s instruction file</p>
-    <ul class="lead">
-      <li>How your assistant should work: what it may decide alone, when to stop and ask, and how much to say back.</li>
-    </ul>
-    
-    <p class="setup-note">No single filename is read by every assistant, so save this under the name yours looks for. The contents are identical either way.</p>
-    <ul class="agent-files">
-      <li><span class="agent-tool">Claude Code</span> <code>peyva/CLAUDE.md</code></li><li><span class="agent-tool">Codex</span> <code>peyva/AGENTS.md</code></li><li><span class="agent-tool">GitHub Copilot</span> <code>peyva/.github/copilot-instructions.md</code></li><li><span class="agent-tool">Anything else</span> <code>peyva/AGENTS.md</code></li>
-    </ul>
-    
-    <div class="prompt-wrap">
-      <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this file to clipboard" title="Copy this file">
-        <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-        <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-      </button>
-      <pre class="prompt"># Working with me on peyva
-
-Read peyva/goal.md before your first change. It holds the goal, the rules money
-must never break, and the constraints on what you build. Treat it as settled: if
-a change would break something in it, the change is wrong.
-
-Before touching the Portal, read peyva/portal/design.md. It holds the look, and
-the one visual idea chapter 0 committed to. Keep to it rather than restyling.
-
-## Scope
-
-- Do what the prompt asks, and nothing it did not ask for.
-- Build what the current chapter needs, not what a later one might.
-- Make the smallest change that satisfies the prompt.
-- Leave code you were not asked to touch alone.
-
-## Honesty
-
-- If a constraint makes the task impossible, say so rather than working around
-  it. That is a useful answer, not a failure.
-- If the task seems to need something goal.md rules out, stop and tell me.
-  Do not add it and mention it afterwards.
-- Do not tell me something works when you have not run it. Say what you checked.
-- When you are unsure, ask. A guess that reads as certainty costs me more than
-  the question would have.
-
-## Answers
-
-- Say what changed and why, in a line or two.
-- No summary of work I just watched you do, and no restating my request back.
-- Give reasoning, trade-offs and alternatives only when I ask for them.
-</pre>
-    </div>
-    
+  <section class="landing-how">
+    <h2>How a chapter works</h2>
+    <ol class="landing-steps">
+      <li><b>Read</b> the concepts and why they matter. About a hundred words.</li>
+      <li><b>Copy</b> a prompt into your own AI coding assistant. It writes the code, in the language you chose.</li>
+      <li><b>Run it</b> and watch it fail the way the chapter said it would. Then fix it.</li>
+    </ol>
+    <p class="landing-note">There is no finished code to download. That is the point: you prompt for it, run it, and see for yourself.</p>
   </section>
-  
 
-  <div class="section-grid">
-    <section class="block">
-      <h2>1. What</h2>
-      <ul class="concepts">
-        <li><strong>User</strong>. A person with an identity in the system. Owns exactly one account.</li><li><strong>Account</strong>. A handle, an owner and an amount. The handle is how everyone else refers to it.</li><li><strong>Balance</strong>. How much an account holds. Never negative, never lost, never spent twice.</li><li><strong>Vault</strong>. The component holding every account and what is in it. Nothing else may change a balance.</li><li><strong>Transfer</strong>. A request to move money between accounts.</li><li><strong>History</strong>. The record of every movement in and out of an account, in the order it happened.</li><li><strong>Invariant</strong>. A rule that must be true at every moment, whatever else is going on. The five in goal.md are the point of this book.</li>
-      </ul>
-    </section>
+  <section class="landing-need">
+    <h2>What you need</h2>
+    <ul>
+      <li>An AI coding assistant. Claude Code, Codex, Copilot, or any other.</li>
+      <li>A language. Pick one of 7 in Chapter 0 and keep it for the whole book.</li>
+      <li>One laptop. No cloud, no containers, nothing to install to read.</li>
+    </ul>
+  </section>
 
-    <section class="block why">
-      <h2>2. Why</h2>
-      <ul class="why-list">
-        <li>A wallet is the smallest system where every mistake costs someone real money.</li><li>Five rules never break: money is never created or lost, never negative, never paid twice, only the Vault changes it, every move is written down.</li><li>You can check them. All the balances added up equal what you started with, and each account&#39;s history adds up to its balance.</li><li>Never store money as a fraction: a computer cannot hold 0.10 exactly. Count whole pennies.</li><li>One program holding everything in memory is the right start. Add a piece when a failure demands it, not before.</li><li>There is no finished code to copy, on purpose. You prompt for it, run it, and watch it fail as the chapter said.</li>
-      </ul>
-    </section>
-
-    
-
-    <section class="block build-it">
-      <h2>3. How <span class="badge">Hands-on</span>
-          <span class="language-locked">Building in <b data-language-name>Go</b>, <a href="#setup">change in Setup</a></span>
-      </h2>
-      <p class="choice-gate" data-choice-gate>Two choices first: the language you are building in, and the system you are on. Make them in <a href="#setup">Setup, above</a>. The prompts below stay locked until you do.</p>
+  <section class="landing-chapters">
+    <h2>The chapters</h2>
+    <ol class="landing-list" start="0">
+      <li><a href="chapter-0.html"><span class="landing-num">0</span> What Are We Building?</a><span class="landing-cat">Foundations</span></li>
+      <li><a href="chapter-1.html"><span class="landing-num">1</span> Inside One Computer</a><span class="landing-cat">Foundations</span></li>
+      <li><a href="chapter-2.html"><span class="landing-num">2</span> Finding Peyva (Processes &amp; Ports)</a><span class="landing-cat">Foundations</span></li>
+      <li><a href="chapter-3.html"><span class="landing-num">3</span> Across the Wire (Networking)</a><span class="landing-cat">Foundations</span></li>
+      <li><a href="chapter-4.html"><span class="landing-num">4</span> Designing the API</a><span class="landing-cat">Design</span></li>
+      <li><a href="chapter-5.html"><span class="landing-num">5</span> Storing Money (Databases)</a><span class="landing-cat">Databases</span></li>
+      <li><a href="chapter-6.html"><span class="landing-num">6</span> Finding Things Fast (Indexes)</a><span class="landing-cat">Databases</span></li>
+      <li><a href="chapter-7.html"><span class="landing-num">7</span> Making It Safe (Transactions)</a><span class="landing-cat">Databases</span></li>
+      <li><a href="chapter-8.html"><span class="landing-num">8</span> Exactly Once (Idempotency)</a><span class="landing-cat">Reliability</span></li>
+      <li><a href="chapter-9.html"><span class="landing-num">9</span> Giving Up Well: Retries, Timeouts and Backoff</a><span class="landing-cat">Reliability</span></li>
+      <li><a href="chapter-10.html"><span class="landing-num">10</span> Growing the Team: Scale Out</a><span class="landing-cat">System Design</span></li>
+      <li><a href="chapter-11.html"><span class="landing-num">11</span> Sharing Work: Caching</a><span class="landing-cat">System Design</span></li>
+      <li><a href="chapter-12.html"><span class="landing-num">12</span> Decoupling with Messages: Queues</a><span class="landing-cat">System Design</span></li>
+      <li><a href="chapter-13.html"><span class="landing-num">13</span> Reliability Patterns: Transactional Outbox</a><span class="landing-cat">Reliability</span></li>
+      <li><a href="chapter-14.html"><span class="landing-num">14</span> Big Changes Safely: Sagas</a><span class="landing-cat">Reliability</span></li>
+      <li><a href="chapter-15.html"><span class="landing-num">15</span> Data Copies: Replication</a><span class="landing-cat">Reliability</span></li>
+      <li><a href="chapter-16.html"><span class="landing-num">16</span> When Things Fail: CAP / Consistency</a><span class="landing-cat">Distributed Systems</span></li>
+      <li><a href="chapter-17.html"><span class="landing-num">17</span> See Everything: Observability</a><span class="landing-cat">Operations</span></li>
+      <li><a href="chapter-18.html"><span class="landing-num">18</span> Lock It Down: Security</a><span class="landing-cat">Operations</span></li>
+      <li><a href="chapter-19.html"><span class="landing-num">19</span> Operating in Production</a><span class="landing-cat">Operations</span></li>
+      <li><a href="chapter-20.html"><span class="landing-num">20</span> Splitting the Vault: Sharding</a><span class="landing-cat">Distributed Systems</span></li>
+      <li><a href="chapter-21.html"><span class="landing-num">21</span> Putting It All Together</a><span class="landing-cat">System Design</span></li>
       
-      <p class="technique"><span class="technique-name">Zero-shot prompting</span>. The task has one obvious shape. Scaffolding it would cost tokens and buy nothing.</p>
-      <p class="technique-source">Documented in The Prompt Report: Zero-Shot</p>
-      <details class="standing-rules">
-        <summary>Every prompt below is copied with these rules, about 356 tokens for the chapter</summary>
-        <pre class="prompt-lang" id="rules-build">Build this in <span data-language-name>Go</span>, standard library only.
-Code in peyva/&lt;component&gt;/, one folder per component.
-Money: exact decimal or integer minor units, never floating point, two decimal places.
-The goal and invariants are in peyva/goal.md.</pre>
-        <pre class="prompt-lang" id="rules-portal">The Portal is plain HTML and CSS. No framework, no build step, no dependencies.
-It lives in peyva/portal/. Anything it needs from the server is <span data-language-name>Go</span>, standard library only.
-One customer&#39;s wallet at a time, never everyone&#39;s at once. A switcher at the top says whose.
-New work joins the menu.
-The goal and invariants are in peyva/goal.md, the look in peyva/portal/design.md.</pre>
-        
-      </details>
-      
-      <p class="prompt-divider"><span class="prompt-step">1 of 2</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~146 tokens</span></p>
-      <div class="prompt-wrap" data-prompt-rules="rules-build">
-        <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
-          <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-          <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-        </button>
-        <pre class="prompt">Build the Vault: the component that holds every account, and the only thing allowed to change a balance.
+    </ol>
+  </section>
 
-An account is a handle, an owner and an amount. Seed alice with 100 and bob with 0. Print them on startup, run until interrupted, then print a goodbye.
-
-One file. No disk, no network.
-
-Done when it prints alice&#39;s balance and exits cleanly on Ctrl+C.</pre>
-      </div>
-      
-      <p class="prompt-divider"><span class="prompt-step">2 of 2</span> Page<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~210 tokens</span></p>
-      <div class="prompt-wrap" data-prompt-rules="rules-portal">
-        <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
-          <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-          <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-        </button>
-        <pre class="prompt">Write peyva/portal/index.html each time the program starts. It shows one customer&#39;s wallet, never everyone&#39;s.
-
-A switcher at the top says whose. A menu down the side has one entry, Balance, with room for more later. Put both accounts in the page so switching needs no server.
-
-I open the file from disk. This is where the look is set, so commit to the one visual idea the brief asks for.
-
-Done when the page opens on alice at 100.00 and the switcher shows bob at 0.00.</pre>
-      </div>
-      
-      
-    </section>
-
-  </div>
-
-  <p class="quick-tip"><strong>Quick tip:</strong> Every system starts as one honest process. Resist the urge to design for scale you don&#39;t have yet.</p>
+  <footer class="landing-foot">
+    <a class="landing-start" href="chapter-0.html">Start with Chapter 0</a>
+  </footer>
 </main>
-</div>
 <script src="app.js?v=aeb7afb9fd"></script>
 </body>
 </html>

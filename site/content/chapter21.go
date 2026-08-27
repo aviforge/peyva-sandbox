@@ -51,7 +51,7 @@ Done when the Reconciler finds nothing on a healthy system, reports the exact ga
 Describe it back to me: every screen, what a customer can do on each, and which part of the system answers it. Say what you are unsure of.
 
 Done when I have your description and can tell you where we disagree.`},
-			{Label: "Page", Portal: true, Text: `The Portal has a screen for each thing it learned to do, added a chapter at a time and looking like it.
+			{Label: "Portal", Portal: true, Text: `The Portal has a screen for each thing it learned to do, added a chapter at a time and looking like it.
 
 Finish it: one menu where a customer opens an account, sees what they hold, sends money, reads their history and sees that a message was delivered.
 

@@ -47,7 +47,7 @@ Build it in five pieces. Stop after each and show me it works.
 A timeout is not a permanent failure. It retries with the same reference.
 
 Done when a closed recipient puts the money back, and an interrupted payment finishes after a restart.`},
-			{Label: "Page", Portal: true, Text: `A reversed payment looks like two unrelated rows. Show it as the original and the reversal that answers it, tied together, with the reason.
+			{Label: "Portal", Portal: true, Text: `A reversed payment looks like two unrelated rows. Show it as the original and the reversal that answers it, tied together, with the reason.
 
 Build it in three steps and show me each.
 

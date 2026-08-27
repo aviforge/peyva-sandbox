@@ -55,7 +55,7 @@ Done when two 60s against 100 leave one applied, one refused, and alice at 40.`}
 What should it show for a payment that failed halfway? Should it appear at all, and how does a customer tell it from one that worked?
 
 Done when I know what a half-failed payment looks like on the page, and why.`},
-			{Label: "Page", Portal: true, Text: `The Portal shows a balance and can send money, but not how the balance got that way.
+			{Label: "Portal", Portal: true, Text: `The Portal shows a balance and can send money, but not how the balance got that way.
 
 Add History to the menu: every movement in and out, newest first, with reference, amount and the other party. Show a failed payment the way you just described.
 

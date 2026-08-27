@@ -1,0 +1,59 @@
+{{define "landing"}}<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Peyva Sandbox</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="{{.AssetPrefix}}styles.css?v={{.StyleVersion}}">
+</head>
+<body class="landing">
+<main class="landing-main">
+  <header class="landing-hero">
+    <div class="brand">
+      <span class="brand-mark large">P</span>
+      <div>
+        <div class="brand-name">Peyva Sandbox</div>
+        <div class="brand-tagline">Learn distributed systems by building one.</div>
+      </div>
+    </div>
+    <h1>Build a wallet. Break it. Fix it. Twenty-two times.</h1>
+    <p class="landing-lead">peyva is a small payments system: alice sends bob $20, and the money arrives exactly once. You build it one piece at a time, and each piece exists because the chapter before it showed you a failure.</p>
+    <a class="landing-start" href="{{.AssetPrefix}}chapter-0.html">Start with Chapter 0</a>
+  </header>
+
+  <section class="landing-how">
+    <h2>How a chapter works</h2>
+    <ol class="landing-steps">
+      <li><b>Read</b> the concepts and why they matter. About a hundred words.</li>
+      <li><b>Copy</b> a prompt into your own AI coding assistant. It writes the code, in the language you chose.</li>
+      <li><b>Run it</b> and watch it fail the way the chapter said it would. Then fix it.</li>
+    </ol>
+    <p class="landing-note">There is no finished code to download. That is the point: you prompt for it, run it, and see for yourself.</p>
+  </section>
+
+  <section class="landing-need">
+    <h2>What you need</h2>
+    <ul>
+      <li>An AI coding assistant. Claude Code, Codex, Copilot, or any other.</li>
+      <li>A language. Pick one of {{len .Languages}} in Chapter 0 and keep it for the whole book.</li>
+      <li>One laptop. No cloud, no containers, nothing to install to read.</li>
+    </ul>
+  </section>
+
+  <section class="landing-chapters">
+    <h2>The chapters</h2>
+    <ol class="landing-list" start="0">
+      {{range .Chapters}}<li><a href="{{$.AssetPrefix}}chapter-{{.Number}}.html"><span class="landing-num">{{.Number}}</span> {{.Title}}</a><span class="landing-cat">{{.Category}}</span></li>
+      {{end}}
+    </ol>
+  </section>
+
+  <footer class="landing-foot">
+    <a class="landing-start" href="{{.AssetPrefix}}chapter-0.html">Start with Chapter 0</a>
+  </footer>
+</main>
+<script src="{{.AssetPrefix}}app.js?v={{.ScriptVersion}}"></script>
+</body>
+</html>
+{{end}}

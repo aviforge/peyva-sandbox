@@ -85,7 +85,7 @@ nothing fits together.
 ## Layout
 
     docs/                      the published site, served by Pages as the root
-    docs/index.html            entry point, so a bare / lands on chapter 0
+    docs/index.html            landing page: what the site is, then the chapter list
     docs/images                the chapter illustrations
     site/content               chapter text, as Go values
     site/content/languages.go  the languages the picker offers

@@ -49,7 +49,7 @@ func renderedPages(t *testing.T) []renderedPage {
 	if err != nil {
 		t.Fatalf("globbing pages: %v", err)
 	}
-	paths = append(paths, indexPath)
+	_ = indexPath // the landing page is checked by TestLandingPage, not as a chapter
 
 	pages := make([]renderedPage, 0, len(paths))
 	for _, p := range paths {
@@ -58,16 +58,14 @@ func renderedPages(t *testing.T) []renderedPage {
 			t.Fatalf("reading %s: %v", p, readErr)
 		}
 		name := filepath.Base(p)
-		// index.html is chapter 0 rendered a second time, so it is chapter 0
-		// for every purpose here.
 		pages = append(pages, renderedPage{
 			name:  name,
 			body:  string(b),
-			isCh0: name == "chapter-0.html" || name == "index.html",
+			isCh0: name == "chapter-0.html",
 		})
 	}
-	if len(pages) != len(content.All)+1 {
-		t.Fatalf("rendered %d pages, want %d", len(pages), len(content.All)+1)
+	if len(pages) != len(content.All) {
+		t.Fatalf("rendered %d pages, want %d", len(pages), len(content.All))
 	}
 	return pages
 }
@@ -218,9 +216,7 @@ func TestSystemChoiceReachesThePromptsThatNeedIt(t *testing.T) {
 		}
 
 		num := 0
-		if p.name != "index.html" {
-			num, _ = strconv.Atoi(regexp.MustCompile(`chapter-(\d+)`).FindStringSubmatch(p.name)[1])
-		}
+		num, _ = strconv.Atoi(regexp.MustCompile(`chapter-(\d+)`).FindStringSubmatch(p.name)[1])
 		// A chapter renders the system name when a prompt says {os}, and on
 		// the chapter that hands over the runner script, which is written for
 		// one system and has to say which.
@@ -274,9 +270,7 @@ func TestEachPromptHasItsOwnCopyButton(t *testing.T) {
 	for _, p := range renderedPages(t) {
 		want := 0
 		num := 0
-		if p.name != "index.html" {
-			num, _ = strconv.Atoi(regexp.MustCompile(`chapter-(\d+)`).FindStringSubmatch(p.name)[1])
-		}
+		num, _ = strconv.Atoi(regexp.MustCompile(`chapter-(\d+)`).FindStringSubmatch(p.name)[1])
 		want = len(byNumber[num].BuildIt.Prompts)
 		// A sidebar's turns are copied like any other.
 		if aside := byNumber[num].Aside; aside != nil {
@@ -342,9 +336,7 @@ func TestPortalPromptCarriesItsOwnRules(t *testing.T) {
 
 	for _, p := range renderedPages(t) {
 		num := 0
-		if p.name != "index.html" {
-			num, _ = strconv.Atoi(regexp.MustCompile(`chapter-(\d+)`).FindStringSubmatch(p.name)[1])
-		}
+		num, _ = strconv.Atoi(regexp.MustCompile(`chapter-(\d+)`).FindStringSubmatch(p.name)[1])
 		if len(byNumber[num].BuildIt.PortalPrompts()) == 0 {
 			continue
 		}
@@ -460,6 +452,41 @@ func TestSetupFilesAreCopyableAndNamed(t *testing.T) {
 			if !strings.Contains(p.body, template.HTMLEscapeString(a.Path)) {
 				t.Errorf("%s: does not give the path for %q", p.name, a.Tool)
 			}
+		}
+	}
+}
+
+// The entry point is the landing page. It has to say what the site is, list
+// every chapter, and hand the reader to chapter 0, and it carries none of a
+// chapter's machinery: no prompts, no pickers, no setup files.
+func TestLandingPage(t *testing.T) {
+	_, indexPath := testRun(t)
+	b, err := os.ReadFile(indexPath)
+	if err != nil {
+		t.Fatalf("reading landing page: %v", err)
+	}
+	body := string(b)
+	if m := unrendered.FindString(body); m != "" {
+		t.Errorf("landing page: template action left unrendered: %s", m)
+	}
+	for _, want := range []string{
+		"Learn distributed systems by building one",
+		"Start with Chapter 0",
+		`href="chapter-0.html"`,
+		"How a chapter works",
+	} {
+		if !strings.Contains(body, want) {
+			t.Errorf("landing page missing %q", want)
+		}
+	}
+	for _, c := range content.All {
+		if !strings.Contains(body, html.EscapeString(c.Title)) {
+			t.Errorf("landing page does not list chapter %d, %q", c.Number, c.Title)
+		}
+	}
+	for _, absent := range []string{"data-copy-prompt", "data-language-select", "data-system-select", `<section class="block setup"`} {
+		if strings.Contains(body, absent) {
+			t.Errorf("landing page carries %s, which belongs to a chapter", absent)
 		}
 	}
 }

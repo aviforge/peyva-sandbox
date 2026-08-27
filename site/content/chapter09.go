@@ -49,7 +49,7 @@ Carry out your plan. A time limit on every call to another program. On no answer
 Prove it: make the Teller sleep past the limit on the first try only, send one payment, and show me one Ledger pair and several attempts in the log.
 
 Done when a slow first try pays once, a 400 is never retried, and the gaps in the log grow.`},
-			{Label: "Page", Portal: true, Text: `Send waits forever, and a customer who taps again cannot tell whether the first tap paid.
+			{Label: "Portal", Portal: true, Text: `Send waits forever, and a customer who taps again cannot tell whether the first tap paid.
 
 Give Send a deadline. Past it, the page says the outcome is unknown, shows the reference, and offers to check rather than send again.
 

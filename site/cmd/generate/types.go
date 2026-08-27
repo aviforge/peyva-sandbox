@@ -12,6 +12,17 @@ type roadmapView struct {
 	Built  bool
 }
 
+// LandingData is what the entry point renders: the site in one screen, and a
+// way into chapter 0. It is not a chapter, so it carries none of a chapter's
+// machinery.
+type LandingData struct {
+	Chapters      []content.ChapterContent
+	Languages     []content.Language
+	AssetPrefix   string
+	StyleVersion  string
+	ScriptVersion string
+}
+
 type PageData struct {
 	Chapter       content.ChapterContent
 	HeroAvailable bool

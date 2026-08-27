@@ -51,7 +51,7 @@ Done when I have questions that are all about this system and no other.`},
 Answer each one against the code you actually wrote. Then fix what the answers exposed, and say plainly what is still exploitable.
 
 Done when every question has an answer, the fixable ones are fixed, and I have your list of what remains.`},
-			{Label: "Page", Portal: true, Text: `The Portal's switcher takes whoever it is told, so anyone at the keyboard can spend alice's money.
+			{Label: "Portal", Portal: true, Text: `The Portal's switcher takes whoever it is told, so anyone at the keyboard can spend alice's money.
 
 Put a sign-in in front of it. Switching means signing in as that account, and the switcher offers only accounts already signed in. A signed-in customer sees only their own account and sends only from it.
 

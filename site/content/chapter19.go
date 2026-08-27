@@ -72,7 +72,7 @@ Report a version string from every health address. Then write me a rollback runb
 Every command runs on {os} and can be pasted as is.
 
 Done when a broken release to one copy fails its health check before the other two are touched, and Fix reverts it without improvising.`},
-			{Label: "Page", Portal: true, Text: `The Portal has peyva's address written into its pages. Move it to peyva/portal/config.js: one object, loaded first, holding the base URL and nothing else.
+			{Label: "Portal", Portal: true, Text: `The Portal has peyva's address written into its pages. Move it to peyva/portal/config.js: one object, loaded first, holding the base URL and nothing else.
 
 Empty means same origin, which is the ordinary case now.
 

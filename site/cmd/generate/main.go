@@ -49,6 +49,7 @@ func run(templatesDir, assetsDir, outDir, indexPath string) error {
 	tmpl, err := template.ParseFiles(
 		filepath.Join(templatesDir, "sidebar.html.tmpl"),
 		filepath.Join(templatesDir, "page.html.tmpl"),
+		filepath.Join(templatesDir, "landing.html.tmpl"),
 	)
 	if err != nil {
 		return fmt.Errorf("parsing templates: %w", err)
@@ -133,14 +134,32 @@ func run(templatesDir, assetsDir, outDir, indexPath string) error {
 		return err
 	}
 
-	// The entry point is the first chapter rendered a second time rather than
-	// copied from its page, so that it can carry whatever asset prefix its own
-	// location calls for.
+	// The entry point is a landing page: what the site is and how a chapter
+	// works, then the list. It used to be chapter 0 rendered again, which put
+	// a reader straight into a spec file with no idea why.
 	prefix, err := assetPrefix(indexPath, outDir)
 	if err != nil {
 		return err
 	}
-	return renderPage(tmpl, indexPath, pageData(content.All[0], prefix))
+	return renderLanding(tmpl, indexPath, LandingData{
+		Chapters:      content.All,
+		Languages:     content.Languages,
+		AssetPrefix:   prefix,
+		StyleVersion:  styleVersion,
+		ScriptVersion: scriptVersion,
+	})
+}
+
+func renderLanding(tmpl *template.Template, outPath string, data LandingData) error {
+	f, err := os.Create(outPath)
+	if err != nil {
+		return fmt.Errorf("creating %s: %w", outPath, err)
+	}
+	defer f.Close()
+	if err := tmpl.ExecuteTemplate(f, "landing", data); err != nil {
+		return fmt.Errorf("rendering %s: %w", outPath, err)
+	}
+	return nil
 }
 
 // assetVersion is a short digest of a file's contents, appended to its URL so a

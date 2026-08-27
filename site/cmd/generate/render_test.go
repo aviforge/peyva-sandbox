@@ -87,6 +87,11 @@ func TestEveryPageRendersCompletely(t *testing.T) {
 		if !heroImg.MatchString(p.body) {
 			t.Errorf("%s: no hero image element", p.name)
 		}
+		// Every page says the two choices have to be made before its prompts
+		// can be copied, because a reader can land on any chapter from a link.
+		if !strings.Contains(p.body, "data-choice-gate") {
+			t.Errorf("%s: does not tell the reader to choose a language and a system", p.name)
+		}
 		for _, s := range requiredSections {
 			if !strings.Contains(p.body, s) {
 				t.Errorf("%s: missing section %q", p.name, s)
@@ -166,9 +171,9 @@ func TestLanguageControlSitsWithThePromptItGoverns(t *testing.T) {
 			if strings.Contains(section, "data-language-select") {
 				t.Errorf("%s: the picker is still in Build It", p.name)
 			}
-			// Setup carries both choices, so the options are the languages
-			// and the systems together.
-			want := len(content.Languages) + len(content.Systems)
+			// Setup carries both choices, and each opens on a blank rather
+			// than on a default nobody picked.
+			want := len(content.Languages) + len(content.Systems) + 2
 			if n := len(optionTag.FindAllString(setup, -1)); n != want {
 				t.Errorf("%s: offers %d options, want %d", p.name, n, want)
 			}

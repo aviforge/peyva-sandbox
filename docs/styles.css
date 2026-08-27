@@ -310,6 +310,46 @@ body {
   margin: 0 0 10px;
 }
 
+/* The two choices are not defaults with a picker beside them: nothing is
+   chosen until the reader chooses. Until then this bar says so and the prompts
+   cannot be copied, because a prompt naming the wrong language is worse than
+   one the reader had to stop and think about for a moment. Hidden entirely
+   once both are set, which is the state for every visit after the first. */
+.choice-gate {
+  display: none;
+  margin: 0 0 14px;
+  padding: 10px 14px;
+  border: 1px solid var(--accent-danger);
+  border-radius: 10px;
+  background: var(--card-bg);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+body.needs-choice .choice-gate {
+  display: block;
+}
+
+/* Blanked rather than left showing a default, so nothing on the page claims a
+   choice the reader has not made. */
+.is-unset {
+  color: var(--accent-danger);
+  font-weight: 700;
+}
+
+body.needs-choice .build-it .prompt-copy {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+body.needs-choice .build-it .prompt {
+  opacity: 0.55;
+}
+
+body.needs-choice .language-select {
+  border-color: var(--accent-danger);
+}
+
 /* A sidebar is a chapter in miniature: its own figure, claims and prompts, set
    apart by a tinted border so it reads as an aside and not the main thread. */
 .block.aside {

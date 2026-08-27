@@ -15,6 +15,39 @@
     }
   }
 
+  // Nothing is chosen until the reader chooses. The generator still bakes a
+  // language and a system into every page, because a prompt that reaches an
+  // assistant naming neither is worse than one naming the wrong one: the
+  // assistant picks its own, differently on different chapters. So the page
+  // ships a default and this hides it until the choice is made, rather than
+  // letting a reader copy twenty chapters of Go while building in Python.
+  //
+  // The blank option is what makes the choice possible at all. Without it a
+  // reader building in the language already shown would have to pick something
+  // else and come back to fire a change event.
+  var UNSET = '________';
+
+  function hasChoice() {
+    return !!(safeGet('peyva:language') && safeGet('peyva:system'));
+  }
+
+  // Locking the buttons rather than hiding the prompts: the reader can still
+  // read what a chapter asks for before committing to a language. Only the
+  // Build It copies lock. The setup files are the same whatever the answer.
+  function refreshGate() {
+    var needs = !hasChoice();
+    document.body.classList.toggle('needs-choice', needs);
+    var buttons = document.querySelectorAll('.build-it [data-copy-prompt]');
+    Array.prototype.forEach.call(buttons, function (button) {
+      button.disabled = needs;
+      if (needs) {
+        button.setAttribute('title', 'Choose your language and system first');
+      } else {
+        button.setAttribute('title', 'Copy this prompt');
+      }
+    });
+  }
+
   function initThemeToggle() {
     var toggle = document.querySelector('[data-theme-toggle]');
     if (!toggle) return;
@@ -138,6 +171,7 @@
       // Restoring what the page shipped keeps each one describing itself.
       var label = button.getAttribute('aria-label');
       button.addEventListener('click', function () {
+        if (button.disabled) return;
         var pre = button.parentNode.querySelector('.prompt');
         if (!pre) return;
 
@@ -190,8 +224,11 @@
     function apply(name, id) {
       Array.prototype.forEach.call(names, function (el) {
         el.textContent = name;
+        el.classList.toggle('is-unset', name === UNSET);
       });
-      if (!blocks.length || !id) return;
+      if (!blocks.length) return;
+      // With no system chosen there is no right script to show, so show none
+      // rather than hand the reader three and let them guess.
       Array.prototype.forEach.call(blocks, function (el) {
         el.hidden = el.getAttribute('data-runner-for') !== id;
       });
@@ -199,28 +236,35 @@
 
     var saved = safeGet('peyva:systemName');
     var savedID = safeGet('peyva:system');
-    if (saved && saved.length < 40) apply(saved, savedID);
+    apply(saved && saved.length < 40 && savedID ? saved : UNSET, savedID || '');
 
     if (!select) return;
 
     if (savedID && select.querySelector('option[value="' + savedID + '"]')) {
       select.value = savedID;
+      dropUnset(select);
     }
-    // Nothing saved yet, so the page is showing whichever script the generator
-    // put first. Hide the others so the reader is not handed three.
-    apply(select.options[select.selectedIndex].getAttribute('data-prompt') ||
-      select.options[select.selectedIndex].textContent, select.value);
 
     // The option's own text is the short name for the picker. What goes into a
     // prompt names the shell too, so it is carried on the option rather than
     // rebuilt here, where it would drift from the Go that writes the pages.
     select.addEventListener('change', function () {
       var option = select.options[select.selectedIndex];
+      if (!select.value) return;
       var text = option.getAttribute('data-prompt') || option.textContent;
       safeSet('peyva:system', select.value);
       safeSet('peyva:systemName', text);
+      dropUnset(select);
       apply(text, select.value);
+      refreshGate();
     });
+  }
+
+  // Once a real choice is in, the blank goes: keeping it would offer the reader
+  // a way back to no answer, which is not one of the options.
+  function dropUnset(select) {
+    var blank = select.querySelector('option[data-unset]');
+    if (blank) select.removeChild(blank);
   }
 
   function initLanguage() {
@@ -233,11 +277,12 @@
     function apply(name) {
       Array.prototype.forEach.call(names, function (el) {
         el.textContent = name;
+        el.classList.toggle('is-unset', name === UNSET);
       });
     }
 
     var saved = safeGet('peyva:languageName');
-    if (saved && saved.length < 40) apply(saved);
+    apply(saved && saved.length < 40 && safeGet('peyva:language') ? saved : UNSET);
 
     // Only the chapter that owns the picker can change the choice. Every other
     // chapter reads it, so a reader cannot switch language halfway through and
@@ -248,13 +293,17 @@
     var savedID = safeGet('peyva:language');
     if (savedID && select.querySelector('option[value="' + savedID + '"]')) {
       select.value = savedID;
+      dropUnset(select);
     }
 
     select.addEventListener('change', function () {
+      if (!select.value) return;
       var chosen = select.options[select.selectedIndex].textContent;
       safeSet('peyva:language', select.value);
       safeSet('peyva:languageName', chosen);
+      dropUnset(select);
       apply(chosen);
+      refreshGate();
     });
   }
 
@@ -265,6 +314,7 @@
     initCopyPrompt();
     initLanguage();
     initSystem();
+    refreshGate();
     updateProgress();
   });
 })();

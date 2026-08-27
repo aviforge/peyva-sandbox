@@ -42,11 +42,13 @@
     <h2>Setup <span class="badge">Once</span>
         {{if .LanguageIsChosenHere}}<label class="language-picker">Build in
           <select class="language-select" data-language-select aria-label="Language every chapter&#39;s prompt asks for">
+            <option value="" data-unset>Choose one</option>
             {{range .Languages}}<option value="{{.ID}}">{{.Name}}</option>{{end}}
           </select>
         </label>{{end}}
         {{if .SystemIsChosenHere}}<label class="language-picker">On
           <select class="language-select" data-system-select aria-label="Operating system every command and script is written for">
+            <option value="" data-unset>Choose one</option>
             {{range .Systems}}<option value="{{.ID}}" data-prompt="{{.Prompt}}">{{.Name}}</option>{{end}}
           </select>
         </label>{{end}}
@@ -120,6 +122,7 @@
       <h2>3. How <span class="badge">Hands-on</span>
           <span class="language-locked">Building in <b data-language-name>{{.LanguageName}}</b>, {{if .LanguageIsChosenHere}}<a href="#setup">change in Setup</a>{{else}}<a href="{{.AssetPrefix}}chapter-0.html">change in Chapter 0</a>{{end}}</span>
       </h2>
+      <p class="choice-gate" data-choice-gate>Two choices first: the language you are building in, and the system you are on. Make them in {{if .LanguageIsChosenHere}}<a href="#setup">Setup, above</a>{{else}}<a href="{{.AssetPrefix}}chapter-0.html">Chapter 0</a>{{end}}. The prompts below stay locked until you do.</p>
       {{if .SystemMatters}}<p class="system-locked">Written for <b data-os-name>{{.SystemName}}</b>, <a href="{{.AssetPrefix}}{{.SystemPickerHref}}">change in Chapter {{.SystemPickerNumber}}</a></p>{{end}}
       <p class="technique"><span class="technique-name">{{.Chapter.BuildIt.Technique}}</span>. {{.Chapter.BuildIt.Why}}</p>
       <p class="technique-source">Documented in {{.Chapter.BuildIt.Source}}</p>

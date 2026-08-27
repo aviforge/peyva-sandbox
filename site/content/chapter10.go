@@ -13,12 +13,12 @@ var Chapter10 = ChapterContent{
 	HeroCaption: "Scale out = add more servers/instances to handle more load in parallel.",
 
 	Why: []string{
-		"Copies are interchangeable only if nothing that matters lives inside one of them. A counter in a variable, a cache in a map, a database file on one copy's disk: each makes that copy different from the others, and a request routed to the wrong one gets a wrong answer.",
-		"So the store cannot be inside the copies. Three copies each holding a database file are three banks with three sets of balances. The Vault becomes its own process, one of it, and the copies become clients of it over the network.",
-		"A transaction cannot span processes. The debit, the credit, the Ledger entries and the idempotency record were one atomic unit because they were in one database in one process. That unit moves into the Vault's process whole, and the Teller drives it with one call rather than several.",
-		"Scaling out the stateless part does not scale the store. Every payment still ends at one Vault, so the copies buy you concurrency in parsing, validation and waiting, not in writing balances. Knowing which part is the bottleneck is what makes scaling out worth doing.",
-		"A load balancer is a process like any other, and it is now the one that holds the port everyone knows. It can only spread requests it can see fail, which means a copy dying mid-request looks to the balancer like a timeout, and the caller needs the retry rules from before.",
-		"Whether any of this is needed is arithmetic, done before building. The sidebar below sizes peyva from a handful of labelled assumptions, and the answer says which part fills up first.",
+		"Copies are interchangeable only if nothing that matters lives inside one of them.",
+		"A database file inside each copy is three banks with three sets of balances. The Vault becomes its own process.",
+		"A transaction cannot span processes. The whole payment runs inside the Vault in one transaction; the Teller makes one call.",
+		"More copies scale parsing and waiting, not writes. Every payment still ends at one Vault.",
+		"The load balancer now holds the known port. A copy dying mid-request looks like a timeout to it.",
+		"Whether any of this is needed is arithmetic. The sidebar below does it.",
 	},
 
 	Aside: &Aside{
@@ -26,11 +26,11 @@ var Chapter10 = ChapterContent{
 		HeroImage:   "images/sidebar-10.webp",
 		HeroCaption: "Capacity estimation helps us choose the right technology, plan scaling, and control cost: before we build.",
 		Why: []string{
-			"An estimate is a handful of assumptions multiplied out: users, actions per user per day, a peak factor, a record size. Each is a guess, and the value of the exercise is writing the guesses down where they can be argued with.",
-			"A hundred thousand users making three payments a day is three hundred thousand a day: about three and a half a second on average, thirty-five at a ten-times peak. At a kilobyte per payment, two years of Ledger is two hundred gigabytes.",
-			"Peak is what you build for, not average. Traffic is not flat, and a system sized for the average is down at the busiest hour, which is the hour that matters.",
-			"Being roughly right before building beats being exactly right after. The point is the order of magnitude: whether one store on one laptop is enough, or whether the next chapter's copies are needed at all.",
-			"Sensitivity matters more than the number. Knowing which single assumption moves the answer most tells you which one to go and confirm.",
+			"An estimate is a few assumptions multiplied out: users, actions per day, a peak factor, a record size.",
+			"100,000 users at three payments a day is 300,000 a day: about 3.5 per second, 35 at a ten-times peak.",
+			"At a kilobyte per payment, two years of Ledger is about 220 GB.",
+			"Size for the peak, not the average. The busiest hour is the one that matters.",
+			"Roughly right before building beats exactly right after. Know which assumption moves the answer most.",
 		},
 		BuildIt: BuildIt{
 			Technique: "Self-Ask",

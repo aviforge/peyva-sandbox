@@ -13,11 +13,11 @@ var Chapter12 = ChapterContent{
 	HeroCaption: "Queues let different parts of the system work at their own speed and not depend on each other directly. This is called decoupling.",
 
 	Why: []string{
-		"A response should wait for what the caller needs and nothing else. The caller needs to know the money moved. They do not need to wait while a notification is composed and delivered, and making them wait couples the payment's latency to the slowest thing downstream.",
-		"A queue separates deciding that work must happen from doing it. The producer records the work and moves on; the consumer takes it when it can. Neither has to be fast, or even up, at the same moment as the other.",
-		"A queue in memory is a promise the process cannot keep. Kill the process with ten notifications waiting and they are gone, and nothing anywhere records that they were owed. This chapter builds that flaw on purpose so the next one can fix it in the right place.",
-		"Queues turn overload into a number. If the consumer is slower than the producer, the backlog grows, and its length is the most honest health signal a system has. An unbounded queue hides that until memory runs out.",
-		"Asynchronous work changes what the customer sees. The page must show the payment as done when the money moved, and the notification as a separate thing that happens later, or it lies about one or the other.",
+		"A response should wait for what the caller needs and nothing else. They need the money moved, not the notification sent.",
+		"A queue separates deciding that work must happen from doing it.",
+		"A queue in memory dies with the process, and nothing records what was owed. This chapter builds that flaw on purpose.",
+		"Backlog length is the most honest health signal a system has.",
+		"The page must show the payment as done when the money moved, and the notification as a separate, later thing.",
 	},
 
 	Concepts: []ConceptItem{

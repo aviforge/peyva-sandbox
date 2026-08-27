@@ -13,12 +13,11 @@ var Chapter13 = ChapterContent{
 	HeroCaption: "Transactional Outbox makes sure important work is never lost, even if something fails right after saving.",
 
 	Why: []string{
-		"'Commit, then publish' has a gap, and the gap is not small in any sense that matters. It is a window between two instructions, and a process can die inside any window. Work lost there has no record, so nothing can ever notice it is missing.",
-		"The outbox closes the gap by making the work part of the commit. The payment and the row saying 'notify bob' are written in one transaction in the Vault's database, so either both exist or neither does. The work is durable before anyone tries to do it.",
-		"Doing the work is now a separate loop: read unsent rows, deliver, mark sent. That loop can crash after delivering and before marking, which means the row is delivered again. The outbox trades 'possibly never' for 'possibly twice', and twice is the one a receiver can be made to handle.",
-		"At-least-once plus deduplication is the recurring shape of this book. Idempotency keys on payments, an outbox for downstream work: the same idea applied at each place a message crosses a boundary.",
-		"With several copies each running a collector, two of them can pick the same row. Claiming a row with an update the database serialises, or accepting the duplicate and deduping downstream, are the choices; pretending it cannot happen is not one.",
-		"The outbox is a queue that happens to be a table. It has a backlog, a consumer and a producer, and its length is a health signal, exactly as an in-memory queue's was, except that this one survives a restart.",
+		"'Commit, then publish' has a window between two instructions, and a crash inside it loses work with no record.",
+		"The outbox writes the work in the same transaction as the payment. Both exist or neither does.",
+		"A crash after delivering and before marking done delivers twice. The outbox trades 'maybe never' for 'maybe twice'.",
+		"At-least-once plus deduplication is the recurring shape: idempotency keys for payments, an outbox for downstream work.",
+		"Several collectors can grab the same row. Claim it in one update, or dedupe downstream. Pretending it cannot happen is not an option.",
 	},
 
 	Concepts: []ConceptItem{

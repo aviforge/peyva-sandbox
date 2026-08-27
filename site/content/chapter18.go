@@ -13,12 +13,12 @@ var Chapter18 = ChapterContent{
 	HeroCaption: "Security is not a feature, it's a foundation. We build it in, not bolt it on.",
 
 	Why: []string{
-		"A payment request that names its payer is a request anyone can forge. The 'from' field is a claim, and a system that acts on a claim without checking it lets any caller spend from any account.",
-		"Authentication and authorisation are different checks that fail differently. Proving the caller is alice does not say alice may spend from bob. The second check is the one payments systems most often forget, because the first one feels like enough.",
-		"The check belongs before the money, at the edge, in one place. Spreading it across handlers means one handler without it, and that handler is the one an attacker finds.",
-		"Credentials in source code are credentials in every clone, every backup and every log of the repository. They come from the environment, and the process refuses to start without them rather than falling back to a default anyone can read.",
-		"Internal calls are not trusted by being internal. The copies call the Vault over the network; anything else on that network can too, and a Vault that accepts a write from any caller has an unauthenticated front door of its own.",
-		"Security review is asking how this specific system breaks, not applying a general checklist. The questions worth asking name these fields, these endpoints and these checks; a question that could be asked of any application finds only the bugs every application has.",
+		"The 'from' field is a claim. Acting on it unchecked lets any caller spend from any account.",
+		"Authentication says who is calling. Authorisation says whether alice may spend from bob. Both, or neither counts.",
+		"Check at the edge, in one place, before the money. A spread-out check has one handler that forgot.",
+		"Secrets come from the environment, never source. The process refuses to start without them.",
+		"Internal calls are not trusted for being internal. Anything on the network can reach the Vault's port.",
+		"Review by asking how this system breaks, not by applying a generic checklist.",
 	},
 
 	Concepts: []ConceptItem{

@@ -146,21 +146,21 @@
   
 
   <div class="section-grid">
-    <section class="block why">
-      <h2>1. Why</h2>
-      <ul class="why-list">
-        <li>Scaling out the copies never scaled the writes: every payment still ended at one Vault. Sharding is the only way to scale that, by giving each of several Vaults a subset of the accounts, so writes to different subsets never touch the same store.</li><li>The shard key decides everything. Hashing the account handle spreads accounts evenly and makes &#39;which shard&#39; a pure function any copy can compute; it also means alice and bob are on different shards half the time, and a payment between them can no longer be one transaction.</li><li>A cross-shard payment is exactly the saga problem. Debit on one shard, credit on another, each a local transaction, with a durable record of how far it got and a compensation if the credit fails permanently. Everything the saga chapter built is now on the main path rather than at the edge.</li><li>Between the debit committing on one shard and the credit committing on the other, money is in flight: gone from alice, not yet with bob. Conservation across shards only holds if in-flight amounts are counted as neither lost nor arrived.</li><li>Rebalancing is the hidden cost. Adding a shard changes which shard a hash points to, and every account that moves has to be copied while payments continue. Consistent hashing limits how many move; it does not make the move free.</li><li>Each shard needs everything one Vault needed: its own replica, its own lease. Two shards are two of every failure mode from the last six chapters, which is why sharding comes this late and why most systems put it off as long as they can.</li>
-      </ul>
-    </section>
-
-    
-
     <section class="block">
-      <h2>2. Concepts</h2>
+      <h2>1. What</h2>
       <ul class="concepts">
         <li><strong>Shard</strong>. One Vault holding a subset of the accounts, with its own database and its own Ledger entries for those accounts.</li><li><strong>Shard Key</strong>. The value that decides which shard an account lives on, here a hash of the handle. Any copy can compute it, so routing needs no lookup.</li><li><strong>Routing</strong>. Sending each request to the shard that owns the account. A payment names two accounts, and they may be on different shards.</li><li><strong>Cross-Shard Payment</strong>. A debit on one shard and a credit on another, which cannot share a transaction. Run as a saga with a durable record and a compensation.</li><li><strong>In Flight</strong>. Money debited on one shard and not yet credited on the other. Any check of the whole system has to count it, or conservation appears to fail during every cross-shard payment.</li><li><strong>Rebalancing</strong>. Moving accounts between shards when one is added or removed, while payments continue. Consistent hashing limits how many move.</li>
       </ul>
     </section>
+
+    <section class="block why">
+      <h2>2. Why</h2>
+      <ul class="why-list">
+        <li>Copies never scaled writes. Sharding does: each Vault owns some accounts, so writes to different accounts never share a store.</li><li>The shard key is a hash of the handle. Any copy computes it. It also puts alice and bob on different shards half the time.</li><li>A cross-shard payment cannot be one transaction. It is the saga from before, now on the main path.</li><li>Between the debit and the credit, money is in flight. Conservation only holds if in-flight amounts are counted.</li><li>Adding a shard moves accounts. Consistent hashing limits how many; it does not make the move free.</li><li>Each shard needs its own replica and lease. Two shards are two of every failure mode. That is why this comes late.</li>
+      </ul>
+    </section>
+
+    
 
     <section class="block build-it">
       <h2>3. Build It <span class="badge">Hands-on</span>

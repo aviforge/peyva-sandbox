@@ -146,21 +146,21 @@
   
 
   <div class="section-grid">
-    <section class="block why">
-      <h2>1. Why</h2>
-      <ul class="why-list">
-        <li>A process is the unit of failure. When it dies, everything in its memory dies with it, instantly and without warning. Every durability technique in this book is a way of putting something outside the process before that happens.</li><li>The OS can stop a process at any instruction. Between two lines of your code, seconds can pass, the process can be killed, or another process can run. Code that assumes otherwise is already wrong on one machine, before any network is involved.</li><li>Memory and disk differ by roughly a thousand times in latency and by what survives a restart. A design that ignores which one it is reading from is guessing about both speed and safety.</li><li>One core executes one instruction stream at a time. Two things that appear to happen together are being interleaved by the scheduler, and the interleaving is not under your control.</li><li>Every distributed system is several of these. Nothing about a network makes a process more reliable, so understanding what one process can lose is the floor for everything after.</li>
-      </ul>
-    </section>
-
-    
-
     <section class="block">
-      <h2>2. Concepts</h2>
+      <h2>1. What</h2>
       <ul class="concepts">
         <li><strong>Process</strong>. A program that is running, with its own memory that no other process can reach.</li><li><strong>Operating System (OS)</strong>. Decides which process gets the CPU, how much memory it may hold, and what it may touch.</li><li><strong>CPU</strong>. Executes instructions. One core runs one thing at a time, however many programs are open.</li><li><strong>Memory (RAM)</strong>. Where a process keeps what it is working on. Fast, and empty again the moment the process stops.</li><li><strong>Disk (Storage)</strong>. Where data outlives the process that wrote it. Slower than memory by a wide margin.</li><li><strong>Scheduler</strong>. The part of the OS that decides which process runs next and for how long. It can pause yours between any two instructions.</li>
       </ul>
     </section>
+
+    <section class="block why">
+      <h2>2. Why</h2>
+      <ul class="why-list">
+        <li>A process is the unit of failure. When it dies, its memory dies with it.</li><li>The OS can pause your process between any two instructions.</li><li>Memory is fast and forgets on restart. Disk is a thousand times slower and remembers.</li><li>One core runs one instruction stream. Concurrency is interleaving you do not control.</li><li>A distributed system is several of these. The network makes none of them more reliable.</li>
+      </ul>
+    </section>
+
+    
 
     <section class="block build-it">
       <h2>3. Build It <span class="badge">Hands-on</span>

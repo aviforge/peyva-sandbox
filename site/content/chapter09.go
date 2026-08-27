@@ -13,13 +13,12 @@ var Chapter09 = ChapterContent{
 	HeroCaption: "Every call over a network has three outcomes: it worked, it failed, and nobody knows. The third is the one you design for.",
 
 	Why: []string{
-		"A remote call has three outcomes, not two: success, failure, and no answer. The third is indistinguishable from a slow success, and a caller that treats it as failure will resend a request that already went through.",
-		"Without a timeout, a call can wait forever. A dead peer does not send a refusal; it sends nothing, and the OS may keep the connection open for minutes. Every call across a process boundary needs a deadline, chosen from how long a good answer actually takes.",
-		"A timeout is not permission to retry. It is permission to retry only an idempotent request. Retrying a payment that carries its reference is safe because the receiver deduplicates it; retrying one without is how a customer pays twice.",
-		"Retrying immediately makes a struggling service worse. Every caller that times out and resends doubles the load at the moment it can least take it, which is a retry storm. Backoff spaces retries out; jitter stops every caller retrying at the same instant.",
-		"Retries are bounded. After some number of attempts the honest answer is 'I do not know whether this happened', and the caller has to surface that rather than loop. A payment stuck in that state is a support ticket, not a bug to hide.",
-		"Some failures should not be retried at all. A 400 will be a 400 again; an insufficient balance will still be insufficient. Retrying those wastes the attempts you have and delays the answer the caller needed.",
-		"The rules for one hop compound across hops. If every layer retries three times, a single request can become twenty-seven at the bottom. Retry once, at the edge that can dedupe, and let the layers underneath fail fast.",
+		"A remote call has three outcomes: success, failure, and no answer. The third may be a slow success.",
+		"Every call across a process boundary needs a timeout, chosen from how long a good answer takes.",
+		"Retry only with the same reference. Without one, a retry is a duplicate payment.",
+		"Retry immediately and you pile onto a struggling service. Back off, and add jitter so callers do not retry in step.",
+		"Never retry a 4xx. It will be a 4xx again.",
+		"Bound the retries. After that, the honest answer is 'unknown, quote this reference', not a loop.",
 	},
 
 	Concepts: []ConceptItem{

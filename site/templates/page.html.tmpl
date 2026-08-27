@@ -72,8 +72,15 @@
   {{end}}
 
   <div class="section-grid">
+    <section class="block">
+      <h2>1. What</h2>
+      <ul class="concepts">
+        {{range .Chapter.Concepts}}<li><strong>{{.Term}}</strong>. {{.Description}}</li>{{end}}
+      </ul>
+    </section>
+
     <section class="block why">
-      <h2>1. Why</h2>
+      <h2>2. Why</h2>
       <ul class="why-list">
         {{range .Chapter.Why}}<li>{{.}}</li>{{end}}
       </ul>
@@ -103,13 +110,6 @@
       {{end}}
     </section>
     {{end}}
-
-    <section class="block">
-      <h2>2. Concepts</h2>
-      <ul class="concepts">
-        {{range .Chapter.Concepts}}<li><strong>{{.Term}}</strong>. {{.Description}}</li>{{end}}
-      </ul>
-    </section>
 
     <section class="block build-it">
       <h2>3. Build It <span class="badge">Hands-on</span>

@@ -146,21 +146,21 @@
   
 
   <div class="section-grid">
-    <section class="block why">
-      <h2>1. Why</h2>
-      <ul class="why-list">
-        <li>An API is a contract about failure as much as success. The caller has to be able to tell &#39;you asked for something impossible&#39; from &#39;I could not do it right now&#39;, because the correct response differs: fix the request, or try again.</li><li>Status codes carry that distinction. 4xx means the request is wrong and retrying it unchanged will fail again; 5xx means the server is wrong and the same request may succeed later. Get this backwards and every client retries the wrong things.</li><li>Validation happens before any state changes, in full. Debiting the payer and then discovering the recipient does not exist is a bug that creates money out of an error path.</li><li>The reference returned for a payment is the caller&#39;s only handle on what happened. It will be quoted in support tickets, in retries and in the audit trail. Generate it once, and never reuse one.</li><li>Separating the front door from the thing that moves money is not ceremony. Parsing, authentication and rate limiting change often; the rules for moving money must not. Keeping them in different components keeps churn away from the invariants.</li><li>A response of 200 means the money moved and was recorded. Sending it before that is true is a promise the system may not keep, and the caller will act on the promise.</li>
-      </ul>
-    </section>
-
-    
-
     <section class="block">
-      <h2>2. Concepts</h2>
+      <h2>1. What</h2>
       <ul class="concepts">
         <li><strong>Endpoint</strong>. A specific thing the API lets you do: POST /transfer, for moving money.</li><li><strong>Request Body</strong>. The details of what you&#39;re asking for, e.g. {&#34;from&#34;: &#34;alice&#34;, &#34;to&#34;: &#34;bob&#34;, &#34;amount&#34;: 20}.</li><li><strong>Status Codes</strong>. A predictable signal of what happened: 2xx it worked, 4xx your request is wrong, 5xx the server failed and the same request might work later.</li><li><strong>Validation</strong>. Checking the request makes sense before doing any work, rejecting bad orders instead of guessing.</li><li><strong>Teller</strong>. The component that handles a payment end to end. The Gateway forwards requests and never touches a balance itself.</li>
       </ul>
     </section>
+
+    <section class="block why">
+      <h2>2. Why</h2>
+      <ul class="why-list">
+        <li>An API is a contract about failure. The caller must tell &#39;your request is wrong&#39; from &#39;try again later&#39;.</li><li>4xx means the same request fails again. 5xx means it might work later. Get this backwards and clients retry the wrong things.</li><li>Validate everything before touching state. A debit followed by &#39;unknown recipient&#39; creates money from an error path.</li><li>The reference is the caller&#39;s only handle on what happened. Generate it once, never reuse it.</li><li>200 means the money moved and was recorded. Sending it earlier is a promise you may not keep.</li>
+      </ul>
+    </section>
+
+    
 
     <section class="block build-it">
       <h2>3. Build It <span class="badge">Hands-on</span>

@@ -13,12 +13,11 @@ var Chapter04 = ChapterContent{
 	HeroCaption: "Simple. Predictable. Hard to misuse.",
 
 	Why: []string{
-		"An API is a contract about failure as much as success. The caller has to be able to tell 'you asked for something impossible' from 'I could not do it right now', because the correct response differs: fix the request, or try again.",
-		"Status codes carry that distinction. 4xx means the request is wrong and retrying it unchanged will fail again; 5xx means the server is wrong and the same request may succeed later. Get this backwards and every client retries the wrong things.",
-		"Validation happens before any state changes, in full. Debiting the payer and then discovering the recipient does not exist is a bug that creates money out of an error path.",
-		"The reference returned for a payment is the caller's only handle on what happened. It will be quoted in support tickets, in retries and in the audit trail. Generate it once, and never reuse one.",
-		"Separating the front door from the thing that moves money is not ceremony. Parsing, authentication and rate limiting change often; the rules for moving money must not. Keeping them in different components keeps churn away from the invariants.",
-		"A response of 200 means the money moved and was recorded. Sending it before that is true is a promise the system may not keep, and the caller will act on the promise.",
+		"An API is a contract about failure. The caller must tell 'your request is wrong' from 'try again later'.",
+		"4xx means the same request fails again. 5xx means it might work later. Get this backwards and clients retry the wrong things.",
+		"Validate everything before touching state. A debit followed by 'unknown recipient' creates money from an error path.",
+		"The reference is the caller's only handle on what happened. Generate it once, never reuse it.",
+		"200 means the money moved and was recorded. Sending it earlier is a promise you may not keep.",
 	},
 
 	Concepts: []ConceptItem{

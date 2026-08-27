@@ -13,12 +13,11 @@ var Chapter03 = ChapterContent{
 	HeroCaption: "peyva sends data between machines over the network.",
 
 	Why: []string{
-		"TCP is a stream of bytes, not a sequence of messages. One write on the sender can arrive as three reads on the receiver, or three writes as one read. Any protocol on top of it has to say where a message ends, with a length prefix, a delimiter, or a header like HTTP's Content-Length.",
-		"Reading half a request is normal, not an error. Code that assumes one read returns one request works on localhost and breaks on a real network, which is the most common first bug in anything that speaks TCP directly.",
-		"TCP promises order and retransmission while the connection lives. It does not promise delivery: a connection can drop after the sender's write returned and before the receiver read anything, and neither side is told which bytes made it.",
-		"Underneath, everything travels as packets that can be lost, duplicated, delayed or reordered. TCP hides that from you on one connection; it cannot hide the connection itself failing.",
-		"Reachability is layered: the process must bind to a routable address, the OS firewall must allow the port, and the network must route to the machine. A failure at any layer looks identical from the caller's side, a timeout.",
-		"The moment a second machine can reach the process, latency stops being zero and failures stop being visible. This is the boundary where system design starts.",
+		"TCP is a byte stream, not messages. One write can arrive as three reads, or three writes as one.",
+		"Where a request ends is your job: a length prefix, a delimiter, or a header like Content-Length.",
+		"TCP orders and retransmits while the connection lives. It does not promise delivery if the connection drops.",
+		"Packets get lost, duplicated, delayed and reordered. TCP hides that within one connection only.",
+		"Reachability is layered: bind address, firewall, routing. Any failure looks the same to the caller: a timeout.",
 	},
 
 	Concepts: []ConceptItem{

@@ -13,12 +13,12 @@ var Chapter07 = ChapterContent{
 	HeroCaption: "All or nothing. If something fails, nothing changes.",
 
 	Why: []string{
-		"A payment is at least three writes: debit one account, credit another, record that it happened. A crash between any two of them leaves money created, destroyed or unexplained. A transaction is the mechanism that makes three writes one event.",
-		"Atomicity and durability are what the database gives you. Consistency in ACID is your invariant, not the database's: it will happily commit a negative balance if your code asks it to. The database keeps the writes together; you decide what they may say.",
-		"Isolation is the property most people skip and the one that loses money. Two payments from alice, each reading her balance as 100, each checking 20 fits, each debiting 20 from what it read, leave her at 80 with 40 gone. That is a lost update, and it happens inside two perfectly atomic transactions.",
-		"The fix is an isolation level, or a lock, that makes the read and the write one unit. Serialisable isolation makes concurrent transactions behave as if they ran one after another; weaker levels permit named anomalies. SQLite is serialisable because it holds one write lock, which is why this is easy here and hard in a server database.",
-		"Double-entry is the oldest correctness check in finance. Every movement is a debit and a matching credit, so the sum of all entries is always zero and the sum of an account's entries is always its balance. It turns 'is the money right' into arithmetic anyone can run.",
-		"The append-only record is the proof; the balance is a cached answer derived from it. When they disagree, the record wins, which is why nothing ever edits or deletes an entry. A mistake is corrected by another entry.",
+		"A payment is three writes: debit, credit, record. A crash between any two creates, destroys or hides money.",
+		"The database gives you atomicity, isolation and durability. Consistency is your invariant; it will commit a negative balance if asked.",
+		"Two payments that both read 100 and both debit 60 leave alice at 40 with 120 spent. That is a lost update, inside two atomic transactions.",
+		"The fix is serialisable isolation or a lock, so the check and the debit are one unit. SQLite gets this from its single write lock.",
+		"Double-entry: every move is a debit and a matching credit. Entries sum to zero; an account's entries sum to its balance.",
+		"The record is the proof and the balance is derived from it. Nothing edits or deletes an entry; a mistake gets a new entry.",
 	},
 
 	Concepts: []ConceptItem{

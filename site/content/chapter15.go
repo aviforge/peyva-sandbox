@@ -13,12 +13,12 @@ var Chapter15 = ChapterContent{
 	HeroCaption: "Replication = keep copies of data in multiple places so we can be safe, available and fast.",
 
 	Why: []string{
-		"Copying the file is not replication. A file copy is a snapshot with no position, so you cannot say how far behind it is, cannot resume it after an interruption, and cannot tell whether a given payment is in it. Replication ships changes, in order, with a number on each.",
-		"A replication log is the Ledger's idea applied to the whole store: every committed change appended with a sequence number, in the same transaction as the change. The replica's state is defined by one number, the last sequence it applied, and that number is what every question about lag or loss comes down to.",
-		"Asynchronous means the primary answers the caller before the replica has the change. In the window between, a committed payment exists in exactly one place, and if the primary dies in that window the payment is gone from the replica's point of view. The window is measurable: primary's latest sequence minus the replica's.",
-		"Promotion is the moment async replication charges you. The replica becomes the primary with whatever it has, and every committed change past its position is lost. For money, that loss must be counted and reported, not discovered later by a customer.",
-		"After promotion the old primary must never accept a write again. If it comes back believing it is still primary, two stores accept payments independently, and that is split-brain, the one failure that breaks every invariant at once.",
-		"Replication gives you a second copy of the data. It does not decide who is primary, when to promote, or how the copies find the new primary. Those are separate problems, and this chapter leaves promotion as a manual act so the next one can automate it honestly.",
+		"Copying the file is not replication. A copy has no position, so you cannot say how far behind it is or resume it.",
+		"A replication log is every committed change with a sequence number, appended in the same transaction.",
+		"The replica's state is one number: the last sequence it applied. Lag is the primary's latest minus that.",
+		"Asynchronous means a committed payment briefly exists in one place. If the primary dies then, the replica never had it.",
+		"Promotion keeps whatever the replica has. For money, the lost tail must be counted and reported.",
+		"After promotion the old primary must never write again. Two writers is split-brain.",
 	},
 
 	Concepts: []ConceptItem{

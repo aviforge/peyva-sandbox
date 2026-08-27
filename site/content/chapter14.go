@@ -13,12 +13,12 @@ var Chapter14 = ChapterContent{
 	HeroCaption: "Sagas help us complete a big task in steps and roll back safely if something goes wrong.",
 
 	Why: []string{
-		"A transaction reaches as far as one database. The moment a payment involves a second system with its own store, there is no COMMIT that covers both, and the atomic unit that protected every earlier chapter is gone.",
-		"A saga replaces one atomic step with a sequence of local ones, each committed in its own system, and a record of how far the sequence got. It is weaker than a transaction on purpose: between steps, the world can see a payment that is half done.",
-		"Undo is a new forward step, not a rollback. The Ledger is append-only, so reversing a debit is a credit entry that references the original, never a deletion. The history shows that the money left and came back, which is the truth.",
-		"Compensation only makes sense for permanent failure. A closed account will still be closed; a timeout might succeed on retry. Reversing after a timeout can put money back that the other side has already credited, so the saga needs the three-outcome thinking from the retry chapter at every step.",
-		"The saga's record is what makes it restartable. Each step is idempotent and recorded, so a coordinator that dies mid-saga can be restarted and continue from the last completed step rather than starting again or giving up.",
-		"Compensations can fail too. A reversal that cannot be applied leaves a payment stuck, and the honest design surfaces stuck sagas for a human rather than retrying forever or pretending they completed.",
+		"A transaction reaches as far as one database. A second system with its own store has no shared COMMIT.",
+		"A saga is a sequence of local transactions plus a record of how far it got. Between steps, the world sees a half-done payment.",
+		"Undo is a new forward entry, never a deletion. The history shows money left and came back.",
+		"Only permanent failures compensate. A timeout retries, because the step may have succeeded.",
+		"Each step is idempotent and recorded, so a coordinator that dies can resume from the last completed step.",
+		"Compensations can fail too. A stuck saga goes to a human, not into an infinite retry.",
 	},
 
 	Concepts: []ConceptItem{

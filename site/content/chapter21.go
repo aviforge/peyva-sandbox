@@ -13,12 +13,12 @@ var Chapter21 = ChapterContent{
 	HeroCaption: "System design is not one clever box. It's how all the pieces cooperate under load, failure and change.",
 
 	Why: []string{
-		"Every mechanism in this book protects an invariant at one boundary. Transactions at the database, idempotency at the API, the outbox at the queue, the lease at the primary. A system is correct when every boundary a payment crosses has its mechanism, and wrong at the first one that does not.",
-		"Reconciliation is the check that assumes everything else has a bug. Balances and Ledger entries are written together on each shard, so they should always agree, and the Reconciler exists for the day they do not. It is how real payments systems find out, and it runs constantly, not after an incident.",
-		"A discrepancy is a fact to report, not a thing to fix automatically. The Reconciler says which account, how much, and since when; a person decides which side is right. A reconciler that silently corrects balances is a second writer of balances, which the first invariant forbids.",
-		"Single points of failure are found by walking the payment's path and asking, at each hop, what happens if this dies now. The Warden is one. The proxy is one. Knowing them is more useful than removing all of them, because removing each costs something and some are worth keeping.",
-		"Over-engineering is real cost with no failure it prevents. Every component here earned its place by a failure a previous chapter demonstrated; a component that cannot name its failure is the one to question.",
-		"Restating a system in your own words is the cheapest test of whether you understand it. Where your description and the code disagree, one of them is wrong, and it is worth finding out which before the next change.",
+		"Every mechanism guards one invariant at one boundary: transactions, idempotency, the outbox, the lease. A system is wrong at the first boundary without one.",
+		"Reconciliation assumes everything else has a bug. Balances and Ledger should always agree; the Reconciler exists for when they do not.",
+		"A discrepancy is reported, never auto-corrected. A reconciler that fixes balances is a second writer of balances.",
+		"Find single points of failure by walking a payment's path and asking what happens if this dies now.",
+		"Every component here earned its place by a failure a chapter demonstrated. One that cannot name its failure is the one to question.",
+		"Restating the system in your own words is the cheapest test of understanding it.",
 	},
 
 	Concepts: []ConceptItem{

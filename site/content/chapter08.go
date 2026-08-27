@@ -13,12 +13,12 @@ var Chapter08 = ChapterContent{
 	HeroCaption: "Idempotency = same request (same key) -> same effect (once).",
 
 	Why: []string{
-		"Exactly-once delivery over a network is impossible. A caller whose request timed out cannot know whether it was processed; the response may have been lost after the money moved. Its only options are to give up, or to send again and risk a double payment.",
-		"So the goal is not exactly-once delivery but exactly-once effect: deliver at least once, and make the receiver recognise a repeat. That is what an idempotency key is, a name the caller gives the operation so the second arrival can be matched to the first.",
-		"The key and the outcome must be stored in the same transaction as the money. Store the key first and crash, and a legitimate retry is refused forever. Store it after and crash, and the retry pays twice. Same atomic unit, or it does not work.",
-		"The stored response is returned verbatim on a repeat. Recomputing it, even from the same data, can give a different answer if anything changed in between, and then the caller has two answers to one question.",
-		"Two requests with the same brand-new key at the same instant are the hard case. Both find no record, both try to insert. A unique constraint on the key makes the database refuse the second one, and it is the database, not your code, that has to be the referee.",
-		"The key has a scope: it is per caller, not global. Two customers who happen to pick the same key must not collide, so the key is stored alongside who sent it.",
+		"Exactly-once delivery is impossible. A caller whose request timed out cannot know if it was processed.",
+		"So aim for exactly-once effect: deliver at least once, and recognise repeats by a key the caller supplies.",
+		"Store the key and the result in the same transaction as the money. Before or after, and a crash breaks it.",
+		"Return the stored response verbatim. Recomputing can give a different answer.",
+		"Two first-time sends of the same key at once: a unique constraint makes the database refuse the second.",
+		"The key is scoped to the caller. Two customers picking the same key must not collide.",
 	},
 
 	Concepts: []ConceptItem{

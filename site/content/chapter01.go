@@ -13,11 +13,11 @@ var Chapter01 = ChapterContent{
 	HeroCaption: "A computer is like a house. Many things work together inside it to get one job done.",
 
 	Why: []string{
-		"A process is the unit of failure. When it dies, everything in its memory dies with it, instantly and without warning. Every durability technique in this book is a way of putting something outside the process before that happens.",
-		"The OS can stop a process at any instruction. Between two lines of your code, seconds can pass, the process can be killed, or another process can run. Code that assumes otherwise is already wrong on one machine, before any network is involved.",
-		"Memory and disk differ by roughly a thousand times in latency and by what survives a restart. A design that ignores which one it is reading from is guessing about both speed and safety.",
-		"One core executes one instruction stream at a time. Two things that appear to happen together are being interleaved by the scheduler, and the interleaving is not under your control.",
-		"Every distributed system is several of these. Nothing about a network makes a process more reliable, so understanding what one process can lose is the floor for everything after.",
+		"A process is the unit of failure. When it dies, its memory dies with it.",
+		"The OS can pause your process between any two instructions.",
+		"Memory is fast and forgets on restart. Disk is a thousand times slower and remembers.",
+		"One core runs one instruction stream. Concurrency is interleaving you do not control.",
+		"A distributed system is several of these. The network makes none of them more reliable.",
 	},
 
 	Concepts: []ConceptItem{

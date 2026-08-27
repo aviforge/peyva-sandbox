@@ -54,8 +54,8 @@ func TestRunGeneratesChapterZeroPage(t *testing.T) {
 	}
 	body := string(pageHTML)
 
-	for _, want := range []string{"What Are We Building?", "1. Why",
-		"2. Concepts", "3. Build It", "Mark chapter as complete", "Build the Vault", "Inside One Computer", "Zero-shot prompting", "Documented in The Prompt Report"} {
+	for _, want := range []string{"What Are We Building?", "1. What", "2. Why",
+		 "3. Build It", "Mark chapter as complete", "Build the Vault", "Inside One Computer", "Zero-shot prompting", "Documented in The Prompt Report"} {
 		if !strings.Contains(body, want) {
 			t.Errorf("chapter-0.html missing expected text %q", want)
 		}

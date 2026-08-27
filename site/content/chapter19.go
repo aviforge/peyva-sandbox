@@ -13,12 +13,12 @@ var Chapter19 = ChapterContent{
 	HeroCaption: "Great restaurants aren't just built well. They are operated well every day. That's how customers stay happy.",
 
 	Why: []string{
-		"Configuration is what differs between one run and the next: ports, addresses, secrets. Anything with only one correct value is code, and moving it into a setting invites someone to change it at 3am with no review. The money rules are the clearest case: two decimal places is not a setting.",
-		"A missing setting should stop the process before it does anything. A default that papers over the gap fails later, somewhere unrelated, in a way that takes an hour to trace back to the variable that was never set.",
-		"Reading settings in one place, once, at startup, is what makes the previous two points enforceable. Scattered reads of the environment are scattered places a default can creep in.",
-		"Deploying is a state change to a live system, and the cheapest failure is the one caught on the first copy. Rolling one copy at a time, checking health between, turns a bad release into one degraded copy instead of an outage.",
-		"A rollback is a deploy of the previous version, and it has to work without thought. The version string on the health endpoint is what lets a person at 3am see which copy runs what, and a runbook of exact commands is what lets them fix it without improvising.",
-		"Rolling back code does not roll back data. A release that changed the schema or wrote rows the old version cannot read leaves the old version broken too; the runbook has to say whether this release can be rolled back at all.",
+		"Config is what differs between runs: ports, addresses, secrets. Anything with one correct value is code.",
+		"A missing setting stops the process at startup. A default hides it until it fails somewhere unrelated.",
+		"Read settings once, in one place. Scattered reads are scattered places a default creeps in.",
+		"Deploy one copy first and check health. A bad release becomes one degraded copy, not an outage.",
+		"A rollback is a deploy of the previous version. The version string on the health endpoint shows who runs what.",
+		"Rolling back code does not roll back data. The runbook must say whether this release can be rolled back at all.",
 	},
 
 	Concepts: []ConceptItem{

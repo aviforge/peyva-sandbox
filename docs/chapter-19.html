@@ -146,21 +146,21 @@
   
 
   <div class="section-grid">
-    <section class="block why">
-      <h2>1. Why</h2>
-      <ul class="why-list">
-        <li>Configuration is what differs between one run and the next: ports, addresses, secrets. Anything with only one correct value is code, and moving it into a setting invites someone to change it at 3am with no review. The money rules are the clearest case: two decimal places is not a setting.</li><li>A missing setting should stop the process before it does anything. A default that papers over the gap fails later, somewhere unrelated, in a way that takes an hour to trace back to the variable that was never set.</li><li>Reading settings in one place, once, at startup, is what makes the previous two points enforceable. Scattered reads of the environment are scattered places a default can creep in.</li><li>Deploying is a state change to a live system, and the cheapest failure is the one caught on the first copy. Rolling one copy at a time, checking health between, turns a bad release into one degraded copy instead of an outage.</li><li>A rollback is a deploy of the previous version, and it has to work without thought. The version string on the health endpoint is what lets a person at 3am see which copy runs what, and a runbook of exact commands is what lets them fix it without improvising.</li><li>Rolling back code does not roll back data. A release that changed the schema or wrote rows the old version cannot read leaves the old version broken too; the runbook has to say whether this release can be rolled back at all.</li>
-      </ul>
-    </section>
-
-    
-
     <section class="block">
-      <h2>2. Concepts</h2>
+      <h2>1. What</h2>
       <ul class="concepts">
         <li><strong>Health Check</strong>. An endpoint that confirms peyva and what it depends on are working, and says which version is running.</li><li><strong>Rolling Deployment</strong>. Releasing a new version one copy at a time, checking health between, instead of all at once.</li><li><strong>Release Rollback</strong>. Reverting to the previous working version when a release causes problems. Not chapter 7&#39;s transaction rollback, and it does not undo data the new version wrote.</li><li><strong>Runbook</strong>. A step-by-step guide for handling a specific, known kind of incident. Commands and expected output, not prose.</li><li><strong>Config</strong>. The component that reads every setting from outside the code and checks it. A setting is what differs between one run and the next, secrets included; anything with one correct value stays in code.</li><li><strong>Fail Fast</strong>. Refusing to start when a setting is missing, rather than guessing and failing later somewhere unrelated.</li>
       </ul>
     </section>
+
+    <section class="block why">
+      <h2>2. Why</h2>
+      <ul class="why-list">
+        <li>Config is what differs between runs: ports, addresses, secrets. Anything with one correct value is code.</li><li>A missing setting stops the process at startup. A default hides it until it fails somewhere unrelated.</li><li>Read settings once, in one place. Scattered reads are scattered places a default creeps in.</li><li>Deploy one copy first and check health. A bad release becomes one degraded copy, not an outage.</li><li>A rollback is a deploy of the previous version. The version string on the health endpoint shows who runs what.</li><li>Rolling back code does not roll back data. The runbook must say whether this release can be rolled back at all.</li>
+      </ul>
+    </section>
+
+    
 
     <section class="block build-it">
       <h2>3. Build It <span class="badge">Hands-on</span>

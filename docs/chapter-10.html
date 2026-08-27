@@ -146,10 +146,17 @@
   
 
   <div class="section-grid">
+    <section class="block">
+      <h2>1. What</h2>
+      <ul class="concepts">
+        <li><strong>Instance</strong>. One running copy of the stateless part of peyva, identical to every other. Also just called a copy.</li><li><strong>Load Balancer</strong>. Sits in front of all the copies and spreads incoming requests across them. Holds the port the outside world knows.</li><li><strong>Stateless</strong>. Keeps no unique data of its own. Any copy can handle any request, because the state lives in the Vault&#39;s own process.</li><li><strong>Horizontal Scaling</strong>. Adding more copies to handle more load, instead of making one machine bigger.</li><li><strong>Capacity Estimate</strong>. Users, actions per user, a peak factor and a record size, multiplied out. Tells you which part will fill up first, before you build any of it.</li>
+      </ul>
+    </section>
+
     <section class="block why">
-      <h2>1. Why</h2>
+      <h2>2. Why</h2>
       <ul class="why-list">
-        <li>Copies are interchangeable only if nothing that matters lives inside one of them. A counter in a variable, a cache in a map, a database file on one copy&#39;s disk: each makes that copy different from the others, and a request routed to the wrong one gets a wrong answer.</li><li>So the store cannot be inside the copies. Three copies each holding a database file are three banks with three sets of balances. The Vault becomes its own process, one of it, and the copies become clients of it over the network.</li><li>A transaction cannot span processes. The debit, the credit, the Ledger entries and the idempotency record were one atomic unit because they were in one database in one process. That unit moves into the Vault&#39;s process whole, and the Teller drives it with one call rather than several.</li><li>Scaling out the stateless part does not scale the store. Every payment still ends at one Vault, so the copies buy you concurrency in parsing, validation and waiting, not in writing balances. Knowing which part is the bottleneck is what makes scaling out worth doing.</li><li>A load balancer is a process like any other, and it is now the one that holds the port everyone knows. It can only spread requests it can see fail, which means a copy dying mid-request looks to the balancer like a timeout, and the caller needs the retry rules from before.</li><li>Whether any of this is needed is arithmetic, done before building. The sidebar below sizes peyva from a handful of labelled assumptions, and the answer says which part fills up first.</li>
+        <li>Copies are interchangeable only if nothing that matters lives inside one of them.</li><li>A database file inside each copy is three banks with three sets of balances. The Vault becomes its own process.</li><li>A transaction cannot span processes. The whole payment runs inside the Vault in one transaction; the Teller makes one call.</li><li>More copies scale parsing and waiting, not writes. Every payment still ends at one Vault.</li><li>The load balancer now holds the known port. A copy dying mid-request looks like a timeout to it.</li><li>Whether any of this is needed is arithmetic. The sidebar below does it.</li>
       </ul>
     </section>
 
@@ -161,7 +168,7 @@
         <figcaption>Capacity estimation helps us choose the right technology, plan scaling, and control cost: before we build. <a class="hero-expand-hint" href="images/sidebar-10.webp" target="_blank" rel="noopener">Click to view full size</a></figcaption>
       </figure>
       <ul class="why-list">
-        <li>An estimate is a handful of assumptions multiplied out: users, actions per user per day, a peak factor, a record size. Each is a guess, and the value of the exercise is writing the guesses down where they can be argued with.</li><li>A hundred thousand users making three payments a day is three hundred thousand a day: about three and a half a second on average, thirty-five at a ten-times peak. At a kilobyte per payment, two years of Ledger is two hundred gigabytes.</li><li>Peak is what you build for, not average. Traffic is not flat, and a system sized for the average is down at the busiest hour, which is the hour that matters.</li><li>Being roughly right before building beats being exactly right after. The point is the order of magnitude: whether one store on one laptop is enough, or whether the next chapter&#39;s copies are needed at all.</li><li>Sensitivity matters more than the number. Knowing which single assumption moves the answer most tells you which one to go and confirm.</li>
+        <li>An estimate is a few assumptions multiplied out: users, actions per day, a peak factor, a record size.</li><li>100,000 users at three payments a day is 300,000 a day: about 3.5 per second, 35 at a ten-times peak.</li><li>At a kilobyte per payment, two years of Ledger is about 220 GB.</li><li>Size for the peak, not the average. The busiest hour is the one that matters.</li><li>Roughly right before building beats exactly right after. Know which assumption moves the answer most.</li>
       </ul>
       <p class="technique"><span class="technique-name">Self-Ask</span>. Hidden guesses become a written list of assumptions you can argue with.</p>
       <p class="technique-source">Documented in The Prompt Report: Zero-Shot, Self-Ask</p>
@@ -196,13 +203,6 @@ Done when I have a peak-throughput figure and a two-year storage figure I can de
       
     </section>
     
-
-    <section class="block">
-      <h2>2. Concepts</h2>
-      <ul class="concepts">
-        <li><strong>Instance</strong>. One running copy of the stateless part of peyva, identical to every other. Also just called a copy.</li><li><strong>Load Balancer</strong>. Sits in front of all the copies and spreads incoming requests across them. Holds the port the outside world knows.</li><li><strong>Stateless</strong>. Keeps no unique data of its own. Any copy can handle any request, because the state lives in the Vault&#39;s own process.</li><li><strong>Horizontal Scaling</strong>. Adding more copies to handle more load, instead of making one machine bigger.</li><li><strong>Capacity Estimate</strong>. Users, actions per user, a peak factor and a record size, multiplied out. Tells you which part will fill up first, before you build any of it.</li>
-      </ul>
-    </section>
 
     <section class="block build-it">
       <h2>3. Build It <span class="badge">Hands-on</span>

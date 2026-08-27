@@ -13,12 +13,11 @@ var Chapter06 = ChapterContent{
 	HeroCaption: "Index = a map for your data. Fast lookups, less scanning.",
 
 	Why: []string{
-		"Without an index, finding one row means reading every row. That is fine at a thousand accounts and fatal at ten million, and the code looks identical in both cases. Slowness of this kind arrives silently, with growth.",
-		"An index is a second, sorted copy of one column pointing back at the rows. A B-tree keeps it balanced so any lookup takes a handful of page reads however large the table grows, which is why a lookup on a million rows costs about the same as on a thousand.",
-		"Every index is a write amplifier. Each insert or update has to maintain every index on the table, so a table with ten indexes does eleven writes per row. Indexes are bought with write speed.",
-		"An index only helps queries that use its column the way it was sorted. An index on region does nothing for a search on owner, and a query the planner cannot map onto an index scans the table anyway.",
-		"Performance claims are measurements, not reasoning. The same query on the same data is fast or slow depending on the page cache, the disk and the size of the table, and the only honest number is one taken on the machine in question.",
-		"The primary key is an index too. Looking an account up by handle is fast for the same reason a region lookup becomes fast here, and for no other.",
+		"Without an index, finding one row means reading every row. Fine at a thousand, fatal at ten million.",
+		"An index is a sorted copy of one column pointing at rows. A B-tree keeps lookups to a few page reads at any size.",
+		"Every index is a write cost. Each insert also writes every index on the table.",
+		"An index only helps queries that use its column. Anything else still scans.",
+		"Performance claims are measurements. Ask for the query plan and time it on this machine.",
 	},
 
 	Concepts: []ConceptItem{

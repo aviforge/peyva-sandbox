@@ -146,21 +146,21 @@
   
 
   <div class="section-grid">
-    <section class="block why">
-      <h2>1. Why</h2>
-      <ul class="why-list">
-        <li>A port is a rendezvous, not a pipe. The OS hands an address and port pair to one listening process, so a caller who knows the pair knows exactly which process will answer, and a second copy that asks for the same pair is refused.</li><li>That refusal is a feature. &#39;Address already in use&#39; is the OS telling you that two processes cannot both be the front door, which is the first hint that running more than one copy needs someone in front of them.</li><li>Binding to 127.0.0.1 and binding to 0.0.0.0 are different promises. The first is reachable only from this machine; the second from anything that can route to it, which includes the firewall&#39;s opinion.</li><li>A connection is a pair of endpoints and some state the OS holds on both sides. Accepting one costs memory and a file descriptor, and a process that never closes them runs out of both.</li><li>The one front door is a design decision, not an accident. Everything outside reaches the system through it, so it is the one place that can later count, refuse, or redirect every request.</li>
-      </ul>
-    </section>
-
-    
-
     <section class="block">
-      <h2>2. Concepts</h2>
+      <h2>1. What</h2>
       <ul class="concepts">
         <li><strong>Process ID (PID)</strong>. A number the OS assigns to identify one running program among many.</li><li><strong>Port</strong>. A number (like 9310) a process binds to, so the OS knows where to route calls.</li><li><strong>Binding</strong>. A process claiming a port on an address. The OS hands that pair to one process at a time, so a second copy is refused.</li><li><strong>Loopback (127.0.0.1)</strong>. The address meaning &#39;this same machine&#39;, used to reach a process running locally.</li><li><strong>Gateway</strong>. The component that holds the port and takes requests from outside, the system&#39;s one front door.</li>
       </ul>
     </section>
+
+    <section class="block why">
+      <h2>2. Why</h2>
+      <ul class="why-list">
+        <li>A port is a rendezvous. One process owns an address and port pair; a second copy is refused.</li><li>That refusal is the first hint that running several copies needs something in front of them.</li><li>127.0.0.1 is reachable only from this machine. 0.0.0.0 is reachable by anything that can route to it.</li><li>Every accepted connection costs memory and a file descriptor until it is closed.</li><li>One front door means one place to count, refuse or redirect every request later.</li>
+      </ul>
+    </section>
+
+    
 
     <section class="block build-it">
       <h2>3. Build It <span class="badge">Hands-on</span>

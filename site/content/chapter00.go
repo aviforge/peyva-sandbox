@@ -13,12 +13,12 @@ var Chapter00 = ChapterContent{
 	HeroCaption: "Alice sends Bob $20: the story, and what's really happening underneath.",
 
 	Why: []string{
-		"A wallet is the smallest system in which every distributed systems problem is fatal. A lost message in a chat app is an annoyance; a lost message here is somebody's money.",
-		"Everything in this book is measured against five invariants: money is never created or lost, no balance goes negative, no payment applies twice, one component owns balances, and every movement is recorded. Learn them now; every later chapter tries to break one.",
-		"The invariants are checkable. At any moment, summing every account should give the amount you seeded, and summing an account's history should give its balance. If you cannot run that check, you do not know whether your system is correct.",
-		"Money is exact. A float cannot hold 0.10 precisely, and a system that rounds on every transfer creates or destroys money by itself. Decimal or integer minor units, always.",
-		"The book adds a piece only when a failure demands it. A single process with balances in memory is not naive; it is the correct design until a restart, a second caller, or a second machine proves it wrong.",
-		"There is no reference implementation, on purpose. Copying code teaches you the code. Prompting for it, running it, and watching it fail in the way each chapter predicts teaches you the system.",
+		"A wallet is the smallest system where every distributed systems bug costs real money.",
+		"Five invariants rule the book: money is never created or lost, never negative, never paid twice, only the Vault changes it, every move is recorded.",
+		"They are checkable: total balances equal what was seeded, and an account's history sums to its balance.",
+		"Money is exact. Floats cannot hold 0.10, so use decimals or integer minor units.",
+		"One process in memory is the right design until a failure proves otherwise.",
+		"No reference implementation, on purpose. Prompt it, run it, watch it fail as predicted.",
 	},
 
 	Concepts: []ConceptItem{

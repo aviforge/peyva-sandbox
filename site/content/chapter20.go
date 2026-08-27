@@ -13,12 +13,12 @@ var Chapter20 = ChapterContent{
 	HeroCaption: "Sharding = each store holds some of the accounts. Routing decides which, and cross-shard payments pay for the split.",
 
 	Why: []string{
-		"Scaling out the copies never scaled the writes: every payment still ended at one Vault. Sharding is the only way to scale that, by giving each of several Vaults a subset of the accounts, so writes to different subsets never touch the same store.",
-		"The shard key decides everything. Hashing the account handle spreads accounts evenly and makes 'which shard' a pure function any copy can compute; it also means alice and bob are on different shards half the time, and a payment between them can no longer be one transaction.",
-		"A cross-shard payment is exactly the saga problem. Debit on one shard, credit on another, each a local transaction, with a durable record of how far it got and a compensation if the credit fails permanently. Everything the saga chapter built is now on the main path rather than at the edge.",
-		"Between the debit committing on one shard and the credit committing on the other, money is in flight: gone from alice, not yet with bob. Conservation across shards only holds if in-flight amounts are counted as neither lost nor arrived.",
-		"Rebalancing is the hidden cost. Adding a shard changes which shard a hash points to, and every account that moves has to be copied while payments continue. Consistent hashing limits how many move; it does not make the move free.",
-		"Each shard needs everything one Vault needed: its own replica, its own lease. Two shards are two of every failure mode from the last six chapters, which is why sharding comes this late and why most systems put it off as long as they can.",
+		"Copies never scaled writes. Sharding does: each Vault owns some accounts, so writes to different accounts never share a store.",
+		"The shard key is a hash of the handle. Any copy computes it. It also puts alice and bob on different shards half the time.",
+		"A cross-shard payment cannot be one transaction. It is the saga from before, now on the main path.",
+		"Between the debit and the credit, money is in flight. Conservation only holds if in-flight amounts are counted.",
+		"Adding a shard moves accounts. Consistent hashing limits how many; it does not make the move free.",
+		"Each shard needs its own replica and lease. Two shards are two of every failure mode. That is why this comes late.",
 	},
 
 	Concepts: []ConceptItem{

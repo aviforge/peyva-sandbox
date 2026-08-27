@@ -15,8 +15,8 @@ import (
 
 // sections every chapter page must render.
 var requiredSections = []string{
-	"1. Why",
-	"2. Concepts",
+	"1. What",
+	"2. Why",
 	"3. Build It",
 }
 

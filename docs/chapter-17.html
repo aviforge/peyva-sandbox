@@ -146,21 +146,21 @@
   
 
   <div class="section-grid">
-    <section class="block why">
-      <h2>1. Why</h2>
-      <ul class="why-list">
-        <li>A distributed system cannot be debugged by attaching to it. The failure happened an hour ago, on one of three copies, in a request that has finished. The only evidence is what the system chose to write down at the time.</li><li>A log line without the payment reference is a line nobody can find. Correlation is the whole job: every line a payment touches carries its reference, so one grep reconstructs its path across the proxy, a copy, the Vault and the replica.</li><li>Metrics answer &#39;is it wrong&#39;, logs answer &#39;what happened&#39;, and neither answers &#39;where is the time going&#39; across processes. That is a trace: the same reference with a start and end time at each hop. Even without a tracing system, timestamps on the correlated lines give you most of it.</li><li>A health check that returns ok unconditionally is a lie the load balancer believes. Health means the things this process depends on are reachable: the Vault, the lease, the replica&#39;s lag under some bound. Degraded is a real answer.</li><li>The important numbers are the ones that predict failure before it arrives: the outbox backlog, replication lag, the count of unknown-outcome payments. Error rate tells you it already happened.</li><li>Noise is a cost paid by the person reading at 3am. Every line that does not help them is a line they have to read past to find the one that does. Log less, with more in each line.</li>
-      </ul>
-    </section>
-
-    
-
     <section class="block">
-      <h2>2. Concepts</h2>
+      <h2>1. What</h2>
       <ul class="concepts">
         <li><strong>Observability</strong>. How much you can tell about what a running system is doing from the outside, without attaching a debugger to it.</li><li><strong>Structured Logs</strong>. One event per line, with named fields rather than prose, so a payment reference can be filtered on rather than searched for.</li><li><strong>Correlation ID</strong>. The value every line about one request carries, here the payment reference, so its path across processes can be reassembled.</li><li><strong>Metrics</strong>. Numbers over time: payments, failures, outbox backlog, replication lag, unknown outcomes.</li><li><strong>Traces</strong>. A request&#39;s journey across processes: where it went and how long each hop took. Correlated timestamps are the minimum version.</li><li><strong>Health Endpoint</strong>. Reports whether this process and what it depends on are working. Degraded when the Vault, the lease or the replica are not what they should be.</li>
       </ul>
     </section>
+
+    <section class="block why">
+      <h2>2. Why</h2>
+      <ul class="why-list">
+        <li>You cannot debug a distributed system by attaching to it. The failure happened an hour ago on one of three copies.</li><li>Every log line about a payment carries its reference. One grep should reconstruct its whole path.</li><li>Metrics say something is wrong. Logs say what happened. Correlated timestamps say where the time went.</li><li>A health check that always says ok is a lie the load balancer believes. Degraded is a real answer.</li><li>Watch the numbers that predict failure: outbox backlog, replication lag, unknown outcomes.</li><li>Every useless line is one the on-call engineer reads past at 3am. Log less, with more per line.</li>
+      </ul>
+    </section>
+
+    
 
     <section class="block build-it">
       <h2>3. Build It <span class="badge">Hands-on</span>

@@ -146,21 +146,21 @@
   
 
   <div class="section-grid">
-    <section class="block why">
-      <h2>1. Why</h2>
-      <ul class="why-list">
-        <li>A payment request that names its payer is a request anyone can forge. The &#39;from&#39; field is a claim, and a system that acts on a claim without checking it lets any caller spend from any account.</li><li>Authentication and authorisation are different checks that fail differently. Proving the caller is alice does not say alice may spend from bob. The second check is the one payments systems most often forget, because the first one feels like enough.</li><li>The check belongs before the money, at the edge, in one place. Spreading it across handlers means one handler without it, and that handler is the one an attacker finds.</li><li>Credentials in source code are credentials in every clone, every backup and every log of the repository. They come from the environment, and the process refuses to start without them rather than falling back to a default anyone can read.</li><li>Internal calls are not trusted by being internal. The copies call the Vault over the network; anything else on that network can too, and a Vault that accepts a write from any caller has an unauthenticated front door of its own.</li><li>Security review is asking how this specific system breaks, not applying a general checklist. The questions worth asking name these fields, these endpoints and these checks; a question that could be asked of any application finds only the bugs every application has.</li>
-      </ul>
-    </section>
-
-    
-
     <section class="block">
-      <h2>2. Concepts</h2>
+      <h2>1. What</h2>
       <ul class="concepts">
         <li><strong>AuthN (Authentication)</strong>. Verifying who someone is. Proving Alice is really Alice.</li><li><strong>AuthZ (Authorisation)</strong>. Checking what an authenticated user is allowed to do, least privilege by default.</li><li><strong>Encryption in Transit</strong>. Protecting data as it travels over the network (TLS), so it can&#39;t be read if intercepted.</li><li><strong>Secrets Management</strong>. Storing credentials and keys securely, never hardcoded in source code.</li><li><strong>Trust Boundary</strong>. The line across which a caller&#39;s claims stop being believed. The Gateway is one; the Vault&#39;s port is another, because anything on the network can reach it.</li>
       </ul>
     </section>
+
+    <section class="block why">
+      <h2>2. Why</h2>
+      <ul class="why-list">
+        <li>The &#39;from&#39; field is a claim. Acting on it unchecked lets any caller spend from any account.</li><li>Authentication says who is calling. Authorisation says whether alice may spend from bob. Both, or neither counts.</li><li>Check at the edge, in one place, before the money. A spread-out check has one handler that forgot.</li><li>Secrets come from the environment, never source. The process refuses to start without them.</li><li>Internal calls are not trusted for being internal. Anything on the network can reach the Vault&#39;s port.</li><li>Review by asking how this system breaks, not by applying a generic checklist.</li>
+      </ul>
+    </section>
+
+    
 
     <section class="block build-it">
       <h2>3. Build It <span class="badge">Hands-on</span>

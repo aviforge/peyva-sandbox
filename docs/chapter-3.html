@@ -146,21 +146,21 @@
   
 
   <div class="section-grid">
-    <section class="block why">
-      <h2>1. Why</h2>
-      <ul class="why-list">
-        <li>TCP is a stream of bytes, not a sequence of messages. One write on the sender can arrive as three reads on the receiver, or three writes as one read. Any protocol on top of it has to say where a message ends, with a length prefix, a delimiter, or a header like HTTP&#39;s Content-Length.</li><li>Reading half a request is normal, not an error. Code that assumes one read returns one request works on localhost and breaks on a real network, which is the most common first bug in anything that speaks TCP directly.</li><li>TCP promises order and retransmission while the connection lives. It does not promise delivery: a connection can drop after the sender&#39;s write returned and before the receiver read anything, and neither side is told which bytes made it.</li><li>Underneath, everything travels as packets that can be lost, duplicated, delayed or reordered. TCP hides that from you on one connection; it cannot hide the connection itself failing.</li><li>Reachability is layered: the process must bind to a routable address, the OS firewall must allow the port, and the network must route to the machine. A failure at any layer looks identical from the caller&#39;s side, a timeout.</li><li>The moment a second machine can reach the process, latency stops being zero and failures stop being visible. This is the boundary where system design starts.</li>
-      </ul>
-    </section>
-
-    
-
     <section class="block">
-      <h2>2. Concepts</h2>
+      <h2>1. What</h2>
       <ul class="concepts">
         <li><strong>IP Address</strong>. Where a machine lives on the network, the equivalent of a street address.</li><li><strong>Protocol</strong>. The agreed-upon way of talking. peyva speaks TCP/IP, with HTTP on top of it later.</li><li><strong>Packets</strong>. Chunks the network moves data in. Any one can be lost, delayed, duplicated or arrive out of order; TCP repairs that within one connection.</li><li><strong>Stream</strong>. What TCP hands your program: bytes in order, with no marks saying where one message ends. Framing is the application&#39;s job.</li><li><strong>Framing</strong>. How a protocol marks message boundaries on a stream: a length prefix, a delimiter, or a header that says how many bytes follow.</li>
       </ul>
     </section>
+
+    <section class="block why">
+      <h2>2. Why</h2>
+      <ul class="why-list">
+        <li>TCP is a byte stream, not messages. One write can arrive as three reads, or three writes as one.</li><li>Where a request ends is your job: a length prefix, a delimiter, or a header like Content-Length.</li><li>TCP orders and retransmits while the connection lives. It does not promise delivery if the connection drops.</li><li>Packets get lost, duplicated, delayed and reordered. TCP hides that within one connection only.</li><li>Reachability is layered: bind address, firewall, routing. Any failure looks the same to the caller: a timeout.</li>
+      </ul>
+    </section>
+
+    
 
     <section class="block build-it">
       <h2>3. Build It <span class="badge">Hands-on</span>

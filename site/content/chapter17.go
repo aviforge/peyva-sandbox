@@ -13,12 +13,12 @@ var Chapter17 = ChapterContent{
 	HeroCaption: "Observability = dashboards + alarms + logs (and traces). It helps us understand the system like a pizza shop watches its kitchen.",
 
 	Why: []string{
-		"A distributed system cannot be debugged by attaching to it. The failure happened an hour ago, on one of three copies, in a request that has finished. The only evidence is what the system chose to write down at the time.",
-		"A log line without the payment reference is a line nobody can find. Correlation is the whole job: every line a payment touches carries its reference, so one grep reconstructs its path across the proxy, a copy, the Vault and the replica.",
-		"Metrics answer 'is it wrong', logs answer 'what happened', and neither answers 'where is the time going' across processes. That is a trace: the same reference with a start and end time at each hop. Even without a tracing system, timestamps on the correlated lines give you most of it.",
-		"A health check that returns ok unconditionally is a lie the load balancer believes. Health means the things this process depends on are reachable: the Vault, the lease, the replica's lag under some bound. Degraded is a real answer.",
-		"The important numbers are the ones that predict failure before it arrives: the outbox backlog, replication lag, the count of unknown-outcome payments. Error rate tells you it already happened.",
-		"Noise is a cost paid by the person reading at 3am. Every line that does not help them is a line they have to read past to find the one that does. Log less, with more in each line.",
+		"You cannot debug a distributed system by attaching to it. The failure happened an hour ago on one of three copies.",
+		"Every log line about a payment carries its reference. One grep should reconstruct its whole path.",
+		"Metrics say something is wrong. Logs say what happened. Correlated timestamps say where the time went.",
+		"A health check that always says ok is a lie the load balancer believes. Degraded is a real answer.",
+		"Watch the numbers that predict failure: outbox backlog, replication lag, unknown outcomes.",
+		"Every useless line is one the on-call engineer reads past at 3am. Log less, with more per line.",
 	},
 
 	Concepts: []ConceptItem{

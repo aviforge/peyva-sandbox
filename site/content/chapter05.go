@@ -13,12 +13,11 @@ var Chapter05 = ChapterContent{
 	HeroCaption: "Durable. Persistent. Survives restarts.",
 
 	Why: []string{
-		"Durability is a promise about the moment of failure, not about the file. A write that sits in an OS buffer is on its way to disk; it is not there until the database has called fsync and the drive has confirmed. Kill the power in between and the write never happened.",
-		"A database is the code that makes 'written' mean something. It orders writes, flushes them, and on restart replays or discards partial ones so the file is never half-updated. Writing your own file format skips all of that.",
-		"Once storage is outside the process, every read is a trip and every write is a wait. Latency that was nanoseconds is now microseconds to milliseconds, which changes what you can afford to do per request.",
-		"Where the truth lives matters more than how fast you can read it. Two copies of a balance, one in memory and one on disk, will disagree the first time one is updated and the other is not. One place is the source of truth; everything else is a view of it.",
-		"SQLite is a real database in one file: transactions, a write-ahead log, crash recovery. It is not a toy, and it is enough to teach every storage idea in this book without a server to install.",
-		"Migration is the ordinary case. Data always outlives the code that first wrote it, so moving records from one home to another without losing any is a skill you will use more often than designing a fresh schema.",
+		"Durable means flushed to disk and confirmed. A write sitting in an OS buffer is lost if the power goes.",
+		"A database is the code that makes 'written' mean something: ordering, flushing, crash recovery.",
+		"Storage outside the process turns every read into a trip and every write into a wait.",
+		"One place is the source of truth. A second copy of a balance will disagree the first time only one is updated.",
+		"SQLite is a real database in one file, enough to teach every storage idea here.",
 	},
 
 	Concepts: []ConceptItem{

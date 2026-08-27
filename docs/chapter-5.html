@@ -146,21 +146,21 @@
   
 
   <div class="section-grid">
-    <section class="block why">
-      <h2>1. Why</h2>
-      <ul class="why-list">
-        <li>Durability is a promise about the moment of failure, not about the file. A write that sits in an OS buffer is on its way to disk; it is not there until the database has called fsync and the drive has confirmed. Kill the power in between and the write never happened.</li><li>A database is the code that makes &#39;written&#39; mean something. It orders writes, flushes them, and on restart replays or discards partial ones so the file is never half-updated. Writing your own file format skips all of that.</li><li>Once storage is outside the process, every read is a trip and every write is a wait. Latency that was nanoseconds is now microseconds to milliseconds, which changes what you can afford to do per request.</li><li>Where the truth lives matters more than how fast you can read it. Two copies of a balance, one in memory and one on disk, will disagree the first time one is updated and the other is not. One place is the source of truth; everything else is a view of it.</li><li>SQLite is a real database in one file: transactions, a write-ahead log, crash recovery. It is not a toy, and it is enough to teach every storage idea in this book without a server to install.</li><li>Migration is the ordinary case. Data always outlives the code that first wrote it, so moving records from one home to another without losing any is a skill you will use more often than designing a fresh schema.</li>
-      </ul>
-    </section>
-
-    
-
     <section class="block">
-      <h2>2. Concepts</h2>
+      <h2>1. What</h2>
       <ul class="concepts">
         <li><strong>Durable</strong>. Once written, the data survives the process dying, not just ending. Only true after the database has flushed it to disk.</li><li><strong>Persistent</strong>. Held outside process memory, so it is still there for the next run.</li><li><strong>Source of Truth</strong>. The one place a value is authoritative. Anything else holding that value is a copy that can be wrong.</li><li><strong>Migration</strong>. Moving existing data to a new home without losing any of it, here from memory to disk.</li>
       </ul>
     </section>
+
+    <section class="block why">
+      <h2>2. Why</h2>
+      <ul class="why-list">
+        <li>Durable means flushed to disk and confirmed. A write sitting in an OS buffer is lost if the power goes.</li><li>A database is the code that makes &#39;written&#39; mean something: ordering, flushing, crash recovery.</li><li>Storage outside the process turns every read into a trip and every write into a wait.</li><li>One place is the source of truth. A second copy of a balance will disagree the first time only one is updated.</li><li>SQLite is a real database in one file, enough to teach every storage idea here.</li>
+      </ul>
+    </section>
+
+    
 
     <section class="block build-it">
       <h2>3. Build It <span class="badge">Hands-on</span>

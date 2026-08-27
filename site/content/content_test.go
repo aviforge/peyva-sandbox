@@ -24,13 +24,14 @@ func TestAllHasTwentyTwoChapters(t *testing.T) {
 // chapter without it delegates its whole lesson, and a chapter with one bullet
 // has a slogan, not a lesson.
 //
-// The upper bound is on the bullet, not the list. A bullet that runs past two
-// sentences has turned back into the paragraph it was meant to replace.
+// The bounds are tight on purpose. A reader skims this section; a bullet past
+// two short sentences, or a list past six, is a paragraph wearing bullets and
+// nobody reads it.
 func TestEveryChapterSaysWhy(t *testing.T) {
-	const minBullets, maxWordsPerBullet = 5, 60
+	const minBullets, maxBullets, maxWordsPerBullet = 4, 6, 26
 	for _, c := range All {
-		if len(c.Why) < minBullets {
-			t.Errorf("chapter %d: Why has %d bullets, want at least %d", c.Number, len(c.Why), minBullets)
+		if len(c.Why) < minBullets || len(c.Why) > maxBullets {
+			t.Errorf("chapter %d: Why has %d bullets, want %d to %d", c.Number, len(c.Why), minBullets, maxBullets)
 		}
 		for i, b := range c.Why {
 			if n := len(strings.Fields(b)); n > maxWordsPerBullet {

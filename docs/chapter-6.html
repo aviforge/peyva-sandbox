@@ -146,21 +146,21 @@
   
 
   <div class="section-grid">
-    <section class="block why">
-      <h2>1. Why</h2>
-      <ul class="why-list">
-        <li>Without an index, finding one row means reading every row. That is fine at a thousand accounts and fatal at ten million, and the code looks identical in both cases. Slowness of this kind arrives silently, with growth.</li><li>An index is a second, sorted copy of one column pointing back at the rows. A B-tree keeps it balanced so any lookup takes a handful of page reads however large the table grows, which is why a lookup on a million rows costs about the same as on a thousand.</li><li>Every index is a write amplifier. Each insert or update has to maintain every index on the table, so a table with ten indexes does eleven writes per row. Indexes are bought with write speed.</li><li>An index only helps queries that use its column the way it was sorted. An index on region does nothing for a search on owner, and a query the planner cannot map onto an index scans the table anyway.</li><li>Performance claims are measurements, not reasoning. The same query on the same data is fast or slow depending on the page cache, the disk and the size of the table, and the only honest number is one taken on the machine in question.</li><li>The primary key is an index too. Looking an account up by handle is fast for the same reason a region lookup becomes fast here, and for no other.</li>
-      </ul>
-    </section>
-
-    
-
     <section class="block">
-      <h2>2. Concepts</h2>
+      <h2>1. What</h2>
       <ul class="concepts">
         <li><strong>Full Table Scan</strong>. Checking every row one by one until you find the match: correct, but slow as the table grows.</li><li><strong>Index</strong>. A separate structure that maps a value (like a name) directly to where its row lives.</li><li><strong>B-Tree</strong>. The balanced tree most databases use to keep an index searchable in a handful of page reads, however large it grows.</li><li><strong>Write Amplification</strong>. Each row write also writes every index on the table. More indexes, slower inserts.</li><li><strong>Query Plan</strong>. The database&#39;s account of how it will run a query: which index it will use, or that it will scan. Ask for it before believing a query is fast.</li>
       </ul>
     </section>
+
+    <section class="block why">
+      <h2>2. Why</h2>
+      <ul class="why-list">
+        <li>Without an index, finding one row means reading every row. Fine at a thousand, fatal at ten million.</li><li>An index is a sorted copy of one column pointing at rows. A B-tree keeps lookups to a few page reads at any size.</li><li>Every index is a write cost. Each insert also writes every index on the table.</li><li>An index only helps queries that use its column. Anything else still scans.</li><li>Performance claims are measurements. Ask for the query plan and time it on this machine.</li>
+      </ul>
+    </section>
+
+    
 
     <section class="block build-it">
       <h2>3. Build It <span class="badge">Hands-on</span>

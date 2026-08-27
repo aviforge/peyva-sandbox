@@ -13,13 +13,12 @@ var Chapter16 = ChapterContent{
 	HeroCaption: "Different situations call for different trade-offs. peyva has to choose.",
 
 	Why: []string{
-		"CAP is narrower than its slogan. It says that during a network partition a system cannot both answer every request and guarantee every answer reflects the latest write. Partitions are not optional, so the real choice is what to do while one lasts: refuse some requests, or answer some of them wrongly.",
-		"Consistency here means linearisability: every read returns the most recent committed write, as if there were one copy. Availability means every request to a live node gets a non-error response. A system that refuses payments during a partition has chosen consistency; a system that accepts them on both sides has chosen availability and will have to reconcile two histories afterwards.",
-		"The choice is per operation, not per system. A balance enquiry can be served from a replica and labelled stale; a payment cannot, because a debit against a stale balance can send money that has already been spent. Money writes are CP. Money reads can be AP if they say so.",
-		"When there is no partition, the trade-off is latency against consistency instead. Waiting for the replica to acknowledge every write costs a round trip per payment and means promotion loses nothing; not waiting is faster and promotion can lose the tail. That is the PACELC extension, and for money the answer on both sides is: wait.",
-		"Who is primary has to be decided by something other than the primary. A lease is a promise, granted by a third party for a fixed time, that one node may accept writes; it renews before expiry or stops. A node cut off from the grantor loses its lease by the clock, so an isolated old primary stops writing.",
-		"A lease depends on clocks agreeing roughly, which is why it carries a margin: the holder stops writing before the grantor considers it expired. A holder that keeps writing past its lease because its clock is slow is split-brain with a timestamp.",
-		"The grantor in this chapter is one process, and one process is a single point of failure. Real systems make the grantor a majority of several nodes agreeing, which is what Raft and Paxos are for. This book stops at one grantor, and says so, because a correct majority protocol is a book of its own.",
+		"CAP: during a partition you can refuse some requests or answer some of them wrongly. Partitions are not optional.",
+		"Consistency means every read sees the latest write. Availability means every request gets a non-error answer.",
+		"Choose per operation. Enquiries can be stale and say so. Payments cannot, so they are CP.",
+		"With no partition, the trade is latency against consistency. For money, wait for the replica's acknowledgement.",
+		"A lease is time-limited permission to be primary, granted by a third party and renewed before expiry. Lose contact and the clock ends it.",
+		"The grantor here is one process, itself a single point of failure. Real systems use a majority (Raft, Paxos). This book stops at one.",
 	},
 
 	Concepts: []ConceptItem{

@@ -13,12 +13,12 @@ var Chapter11 = ChapterContent{
 	HeroCaption: "Cache = keep frequently used data nearby, so it's fast to get back.",
 
 	Why: []string{
-		"A cache is a second copy of a value, and every second copy can disagree with the first. The whole difficulty of caching is keeping that disagreement short, bounded, and invisible where it matters.",
-		"Where the cache lives decides who can invalidate it. A cache inside each of three copies can only be invalidated by the copy that did the write; the other two keep serving the old balance. The only process that sees every write to a balance is the one that owns it, so the cache goes there.",
-		"Invalidation must ride the same transaction as the write, or happen after it commits, never before. Drop the cached value, then have the transaction roll back, and the next read repopulates from the truth; drop it before the commit, and a concurrent read can refill the cache with the old value a moment before the new one lands.",
-		"A payment touches two accounts. Invalidating one and not the other is the bug a test with one account will never find.",
-		"Reads of money are not all equal. A balance shown on a page can be a few milliseconds old; a balance checked before a debit cannot be cached at all, because the check and the write have to be one unit. The cache serves the first kind and stays out of the second.",
-		"The failure mode of a cache is not an error. It is a confident, fast, wrong number, which is why cache bugs survive test suites that only check for crashes.",
+		"A cache is a second copy, and every second copy can disagree with the first.",
+		"Only the process that sees every write can invalidate correctly. So the cache lives in the Vault, not the copies.",
+		"Invalidate after commit, never before. Drop it early and a concurrent read refills it with the old value.",
+		"A payment touches two accounts. Invalidate both.",
+		"A balance on a page can be milliseconds old. The balance checked before a debit cannot be cached at all.",
+		"A cache bug returns a fast, confident, wrong number. It never crashes.",
 	},
 
 	Concepts: []ConceptItem{

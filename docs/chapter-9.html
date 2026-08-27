@@ -146,21 +146,21 @@
   
 
   <div class="section-grid">
-    <section class="block why">
-      <h2>1. Why</h2>
-      <ul class="why-list">
-        <li>A remote call has three outcomes, not two: success, failure, and no answer. The third is indistinguishable from a slow success, and a caller that treats it as failure will resend a request that already went through.</li><li>Without a timeout, a call can wait forever. A dead peer does not send a refusal; it sends nothing, and the OS may keep the connection open for minutes. Every call across a process boundary needs a deadline, chosen from how long a good answer actually takes.</li><li>A timeout is not permission to retry. It is permission to retry only an idempotent request. Retrying a payment that carries its reference is safe because the receiver deduplicates it; retrying one without is how a customer pays twice.</li><li>Retrying immediately makes a struggling service worse. Every caller that times out and resends doubles the load at the moment it can least take it, which is a retry storm. Backoff spaces retries out; jitter stops every caller retrying at the same instant.</li><li>Retries are bounded. After some number of attempts the honest answer is &#39;I do not know whether this happened&#39;, and the caller has to surface that rather than loop. A payment stuck in that state is a support ticket, not a bug to hide.</li><li>Some failures should not be retried at all. A 400 will be a 400 again; an insufficient balance will still be insufficient. Retrying those wastes the attempts you have and delays the answer the caller needed.</li><li>The rules for one hop compound across hops. If every layer retries three times, a single request can become twenty-seven at the bottom. Retry once, at the edge that can dedupe, and let the layers underneath fail fast.</li>
-      </ul>
-    </section>
-
-    
-
     <section class="block">
-      <h2>2. Concepts</h2>
+      <h2>1. What</h2>
       <ul class="concepts">
         <li><strong>Timeout</strong>. The longest a caller waits before treating a call as unanswered. Chosen from measured latency, not guessed.</li><li><strong>Unknown Outcome</strong>. The call timed out. It may have succeeded, failed, or be about to succeed. The caller cannot tell and must not assume.</li><li><strong>Retry</strong>. Sending the same request again after an unknown outcome. Safe only when the request carries a reference the receiver deduplicates.</li><li><strong>Exponential Backoff</strong>. Waiting longer between each retry: one second, then two, then four. Gives the peer time to recover instead of piling on.</li><li><strong>Jitter</strong>. A random fraction added to each wait so that many callers do not retry in lockstep.</li><li><strong>Retry Storm</strong>. Callers timing out and retrying at once, multiplying load on a service exactly when it is struggling.</li>
       </ul>
     </section>
+
+    <section class="block why">
+      <h2>2. Why</h2>
+      <ul class="why-list">
+        <li>A remote call has three outcomes: success, failure, and no answer. The third may be a slow success.</li><li>Every call across a process boundary needs a timeout, chosen from how long a good answer takes.</li><li>Retry only with the same reference. Without one, a retry is a duplicate payment.</li><li>Retry immediately and you pile onto a struggling service. Back off, and add jitter so callers do not retry in step.</li><li>Never retry a 4xx. It will be a 4xx again.</li><li>Bound the retries. After that, the honest answer is &#39;unknown, quote this reference&#39;, not a loop.</li>
+      </ul>
+    </section>
+
+    
 
     <section class="block build-it">
       <h2>3. Build It <span class="badge">Hands-on</span>

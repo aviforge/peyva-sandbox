@@ -13,11 +13,11 @@ var Chapter02 = ChapterContent{
 	HeroCaption: "A process is the running app. A port is the door callers knock on.",
 
 	Why: []string{
-		"A port is a rendezvous, not a pipe. The OS hands an address and port pair to one listening process, so a caller who knows the pair knows exactly which process will answer, and a second copy that asks for the same pair is refused.",
-		"That refusal is a feature. 'Address already in use' is the OS telling you that two processes cannot both be the front door, which is the first hint that running more than one copy needs someone in front of them.",
-		"Binding to 127.0.0.1 and binding to 0.0.0.0 are different promises. The first is reachable only from this machine; the second from anything that can route to it, which includes the firewall's opinion.",
-		"A connection is a pair of endpoints and some state the OS holds on both sides. Accepting one costs memory and a file descriptor, and a process that never closes them runs out of both.",
-		"The one front door is a design decision, not an accident. Everything outside reaches the system through it, so it is the one place that can later count, refuse, or redirect every request.",
+		"A port is a rendezvous. One process owns an address and port pair; a second copy is refused.",
+		"That refusal is the first hint that running several copies needs something in front of them.",
+		"127.0.0.1 is reachable only from this machine. 0.0.0.0 is reachable by anything that can route to it.",
+		"Every accepted connection costs memory and a file descriptor until it is closed.",
+		"One front door means one place to count, refuse or redirect every request later.",
 	},
 
 	Concepts: []ConceptItem{

@@ -3,40 +3,58 @@ package content
 var Chapter09 = ChapterContent{
 	Number:     9,
 	Slug:       "chapter-9",
-	Title:      "How Big Is PEYVA? (Capacity Estimation)",
-	Subtitle:   "Before starting the trip, we estimate the numbers so we have enough car space, fuel, and time. Same for systems.",
-	Category:   "System Design",
+	Title:      "Giving Up Well: Retries, Timeouts and Backoff",
+	Subtitle:   "A call that has not answered is not a call that failed. Deciding when to stop waiting, and what to do next, is the whole skill.",
+	Category:   "Reliability",
 	Difficulty: "Intermediate",
-	EstTime:    "20 min",
-	QuickTip:   "Being roughly right before you build beats being exactly right after.",
+	QuickTip:   "A retry without an idempotency key is a duplicate payment with extra steps.",
 
-	HeroImage:   "images/chapter-9.webp",
-	HeroCaption: "Capacity estimation helps us choose the right technology, plan scaling, and control cost: before we build.",
+	HeroImage:   "images/chapter-9-retries.webp",
+	HeroCaption: "Every call over a network has three outcomes: it worked, it failed, and nobody knows. The third is the one you design for.",
+
+	Why: []string{
+		"A remote call has three outcomes, not two: success, failure, and no answer. The third is indistinguishable from a slow success, and a caller that treats it as failure will resend a request that already went through.",
+		"Without a timeout, a call can wait forever. A dead peer does not send a refusal; it sends nothing, and the OS may keep the connection open for minutes. Every call across a process boundary needs a deadline, chosen from how long a good answer actually takes.",
+		"A timeout is not permission to retry. It is permission to retry only an idempotent request. Retrying a payment that carries its reference is safe because the receiver deduplicates it; retrying one without is how a customer pays twice.",
+		"Retrying immediately makes a struggling service worse. Every caller that times out and resends doubles the load at the moment it can least take it, which is a retry storm. Backoff spaces retries out; jitter stops every caller retrying at the same instant.",
+		"Retries are bounded. After some number of attempts the honest answer is 'I do not know whether this happened', and the caller has to surface that rather than loop. A payment stuck in that state is a support ticket, not a bug to hide.",
+		"Some failures should not be retried at all. A 400 will be a 400 again; an insufficient balance will still be insufficient. Retrying those wastes the attempts you have and delays the answer the caller needed.",
+		"The rules for one hop compound across hops. If every layer retries three times, a single request can become twenty-seven at the bottom. Retry once, at the edge that can dedupe, and let the layers underneath fail fast.",
+	},
 
 	Concepts: []ConceptItem{
-		{Term: "Assumptions", Description: "The starting numbers you estimate: users, transfers per user per day, peak factor, time window."},
-		{Term: "Peak Factor", Description: "How much busier the system gets at its busiest moment compared to its average. Traffic isn't flat."},
-		{Term: "TPS", Description: "Transactions per second: the rate the system must actually sustain at peak, not on average."},
-		{Term: "Storage Growth", Description: "How much disk space the system needs over time, based on transaction volume and record size."},
+		{Term: "Timeout", Description: "The longest a caller waits before treating a call as unanswered. Chosen from measured latency, not guessed."},
+		{Term: "Unknown Outcome", Description: "The call timed out. It may have succeeded, failed, or be about to succeed. The caller cannot tell and must not assume."},
+		{Term: "Retry", Description: "Sending the same request again after an unknown outcome. Safe only when the request carries a reference the receiver deduplicates."},
+		{Term: "Exponential Backoff", Description: "Waiting longer between each retry: one second, then two, then four. Gives the peer time to recover instead of piling on."},
+		{Term: "Jitter", Description: "A random fraction added to each wait so that many callers do not retry in lockstep."},
+		{Term: "Retry Storm", Description: "Callers timing out and retrying at once, multiplying load on a service exactly when it is struggling."},
 	},
 
 	BuildIt: BuildIt{
-		Technique: "Self-Ask",
-		Why:       "Hidden guesses become a written list of assumptions you can argue with.",
-		Source:    "The Prompt Report: Zero-Shot, Self-Ask",
+		Technique: "Plan-and-Solve",
+		Why:       "The plan is a table of failure and response. Written first, it is the code's specification; written after, it is a story about the code.",
+		Source:    "The Prompt Report: Zero-Shot, Plan-and-Solve",
 		Prompts: []Prompt{
-			{Label: "Assumptions", Thinking: true, Text: `I need to size the infrastructure for a payments system that moves money between accounts. One process today, and I have no idea what it needs to survive.
+			{Label: "Plan", Thinking: true, Text: `A page sends a payment to a service over a network, and the service records the payment and answers with a reference. The request already carries a reference the service uses to recognise a repeat.
 
-Don't give me a number yet. Work out which follow-up questions the estimate genuinely depends on, and write them out. Answer each one yourself with an explicit assumption, and label where that assumption came from: industry norm, your own guess, or arithmetic from an earlier answer.
+Before writing any code, make a plan as a table. Rows: every distinct way that call can end, including the response being lost after the money moved, the connection being refused, the call hanging, a 4xx, and a 5xx. Columns: whether the caller can know if money moved, whether retrying is safe, whether retrying is useful, and what the caller should do.
 
-Done when I have your questions and an answer to each, every one labelled with where it came from.`},
-			{Label: "Estimate", Thinking: true, Text: `You worked out the questions a capacity estimate for this payments system depends on, and answered each with a labelled assumption.
+Then say how long the timeout should be and how you would find that number from a running system rather than guessing it. Say how many retries, how the wait between them grows, and why the wait should not be exactly the same for every caller.
 
-Use your own answers to work out peak payments per second, Ledger growth over two years, and peak network throughput. Show each formula with the numbers substituted in, so I can check the arithmetic rather than trust it.
+Done when I have the table, a timeout with a method behind it, and a retry policy that never retries a case where retrying is unsafe or useless.`},
+			{Label: "Build", Text: `The Gateway forwards a payment to the Teller and waits for an answer with no deadline, and the Portal resends when it hears nothing.
 
-Then tell me which single assumption the estimate is most sensitive to, what the number becomes if you're wrong about it by a factor of two, and which of your assumptions you most want me to confirm.
+Carry out the plan you wrote. Give every call across a process or network boundary a timeout. On an unknown outcome, retry with the same reference, with exponential backoff and jitter, a small fixed number of times. Never retry a 4xx. After the last attempt, answer the caller with an honest 'outcome unknown, quote this reference' rather than a failure.
 
-Done when I have a peak-throughput figure and a two-year storage figure I can defend, and I know which assumption to revisit first.`},
+Then prove it: make the Teller sleep past the timeout on the first attempt only, send one payment, and show me from the Ledger that it was applied once and from the log that it was attempted more than once.
+
+Done when a slow first attempt results in exactly one Ledger entry pair, a 400 is never retried, and the log shows the growing gaps between attempts.`},
+			{Label: "Portal", Portal: true, Text: `Send waits for an answer with no limit, and a customer who gives up and taps again has no idea whether the first tap paid.
+
+Give Send a deadline. Past it, the page says the outcome is unknown and shows the reference, and the button offers to check rather than to send again. Checking asks the server what happened to that reference.
+
+Done when a deliberately slow server leaves the customer with a reference and a way to find out, never with a second payment.`},
 		},
 	},
 }

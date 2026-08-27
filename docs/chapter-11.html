@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Sharing Work: Caching | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=2ab8997a0e">
+<link rel="stylesheet" href="styles.css?v=a0a60c96d5">
 </head>
 <body data-chapter-slug="chapter-11">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -65,7 +65,7 @@
     
     
     
-    <li><a href="chapter-9.html" data-slug="chapter-9">9. How Big Is PEYVA? (Capacity Estimation)</a></li>
+    <li><a href="chapter-9.html" data-slug="chapter-9">9. Giving Up Well: Retries, Timeouts and Backoff</a></li>
     
     
     
@@ -112,6 +112,10 @@
     <li><a href="chapter-20.html" data-slug="chapter-20">20. Putting It All Together</a></li>
     
     
+    
+    <li><a href="chapter-21.html" data-slug="chapter-21">21. Splitting the Vault: Sharding</a></li>
+    
+    
   </ul>
 </nav>
 
@@ -131,7 +135,6 @@
     <div class="tags">
       <span class="tag">System Design</span>
       <span class="tag">Intermediate</span>
-      <span class="tag">15 min</span>
     </div>
   </div>
 
@@ -143,22 +146,29 @@
   
 
   <div class="section-grid">
+    <section class="block why">
+      <h2>1. Why</h2>
+      <ul class="why-list">
+        <li>A cache is a second copy of a value, and every second copy can disagree with the first. The whole difficulty of caching is keeping that disagreement short, bounded, and invisible where it matters.</li><li>Where the cache lives decides who can invalidate it. A cache inside each of three copies can only be invalidated by the copy that did the write; the other two keep serving the old balance. The only process that sees every write to a balance is the one that owns it, so the cache goes there.</li><li>Invalidation must ride the same transaction as the write, or happen after it commits, never before. Drop the cached value, then have the transaction roll back, and the next read repopulates from the truth; drop it before the commit, and a concurrent read can refill the cache with the old value a moment before the new one lands.</li><li>A payment touches two accounts. Invalidating one and not the other is the bug a test with one account will never find.</li><li>Reads of money are not all equal. A balance shown on a page can be a few milliseconds old; a balance checked before a debit cannot be cached at all, because the check and the write have to be one unit. The cache serves the first kind and stays out of the second.</li><li>The failure mode of a cache is not an error. It is a confident, fast, wrong number, which is why cache bugs survive test suites that only check for crashes.</li>
+      </ul>
+    </section>
+
     <section class="block">
-      <h2>1. Concepts</h2>
+      <h2>2. Concepts</h2>
       <ul class="concepts">
-        <li><strong>Cache</strong>. A fast, small store that holds recently or frequently requested data close at hand.</li><li><strong>Hit and Miss</strong>. A hit answers from the cache without asking storage. A miss fetches from storage and caches it for next time.</li><li><strong>Invalidation</strong>. Removing or updating a cached value when the underlying data changes, so the cache never lies.</li>
+        <li><strong>Cache</strong>. A fast, small store that holds recently or frequently requested data close at hand.</li><li><strong>Hit and Miss</strong>. A hit answers from the cache without asking storage. A miss fetches from storage and caches it for next time.</li><li><strong>Invalidation</strong>. Removing or updating a cached value when the underlying data changes, so the cache never lies.</li><li><strong>Cache Placement</strong>. Which process holds the cache. Only a process that sees every write can invalidate correctly, so a cache of balances lives with the Vault, not in the copies.</li><li><strong>Read-Your-Writes</strong>. A customer who just paid must see the new balance. Any cache that can serve them the old one has broken a promise they will notice.</li>
       </ul>
     </section>
 
     <section class="block build-it">
-      <h2>2. Build It <span class="badge">Hands-on</span>
+      <h2>3. Build It <span class="badge">Hands-on</span>
           <span class="language-locked">Building in <b data-language-name>Go</b>, <a href="chapter-0.html">change in Chapter 0</a></span>
       </h2>
       
       <p class="technique"><span class="technique-name">Self-Refine</span>. A cache bug does not crash. It returns a confident wrong number, which a passing test will not catch.</p>
       <p class="technique-source">Documented in The Prompt Report: Self-Criticism, Self-Refine</p>
       <details class="standing-rules">
-        <summary>Every prompt below is copied with these rules, about 616 tokens for the chapter</summary>
+        <summary>Every prompt below is copied with these rules, about 745 tokens for the chapter</summary>
         <pre class="prompt-lang" id="rules-build">Build this in <span data-language-name>Go</span>, standard library only.
 Code in peyva/&lt;component&gt;/, one folder per component.
 Money: exact decimal or integer minor units, never floating point, two decimal places.
@@ -171,28 +181,30 @@ The goal and invariants are in peyva/goal.md, the look in peyva/portal/design.md
         
       </details>
       
-      <p class="prompt-divider"><span class="prompt-step">1 of 3</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~161 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">1 of 3</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~260 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-build">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
-        <pre class="prompt">Every balance enquiry hits the Vault&#39;s storage, even when the same balance was read a moment ago and hasn&#39;t changed since.
+        <pre class="prompt">Every balance enquiry reaches the Vault&#39;s storage, even when the same balance was read a moment ago and hasn&#39;t changed since. Three copies of the Gateway and Teller sit in front of the Vault, which runs as its own process.
 
-Add an in-memory cache in front of the Vault&#39;s reads, invalidated whenever a payment changes that account. An in-memory map, safe for concurrent access: no Redis, no cache library.
+Add an in-memory cache of balances inside the Vault&#39;s process, in front of its reads, invalidated whenever a payment changes an account. An in-memory map, safe for concurrent access: no Redis, no cache library. The cache serves enquiries only; the check before a debit reads inside the transaction, never from the cache.
 
-Done when a repeated enquiry is served from cache and a payment makes the next enquiry show the new balance.</pre>
+Before writing it, say why the cache cannot live in the copies, in two sentences.
+
+Done when a repeated enquiry is served from cache, a payment makes the next enquiry from any copy show the new balance, and the balance check inside a payment never reads the cache.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">2 of 3</span> Review<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~223 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">2 of 3</span> Review<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~253 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-build">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
-        <pre class="prompt">You have added an in-memory cache in front of the Vault&#39;s balance reads, invalidated when a payment changes an account.
+        <pre class="prompt">You have added an in-memory cache inside the Vault&#39;s process in front of its balance reads, invalidated when a payment changes an account.
 
-Review that implementation as if you were trying to make it serve a stale balance. Walk every path that changes a balance and check whether it invalidates. Consider a concurrent read and write, a payment that rolled back, and a payment that touches two accounts at once.
+Review that implementation as if you were trying to make it serve a stale balance. Walk every path that changes a balance and check whether it invalidates. Consider a concurrent read and write, a payment that rolled back after the cache was dropped, a payment that touches two accounts at once, and a read that refills the cache between the invalidation and the commit.
 
 Report what you found as a list, fix it, then run that same review again on the fixed version. Keep going until a review turns up nothing.
 

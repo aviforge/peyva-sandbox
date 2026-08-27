@@ -297,6 +297,19 @@ body {
   gap: 16px;
 }
 
+/* The Why list is the chapter's claims, one per bullet. Roomier than the
+   concept list because each one is meant to be read and argued with, not
+   scanned. */
+.why-list {
+  margin: 0;
+  padding-left: 20px;
+  line-height: 1.55;
+}
+
+.why-list li {
+  margin: 0 0 10px;
+}
+
 /* The concept list is short entries, so it reads better in columns than as one
    long ladder down a wide page. */
 @media (min-width: 900px) {

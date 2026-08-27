@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Operating in Production | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=2ab8997a0e">
+<link rel="stylesheet" href="styles.css?v=a0a60c96d5">
 </head>
 <body data-chapter-slug="chapter-19">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -65,7 +65,7 @@
     
     
     
-    <li><a href="chapter-9.html" data-slug="chapter-9">9. How Big Is PEYVA? (Capacity Estimation)</a></li>
+    <li><a href="chapter-9.html" data-slug="chapter-9">9. Giving Up Well: Retries, Timeouts and Backoff</a></li>
     
     
     
@@ -112,6 +112,10 @@
     <li><a href="chapter-20.html" data-slug="chapter-20">20. Putting It All Together</a></li>
     
     
+    
+    <li><a href="chapter-21.html" data-slug="chapter-21">21. Splitting the Vault: Sharding</a></li>
+    
+    
   </ul>
 </nav>
 
@@ -131,7 +135,6 @@
     <div class="tags">
       <span class="tag">Operations</span>
       <span class="tag">Advanced</span>
-      <span class="tag">25 min</span>
     </div>
   </div>
 
@@ -143,22 +146,29 @@
   
 
   <div class="section-grid">
+    <section class="block why">
+      <h2>1. Why</h2>
+      <ul class="why-list">
+        <li>Configuration is what differs between one run and the next: ports, addresses, secrets. Anything with only one correct value is code, and moving it into a setting invites someone to change it at 3am with no review. The money rules are the clearest case: two decimal places is not a setting.</li><li>A missing setting should stop the process before it does anything. A default that papers over the gap fails later, somewhere unrelated, in a way that takes an hour to trace back to the variable that was never set.</li><li>Reading settings in one place, once, at startup, is what makes the previous two points enforceable. Scattered reads of the environment are scattered places a default can creep in.</li><li>Deploying is a state change to a live system, and the cheapest failure is the one caught on the first copy. Rolling one copy at a time, checking health between, turns a bad release into one degraded copy instead of an outage.</li><li>A rollback is a deploy of the previous version, and it has to work without thought. The version string on the health endpoint is what lets a person at 3am see which copy runs what, and a runbook of exact commands is what lets them fix it without improvising.</li><li>Rolling back code does not roll back data. A release that changed the schema or wrote rows the old version cannot read leaves the old version broken too; the runbook has to say whether this release can be rolled back at all.</li>
+      </ul>
+    </section>
+
     <section class="block">
-      <h2>1. Concepts</h2>
+      <h2>2. Concepts</h2>
       <ul class="concepts">
-        <li><strong>Health Check</strong>. An endpoint that confirms peyva and what it depends on are working.</li><li><strong>Rolling Deployment</strong>. Releasing a new version one copy at a time, instead of all at once.</li><li><strong>Release Rollback</strong>. Reverting to the previous working version when a release causes problems. Not chapter 7&#39;s transaction rollback.</li><li><strong>Runbook</strong>. A step-by-step guide for handling a specific, known kind of incident.</li><li><strong>Config</strong>. The component that reads every setting from outside the code and checks it. A setting is what differs between one run and the next, secrets included; anything with one correct value stays in code.</li><li><strong>Fail Fast</strong>. Refusing to start when a setting is missing, rather than guessing and failing later somewhere unrelated.</li>
+        <li><strong>Health Check</strong>. An endpoint that confirms peyva and what it depends on are working, and says which version is running.</li><li><strong>Rolling Deployment</strong>. Releasing a new version one copy at a time, checking health between, instead of all at once.</li><li><strong>Release Rollback</strong>. Reverting to the previous working version when a release causes problems. Not chapter 7&#39;s transaction rollback, and it does not undo data the new version wrote.</li><li><strong>Runbook</strong>. A step-by-step guide for handling a specific, known kind of incident. Commands and expected output, not prose.</li><li><strong>Config</strong>. The component that reads every setting from outside the code and checks it. A setting is what differs between one run and the next, secrets included; anything with one correct value stays in code.</li><li><strong>Fail Fast</strong>. Refusing to start when a setting is missing, rather than guessing and failing later somewhere unrelated.</li>
       </ul>
     </section>
 
     <section class="block build-it">
-      <h2>2. Build It <span class="badge">Hands-on</span>
+      <h2>3. Build It <span class="badge">Hands-on</span>
           <span class="language-locked">Building in <b data-language-name>Go</b>, <a href="chapter-0.html">change in Chapter 0</a></span>
       </h2>
       <p class="system-locked">Written for <b data-os-name>Windows, in PowerShell</b>, chosen in <a href="chapter-10.html">Growing the Team: Scale Out</a></p>
       <p class="technique"><span class="technique-name">Structured output formatting</span>. A runbook read at 2am has to be commands, not prose. Hand over the exact skeleton you want back.</p>
       <p class="technique-source">Documented in Anthropic: Prompting best practices, Control the format of responses</p>
       <details class="standing-rules">
-        <summary>Every prompt below is copied with these rules, about 815 tokens for the chapter</summary>
+        <summary>Every prompt below is copied with these rules, about 916 tokens for the chapter</summary>
         <pre class="prompt-lang" id="rules-build">Build this in <span data-language-name>Go</span>, standard library only.
 Code in peyva/&lt;component&gt;/, one folder per component.
 Money: exact decimal or integer minor units, never floating point, two decimal places.
@@ -171,13 +181,13 @@ The goal and invariants are in peyva/goal.md, the look in peyva/portal/design.md
         
       </details>
       
-      <p class="prompt-divider"><span class="prompt-step">1 of 3</span> Config<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~303 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">1 of 3</span> Config<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~353 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-build">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
-        <pre class="prompt">peyva reads settings straight from the environment in several places: the port a copy listens on, the ports the proxy routes between, where the Vault keeps its file.
+        <pre class="prompt">peyva reads settings straight from the environment in several places: the port each process listens on, the ports the proxy routes between, the Vault&#39;s and the Warden&#39;s ports, the primary a replica follows, where each Vault keeps its file, the shared secret the copies present to the Vault.
 
 Build Config: it reads every setting once at startup, checks each, and hands them over. Nothing else reads the environment.
 
@@ -187,22 +197,22 @@ First sort what peyva already has. Give me a table of every setting, and for eac
   config  a secret, which never belongs in the repository
   code    only one value is ever correct, and changing it would be a bug
 
-Two decimal places on money is not a setting. Neither is a balance that cannot go negative. When unsure, ask whether I should be able to change it at 3am with no review.
+Two decimal places on money is not a setting. Neither is a balance that cannot go negative, nor the lease length&#39;s relationship to its renewal interval. When unsure, ask whether I should be able to change it at 3am with no review.
 
 A missing or nonsense setting means naming it and exiting. Never a default that hides it.
 
-Done when every setting has been sorted with the rule it fell under, and starting without a required one names it and stops.</pre>
+Done when every setting has been sorted with the rule it fell under, and starting any process without a required one names it and stops.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">2 of 3</span> Runbook<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~304 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">2 of 3</span> Runbook<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~355 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-build">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
-        <pre class="prompt">peyva runs as three copies behind a proxy, each exposing a health endpoint, and Config now supplies every setting.
+        <pre class="prompt">peyva runs as a Vault, a replica, a Warden, three copies and a proxy, each exposing a health endpoint, and Config now supplies every setting.
 
-Add a version string, set at build time, reported by that health endpoint. Then write me a rollback runbook.
+Add a version string, set at build time, reported by every health endpoint. Then write me a rollback runbook for a bad release of the copies.
 
 Format the runbook exactly like this and nothing else:
 
@@ -212,9 +222,12 @@ Format the runbook exactly like this and nothing else:
   ## Check
   Numbered commands, one per line, with the output that confirms the diagnosis.
 
+  ## Can this release be rolled back?
+  One line: whether the release changed anything the previous version cannot read, and how you know.
+
   ## Fix
   Numbered commands, one per line, no placeholders. Anything that starts or
-  stops a copy goes through the runner, not a process ID I have to hunt for.
+  stops a process goes through the runner, not a process ID I have to hunt for.
 
   ## Verify
   One command and the exact output that means I&#39;m recovered.

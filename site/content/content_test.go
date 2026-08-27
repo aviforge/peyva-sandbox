@@ -7,15 +7,39 @@ import (
 	"testing"
 )
 
-func TestRoadmapHasTwentyOneChapters(t *testing.T) {
-	if len(Roadmap) != 21 {
-		t.Errorf("len(Roadmap) = %d, want 21", len(Roadmap))
+func TestRoadmapHasTwentyTwoChapters(t *testing.T) {
+	if len(Roadmap) != 22 {
+		t.Errorf("len(Roadmap) = %d, want 22", len(Roadmap))
 	}
 }
 
-func TestAllHasTwentyOneChapters(t *testing.T) {
-	if len(All) != 21 {
-		t.Errorf("len(All) = %d, want 21", len(All))
+func TestAllHasTwentyTwoChapters(t *testing.T) {
+	if len(All) != 22 {
+		t.Errorf("len(All) = %d, want 22", len(All))
+	}
+}
+
+// Why is the only place the book itself teaches; everything else on the page
+// is vocabulary or a prompt whose answer comes from someone else's model. A
+// chapter without it delegates its whole lesson, and a chapter with one bullet
+// has a slogan, not a lesson.
+//
+// The upper bound is on the bullet, not the list. A bullet that runs past two
+// sentences has turned back into the paragraph it was meant to replace.
+func TestEveryChapterSaysWhy(t *testing.T) {
+	const minBullets, maxWordsPerBullet = 5, 60
+	for _, c := range All {
+		if len(c.Why) < minBullets {
+			t.Errorf("chapter %d: Why has %d bullets, want at least %d", c.Number, len(c.Why), minBullets)
+		}
+		for i, b := range c.Why {
+			if n := len(strings.Fields(b)); n > maxWordsPerBullet {
+				t.Errorf("chapter %d: Why bullet %d is %d words, over %d. One claim per bullet", c.Number, i+1, n, maxWordsPerBullet)
+			}
+			if strings.Contains(b, "—") {
+				t.Errorf("chapter %d: Why bullet %d contains an em dash", c.Number, i+1)
+			}
+		}
 	}
 }
 
@@ -139,6 +163,7 @@ var componentChapters = map[string]int{
 	"Teller":     4,
 	"Ledger":     7,
 	"Courier":    12,
+	"Warden":     16,
 	"Config":     19,
 	"Reconciler": 20,
 }
@@ -410,6 +435,7 @@ func everything(c ChapterContent) string {
 		c.Title, c.Subtitle, c.QuickTip, c.HeroCaption,
 		c.BuildIt.Why,
 	}
+	parts = append(parts, c.Why...)
 	for _, p := range c.BuildIt.Prompts {
 		parts = append(parts, p.Label, p.Text)
 	}
@@ -457,7 +483,7 @@ func TestProseFieldsHoldNoBackticks(t *testing.T) {
 	for _, c := range All {
 		fields := map[string]string{
 			"Prompts": promptText(c),
-			"Why":     c.BuildIt.Why,
+			"Why":     c.BuildIt.Why + strings.Join(c.Why, "\n"),
 		}
 		for name, text := range fields {
 			if strings.Contains(text, "`") {

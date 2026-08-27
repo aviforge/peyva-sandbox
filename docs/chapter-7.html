@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Making It Safe (Transactions) | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=2ab8997a0e">
+<link rel="stylesheet" href="styles.css?v=a0a60c96d5">
 </head>
 <body data-chapter-slug="chapter-7">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -65,7 +65,7 @@
     
     
     
-    <li><a href="chapter-9.html" data-slug="chapter-9">9. How Big Is PEYVA? (Capacity Estimation)</a></li>
+    <li><a href="chapter-9.html" data-slug="chapter-9">9. Giving Up Well: Retries, Timeouts and Backoff</a></li>
     
     
     
@@ -112,6 +112,10 @@
     <li><a href="chapter-20.html" data-slug="chapter-20">20. Putting It All Together</a></li>
     
     
+    
+    <li><a href="chapter-21.html" data-slug="chapter-21">21. Splitting the Vault: Sharding</a></li>
+    
+    
   </ul>
 </nav>
 
@@ -131,7 +135,6 @@
     <div class="tags">
       <span class="tag">Databases</span>
       <span class="tag">Intermediate</span>
-      <span class="tag">20 min</span>
     </div>
   </div>
 
@@ -143,22 +146,29 @@
   
 
   <div class="section-grid">
+    <section class="block why">
+      <h2>1. Why</h2>
+      <ul class="why-list">
+        <li>A payment is at least three writes: debit one account, credit another, record that it happened. A crash between any two of them leaves money created, destroyed or unexplained. A transaction is the mechanism that makes three writes one event.</li><li>Atomicity and durability are what the database gives you. Consistency in ACID is your invariant, not the database&#39;s: it will happily commit a negative balance if your code asks it to. The database keeps the writes together; you decide what they may say.</li><li>Isolation is the property most people skip and the one that loses money. Two payments from alice, each reading her balance as 100, each checking 20 fits, each debiting 20 from what it read, leave her at 80 with 40 gone. That is a lost update, and it happens inside two perfectly atomic transactions.</li><li>The fix is an isolation level, or a lock, that makes the read and the write one unit. Serialisable isolation makes concurrent transactions behave as if they ran one after another; weaker levels permit named anomalies. SQLite is serialisable because it holds one write lock, which is why this is easy here and hard in a server database.</li><li>Double-entry is the oldest correctness check in finance. Every movement is a debit and a matching credit, so the sum of all entries is always zero and the sum of an account&#39;s entries is always its balance. It turns &#39;is the money right&#39; into arithmetic anyone can run.</li><li>The append-only record is the proof; the balance is a cached answer derived from it. When they disagree, the record wins, which is why nothing ever edits or deletes an entry. A mistake is corrected by another entry.</li>
+      </ul>
+    </section>
+
     <section class="block">
-      <h2>1. Concepts</h2>
+      <h2>2. Concepts</h2>
       <ul class="concepts">
-        <li><strong>Transaction</strong>. A group of database changes that succeed or fail together, never partially.</li><li><strong>BEGIN / COMMIT</strong>. Marks the start and the permanent end of a transaction. Nothing is final until COMMIT.</li><li><strong>Rollback</strong>. Undoing every change in a transaction because one step failed.</li><li><strong>ACID</strong>. Atomicity, Consistency, Isolation, Durability: the four guarantees a real transaction gives you.</li><li><strong>Ledger</strong>. The append-only record of every movement of money, the proof behind each balance the Vault reports.</li>
+        <li><strong>Transaction</strong>. A group of database changes that succeed or fail together, never partially.</li><li><strong>BEGIN / COMMIT</strong>. Marks the start and the permanent end of a transaction. Nothing is final until COMMIT.</li><li><strong>Rollback</strong>. Undoing every change in a transaction because one step failed.</li><li><strong>ACID</strong>. Atomicity, Isolation and Durability are what the database provides. Consistency is your invariants, which the database cannot know.</li><li><strong>Isolation Level</strong>. How much one running transaction can see of another. Serialisable means the outcome equals some one-at-a-time ordering; weaker levels each permit named anomalies.</li><li><strong>Lost Update</strong>. Two transactions read the same balance, each subtracts from what it read, and one&#39;s subtraction vanishes. Atomicity alone does not prevent it.</li><li><strong>Ledger</strong>. The append-only record of every movement of money, the proof behind each balance the Vault reports.</li>
       </ul>
     </section>
 
     <section class="block build-it">
-      <h2>2. Build It <span class="badge">Hands-on</span>
+      <h2>3. Build It <span class="badge">Hands-on</span>
           <span class="language-locked">Building in <b data-language-name>Go</b>, <a href="chapter-0.html">change in Chapter 0</a></span>
       </h2>
       
       <p class="technique"><span class="technique-name">Chain-of-thought prompting</span>. The failure modes are the hard part here, and thinking first surfaces the hole while it is still cheap.</p>
       <p class="technique-source">Documented in The Prompt Report: Thought Generation, Chain-of-Thought</p>
       <details class="standing-rules">
-        <summary>Every prompt below is copied with these rules, about 597 tokens for the chapter</summary>
+        <summary>Every prompt below is copied with these rules, about 901 tokens for the chapter</summary>
         <pre class="prompt-lang" id="rules-build">Build this in <span data-language-name>Go</span>, standard library only.
 Code in peyva/&lt;component&gt;/, one folder per component.
 Money: exact decimal or integer minor units, never floating point, two decimal places.
@@ -171,7 +181,7 @@ The goal and invariants are in peyva/goal.md, the look in peyva/portal/design.md
         <pre class="prompt-lang" id="rules-thinking">The goal and invariants are in peyva/goal.md.</pre>
       </details>
       
-      <p class="prompt-divider"><span class="prompt-step">1 of 3</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~294 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">1 of 4</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~294 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-build">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
@@ -188,7 +198,24 @@ Then make those states unreachable, and tell me which of your three scenarios is
 Done when a completed payment leaves two balanced Ledger entries and updated balances, a forced mid-payment failure leaves neither, and summing alice&#39;s Ledger entries equals her Vault balance.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">2 of 3</span> Decide<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~113 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">2 of 4</span> Isolation<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~304 tokens</span></p>
+      <div class="prompt-wrap" data-prompt-rules="rules-build">
+        <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
+          <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+        </button>
+        <pre class="prompt">The Teller checks that the payer has enough and then debits them, inside one transaction.
+
+Before changing anything, reason through this: two payments from alice of 60 each arrive at the same instant, and she holds 100. Walk through the interleaving where both read 100, both decide 60 fits, and both debit. Say what her balance is afterwards, whether the Ledger and the Vault still agree, and which invariant in goal.md was broken.
+
+Then tell me which isolation level, or which lock, the database you are using applies to that transaction, and whether it prevents that interleaving. Do not assume; find out from the database&#39;s own documentation or by testing it.
+
+Then fire those two payments concurrently, for real, and show me the result. If the second one is not refused, fix it so the read and the debit are one unit, and run it again.
+
+Done when two concurrent 60s from a balance of 100 leave exactly one applied, one refused, alice at 40, and the Ledger summing to her balance.</pre>
+      </div>
+      
+      <p class="prompt-divider"><span class="prompt-step">3 of 4</span> Decide<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~113 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-thinking">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
@@ -201,7 +228,7 @@ Before building it, walk me through what that view should show for a payment tha
 Done when I know what a half-failed payment looks like on the page, and why.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">3 of 3</span> Portal<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~190 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">4 of 4</span> Portal<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~190 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-portal">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>

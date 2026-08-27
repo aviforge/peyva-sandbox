@@ -15,8 +15,9 @@ import (
 
 // sections every chapter page must render.
 var requiredSections = []string{
-	"1. Concepts",
-	"2. Build It",
+	"1. Why",
+	"2. Concepts",
+	"3. Build It",
 }
 
 // pairedTags are counted open against closed. The character class matters:
@@ -25,7 +26,7 @@ var pairedTags = []string{"ul", "li", "section", "figure", "select", "pre"}
 
 var (
 	unrendered   = regexp.MustCompile(`\{\{[^}]{0,60}\}\}`)
-	heroImg      = regexp.MustCompile(`<img src="[^"]*images/chapter-\d+\.webp"`)
+	heroImg      = regexp.MustCompile(`<img src="[^"]*images/chapter-[\w-]+\.webp"`)
 	sidebarLink  = regexp.MustCompile(`data-slug="chapter-\d+"`)
 	optionTag    = regexp.MustCompile(`<option value="`)
 	sidebarNav   = regexp.MustCompile(`(?s)<nav class="sidebar">.*?</nav>`)

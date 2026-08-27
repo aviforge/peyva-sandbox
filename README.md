@@ -6,8 +6,10 @@ honest layer at a time.
 **[Read it here](https://aviforge.github.io/peyva-sandbox/)**, or open
 `docs/index.html` from a clone. Nothing to install or build.
 
-Each chapter ends with a prompt you hand to your own AI assistant rather than
-code to copy. Chapter 0 gives you a spec to save as `peyva/goal.md`, holding
+Each chapter opens with the claims it stands behind, then the vocabulary, then
+a prompt you hand to your own AI assistant rather than code to copy. There is
+no reference implementation and there will not be one: the point is to prompt
+for it, run it, and watch it fail the way the chapter says it will. Chapter 0 gives you a spec to save as `peyva/goal.md`, holding
 the goal, the rules money must never break, and the constraints. Every prompt
 after that points at it. Chapter 0 asks which language you want to build in, and every
 prompt after it asks for that one, so what you build in chapter 12 still fits
@@ -33,7 +35,7 @@ JavaScript, TypeScript, Java, C#, C++, Rust, Ruby, PHP, Kotlin and Swift.
 - **6.** [Finding Things Fast (Indexes)](https://aviforge.github.io/peyva-sandbox/chapter-6.html)
 - **7.** [Making It Safe (Transactions)](https://aviforge.github.io/peyva-sandbox/chapter-7.html)
 - **8.** [Exactly Once (Idempotency)](https://aviforge.github.io/peyva-sandbox/chapter-8.html)
-- **9.** [How Big Is PEYVA? (Capacity Estimation)](https://aviforge.github.io/peyva-sandbox/chapter-9.html)
+- **9.** [Giving Up Well: Retries, Timeouts and Backoff](https://aviforge.github.io/peyva-sandbox/chapter-9.html)
 - **10.** [Growing the Team: Scale Out](https://aviforge.github.io/peyva-sandbox/chapter-10.html)
 - **11.** [Sharing Work: Caching](https://aviforge.github.io/peyva-sandbox/chapter-11.html)
 - **12.** [Decoupling with Messages: Queues](https://aviforge.github.io/peyva-sandbox/chapter-12.html)
@@ -45,6 +47,7 @@ JavaScript, TypeScript, Java, C#, C++, Rust, Ruby, PHP, Kotlin and Swift.
 - **18.** [Lock It Down: Security](https://aviforge.github.io/peyva-sandbox/chapter-18.html)
 - **19.** [Operating in Production](https://aviforge.github.io/peyva-sandbox/chapter-19.html)
 - **20.** [Putting It All Together](https://aviforge.github.io/peyva-sandbox/chapter-20.html)
+- **21.** [Splitting the Vault: Sharding](https://aviforge.github.io/peyva-sandbox/chapter-21.html)
 <!-- toc:end -->
 
 ## Contributing

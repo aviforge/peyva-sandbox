@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Data Copies: Replication | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=2ab8997a0e">
+<link rel="stylesheet" href="styles.css?v=a0a60c96d5">
 </head>
 <body data-chapter-slug="chapter-15">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -65,7 +65,7 @@
     
     
     
-    <li><a href="chapter-9.html" data-slug="chapter-9">9. How Big Is PEYVA? (Capacity Estimation)</a></li>
+    <li><a href="chapter-9.html" data-slug="chapter-9">9. Giving Up Well: Retries, Timeouts and Backoff</a></li>
     
     
     
@@ -112,6 +112,10 @@
     <li><a href="chapter-20.html" data-slug="chapter-20">20. Putting It All Together</a></li>
     
     
+    
+    <li><a href="chapter-21.html" data-slug="chapter-21">21. Splitting the Vault: Sharding</a></li>
+    
+    
   </ul>
 </nav>
 
@@ -131,7 +135,6 @@
     <div class="tags">
       <span class="tag">Reliability</span>
       <span class="tag">Advanced</span>
-      <span class="tag">20 min</span>
     </div>
   </div>
 
@@ -143,22 +146,29 @@
   
 
   <div class="section-grid">
+    <section class="block why">
+      <h2>1. Why</h2>
+      <ul class="why-list">
+        <li>Copying the file is not replication. A file copy is a snapshot with no position, so you cannot say how far behind it is, cannot resume it after an interruption, and cannot tell whether a given payment is in it. Replication ships changes, in order, with a number on each.</li><li>A replication log is the Ledger&#39;s idea applied to the whole store: every committed change appended with a sequence number, in the same transaction as the change. The replica&#39;s state is defined by one number, the last sequence it applied, and that number is what every question about lag or loss comes down to.</li><li>Asynchronous means the primary answers the caller before the replica has the change. In the window between, a committed payment exists in exactly one place, and if the primary dies in that window the payment is gone from the replica&#39;s point of view. The window is measurable: primary&#39;s latest sequence minus the replica&#39;s.</li><li>Promotion is the moment async replication charges you. The replica becomes the primary with whatever it has, and every committed change past its position is lost. For money, that loss must be counted and reported, not discovered later by a customer.</li><li>After promotion the old primary must never accept a write again. If it comes back believing it is still primary, two stores accept payments independently, and that is split-brain, the one failure that breaks every invariant at once.</li><li>Replication gives you a second copy of the data. It does not decide who is primary, when to promote, or how the copies find the new primary. Those are separate problems, and this chapter leaves promotion as a manual act so the next one can automate it honestly.</li>
+      </ul>
+    </section>
+
     <section class="block">
-      <h2>1. Concepts</h2>
+      <h2>2. Concepts</h2>
       <ul class="concepts">
-        <li><strong>Primary Database</strong>. The database that accepts writes and is the source of truth.</li><li><strong>Replica</strong>. A copy of the primary&#39;s data, kept in sync, usually in a different location.</li><li><strong>Async Replication</strong>. The replica catches up shortly after the primary writes: fast, but the replica can be briefly behind.</li><li><strong>Promotion</strong>. Turning a replica into the new primary when the original primary fails.</li>
+        <li><strong>Primary</strong>. The store that accepts writes and is the source of truth. There is one at a time, and enforcing that is harder than it sounds.</li><li><strong>Replica</strong>. A second copy of the store that applies the primary&#39;s changes in order and can be promoted. Reads may be served from it if the reader accepts they may be behind.</li><li><strong>Replication Log</strong>. Every committed change, appended with a sequence number in the same transaction. The replica applies it in order; the last applied number is its position.</li><li><strong>Replication Lag</strong>. Primary&#39;s latest sequence minus the replica&#39;s position. A committed payment with a sequence above the replica&#39;s position exists in one place only.</li><li><strong>Promotion</strong>. Turning the replica into the primary. With async replication, everything past its position at that moment is lost, and the old primary must be fenced off from writing again.</li><li><strong>Split-Brain</strong>. Two stores each believing they are the primary and both accepting writes. Breaks every money invariant at once.</li>
       </ul>
     </section>
 
     <section class="block build-it">
-      <h2>2. Build It <span class="badge">Hands-on</span>
+      <h2>3. Build It <span class="badge">Hands-on</span>
           <span class="language-locked">Building in <b data-language-name>Go</b>, <a href="chapter-0.html">change in Chapter 0</a></span>
       </h2>
       
       <p class="technique"><span class="technique-name">Analogical Prompting</span>. Compare its analogy against yours. Where the two differ, one of you is wrong about the design.</p>
       <p class="technique-source">Documented in The Prompt Report: Thought Generation, Analogical Prompting</p>
       <details class="standing-rules">
-        <summary>Every prompt below is copied with these rules, about 488 tokens for the chapter</summary>
+        <summary>Every prompt below is copied with these rules, about 724 tokens for the chapter</summary>
         <pre class="prompt-lang" id="rules-build">Build this in <span data-language-name>Go</span>, standard library only.
 Code in peyva/&lt;component&gt;/, one folder per component.
 Money: exact decimal or integer minor units, never floating point, two decimal places.
@@ -167,47 +177,51 @@ The goal and invariants are in peyva/goal.md.</pre>
         <pre class="prompt-lang" id="rules-thinking">The goal and invariants are in peyva/goal.md.</pre>
       </details>
       
-      <p class="prompt-divider"><span class="prompt-step">1 of 3</span> Analogy<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~148 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">1 of 3</span> Analogy<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~176 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-thinking">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
-        <pre class="prompt">A system keeps its records in one file on one disk. If that disk dies, every record dies with it. I want a second copy somewhere else.
+        <pre class="prompt">A system keeps its records in one file on one disk. If that disk dies, every record dies with it. I want a second copy somewhere else that follows the first, change by change.
 
-Before designing anything, give me a real-world analogy for keeping a second copy of records elsewhere, something with no computers in it. Say who writes first, who copies, how far behind the copy runs, and what happens when the original is destroyed.
+Before designing anything, give me a real-world analogy for keeping a second copy of records elsewhere, something with no computers in it. Say who writes first, who copies, how the copier knows where it got up to, how far behind the copy runs, and what happens when the original is destroyed while the copier is behind.
 
 Then name the one part of your analogy that actually matters for this design.
 
 Done when I have your analogy and the single part of it you say carries over.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">2 of 3</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~238 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">2 of 3</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~382 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-build">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
-        <pre class="prompt">The Vault keeps every account in one file on one disk, and a payment is committed there and nowhere else.
+        <pre class="prompt">The Vault runs as one process holding one SQLite file, and a payment is committed there and nowhere else.
 
-Give the Vault a second copy, written to after each committed payment, and a way to promote it when the primary is unreachable. Keep the copying asynchronous. The caller must never wait for it.
+Give the Vault a replication log: every committed change appended with a sequence number in the same transaction as the change. Then make the Vault able to run as a replica. Started with PEYVA_PRIMARY set to the primary&#39;s port, it applies the primary&#39;s log in order, fetching everything after its own last applied sequence, and reports its position and the primary&#39;s latest sequence on an endpoint. Keep the copying asynchronous: the primary answers the caller without waiting for the replica.
 
-The runner brings the second copy up with everything else, and can cut it off or restore it while the rest keeps running. Testing a replica by renaming its file behind the system&#39;s back proves less than it looks like it does.
+Add a manual promotion: an endpoint or signal that tells the replica to stop following and start accepting writes, reporting the sequence it was at when promoted. An old primary that is told a promotion has happened refuses every write from then on.
 
-Done when a payment appears in both copies, balance enquiries survive the primary being unavailable, and you can show me the window where a committed payment hasn&#39;t reached the second copy yet.</pre>
+The runner starts the replica with everything else when its START_REPLICA line is filled in. Fill it in. The replica must be able to be stopped and restarted while the primary keeps taking payments, and catch up from its position.
+
+Done when a payment appears in both copies with the same sequence, stopping the replica during ten payments and restarting it catches it up with none missing, and you can show me a number for how far behind it was.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">3 of 3</span> Critique<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~102 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">3 of 3</span> Critique<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~166 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-thinking">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
-        <pre class="prompt">You gave me a real-world analogy for keeping a second copy of records, then built asynchronous replication for the Vault from it.
+        <pre class="prompt">You gave me a real-world analogy for keeping a second copy of records, then built log-based asynchronous replication for the Vault from it.
 
 Tell me where that analogy breaks down for real databases, and whether it led you into any mistake in the code you wrote.
 
-Done when I know which parts of your analogy to stop trusting, and whether any of them reached the code.</pre>
+Then answer directly: if the primary dies with the replica three sequences behind and the replica is promoted, which invariants in goal.md are broken from the customer&#39;s point of view, and how would anyone find out?
+
+Done when I know which parts of your analogy to stop trusting, whether any of them reached the code, and exactly what a promotion loses.</pre>
       </div>
       
       

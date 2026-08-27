@@ -23,4 +23,5 @@ var All = []ChapterContent{
 	Chapter18,
 	Chapter19,
 	Chapter20,
+	Chapter21,
 }

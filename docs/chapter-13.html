@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Reliability Patterns: Transactional Outbox | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=2ab8997a0e">
+<link rel="stylesheet" href="styles.css?v=a0a60c96d5">
 </head>
 <body data-chapter-slug="chapter-13">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -65,7 +65,7 @@
     
     
     
-    <li><a href="chapter-9.html" data-slug="chapter-9">9. How Big Is PEYVA? (Capacity Estimation)</a></li>
+    <li><a href="chapter-9.html" data-slug="chapter-9">9. Giving Up Well: Retries, Timeouts and Backoff</a></li>
     
     
     
@@ -112,6 +112,10 @@
     <li><a href="chapter-20.html" data-slug="chapter-20">20. Putting It All Together</a></li>
     
     
+    
+    <li><a href="chapter-21.html" data-slug="chapter-21">21. Splitting the Vault: Sharding</a></li>
+    
+    
   </ul>
 </nav>
 
@@ -131,7 +135,6 @@
     <div class="tags">
       <span class="tag">Reliability</span>
       <span class="tag">Advanced</span>
-      <span class="tag">20 min</span>
     </div>
   </div>
 
@@ -143,22 +146,29 @@
   
 
   <div class="section-grid">
+    <section class="block why">
+      <h2>1. Why</h2>
+      <ul class="why-list">
+        <li>&#39;Commit, then publish&#39; has a gap, and the gap is not small in any sense that matters. It is a window between two instructions, and a process can die inside any window. Work lost there has no record, so nothing can ever notice it is missing.</li><li>The outbox closes the gap by making the work part of the commit. The payment and the row saying &#39;notify bob&#39; are written in one transaction in the Vault&#39;s database, so either both exist or neither does. The work is durable before anyone tries to do it.</li><li>Doing the work is now a separate loop: read unsent rows, deliver, mark sent. That loop can crash after delivering and before marking, which means the row is delivered again. The outbox trades &#39;possibly never&#39; for &#39;possibly twice&#39;, and twice is the one a receiver can be made to handle.</li><li>At-least-once plus deduplication is the recurring shape of this book. Idempotency keys on payments, an outbox for downstream work: the same idea applied at each place a message crosses a boundary.</li><li>With several copies each running a collector, two of them can pick the same row. Claiming a row with an update the database serialises, or accepting the duplicate and deduping downstream, are the choices; pretending it cannot happen is not one.</li><li>The outbox is a queue that happens to be a table. It has a backlog, a consumer and a producer, and its length is a health signal, exactly as an in-memory queue&#39;s was, except that this one survives a restart.</li>
+      </ul>
+    </section>
+
     <section class="block">
-      <h2>1. Concepts</h2>
+      <h2>2. Concepts</h2>
       <ul class="concepts">
-        <li><strong>Outbox Table</strong>. A table in the same database as the transfer, holding messages that still need to be published.</li><li><strong>Same Transaction</strong>. The transfer and the outbox row are written together, inside the transaction from Chapter 7: never as two separate steps.</li><li><strong>Outbox Publisher</strong>. A background worker that reads unsent outbox rows and publishes them to the queue, then marks them sent.</li><li><strong>At Least Once</strong>. A crash between publishing and marking the row done sends the message twice. The receiver has to cope, which is what Chapter 8 built.</li>
+        <li><strong>Outbox Table</strong>. A table in the same database as the transfer, holding messages that still need to be published.</li><li><strong>Same Transaction</strong>. The transfer and the outbox row are written together, inside the transaction from Chapter 7: never as two separate steps.</li><li><strong>Outbox Publisher</strong>. A background worker that reads unsent outbox rows and publishes them to the queue, then marks them sent.</li><li><strong>At Least Once</strong>. A crash between publishing and marking the row done sends the message twice. The receiver has to cope, which is what Chapter 8 built.</li><li><strong>Claiming</strong>. Marking a row as taken before working on it, in one database update, so two collectors do not both take it. Not the same as marking it done.</li>
       </ul>
     </section>
 
     <section class="block build-it">
-      <h2>2. Build It <span class="badge">Hands-on</span>
+      <h2>3. Build It <span class="badge">Hands-on</span>
           <span class="language-locked">Building in <b data-language-name>Go</b>, <a href="chapter-0.html">change in Chapter 0</a></span>
       </h2>
       
       <p class="technique"><span class="technique-name">Contrastive Chain-of-Thought</span>. Naming the naive design stops the assistant rediscovering it, and forces it to say what its version does differently.</p>
       <p class="technique-source">Documented in The Prompt Report: Few-Shot CoT, Contrastive CoT</p>
       <details class="standing-rules">
-        <summary>Every prompt below is copied with these rules, about 448 tokens for the chapter</summary>
+        <summary>Every prompt below is copied with these rules, about 545 tokens for the chapter</summary>
         <pre class="prompt-lang" id="rules-build">Build this in <span data-language-name>Go</span>, standard library only.
 Code in peyva/&lt;component&gt;/, one folder per component.
 Money: exact decimal or integer minor units, never floating point, two decimal places.
@@ -167,36 +177,36 @@ The goal and invariants are in peyva/goal.md.</pre>
         <pre class="prompt-lang" id="rules-thinking">The goal and invariants are in peyva/goal.md.</pre>
       </details>
       
-      <p class="prompt-divider"><span class="prompt-step">1 of 2</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~295 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">1 of 2</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~354 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-build">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
-        <pre class="prompt">The Courier picks up work from memory. If the process dies between the payment committing and the work reaching the Courier, that work is gone and nothing in the system knows it&#39;s missing.
+        <pre class="prompt">The Courier picks up work from a queue in memory inside each copy. If a copy dies between the payment committing and the work reaching the Courier, or with work still queued, that work is gone and nothing in the system knows it&#39;s missing.
 
 Reasoning I want you to reject: commit the payment, then hand the work to the Courier, because the gap between them is too small to matter. The gap is not a probability, it is a window, and a crash inside it loses work with no record that anything is owed.
 
 Reasoning I want you to follow: anything that must happen because a payment happened is recorded in the same atomic unit as the payment. One commit, or nothing.
 
-Build the second one. The Teller records the Courier&#39;s pending work in the same atomic unit that moves the money. The Courier collects from that record, and marks each item done once it&#39;s delivered.
+Build the second one. The Vault records the Courier&#39;s pending work in the same transaction that moves the money, in its own database. The Courier in each copy collects pending work from the Vault, claims each item in one update so two copies do not both take it, delivers it, and marks it done. Expose how many items are pending.
 
-Done when killing the process right after a payment leaves the work durable and uncollected, and restarting the Courier still delivers it.</pre>
+Done when killing a copy right after a payment leaves the work durable in the Vault and uncollected, restarting any copy delivers it, and three copies collecting at once deliver each item once.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">2 of 2</span> Contrast<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~153 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">2 of 2</span> Contrast<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~191 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-thinking">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
-        <pre class="prompt">You built the Teller recording the Courier&#39;s pending work in the same atomic unit as the payment, instead of handing it over after the commit.
+        <pre class="prompt">You built the Vault recording the Courier&#39;s pending work in the same atomic unit as the payment, instead of handing it over after the commit.
 
 Contrast the two designs directly: name the exact instant at which the rejected one loses work and yours doesn&#39;t.
 
-Then tell me what happens if the Courier dies after delivering but before marking the item done, and whether that is acceptable for a notification.
+Then tell me what happens if the Courier dies after delivering but before marking the item done, and whether that is acceptable for a notification. Then tell me what happens if a copy claims an item and dies before delivering it, and what would be needed to get that item delivered by someone else.
 
-Done when I can point at the single instant that separates the two designs, and I know what your version does in the one case it still handles imperfectly.</pre>
+Done when I can point at the single instant that separates the two designs, and I know what your version does in the two cases it still handles imperfectly.</pre>
       </div>
       
       

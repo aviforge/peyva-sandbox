@@ -312,9 +312,9 @@ func totalTokens(views []promptView) int {
 	return total
 }
 
-// hasBuildPrompt reports whether any turn asks for a component. Chapter 9 has
-// none: it estimates capacity and writes no code, so the rules about where code
-// goes have nothing to apply to.
+// hasBuildPrompt reports whether any turn asks for a component. A chapter made
+// only of thinking turns writes no code, so the rules about where code goes
+// have nothing to apply to.
 func hasBuildPrompt(c content.ChapterContent) bool {
 	for _, p := range c.BuildIt.Prompts {
 		if !p.Thinking && !p.Portal {

@@ -8,7 +8,9 @@ type RoadmapEntry struct {
 // Roadmap lists every planned chapter for the sidebar, in order. Entries
 // whose Number has no matching ChapterContent in All render as
 // disabled/non-clickable in the sidebar. Titles match the exact wording
-// baked into each chapter's hero image (site/assets/images/chapter-<N>.webp).
+// baked into each chapter's hero image (docs/images/chapter-<N>.webp) where
+// one exists. Chapter 9 and chapter 21 have none yet: 9 replaced the capacity
+// estimation chapter, and 21 was added after the illustrations were drawn.
 var Roadmap = []RoadmapEntry{
 	{0, "What Are We Building?"},
 	{1, "Inside One Computer"},
@@ -19,7 +21,7 @@ var Roadmap = []RoadmapEntry{
 	{6, "Finding Things Fast (Indexes)"},
 	{7, "Making It Safe (Transactions)"},
 	{8, "Exactly Once (Idempotency)"},
-	{9, "How Big Is PEYVA? (Capacity Estimation)"},
+	{9, "Giving Up Well: Retries, Timeouts and Backoff"},
 	{10, "Growing the Team: Scale Out"},
 	{11, "Sharing Work: Caching"},
 	{12, "Decoupling with Messages: Queues"},
@@ -31,4 +33,5 @@ var Roadmap = []RoadmapEntry{
 	{18, "Lock It Down: Security"},
 	{19, "Operating in Production"},
 	{20, "Putting It All Together"},
+	{21, "Splitting the Vault: Sharding"},
 }

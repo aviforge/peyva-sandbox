@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Finding Things Fast (Indexes) | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=2ab8997a0e">
+<link rel="stylesheet" href="styles.css?v=a0a60c96d5">
 </head>
 <body data-chapter-slug="chapter-6">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -65,7 +65,7 @@
     
     
     
-    <li><a href="chapter-9.html" data-slug="chapter-9">9. How Big Is PEYVA? (Capacity Estimation)</a></li>
+    <li><a href="chapter-9.html" data-slug="chapter-9">9. Giving Up Well: Retries, Timeouts and Backoff</a></li>
     
     
     
@@ -112,6 +112,10 @@
     <li><a href="chapter-20.html" data-slug="chapter-20">20. Putting It All Together</a></li>
     
     
+    
+    <li><a href="chapter-21.html" data-slug="chapter-21">21. Splitting the Vault: Sharding</a></li>
+    
+    
   </ul>
 </nav>
 
@@ -131,7 +135,6 @@
     <div class="tags">
       <span class="tag">Databases</span>
       <span class="tag">Intermediate</span>
-      <span class="tag">15 min</span>
     </div>
   </div>
 
@@ -143,22 +146,29 @@
   
 
   <div class="section-grid">
+    <section class="block why">
+      <h2>1. Why</h2>
+      <ul class="why-list">
+        <li>Without an index, finding one row means reading every row. That is fine at a thousand accounts and fatal at ten million, and the code looks identical in both cases. Slowness of this kind arrives silently, with growth.</li><li>An index is a second, sorted copy of one column pointing back at the rows. A B-tree keeps it balanced so any lookup takes a handful of page reads however large the table grows, which is why a lookup on a million rows costs about the same as on a thousand.</li><li>Every index is a write amplifier. Each insert or update has to maintain every index on the table, so a table with ten indexes does eleven writes per row. Indexes are bought with write speed.</li><li>An index only helps queries that use its column the way it was sorted. An index on region does nothing for a search on owner, and a query the planner cannot map onto an index scans the table anyway.</li><li>Performance claims are measurements, not reasoning. The same query on the same data is fast or slow depending on the page cache, the disk and the size of the table, and the only honest number is one taken on the machine in question.</li><li>The primary key is an index too. Looking an account up by handle is fast for the same reason a region lookup becomes fast here, and for no other.</li>
+      </ul>
+    </section>
+
     <section class="block">
-      <h2>1. Concepts</h2>
+      <h2>2. Concepts</h2>
       <ul class="concepts">
-        <li><strong>Full Table Scan</strong>. Checking every row one by one until you find the match: correct, but slow as the table grows.</li><li><strong>Index</strong>. A separate structure that maps a value (like a name) directly to where its row lives.</li><li><strong>B&#43; Tree</strong>. The tree structure most databases use to keep an index searchable in a handful of steps.</li><li><strong>Index Lookup</strong>. Using the index to jump straight to the data page that holds the row you want.</li>
+        <li><strong>Full Table Scan</strong>. Checking every row one by one until you find the match: correct, but slow as the table grows.</li><li><strong>Index</strong>. A separate structure that maps a value (like a name) directly to where its row lives.</li><li><strong>B-Tree</strong>. The balanced tree most databases use to keep an index searchable in a handful of page reads, however large it grows.</li><li><strong>Write Amplification</strong>. Each row write also writes every index on the table. More indexes, slower inserts.</li><li><strong>Query Plan</strong>. The database&#39;s account of how it will run a query: which index it will use, or that it will scan. Ask for it before believing a query is fast.</li>
       </ul>
     </section>
 
     <section class="block build-it">
-      <h2>2. Build It <span class="badge">Hands-on</span>
+      <h2>3. Build It <span class="badge">Hands-on</span>
           <span class="language-locked">Building in <b data-language-name>Go</b>, <a href="chapter-0.html">change in Chapter 0</a></span>
       </h2>
       
       <p class="technique"><span class="technique-name">Grounding: investigate before claiming</span>. Forbid claims about code it has not run, and you get timings instead of confident guesses.</p>
       <p class="technique-source">Documented in Anthropic: Prompting best practices, Minimizing hallucinations in agentic coding</p>
       <details class="standing-rules">
-        <summary>Every prompt below is copied with these rules, about 479 tokens for the chapter</summary>
+        <summary>Every prompt below is copied with these rules, about 507 tokens for the chapter</summary>
         <pre class="prompt-lang" id="rules-build">Build this in <span data-language-name>Go</span>, standard library only.
 Code in peyva/&lt;component&gt;/, one folder per component.
 Money: exact decimal or integer minor units, never floating point, two decimal places.
@@ -171,7 +181,7 @@ The goal and invariants are in peyva/goal.md, the look in peyva/portal/design.md
         
       </details>
       
-      <p class="prompt-divider"><span class="prompt-step">1 of 2</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~255 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">1 of 2</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~283 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-build">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
@@ -182,14 +192,14 @@ The goal and invariants are in peyva/goal.md, the look in peyva/portal/design.md
 Do this in order and don&#39;t skip ahead:
 
 1. Seed the Vault with 50,000 accounts and randomised regions.
-2. Time a lookup of every account in one region. Report the number before changing anything.
+2. Time a lookup of every account in one region. Report the number before changing anything, and show me the query plan the database gives for it.
 3. Add an index on region.
-4. Time the same lookup again and report both numbers side by side.
+4. Time the same lookup again and report both numbers side by side, with the new query plan.
 5. Time 1,000 account inserts with the index present, then with it dropped, and report that difference too.
 
 Never state a performance claim you have not measured on this machine. Show me real numbers, not estimates, and if the improvement is smaller than expected, say so rather than explaining it away.
 
-Done when I have four real numbers: read time before and after, write time before and after.</pre>
+Done when I have four real numbers: read time before and after, write time before and after, and two query plans that differ.</pre>
       </div>
       
       <p class="prompt-divider"><span class="prompt-step">2 of 2</span> Portal<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~224 tokens</span></p>

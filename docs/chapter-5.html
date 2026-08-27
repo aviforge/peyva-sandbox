@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Storing Money (Databases) | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=2ab8997a0e">
+<link rel="stylesheet" href="styles.css?v=a0a60c96d5">
 </head>
 <body data-chapter-slug="chapter-5">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -65,7 +65,7 @@
     
     
     
-    <li><a href="chapter-9.html" data-slug="chapter-9">9. How Big Is PEYVA? (Capacity Estimation)</a></li>
+    <li><a href="chapter-9.html" data-slug="chapter-9">9. Giving Up Well: Retries, Timeouts and Backoff</a></li>
     
     
     
@@ -112,6 +112,10 @@
     <li><a href="chapter-20.html" data-slug="chapter-20">20. Putting It All Together</a></li>
     
     
+    
+    <li><a href="chapter-21.html" data-slug="chapter-21">21. Splitting the Vault: Sharding</a></li>
+    
+    
   </ul>
 </nav>
 
@@ -131,7 +135,6 @@
     <div class="tags">
       <span class="tag">Databases</span>
       <span class="tag">Beginner</span>
-      <span class="tag">15 min</span>
     </div>
   </div>
 
@@ -143,22 +146,29 @@
   
 
   <div class="section-grid">
+    <section class="block why">
+      <h2>1. Why</h2>
+      <ul class="why-list">
+        <li>Durability is a promise about the moment of failure, not about the file. A write that sits in an OS buffer is on its way to disk; it is not there until the database has called fsync and the drive has confirmed. Kill the power in between and the write never happened.</li><li>A database is the code that makes &#39;written&#39; mean something. It orders writes, flushes them, and on restart replays or discards partial ones so the file is never half-updated. Writing your own file format skips all of that.</li><li>Once storage is outside the process, every read is a trip and every write is a wait. Latency that was nanoseconds is now microseconds to milliseconds, which changes what you can afford to do per request.</li><li>Where the truth lives matters more than how fast you can read it. Two copies of a balance, one in memory and one on disk, will disagree the first time one is updated and the other is not. One place is the source of truth; everything else is a view of it.</li><li>SQLite is a real database in one file: transactions, a write-ahead log, crash recovery. It is not a toy, and it is enough to teach every storage idea in this book without a server to install.</li><li>Migration is the ordinary case. Data always outlives the code that first wrote it, so moving records from one home to another without losing any is a skill you will use more often than designing a fresh schema.</li>
+      </ul>
+    </section>
+
     <section class="block">
-      <h2>1. Concepts</h2>
+      <h2>2. Concepts</h2>
       <ul class="concepts">
-        <li><strong>Durable</strong>. Once written, the data survives the process dying, not just ending.</li><li><strong>Persistent</strong>. Held outside process memory, so it is still there for the next run.</li><li><strong>Migration</strong>. Moving existing data to a new home without losing any of it, here from memory to disk.</li>
+        <li><strong>Durable</strong>. Once written, the data survives the process dying, not just ending. Only true after the database has flushed it to disk.</li><li><strong>Persistent</strong>. Held outside process memory, so it is still there for the next run.</li><li><strong>Source of Truth</strong>. The one place a value is authoritative. Anything else holding that value is a copy that can be wrong.</li><li><strong>Migration</strong>. Moving existing data to a new home without losing any of it, here from memory to disk.</li>
       </ul>
     </section>
 
     <section class="block build-it">
-      <h2>2. Build It <span class="badge">Hands-on</span>
+      <h2>3. Build It <span class="badge">Hands-on</span>
           <span class="language-locked">Building in <b data-language-name>Go</b>, <a href="chapter-0.html">change in Chapter 0</a></span>
       </h2>
       
       <p class="technique"><span class="technique-name">Explicit success criteria</span>. Specify the finish line rather than the steps, and the assistant works out the delta, including what you would have forgotten.</p>
       <p class="technique-source">Documented in Anthropic: Prompting best practices, Provide clear success criteria</p>
       <details class="standing-rules">
-        <summary>Every prompt below is copied with these rules, about 361 tokens for the chapter</summary>
+        <summary>Every prompt below is copied with these rules, about 451 tokens for the chapter</summary>
         <pre class="prompt-lang" id="rules-build">Build this in <span data-language-name>Go</span>, standard library only.
 Code in peyva/&lt;component&gt;/, one folder per component.
 Money: exact decimal or integer minor units, never floating point, two decimal places.
@@ -171,7 +181,7 @@ The goal and invariants are in peyva/goal.md, the look in peyva/portal/design.md
         
       </details>
       
-      <p class="prompt-divider"><span class="prompt-step">1 of 2</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~210 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">1 of 2</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~300 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-build">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
@@ -181,7 +191,9 @@ The goal and invariants are in peyva/goal.md, the look in peyva/portal/design.md
 
 Target: the Vault keeps accounts in a file on disk. It creates its storage on first run and seeds alice only if she isn&#39;t already there. Every read and every write of a balance goes to that file. No balance is cached in memory anywhere.
 
-Use SQLite with a driver that needs no cgo. Don&#39;t change what the Gateway or the Teller look like from the outside.
+Use SQLite. If the language&#39;s standard library has no SQLite binding, say so and use the single most widely used driver for it, preferring one that needs no C toolchain; that is the one exception to standard library only, and name it so I can see it. Don&#39;t change what the Gateway or the Teller look like from the outside.
+
+Tell me what the database does between my write returning and the bytes being safe on disk, and what happens to a write if the power goes in that gap.
 
 Done when restarting the process still reports alice&#39;s balance, and deleting the Vault&#39;s file is the only thing that loses it.</pre>
       </div>

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Lock It Down: Security | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=2ab8997a0e">
+<link rel="stylesheet" href="styles.css?v=a0a60c96d5">
 </head>
 <body data-chapter-slug="chapter-18">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -65,7 +65,7 @@
     
     
     
-    <li><a href="chapter-9.html" data-slug="chapter-9">9. How Big Is PEYVA? (Capacity Estimation)</a></li>
+    <li><a href="chapter-9.html" data-slug="chapter-9">9. Giving Up Well: Retries, Timeouts and Backoff</a></li>
     
     
     
@@ -112,6 +112,10 @@
     <li><a href="chapter-20.html" data-slug="chapter-20">20. Putting It All Together</a></li>
     
     
+    
+    <li><a href="chapter-21.html" data-slug="chapter-21">21. Splitting the Vault: Sharding</a></li>
+    
+    
   </ul>
 </nav>
 
@@ -131,7 +135,6 @@
     <div class="tags">
       <span class="tag">Operations</span>
       <span class="tag">Advanced</span>
-      <span class="tag">25 min</span>
     </div>
   </div>
 
@@ -143,22 +146,29 @@
   
 
   <div class="section-grid">
+    <section class="block why">
+      <h2>1. Why</h2>
+      <ul class="why-list">
+        <li>A payment request that names its payer is a request anyone can forge. The &#39;from&#39; field is a claim, and a system that acts on a claim without checking it lets any caller spend from any account.</li><li>Authentication and authorisation are different checks that fail differently. Proving the caller is alice does not say alice may spend from bob. The second check is the one payments systems most often forget, because the first one feels like enough.</li><li>The check belongs before the money, at the edge, in one place. Spreading it across handlers means one handler without it, and that handler is the one an attacker finds.</li><li>Credentials in source code are credentials in every clone, every backup and every log of the repository. They come from the environment, and the process refuses to start without them rather than falling back to a default anyone can read.</li><li>Internal calls are not trusted by being internal. The copies call the Vault over the network; anything else on that network can too, and a Vault that accepts a write from any caller has an unauthenticated front door of its own.</li><li>Security review is asking how this specific system breaks, not applying a general checklist. The questions worth asking name these fields, these endpoints and these checks; a question that could be asked of any application finds only the bugs every application has.</li>
+      </ul>
+    </section>
+
     <section class="block">
-      <h2>1. Concepts</h2>
+      <h2>2. Concepts</h2>
       <ul class="concepts">
-        <li><strong>AuthN (Authentication)</strong>. Verifying who someone is. Proving Alice is really Alice.</li><li><strong>AuthZ (Authorisation)</strong>. Checking what an authenticated user is allowed to do, least privilege by default.</li><li><strong>Encryption in Transit</strong>. Protecting data as it travels over the network (TLS), so it can&#39;t be read if intercepted.</li><li><strong>Secrets Management</strong>. Storing credentials and keys securely, never hardcoded in source code.</li>
+        <li><strong>AuthN (Authentication)</strong>. Verifying who someone is. Proving Alice is really Alice.</li><li><strong>AuthZ (Authorisation)</strong>. Checking what an authenticated user is allowed to do, least privilege by default.</li><li><strong>Encryption in Transit</strong>. Protecting data as it travels over the network (TLS), so it can&#39;t be read if intercepted.</li><li><strong>Secrets Management</strong>. Storing credentials and keys securely, never hardcoded in source code.</li><li><strong>Trust Boundary</strong>. The line across which a caller&#39;s claims stop being believed. The Gateway is one; the Vault&#39;s port is another, because anything on the network can reach it.</li>
       </ul>
     </section>
 
     <section class="block build-it">
-      <h2>2. Build It <span class="badge">Hands-on</span>
+      <h2>3. Build It <span class="badge">Hands-on</span>
           <span class="language-locked">Building in <b data-language-name>Go</b>, <a href="chapter-0.html">change in Chapter 0</a></span>
       </h2>
       
       <p class="technique"><span class="technique-name">Chain-of-Verification (CoVe)</span>. Asking for secure code gets you the checklist. Verifying your own draft finds the holes the checklist does not mention.</p>
       <p class="technique-source">Documented in The Prompt Report: Self-Criticism, Chain-of-Verification</p>
       <details class="standing-rules">
-        <summary>Every prompt below is copied with these rules, about 924 tokens for the chapter</summary>
+        <summary>Every prompt below is copied with these rules, about 1001 tokens for the chapter</summary>
         <pre class="prompt-lang" id="rules-build">Build this in <span data-language-name>Go</span>, standard library only.
 Code in peyva/&lt;component&gt;/, one folder per component.
 Money: exact decimal or integer minor units, never floating point, two decimal places.
@@ -171,26 +181,26 @@ The goal and invariants are in peyva/goal.md, the look in peyva/portal/design.md
         <pre class="prompt-lang" id="rules-thinking">The goal and invariants are in peyva/goal.md.</pre>
       </details>
       
-      <p class="prompt-divider"><span class="prompt-step">1 of 5</span> Draft<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~174 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">1 of 5</span> Draft<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~241 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-build">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
-        <pre class="prompt">The Gateway trusts the &#34;from&#34; field on a payment request completely. Any caller can move money out of any account by naming it.
+        <pre class="prompt">The Gateway trusts the &#34;from&#34; field on a payment request completely. Any caller can move money out of any account by naming it. The Vault accepts a write from anything that can reach its port.
 
-Make the Gateway prove who the caller is, and confirm they own the account they are spending from before the Teller ever sees the request. Move any credential out of source code into an environment variable.
+Make the Gateway prove who the caller is, and confirm they own the account they are spending from before the Teller ever sees the request. Make the Vault accept writes only from callers presenting a shared secret the copies hold. Move every credential out of source code into environment variables the processes refuse to start without.
 
-Done when a request with no credential is refused, and a caller authenticated as one owner cannot spend from another&#39;s account.</pre>
+Done when a request with no credential is refused, a caller authenticated as one owner cannot spend from another&#39;s account, and a write sent straight to the Vault&#39;s port without the secret is refused.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">2 of 5</span> Plan the checks<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~124 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">2 of 5</span> Plan the checks<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~134 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-thinking">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
-        <pre class="prompt">You put authentication in front of a payments API and an ownership check between the caller and the money.
+        <pre class="prompt">You put authentication in front of a payments API, an ownership check between the caller and the money, and a shared secret in front of the store.
 
 Write the list of questions that would expose that work as broken. Be specific to this system, these fields and these checks: no generic OWASP categories, no advice that would apply to any application.
 

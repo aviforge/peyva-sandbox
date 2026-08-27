@@ -40,12 +40,14 @@ These hold in every chapter. If a change would break one, the change is wrong.
 
 - Standard library only. No frameworks, no brokers, no third-party libraries.
   The one exception is the runner, a script you are given rather than build.
-- Copies and the proxy are configured only by environment: PEYVA_PORT, and
-  PEYVA_PEERS for the proxy.
+- Every process is configured only by environment: PEYVA_PORT for what it
+  listens on, PEYVA_VAULT for the copies, PEYVA_PEERS for the proxy,
+  PEYVA_PRIMARY for a replica, PEYVA_WARDEN for whoever asks who may write.
 - Settings that differ between runs or machines are config. Settings with only
   one correct value, the money rules above among them, are code and stay in it.
 - Runs on one laptop. No containers, no cloud, no deployment.
-- One process until chapter 10, several after it.
+- One process until chapter 10, several after it. A transaction never spans
+  two of them.
 - Code lives in peyva/<component>/, one folder per component.
 - Money is exact: a decimal type, or integer minor units where the language has
   none. Never floating point. Two decimal places.
@@ -65,9 +67,11 @@ Each appears in the chapter that builds it. Until then it does not exist.
 - Teller: handles one payment end to end, and is the only thing that moves
   money. Chapter 4.
 - Ledger: the append-only record behind every balance. Chapter 7.
-- Runner: starts a given number of copies, says which are alive, and stops all
-  of them. Chapter 10.
+- Runner: starts every process, says which are alive, and stops all of them.
+  Chapter 10.
 - Courier: carries out work after a payment clears. Chapter 12.
+- Warden: grants a time-limited lease to the one Vault allowed to write.
+  Chapter 16.
 - Config: reads every setting from outside the code and checks it. Chapter 19.
 - Reconciler: proves the Vault and the Ledger still agree. Chapter 20.
 `

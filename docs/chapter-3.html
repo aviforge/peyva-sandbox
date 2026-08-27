@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Across the Wire (Networking) | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=2ab8997a0e">
+<link rel="stylesheet" href="styles.css?v=a0a60c96d5">
 </head>
 <body data-chapter-slug="chapter-3">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -65,7 +65,7 @@
     
     
     
-    <li><a href="chapter-9.html" data-slug="chapter-9">9. How Big Is PEYVA? (Capacity Estimation)</a></li>
+    <li><a href="chapter-9.html" data-slug="chapter-9">9. Giving Up Well: Retries, Timeouts and Backoff</a></li>
     
     
     
@@ -112,6 +112,10 @@
     <li><a href="chapter-20.html" data-slug="chapter-20">20. Putting It All Together</a></li>
     
     
+    
+    <li><a href="chapter-21.html" data-slug="chapter-21">21. Splitting the Vault: Sharding</a></li>
+    
+    
   </ul>
 </nav>
 
@@ -131,7 +135,6 @@
     <div class="tags">
       <span class="tag">Foundations</span>
       <span class="tag">Beginner</span>
-      <span class="tag">15 min</span>
     </div>
   </div>
 
@@ -143,22 +146,29 @@
   
 
   <div class="section-grid">
+    <section class="block why">
+      <h2>1. Why</h2>
+      <ul class="why-list">
+        <li>TCP is a stream of bytes, not a sequence of messages. One write on the sender can arrive as three reads on the receiver, or three writes as one read. Any protocol on top of it has to say where a message ends, with a length prefix, a delimiter, or a header like HTTP&#39;s Content-Length.</li><li>Reading half a request is normal, not an error. Code that assumes one read returns one request works on localhost and breaks on a real network, which is the most common first bug in anything that speaks TCP directly.</li><li>TCP promises order and retransmission while the connection lives. It does not promise delivery: a connection can drop after the sender&#39;s write returned and before the receiver read anything, and neither side is told which bytes made it.</li><li>Underneath, everything travels as packets that can be lost, duplicated, delayed or reordered. TCP hides that from you on one connection; it cannot hide the connection itself failing.</li><li>Reachability is layered: the process must bind to a routable address, the OS firewall must allow the port, and the network must route to the machine. A failure at any layer looks identical from the caller&#39;s side, a timeout.</li><li>The moment a second machine can reach the process, latency stops being zero and failures stop being visible. This is the boundary where system design starts.</li>
+      </ul>
+    </section>
+
     <section class="block">
-      <h2>1. Concepts</h2>
+      <h2>2. Concepts</h2>
       <ul class="concepts">
-        <li><strong>IP Address</strong>. Where a machine lives on the network, the equivalent of a street address.</li><li><strong>Protocol</strong>. The agreed-upon way of talking. peyva speaks TCP/IP.</li><li><strong>Packets</strong>. Chunks a message is split into for the trip, reassembled on arrival.</li>
+        <li><strong>IP Address</strong>. Where a machine lives on the network, the equivalent of a street address.</li><li><strong>Protocol</strong>. The agreed-upon way of talking. peyva speaks TCP/IP, with HTTP on top of it later.</li><li><strong>Packets</strong>. Chunks the network moves data in. Any one can be lost, delayed, duplicated or arrive out of order; TCP repairs that within one connection.</li><li><strong>Stream</strong>. What TCP hands your program: bytes in order, with no marks saying where one message ends. Framing is the application&#39;s job.</li><li><strong>Framing</strong>. How a protocol marks message boundaries on a stream: a length prefix, a delimiter, or a header that says how many bytes follow.</li>
       </ul>
     </section>
 
     <section class="block build-it">
-      <h2>2. Build It <span class="badge">Hands-on</span>
+      <h2>3. Build It <span class="badge">Hands-on</span>
           <span class="language-locked">Building in <b data-language-name>Go</b>, <a href="chapter-0.html">change in Chapter 0</a></span>
       </h2>
       <p class="system-locked">Written for <b data-os-name>Windows, in PowerShell</b>, chosen in <a href="chapter-10.html">Growing the Team: Scale Out</a></p>
       <p class="technique"><span class="technique-name">Add context and motivation</span>. Told where you are and why, it picks commands that run on your machine and warns you about the firewall prompt.</p>
       <p class="technique-source">Documented in Anthropic: Prompting best practices, Add context to improve performance</p>
       <details class="standing-rules">
-        <summary>Every prompt below is copied with these rules, about 442 tokens for the chapter</summary>
+        <summary>Every prompt below is copied with these rules, about 683 tokens for the chapter</summary>
         <pre class="prompt-lang" id="rules-build">Build this in <span data-language-name>Go</span>, standard library only.
 Code in peyva/&lt;component&gt;/, one folder per component.
 Money: exact decimal or integer minor units, never floating point, two decimal places.
@@ -171,24 +181,26 @@ The goal and invariants are in peyva/goal.md, the look in peyva/portal/design.md
         
       </details>
       
-      <p class="prompt-divider"><span class="prompt-step">1 of 2</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~250 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">1 of 2</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~442 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-build">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
-        <pre class="prompt">My environment: <span data-os-name>Windows, in PowerShell</span>. The Gateway is listening on TCP port 9310 on this machine, and I have a phone on the same Wi-Fi.
+        <pre class="prompt">My environment: <span data-os-name>Windows, in PowerShell</span>. If you can run commands yourself, this machine is the one to run them on: act on it directly rather than assuming a separate machine you can only advise about. The Gateway is listening on TCP port 9310 on this machine, and I have a phone on the same Wi-Fi.
 
 I want to reach the Gateway from the phone instead of from localhost. I&#39;m doing this to understand how a service becomes reachable beyond the machine it runs on, so tell me what is actually happening rather than only what to type.
 
 Tell me the command for my OS to find this machine&#39;s network address, and how to know which of the addresses it prints is the right one. Then tell me whether the Gateway needs a code change to accept connections from another machine, or whether it already does.
 
-If a firewall prompt is likely on my OS, warn me before I hit it.
+If a firewall prompt is likely on my OS, warn me before I hit it. If the phone can&#39;t reach it, ask me one thing, whether this is a locked-down network, and go straight to having me check from a second terminal on this machine against that address instead. Don&#39;t make me report back symptoms first.
 
-Done when the phone&#39;s browser reaches the Gateway and the Gateway logs that connection.</pre>
+Then show me that TCP is a stream: have the Gateway read what arrives and print each read with its byte count, and send it one message from a client in two separate writes with a pause between them. Tell me what the Gateway would need in order to know where that message ended.
+
+Done when the phone (or that second terminal, if the network blocks it) reaches the Gateway, the Gateway logs the connection, and I have seen one message arrive as more than one read.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">2 of 2</span> Portal<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~192 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">2 of 2</span> Portal<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~241 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-portal">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
@@ -198,7 +210,9 @@ Done when the phone&#39;s browser reaches the Gateway and the Gateway logs that 
 
 Tell me what changes about how the page loads its stylesheet once it arrives over a connection instead of from disk, before I hit it.
 
-Done when the phone&#39;s browser shows alice&#39;s balance.</pre>
+Leave the Gateway running once you&#39;ve checked it works. The point is reaching it from my phone next, not just confirming it starts.
+
+Done when the phone (or a second terminal on this machine, if the network blocks the phone) shows alice&#39;s balance.</pre>
       </div>
       
       
@@ -206,7 +220,7 @@ Done when the phone&#39;s browser shows alice&#39;s balance.</pre>
 
   </div>
 
-  <p class="quick-tip"><strong>Quick tip:</strong> TCP hands your program a complete, in-order stream or fails the connection. It never delivers half a request.</p>
+  <p class="quick-tip"><strong>Quick tip:</strong> TCP gives you bytes in order, not messages. Where one request ends and the next begins is your job.</p>
 </main>
 </div>
 <script src="app.js?v=aa8908cb82"></script>

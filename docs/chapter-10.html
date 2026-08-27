@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Growing the Team: Scale Out | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=2ab8997a0e">
+<link rel="stylesheet" href="styles.css?v=a0a60c96d5">
 </head>
 <body data-chapter-slug="chapter-10">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -65,7 +65,7 @@
     
     
     
-    <li><a href="chapter-9.html" data-slug="chapter-9">9. How Big Is PEYVA? (Capacity Estimation)</a></li>
+    <li><a href="chapter-9.html" data-slug="chapter-9">9. Giving Up Well: Retries, Timeouts and Backoff</a></li>
     
     
     
@@ -112,6 +112,10 @@
     <li><a href="chapter-20.html" data-slug="chapter-20">20. Putting It All Together</a></li>
     
     
+    
+    <li><a href="chapter-21.html" data-slug="chapter-21">21. Splitting the Vault: Sharding</a></li>
+    
+    
   </ul>
 </nav>
 
@@ -131,7 +135,6 @@
     <div class="tags">
       <span class="tag">System Design</span>
       <span class="tag">Intermediate</span>
-      <span class="tag">20 min</span>
     </div>
   </div>
 
@@ -143,15 +146,22 @@
   
 
   <div class="section-grid">
+    <section class="block why">
+      <h2>1. Why</h2>
+      <ul class="why-list">
+        <li>Copies are interchangeable only if nothing that matters lives inside one of them. A counter in a variable, a cache in a map, a database file on one copy&#39;s disk: each makes that copy different from the others, and a request routed to the wrong one gets a wrong answer.</li><li>So the store cannot be inside the copies. Three copies each holding a database file are three banks with three sets of balances. The Vault becomes its own process, one of it, and the copies become clients of it over the network.</li><li>A transaction cannot span processes. The debit, the credit, the Ledger entries and the idempotency record were one atomic unit because they were in one database in one process. That unit moves into the Vault&#39;s process whole, and the Teller drives it with one call rather than several.</li><li>Scaling out the stateless part does not scale the store. Every payment still ends at one Vault, so the copies buy you concurrency in parsing, validation and waiting, not in writing balances. Knowing which part is the bottleneck is what makes scaling out worth doing.</li><li>A load balancer is a process like any other, and it is now the one that holds the port everyone knows. It can only spread requests it can see fail, which means a copy dying mid-request looks to the balancer like a timeout, and the caller needs the retry rules from before.</li><li>Capacity is arithmetic, done before building. A hundred thousand users making three payments a day is three hundred thousand a day: about three and a half a second on average, thirty-five at a ten-times peak. At a kilobyte per payment, two years of Ledger is two hundred gigabytes. Those numbers say whether you need a second copy of anything.</li>
+      </ul>
+    </section>
+
     <section class="block">
-      <h2>1. Concepts</h2>
+      <h2>2. Concepts</h2>
       <ul class="concepts">
-        <li><strong>Instance</strong>. One running copy of the peyva process, identical to every other. Also just called a copy.</li><li><strong>Load Balancer</strong>. Sits in front of all the copies and spreads incoming requests across them.</li><li><strong>Stateless</strong>. Keeps no unique data of its own. Any copy can handle any request, because the state lives in the Vault.</li><li><strong>Horizontal Scaling</strong>. Adding more copies to handle more load, instead of making one machine bigger.</li>
+        <li><strong>Instance</strong>. One running copy of the stateless part of peyva, identical to every other. Also just called a copy.</li><li><strong>Load Balancer</strong>. Sits in front of all the copies and spreads incoming requests across them. Holds the port the outside world knows.</li><li><strong>Stateless</strong>. Keeps no unique data of its own. Any copy can handle any request, because the state lives in the Vault&#39;s own process.</li><li><strong>Horizontal Scaling</strong>. Adding more copies to handle more load, instead of making one machine bigger.</li><li><strong>Capacity Estimate</strong>. Users, actions per user, a peak factor and a record size, multiplied out. Tells you which part will fill up first, before you build any of it.</li>
       </ul>
     </section>
 
     <section class="block build-it">
-      <h2>2. Build It <span class="badge">Hands-on</span>
+      <h2>3. Build It <span class="badge">Hands-on</span>
           <span class="language-locked">Building in <b data-language-name>Go</b>, <a href="chapter-0.html">change in Chapter 0</a></span>
       </h2>
       <p class="system-locked"><label class="language-picker">Script for
@@ -162,7 +172,7 @@
       <p class="technique"><span class="technique-name">Step-Back Prompting</span>. Reasoning down from what makes any service replaceable beats reasoning up from code that was never going to scale.</p>
       <p class="technique-source">Documented in The Prompt Report: Thought Generation, Step-Back Prompting</p>
       <details class="standing-rules">
-        <summary>Every prompt below is copied with these rules, about 431 tokens for the chapter</summary>
+        <summary>Every prompt below is copied with these rules, about 645 tokens for the chapter</summary>
         <pre class="prompt-lang" id="rules-build">Build this in <span data-language-name>Go</span>, standard library only.
 Code in peyva/&lt;component&gt;/, one folder per component.
 Money: exact decimal or integer minor units, never floating point, two decimal places.
@@ -171,7 +181,7 @@ The goal and invariants are in peyva/goal.md.</pre>
         <pre class="prompt-lang" id="rules-thinking">The goal and invariants are in peyva/goal.md.</pre>
       </details>
       
-      <p class="prompt-divider"><span class="prompt-step">1 of 2</span> Principle<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~121 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">1 of 2</span> Principle<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~163 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-thinking">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
@@ -179,37 +189,38 @@ The goal and invariants are in peyva/goal.md.</pre>
         </button>
         <pre class="prompt">I have a service that handles payment requests, and I want to run several copies of it behind a router so load spreads across them.
 
-Don&#39;t look at any code yet, and don&#39;t ask for it. In a few sentences, state the general property that lets any service run as several interchangeable copies. What may live inside one process, what may not, and why.
+Don&#39;t look at any code yet, and don&#39;t ask for it. In a few sentences, state the general property that lets any service run as several interchangeable copies. What may live inside one process, what may not, and why. Then say what that implies for a database file that currently sits inside the process, and for a transaction that currently spans the request handler and the database.
 
 Done when I have the principle in general terms, with nothing about my project in it.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">2 of 2</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~310 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">2 of 2</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~482 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-build">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
-        <pre class="prompt">The Gateway takes payment requests and the Teller acts on them, both in one process, with the Vault behind them holding balances. I want several copies of that process behind a router.
+        <pre class="prompt">The Gateway takes payment requests and the Teller acts on them, and the Vault with its SQLite file and the Ledger sit in the same process. I want several copies of the Gateway and Teller behind a router.
 
-Audit it against the property you just described. Show me every place it fails: anything cached, counted, or held in a variable that outlives one request.
+Audit it against the property you just described. Show me every place it fails: anything cached, counted, held in a variable that outlives one request, and the database file itself.
 
-Then fix what you found, make the port configurable, and add a small round-robin reverse proxy in front.
+Then fix it. The Vault becomes its own process, the only one holding the database, listening on PEYVA_PORT and speaking HTTP to the copies. The whole atomic unit of a payment, debit, credit, Ledger entries and the idempotency record, runs inside the Vault in one transaction, and the Teller drives it with one call carrying the reference. The copies read PEYVA_VAULT for the Vault&#39;s port on localhost, and hold no balance, no file and no idempotency record of their own. Make the copies&#39; port configurable, and add a small round-robin reverse proxy in front of them.
 
-I start the copies with a script I already have, so both the copies and the proxy take their settings from the environment and nowhere else:
+I start everything with a script I already have, so every process takes its settings from the environment and nowhere else:
 
-  PEYVA_PORT   the port to listen on. Both read it.
+  PEYVA_PORT   the port to listen on. Everything reads it.
+  PEYVA_VAULT  the copies only: the Vault&#39;s port.
   PEYVA_PEERS  the proxy only: a comma separated list of the copies&#39; ports.
 
-No flags, no config file, no service discovery, no configuration framework. If either variable is absent, say so and exit rather than guessing.
+No flags, no config file, no service discovery, no configuration framework. If a required variable is absent, say so and exit rather than guessing. A copy must not need the Vault to be up in order to start; it connects per request.
 
-Done when three copies started this way spread ten payments between them with correct final balances, and killing one mid-traffic fails no request.</pre>
+Done when the runner starts the Vault, three copies and the proxy, ten payments spread across the copies with correct final balances and one Ledger, and killing one copy mid-traffic fails no request.</pre>
       </div>
       
       
       <p class="prompt-divider">The runner</p>
       <ul class="lead">
-        <li>Save this beside your code. Set the two commands at the top to how your project starts.</li>
+        <li>Save this beside your code. Set the commands at the top to how your project starts. Two are blank until the chapter that builds them.</li>
       </ul>
       
       <div class="prompt-wrap runner-script" data-runner-for="windows">
@@ -218,49 +229,64 @@ Done when three copies started this way spread ten payments between them with co
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
-        <pre class="prompt"># peyva/run.ps1 - start, inspect and stop copies of peyva.
-#   .\run.ps1 start 3   three copies behind the proxy
+        <pre class="prompt"># peyva/run.ps1 - start, inspect and stop the processes that make up peyva.
+#   .\run.ps1 start 3   the Vault, three copies, and the proxy in front
 #   .\run.ps1 status    what is alive
 #   .\run.ps1 stop      kill everything peyva started
 param([string]$Command = &#34;&#34;, [int]$Count = 3)
 Set-Location (Join-Path $PSScriptRoot &#34;..&#34;)
 
-# Set these two to how your project starts. Both read PEYVA_PORT from the
-# environment. The proxy also reads PEYVA_PEERS, a comma separated list.
-$StartCopy  = &#34;go run ./peyva/gateway&#34;
-$StartProxy = &#34;go run ./peyva/proxy&#34;
+# Set these to how your project starts. Every process reads PEYVA_PORT. The
+# copies read PEYVA_VAULT, the proxy reads PEYVA_PEERS. Two start blank and are
+# filled in by the chapter that builds them: the replica also reads
+# PEYVA_PRIMARY, and the Vaults and the copies read PEYVA_WARDEN once it exists.
+$StartVault   = &#34;go run ./peyva/vault&#34;
+$StartReplica = &#34;&#34;
+$StartWarden  = &#34;&#34;
+$StartCopy    = &#34;go run ./peyva/gateway&#34;
+$StartProxy   = &#34;go run ./peyva/proxy&#34;
 
+$VaultPort     = 9300
+$ReplicaPort   = 9301
+$WardenPort    = 9302
 $ProxyPort     = 9310
 $FirstCopyPort = 9311
 $PidFile       = &#34;peyva/.run/pids&#34;
+
+# Each process gets its own shell with the variables set for it alone, so they
+# cannot leak between processes or outlive the run. Single quotes: $env:... must
+# reach the child as text to assign, not be expanded to this shell&#39;s own value
+# before it gets there.
+function Start-One([int]$port, [string]$cmd, [string]$extra = &#34;&#34;) {
+  $assign = &#39;$env:PEYVA_PORT=&#39; &#43; $port &#43; &#39;; $env:PEYVA_VAULT=&#39; &#43; $VaultPort &#43; &#39;; $env:PEYVA_WARDEN=&#39; &#43; $WardenPort &#43; &#39;; &#39;
+  $p = Start-Process -PassThru -NoNewWindow powershell -ArgumentList @(
+    &#34;-NoProfile&#34;, &#34;-Command&#34;, ($assign &#43; $extra &#43; $cmd))
+  return $p.Id
+}
 
 function Start-Peyva([int]$n) {
   if (Test-Path $PidFile) { Write-Host &#34;peyva is already running. Run stop first.&#34;; return }
   New-Item -ItemType Directory -Force -Path &#34;peyva/.run&#34; | Out-Null
   $ids = @()
-  $peers = @()
 
+  # Stores first, so a copy&#39;s first request has somewhere to go.
+  $ids &#43;= Start-One $VaultPort $StartVault
+  if ($StartReplica -ne &#34;&#34;) { $ids &#43;= Start-One $ReplicaPort $StartReplica (&#39;$env:PEYVA_PRIMARY=&#39; &#43; $VaultPort &#43; &#39;; &#39;) }
+  if ($StartWarden -ne &#34;&#34;)  { $ids &#43;= Start-One $WardenPort $StartWarden }
+  Start-Sleep -Seconds 1
+
+  $peers = @()
   for ($i = 0; $i -lt $n; $i&#43;&#43;) {
     $port = $FirstCopyPort &#43; $i
-    # Each copy gets its own process with PEYVA_PORT set for it alone, so the
-    # variable cannot leak between them or outlive the run.
-    # Single quotes: $env:PEYVA_PORT must reach the child as text to assign,
-    # not be expanded to this shell&#39;s own value before it gets there.
-    $cmd = &#39;$env:PEYVA_PORT=&#39; &#43; $port &#43; &#39;; &#39; &#43; $StartCopy
-    $p = Start-Process -PassThru -NoNewWindow powershell -ArgumentList @(
-      &#34;-NoProfile&#34;, &#34;-Command&#34;, $cmd)
-    $ids &#43;= $p.Id
+    $ids &#43;= Start-One $port $StartCopy
     $peers &#43;= $port
   }
 
   $list = $peers -join &#34;,&#34;
-  $cmd = &#39;$env:PEYVA_PORT=&#39; &#43; $ProxyPort &#43; &#39;; $env:PEYVA_PEERS=&#39; &#43; &#34;&#39;$list&#39;&#34; &#43; &#39;; &#39; &#43; $StartProxy
-  $p = Start-Process -PassThru -NoNewWindow powershell -ArgumentList @(
-    &#34;-NoProfile&#34;, &#34;-Command&#34;, $cmd)
-  $ids &#43;= $p.Id
+  $ids &#43;= Start-One $ProxyPort $StartProxy (&#39;$env:PEYVA_PEERS=&#39; &#43; &#34;&#39;$list&#39;&#34; &#43; &#39;; &#39;)
 
   $ids | Set-Content -Encoding utf8 $PidFile
-  Write-Host &#34;$n copies on $list, proxy on $ProxyPort. Run stop when you are done.&#34;
+  Write-Host &#34;vault on $VaultPort, $n copies on $list, proxy on $ProxyPort. Run stop when you are done.&#34;
 }
 
 function Get-PeyvaStatus {
@@ -302,23 +328,33 @@ switch ($Command) {
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
         <pre class="prompt">@echo off
-REM peyva\run.bat - start, inspect and stop copies of peyva.
-REM   run.bat start 3   three copies behind the proxy
+REM peyva\run.bat - start, inspect and stop the processes that make up peyva.
+REM   run.bat start 3   the Vault, three copies, and the proxy in front
 REM   run.bat status    what is alive
 REM   run.bat stop      kill everything peyva started
 setlocal enabledelayedexpansion
 cd /d &#34;%~dp0..&#34;
 
-REM Set these two to how your project starts. Both read PEYVA_PORT from the
-REM environment. The proxy also reads PEYVA_PEERS, a comma separated list.
+REM Set these to how your project starts. Every process reads PEYVA_PORT. The
+REM copies read PEYVA_VAULT, the proxy reads PEYVA_PEERS. Two start blank and
+REM are filled in by the chapter that builds them: the replica also reads
+REM PEYVA_PRIMARY, and the Vaults and the copies read PEYVA_WARDEN once it
+REM exists.
+set &#34;START_VAULT=go run ./peyva/vault&#34;
+set &#34;START_REPLICA=&#34;
+set &#34;START_WARDEN=&#34;
 set &#34;START_COPY=go run ./peyva/gateway&#34;
 set &#34;START_PROXY=go run ./peyva/proxy&#34;
 
+set &#34;VAULT_PORT=9300&#34;
+set &#34;REPLICA_PORT=9301&#34;
+set &#34;WARDEN_PORT=9302&#34;
 set &#34;PROXY_PORT=9310&#34;
 set &#34;FIRST_COPY_PORT=9311&#34;
 set &#34;RUNDIR=peyva\.run&#34;
 set &#34;PORTFILE=%RUNDIR%\ports&#34;
 set &#34;NETFILE=%RUNDIR%\net.tmp&#34;
+set &#34;COMMON=set PEYVA_VAULT=%VAULT_PORT%&amp;&amp; set PEYVA_WARDEN=%WARDEN_PORT%&#34;
 
 if /i &#34;%~1&#34;==&#34;start&#34; goto start
 if /i &#34;%~1&#34;==&#34;status&#34; goto status
@@ -333,19 +369,32 @@ if exist &#34;%PORTFILE%&#34; echo peyva is already running. Run stop first. &am
 if not exist &#34;%RUNDIR%&#34; mkdir &#34;%RUNDIR%&#34;
 break &gt; &#34;%PORTFILE%&#34;
 
+REM Stores first, so a copy&#39;s first request has somewhere to go.
+echo %VAULT_PORT%&gt;&gt; &#34;%PORTFILE%&#34;
+start &#34;peyva vault&#34; /min cmd /c &#34;set PEYVA_PORT=%VAULT_PORT%&amp;&amp; %COMMON%&amp;&amp; %START_VAULT%&#34;
+if defined START_REPLICA (
+  echo %REPLICA_PORT%&gt;&gt; &#34;%PORTFILE%&#34;
+  start &#34;peyva replica&#34; /min cmd /c &#34;set PEYVA_PORT=%REPLICA_PORT%&amp;&amp; set PEYVA_PRIMARY=%VAULT_PORT%&amp;&amp; %COMMON%&amp;&amp; %START_REPLICA%&#34;
+)
+if defined START_WARDEN (
+  echo %WARDEN_PORT%&gt;&gt; &#34;%PORTFILE%&#34;
+  start &#34;peyva warden&#34; /min cmd /c &#34;set PEYVA_PORT=%WARDEN_PORT%&amp;&amp; %COMMON%&amp;&amp; %START_WARDEN%&#34;
+)
+timeout /t 1 /nobreak &gt;nul
+
 set &#34;PEERS=&#34;
 set /a LAST=%N%-1
 for /l %%i in (0,1,!LAST!) do (
   set /a PORT=%FIRST_COPY_PORT%&#43;%%i
   if defined PEERS (set &#34;PEERS=!PEERS!,!PORT!&#34;) else (set &#34;PEERS=!PORT!&#34;)
   echo !PORT!&gt;&gt; &#34;%PORTFILE%&#34;
-  start &#34;peyva copy !PORT!&#34; /min cmd /c &#34;set PEYVA_PORT=!PORT!&amp;&amp; %START_COPY%&#34;
+  start &#34;peyva copy !PORT!&#34; /min cmd /c &#34;set PEYVA_PORT=!PORT!&amp;&amp; %COMMON%&amp;&amp; %START_COPY%&#34;
 )
 
 echo %PROXY_PORT%&gt;&gt; &#34;%PORTFILE%&#34;
-start &#34;peyva proxy&#34; /min cmd /c &#34;set PEYVA_PORT=%PROXY_PORT%&amp;&amp; set PEYVA_PEERS=!PEERS!&amp;&amp; %START_PROXY%&#34;
+start &#34;peyva proxy&#34; /min cmd /c &#34;set PEYVA_PORT=%PROXY_PORT%&amp;&amp; set PEYVA_PEERS=!PEERS!&amp;&amp; %COMMON%&amp;&amp; %START_PROXY%&#34;
 
-echo %N% copies on !PEERS!, proxy on %PROXY_PORT%. Run stop when you are done.
+echo vault on %VAULT_PORT%, %N% copies on !PEERS!, proxy on %PROXY_PORT%. Run stop when you are done.
 exit /b 0
 
 REM netstat is written to a file once and read per port. A pipe inside a for /f
@@ -365,8 +414,8 @@ if defined FOUND (echo %~1 listening ^(pid %FOUND%^)) else (echo %~1 down)
 exit /b 0
 
 REM A port with nothing on it is not an error: stop has to work after a crash
-REM has already taken some of the copies with it. /T takes the language runtime
-REM under each window with it.
+REM has already taken some of the processes with it. /T takes the language
+REM runtime under each window with it.
 :stop
 if not exist &#34;%PORTFILE%&#34; echo nothing to stop &amp; exit /b 0
 netstat -ano -p tcp &gt; &#34;%NETFILE%&#34;
@@ -389,23 +438,31 @@ exit /b 0
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
         <pre class="prompt">#!/usr/bin/env bash
-# peyva/run.sh - start, inspect and stop copies of peyva.
-#   ./run.sh start 3   three copies behind the proxy
+# peyva/run.sh - start, inspect and stop the processes that make up peyva.
+#   ./run.sh start 3   the Vault, three copies, and the proxy in front
 #   ./run.sh status    what is alive
 #   ./run.sh stop      kill everything peyva started
 
 # Job control, on purpose. It puts each background job in its own process group,
-# which is what makes stop able to kill a copy and the language runtime under it
-# together. Without it they all share this script&#39;s group and stop reaches only
-# the outermost shell, leaving the port held.
+# which is what makes stop able to kill a process and the language runtime under
+# it together. Without it they all share this script&#39;s group and stop reaches
+# only the outermost shell, leaving the port held.
 set -muo pipefail
 cd &#34;$(dirname &#34;$0&#34;)/..&#34;
 
-# Set these two to how your project starts. Both read PEYVA_PORT from the
-# environment. The proxy also reads PEYVA_PEERS, a comma separated list.
+# Set these to how your project starts. Every process reads PEYVA_PORT. The
+# copies read PEYVA_VAULT, the proxy reads PEYVA_PEERS. Two start blank and are
+# filled in by the chapter that builds them: the replica also reads
+# PEYVA_PRIMARY, and the Vaults and the copies read PEYVA_WARDEN once it exists.
+START_VAULT=&#34;go run ./peyva/vault&#34;
+START_REPLICA=&#34;&#34;
+START_WARDEN=&#34;&#34;
 START_COPY=&#34;go run ./peyva/gateway&#34;
 START_PROXY=&#34;go run ./peyva/proxy&#34;
 
+VAULT_PORT=9300
+REPLICA_PORT=9301
+WARDEN_PORT=9302
 PROXY_PORT=9310
 FIRST_COPY_PORT=9311
 RUNDIR=&#34;peyva/.run&#34;
@@ -415,7 +472,7 @@ PORTFILE=&#34;$RUNDIR/ports&#34;
 # Tagging is a read loop rather than sed because sed buffers its output when it
 # is not writing to a terminal, and a reader watching three copies start would
 # see nothing at all until one of them stopped.
-tag() {
+prefix() {
   while IFS= read -r line; do echo &#34;[$1] $line&#34;; done
 }
 
@@ -426,6 +483,16 @@ port_open() {
   return 1
 }
 
+# launch &lt;tag&gt; &lt;port&gt; &lt;command&gt; [VAR=value ...]
+# Every process gets PEYVA_PORT and the two addresses it might need. A process
+# that does not read a variable is not harmed by it being set.
+launch() {
+  name=&#34;$1&#34;; port=&#34;$2&#34;; cmd=&#34;$3&#34;; shift 3
+  ( env PEYVA_PORT=&#34;$port&#34; PEYVA_VAULT=&#34;$VAULT_PORT&#34; PEYVA_WARDEN=&#34;$WARDEN_PORT&#34; &#34;$@&#34; $cmd 2&gt;&amp;1 | prefix &#34;$name&#34; ) &amp;
+  echo $! &gt;&gt; &#34;$PIDFILE&#34;
+  echo &#34;$port&#34; &gt;&gt; &#34;$PORTFILE&#34;
+}
+
 start() {
   n=&#34;${1:-3}&#34;
   if [ -s &#34;$PIDFILE&#34; ]; then echo &#34;peyva is already running. Run stop first.&#34;; exit 1; fi
@@ -433,23 +500,24 @@ start() {
   : &gt; &#34;$PIDFILE&#34;
   : &gt; &#34;$PORTFILE&#34;
 
+  # Stores first, so a copy&#39;s first request has somewhere to go.
+  launch vault &#34;$VAULT_PORT&#34; &#34;$START_VAULT&#34;
+  [ -n &#34;$START_REPLICA&#34; ] &amp;&amp; launch replica &#34;$REPLICA_PORT&#34; &#34;$START_REPLICA&#34; PEYVA_PRIMARY=&#34;$VAULT_PORT&#34;
+  [ -n &#34;$START_WARDEN&#34; ] &amp;&amp; launch warden &#34;$WARDEN_PORT&#34; &#34;$START_WARDEN&#34;
+  sleep 1
+
   peers=&#34;&#34;
   for i in $(seq 0 $((n - 1))); do
     peers=&#34;${peers:&#43;$peers,}$((FIRST_COPY_PORT &#43; i))&#34;
   done
-
   for i in $(seq 0 $((n - 1))); do
     port=$((FIRST_COPY_PORT &#43; i))
-    ( PEYVA_PORT=$port $START_COPY 2&gt;&amp;1 | tag &#34;copy $port&#34; ) &amp;
-    echo $! &gt;&gt; &#34;$PIDFILE&#34;
-    echo $port &gt;&gt; &#34;$PORTFILE&#34;
+    launch &#34;copy $port&#34; &#34;$port&#34; &#34;$START_COPY&#34;
   done
 
-  ( PEYVA_PORT=$PROXY_PORT PEYVA_PEERS=&#34;$peers&#34; $START_PROXY 2&gt;&amp;1 | tag proxy ) &amp;
-  echo $! &gt;&gt; &#34;$PIDFILE&#34;
-  echo $PROXY_PORT &gt;&gt; &#34;$PORTFILE&#34;
+  launch proxy &#34;$PROXY_PORT&#34; &#34;$START_PROXY&#34; PEYVA_PEERS=&#34;$peers&#34;
 
-  echo &#34;$n copies on $peers, proxy on $PROXY_PORT. Ctrl&#43;C stops them.&#34;
+  echo &#34;vault on $VAULT_PORT, $n copies on $peers, proxy on $PROXY_PORT. Ctrl&#43;C stops them.&#34;
   trap &#39;stop; exit 0&#39; INT TERM
   wait
 }
@@ -462,7 +530,7 @@ status() {
 }
 
 # A group that has already gone is not an error: stop has to work after a crash
-# has taken some of the copies with it.
+# has taken some of the processes with it.
 stop() {
   trap - INT TERM
   if [ ! -s &#34;$PIDFILE&#34; ]; then echo &#34;nothing to stop&#34;; return; fi
@@ -489,23 +557,31 @@ esac
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
         <pre class="prompt">#!/usr/bin/env bash
-# peyva/run.sh - start, inspect and stop copies of peyva.
-#   ./run.sh start 3   three copies behind the proxy
+# peyva/run.sh - start, inspect and stop the processes that make up peyva.
+#   ./run.sh start 3   the Vault, three copies, and the proxy in front
 #   ./run.sh status    what is alive
 #   ./run.sh stop      kill everything peyva started
 
 # Job control, on purpose. It puts each background job in its own process group,
-# which is what makes stop able to kill a copy and the language runtime under it
-# together. Without it they all share this script&#39;s group and stop reaches only
-# the outermost shell, leaving the port held.
+# which is what makes stop able to kill a process and the language runtime under
+# it together. Without it they all share this script&#39;s group and stop reaches
+# only the outermost shell, leaving the port held.
 set -muo pipefail
 cd &#34;$(dirname &#34;$0&#34;)/..&#34;
 
-# Set these two to how your project starts. Both read PEYVA_PORT from the
-# environment. The proxy also reads PEYVA_PEERS, a comma separated list.
+# Set these to how your project starts. Every process reads PEYVA_PORT. The
+# copies read PEYVA_VAULT, the proxy reads PEYVA_PEERS. Two start blank and are
+# filled in by the chapter that builds them: the replica also reads
+# PEYVA_PRIMARY, and the Vaults and the copies read PEYVA_WARDEN once it exists.
+START_VAULT=&#34;go run ./peyva/vault&#34;
+START_REPLICA=&#34;&#34;
+START_WARDEN=&#34;&#34;
 START_COPY=&#34;go run ./peyva/gateway&#34;
 START_PROXY=&#34;go run ./peyva/proxy&#34;
 
+VAULT_PORT=9300
+REPLICA_PORT=9301
+WARDEN_PORT=9302
 PROXY_PORT=9310
 FIRST_COPY_PORT=9311
 RUNDIR=&#34;peyva/.run&#34;
@@ -515,7 +591,7 @@ PORTFILE=&#34;$RUNDIR/ports&#34;
 # Tagging is a read loop rather than sed because sed buffers its output when it
 # is not writing to a terminal, and a reader watching three copies start would
 # see nothing at all until one of them stopped.
-tag() {
+prefix() {
   while IFS= read -r line; do echo &#34;[$1] $line&#34;; done
 }
 
@@ -526,6 +602,16 @@ port_open() {
   return 1
 }
 
+# launch &lt;tag&gt; &lt;port&gt; &lt;command&gt; [VAR=value ...]
+# Every process gets PEYVA_PORT and the two addresses it might need. A process
+# that does not read a variable is not harmed by it being set.
+launch() {
+  name=&#34;$1&#34;; port=&#34;$2&#34;; cmd=&#34;$3&#34;; shift 3
+  ( env PEYVA_PORT=&#34;$port&#34; PEYVA_VAULT=&#34;$VAULT_PORT&#34; PEYVA_WARDEN=&#34;$WARDEN_PORT&#34; &#34;$@&#34; $cmd 2&gt;&amp;1 | prefix &#34;$name&#34; ) &amp;
+  echo $! &gt;&gt; &#34;$PIDFILE&#34;
+  echo &#34;$port&#34; &gt;&gt; &#34;$PORTFILE&#34;
+}
+
 start() {
   n=&#34;${1:-3}&#34;
   if [ -s &#34;$PIDFILE&#34; ]; then echo &#34;peyva is already running. Run stop first.&#34;; exit 1; fi
@@ -533,23 +619,24 @@ start() {
   : &gt; &#34;$PIDFILE&#34;
   : &gt; &#34;$PORTFILE&#34;
 
+  # Stores first, so a copy&#39;s first request has somewhere to go.
+  launch vault &#34;$VAULT_PORT&#34; &#34;$START_VAULT&#34;
+  [ -n &#34;$START_REPLICA&#34; ] &amp;&amp; launch replica &#34;$REPLICA_PORT&#34; &#34;$START_REPLICA&#34; PEYVA_PRIMARY=&#34;$VAULT_PORT&#34;
+  [ -n &#34;$START_WARDEN&#34; ] &amp;&amp; launch warden &#34;$WARDEN_PORT&#34; &#34;$START_WARDEN&#34;
+  sleep 1
+
   peers=&#34;&#34;
   for i in $(seq 0 $((n - 1))); do
     peers=&#34;${peers:&#43;$peers,}$((FIRST_COPY_PORT &#43; i))&#34;
   done
-
   for i in $(seq 0 $((n - 1))); do
     port=$((FIRST_COPY_PORT &#43; i))
-    ( PEYVA_PORT=$port $START_COPY 2&gt;&amp;1 | tag &#34;copy $port&#34; ) &amp;
-    echo $! &gt;&gt; &#34;$PIDFILE&#34;
-    echo $port &gt;&gt; &#34;$PORTFILE&#34;
+    launch &#34;copy $port&#34; &#34;$port&#34; &#34;$START_COPY&#34;
   done
 
-  ( PEYVA_PORT=$PROXY_PORT PEYVA_PEERS=&#34;$peers&#34; $START_PROXY 2&gt;&amp;1 | tag proxy ) &amp;
-  echo $! &gt;&gt; &#34;$PIDFILE&#34;
-  echo $PROXY_PORT &gt;&gt; &#34;$PORTFILE&#34;
+  launch proxy &#34;$PROXY_PORT&#34; &#34;$START_PROXY&#34; PEYVA_PEERS=&#34;$peers&#34;
 
-  echo &#34;$n copies on $peers, proxy on $PROXY_PORT. Ctrl&#43;C stops them.&#34;
+  echo &#34;vault on $VAULT_PORT, $n copies on $peers, proxy on $PROXY_PORT. Ctrl&#43;C stops them.&#34;
   trap &#39;stop; exit 0&#39; INT TERM
   wait
 }
@@ -562,7 +649,7 @@ status() {
 }
 
 # A group that has already gone is not an error: stop has to work after a crash
-# has taken some of the copies with it.
+# has taken some of the processes with it.
 stop() {
   trap - INT TERM
   if [ ! -s &#34;$PIDFILE&#34; ]; then echo &#34;nothing to stop&#34;; return; fi

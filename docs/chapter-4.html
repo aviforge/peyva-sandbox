@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Designing the API | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=2ab8997a0e">
+<link rel="stylesheet" href="styles.css?v=a0a60c96d5">
 </head>
 <body data-chapter-slug="chapter-4">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -65,7 +65,7 @@
     
     
     
-    <li><a href="chapter-9.html" data-slug="chapter-9">9. How Big Is PEYVA? (Capacity Estimation)</a></li>
+    <li><a href="chapter-9.html" data-slug="chapter-9">9. Giving Up Well: Retries, Timeouts and Backoff</a></li>
     
     
     
@@ -112,6 +112,10 @@
     <li><a href="chapter-20.html" data-slug="chapter-20">20. Putting It All Together</a></li>
     
     
+    
+    <li><a href="chapter-21.html" data-slug="chapter-21">21. Splitting the Vault: Sharding</a></li>
+    
+    
   </ul>
 </nav>
 
@@ -131,7 +135,6 @@
     <div class="tags">
       <span class="tag">Design</span>
       <span class="tag">Beginner</span>
-      <span class="tag">20 min</span>
     </div>
   </div>
 
@@ -143,22 +146,29 @@
   
 
   <div class="section-grid">
+    <section class="block why">
+      <h2>1. Why</h2>
+      <ul class="why-list">
+        <li>An API is a contract about failure as much as success. The caller has to be able to tell &#39;you asked for something impossible&#39; from &#39;I could not do it right now&#39;, because the correct response differs: fix the request, or try again.</li><li>Status codes carry that distinction. 4xx means the request is wrong and retrying it unchanged will fail again; 5xx means the server is wrong and the same request may succeed later. Get this backwards and every client retries the wrong things.</li><li>Validation happens before any state changes, in full. Debiting the payer and then discovering the recipient does not exist is a bug that creates money out of an error path.</li><li>The reference returned for a payment is the caller&#39;s only handle on what happened. It will be quoted in support tickets, in retries and in the audit trail. Generate it once, and never reuse one.</li><li>Separating the front door from the thing that moves money is not ceremony. Parsing, authentication and rate limiting change often; the rules for moving money must not. Keeping them in different components keeps churn away from the invariants.</li><li>A response of 200 means the money moved and was recorded. Sending it before that is true is a promise the system may not keep, and the caller will act on the promise.</li>
+      </ul>
+    </section>
+
     <section class="block">
-      <h2>1. Concepts</h2>
+      <h2>2. Concepts</h2>
       <ul class="concepts">
-        <li><strong>Endpoint</strong>. A specific thing the API lets you do: POST /transfer, for moving money.</li><li><strong>Request Body</strong>. The details of what you&#39;re asking for, e.g. {&#34;from&#34;: &#34;alice&#34;, &#34;to&#34;: &#34;bob&#34;, &#34;amount&#34;: 20}.</li><li><strong>Status Codes</strong>. A predictable signal of what happened: 200 OK, 400 Bad Request, 500 Server Error.</li><li><strong>Validation</strong>. Checking the request makes sense before doing any work, rejecting bad orders instead of guessing.</li><li><strong>Teller</strong>. The component that handles a payment end to end. The Gateway forwards requests and never touches a balance itself.</li>
+        <li><strong>Endpoint</strong>. A specific thing the API lets you do: POST /transfer, for moving money.</li><li><strong>Request Body</strong>. The details of what you&#39;re asking for, e.g. {&#34;from&#34;: &#34;alice&#34;, &#34;to&#34;: &#34;bob&#34;, &#34;amount&#34;: 20}.</li><li><strong>Status Codes</strong>. A predictable signal of what happened: 2xx it worked, 4xx your request is wrong, 5xx the server failed and the same request might work later.</li><li><strong>Validation</strong>. Checking the request makes sense before doing any work, rejecting bad orders instead of guessing.</li><li><strong>Teller</strong>. The component that handles a payment end to end. The Gateway forwards requests and never touches a balance itself.</li>
       </ul>
     </section>
 
     <section class="block build-it">
-      <h2>2. Build It <span class="badge">Hands-on</span>
+      <h2>3. Build It <span class="badge">Hands-on</span>
           <span class="language-locked">Building in <b data-language-name>Go</b>, <a href="chapter-0.html">change in Chapter 0</a></span>
       </h2>
       
       <p class="technique"><span class="technique-name">Few-shot (multishot) prompting</span>. Prose leaves field names and status codes up for grabs. Examples pin them down, failures included.</p>
       <p class="technique-source">Documented in The Prompt Report: In-Context Learning; Anthropic, Use examples effectively</p>
       <details class="standing-rules">
-        <summary>Every prompt below is copied with these rules, about 610 tokens for the chapter</summary>
+        <summary>Every prompt below is copied with these rules, about 661 tokens for the chapter</summary>
         <pre class="prompt-lang" id="rules-build">Build this in <span data-language-name>Go</span>, standard library only.
 Code in peyva/&lt;component&gt;/, one folder per component.
 Money: exact decimal or integer minor units, never floating point, two decimal places.
@@ -171,7 +181,7 @@ The goal and invariants are in peyva/goal.md, the look in peyva/portal/design.md
         
       </details>
       
-      <p class="prompt-divider"><span class="prompt-step">1 of 2</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~309 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">1 of 2</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~360 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-build">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
@@ -191,12 +201,15 @@ Match these exactly:
   {&#34;from&#34;: &#34;alice&#34;, &#34;to&#34;: &#34;bob&#34;}
   -&gt; 400 {&#34;error&#34;: &#34;amount must be greater than zero&#34;}
 
+  {&#34;from&#34;: &#34;alice&#34;, &#34;to&#34;: &#34;nobody&#34;, &#34;amount&#34;: 20}
+  -&gt; 404 {&#34;error&#34;: &#34;unknown account: nobody&#34;}
+
   not json
   -&gt; 400 {&#34;error&#34;: &#34;invalid JSON body&#34;}
 
-Validate before touching any account. No authentication, no retries, no persistence: later chapters.
+Validate before touching any account. A 4xx means the request is wrong and the same request will fail again; reserve 5xx for the server failing. No authentication, no retries, no persistence: later chapters.
 
-Done when those three requests produce exactly those three responses, and alice&#39;s balance drops by 20 only on the first.</pre>
+Done when those four requests produce exactly those four responses, and alice&#39;s balance drops by 20 only on the first.</pre>
       </div>
       
       <p class="prompt-divider"><span class="prompt-step">2 of 2</span> Portal<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~301 tokens</span></p>

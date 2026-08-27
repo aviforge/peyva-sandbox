@@ -7,17 +7,25 @@ var Chapter19 = ChapterContent{
 	Subtitle:   "Building peyva is one thing. Running it reliably every day is another skill entirely.",
 	Category:   "Operations",
 	Difficulty: "Advanced",
-	EstTime:    "25 min",
 	QuickTip:   "Deploy to one copy first: a health check catching a bad release there is far cheaper than catching it everywhere.",
 
 	HeroImage:   "images/chapter-19.webp",
 	HeroCaption: "Great restaurants aren't just built well. They are operated well every day. That's how customers stay happy.",
 
+	Why: []string{
+		"Configuration is what differs between one run and the next: ports, addresses, secrets. Anything with only one correct value is code, and moving it into a setting invites someone to change it at 3am with no review. The money rules are the clearest case: two decimal places is not a setting.",
+		"A missing setting should stop the process before it does anything. A default that papers over the gap fails later, somewhere unrelated, in a way that takes an hour to trace back to the variable that was never set.",
+		"Reading settings in one place, once, at startup, is what makes the previous two points enforceable. Scattered reads of the environment are scattered places a default can creep in.",
+		"Deploying is a state change to a live system, and the cheapest failure is the one caught on the first copy. Rolling one copy at a time, checking health between, turns a bad release into one degraded copy instead of an outage.",
+		"A rollback is a deploy of the previous version, and it has to work without thought. The version string on the health endpoint is what lets a person at 3am see which copy runs what, and a runbook of exact commands is what lets them fix it without improvising.",
+		"Rolling back code does not roll back data. A release that changed the schema or wrote rows the old version cannot read leaves the old version broken too; the runbook has to say whether this release can be rolled back at all.",
+	},
+
 	Concepts: []ConceptItem{
-		{Term: "Health Check", Description: "An endpoint that confirms peyva and what it depends on are working."},
-		{Term: "Rolling Deployment", Description: "Releasing a new version one copy at a time, instead of all at once."},
-		{Term: "Release Rollback", Description: "Reverting to the previous working version when a release causes problems. Not chapter 7's transaction rollback."},
-		{Term: "Runbook", Description: "A step-by-step guide for handling a specific, known kind of incident."},
+		{Term: "Health Check", Description: "An endpoint that confirms peyva and what it depends on are working, and says which version is running."},
+		{Term: "Rolling Deployment", Description: "Releasing a new version one copy at a time, checking health between, instead of all at once."},
+		{Term: "Release Rollback", Description: "Reverting to the previous working version when a release causes problems. Not chapter 7's transaction rollback, and it does not undo data the new version wrote."},
+		{Term: "Runbook", Description: "A step-by-step guide for handling a specific, known kind of incident. Commands and expected output, not prose."},
 		{Term: "Config", Description: "The component that reads every setting from outside the code and checks it. A setting is what differs between one run and the next, secrets included; anything with one correct value stays in code."},
 		{Term: "Fail Fast", Description: "Refusing to start when a setting is missing, rather than guessing and failing later somewhere unrelated."},
 	},
@@ -27,7 +35,7 @@ var Chapter19 = ChapterContent{
 		Why:       "A runbook read at 2am has to be commands, not prose. Hand over the exact skeleton you want back.",
 		Source:    "Anthropic: Prompting best practices, Control the format of responses",
 		Prompts: []Prompt{
-			{Label: "Config", Text: `peyva reads settings straight from the environment in several places: the port a copy listens on, the ports the proxy routes between, where the Vault keeps its file.
+			{Label: "Config", Text: `peyva reads settings straight from the environment in several places: the port each process listens on, the ports the proxy routes between, the Vault's and the Warden's ports, the primary a replica follows, where each Vault keeps its file, the shared secret the copies present to the Vault.
 
 Build Config: it reads every setting once at startup, checks each, and hands them over. Nothing else reads the environment.
 
@@ -37,14 +45,14 @@ First sort what peyva already has. Give me a table of every setting, and for eac
   config  a secret, which never belongs in the repository
   code    only one value is ever correct, and changing it would be a bug
 
-Two decimal places on money is not a setting. Neither is a balance that cannot go negative. When unsure, ask whether I should be able to change it at 3am with no review.
+Two decimal places on money is not a setting. Neither is a balance that cannot go negative, nor the lease length's relationship to its renewal interval. When unsure, ask whether I should be able to change it at 3am with no review.
 
 A missing or nonsense setting means naming it and exiting. Never a default that hides it.
 
-Done when every setting has been sorted with the rule it fell under, and starting without a required one names it and stops.`},
-			{Label: "Runbook", Text: `peyva runs as three copies behind a proxy, each exposing a health endpoint, and Config now supplies every setting.
+Done when every setting has been sorted with the rule it fell under, and starting any process without a required one names it and stops.`},
+			{Label: "Runbook", Text: `peyva runs as a Vault, a replica, a Warden, three copies and a proxy, each exposing a health endpoint, and Config now supplies every setting.
 
-Add a version string, set at build time, reported by that health endpoint. Then write me a rollback runbook.
+Add a version string, set at build time, reported by every health endpoint. Then write me a rollback runbook for a bad release of the copies.
 
 Format the runbook exactly like this and nothing else:
 
@@ -54,9 +62,12 @@ Format the runbook exactly like this and nothing else:
   ## Check
   Numbered commands, one per line, with the output that confirms the diagnosis.
 
+  ## Can this release be rolled back?
+  One line: whether the release changed anything the previous version cannot read, and how you know.
+
   ## Fix
   Numbered commands, one per line, no placeholders. Anything that starts or
-  stops a copy goes through the runner, not a process ID I have to hunt for.
+  stops a process goes through the runner, not a process ID I have to hunt for.
 
   ## Verify
   One command and the exact output that means I'm recovered.

@@ -7,17 +7,26 @@ var Chapter18 = ChapterContent{
 	Subtitle:   "Security protects peyva and its users from attackers, keeps data safe, and builds trust.",
 	Category:   "Operations",
 	Difficulty: "Advanced",
-	EstTime:    "25 min",
 	QuickTip:   "Authentication proves who's calling; authorisation checks what they're allowed to do. You need both.",
 
 	HeroImage:   "images/chapter-18.webp",
 	HeroCaption: "Security is not a feature, it's a foundation. We build it in, not bolt it on.",
+
+	Why: []string{
+		"A payment request that names its payer is a request anyone can forge. The 'from' field is a claim, and a system that acts on a claim without checking it lets any caller spend from any account.",
+		"Authentication and authorisation are different checks that fail differently. Proving the caller is alice does not say alice may spend from bob. The second check is the one payments systems most often forget, because the first one feels like enough.",
+		"The check belongs before the money, at the edge, in one place. Spreading it across handlers means one handler without it, and that handler is the one an attacker finds.",
+		"Credentials in source code are credentials in every clone, every backup and every log of the repository. They come from the environment, and the process refuses to start without them rather than falling back to a default anyone can read.",
+		"Internal calls are not trusted by being internal. The copies call the Vault over the network; anything else on that network can too, and a Vault that accepts a write from any caller has an unauthenticated front door of its own.",
+		"Security review is asking how this specific system breaks, not applying a general checklist. The questions worth asking name these fields, these endpoints and these checks; a question that could be asked of any application finds only the bugs every application has.",
+	},
 
 	Concepts: []ConceptItem{
 		{Term: "AuthN (Authentication)", Description: "Verifying who someone is. Proving Alice is really Alice."},
 		{Term: "AuthZ (Authorisation)", Description: "Checking what an authenticated user is allowed to do, least privilege by default."},
 		{Term: "Encryption in Transit", Description: "Protecting data as it travels over the network (TLS), so it can't be read if intercepted."},
 		{Term: "Secrets Management", Description: "Storing credentials and keys securely, never hardcoded in source code."},
+		{Term: "Trust Boundary", Description: "The line across which a caller's claims stop being believed. The Gateway is one; the Vault's port is another, because anything on the network can reach it."},
 	},
 
 	BuildIt: BuildIt{
@@ -25,12 +34,12 @@ var Chapter18 = ChapterContent{
 		Why:       "Asking for secure code gets you the checklist. Verifying your own draft finds the holes the checklist does not mention.",
 		Source:    "The Prompt Report: Self-Criticism, Chain-of-Verification",
 		Prompts: []Prompt{
-			{Label: "Draft", Text: `The Gateway trusts the "from" field on a payment request completely. Any caller can move money out of any account by naming it.
+			{Label: "Draft", Text: `The Gateway trusts the "from" field on a payment request completely. Any caller can move money out of any account by naming it. The Vault accepts a write from anything that can reach its port.
 
-Make the Gateway prove who the caller is, and confirm they own the account they are spending from before the Teller ever sees the request. Move any credential out of source code into an environment variable.
+Make the Gateway prove who the caller is, and confirm they own the account they are spending from before the Teller ever sees the request. Make the Vault accept writes only from callers presenting a shared secret the copies hold. Move every credential out of source code into environment variables the processes refuse to start without.
 
-Done when a request with no credential is refused, and a caller authenticated as one owner cannot spend from another's account.`},
-			{Label: "Plan the checks", Thinking: true, Text: `You put authentication in front of a payments API and an ownership check between the caller and the money.
+Done when a request with no credential is refused, a caller authenticated as one owner cannot spend from another's account, and a write sent straight to the Vault's port without the secret is refused.`},
+			{Label: "Plan the checks", Thinking: true, Text: `You put authentication in front of a payments API, an ownership check between the caller and the money, and a shared secret in front of the store.
 
 Write the list of questions that would expose that work as broken. Be specific to this system, these fields and these checks: no generic OWASP categories, no advice that would apply to any application.
 

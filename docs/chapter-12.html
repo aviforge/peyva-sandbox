@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Decoupling with Messages: Queues | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=2ab8997a0e">
+<link rel="stylesheet" href="styles.css?v=a0a60c96d5">
 </head>
 <body data-chapter-slug="chapter-12">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -65,7 +65,7 @@
     
     
     
-    <li><a href="chapter-9.html" data-slug="chapter-9">9. How Big Is PEYVA? (Capacity Estimation)</a></li>
+    <li><a href="chapter-9.html" data-slug="chapter-9">9. Giving Up Well: Retries, Timeouts and Backoff</a></li>
     
     
     
@@ -112,6 +112,10 @@
     <li><a href="chapter-20.html" data-slug="chapter-20">20. Putting It All Together</a></li>
     
     
+    
+    <li><a href="chapter-21.html" data-slug="chapter-21">21. Splitting the Vault: Sharding</a></li>
+    
+    
   </ul>
 </nav>
 
@@ -131,7 +135,6 @@
     <div class="tags">
       <span class="tag">System Design</span>
       <span class="tag">Intermediate</span>
-      <span class="tag">20 min</span>
     </div>
   </div>
 
@@ -143,22 +146,29 @@
   
 
   <div class="section-grid">
+    <section class="block why">
+      <h2>1. Why</h2>
+      <ul class="why-list">
+        <li>A response should wait for what the caller needs and nothing else. The caller needs to know the money moved. They do not need to wait while a notification is composed and delivered, and making them wait couples the payment&#39;s latency to the slowest thing downstream.</li><li>A queue separates deciding that work must happen from doing it. The producer records the work and moves on; the consumer takes it when it can. Neither has to be fast, or even up, at the same moment as the other.</li><li>A queue in memory is a promise the process cannot keep. Kill the process with ten notifications waiting and they are gone, and nothing anywhere records that they were owed. This chapter builds that flaw on purpose so the next one can fix it in the right place.</li><li>Queues turn overload into a number. If the consumer is slower than the producer, the backlog grows, and its length is the most honest health signal a system has. An unbounded queue hides that until memory runs out.</li><li>Asynchronous work changes what the customer sees. The page must show the payment as done when the money moved, and the notification as a separate thing that happens later, or it lies about one or the other.</li>
+      </ul>
+    </section>
+
     <section class="block">
-      <h2>1. Concepts</h2>
+      <h2>2. Concepts</h2>
       <ul class="concepts">
-        <li><strong>Message Queue</strong>. A buffer that holds messages until a worker is ready to process them.</li><li><strong>Producer</strong>. The part of the system that adds messages to the queue: peyva, after a transfer completes.</li><li><strong>Consumer / Worker</strong>. The part that reads messages off the queue and does the actual work, at its own pace.</li><li><strong>Decoupling</strong>. Producer and consumer don&#39;t call each other directly or wait on each other. The queue sits between them.</li><li><strong>Courier</strong>. The component that carries out work after a payment clears, reading from the queue at its own pace.</li>
+        <li><strong>Message Queue</strong>. A buffer that holds messages until a worker is ready to process them.</li><li><strong>Producer</strong>. The part of the system that adds messages to the queue: peyva, after a transfer completes.</li><li><strong>Consumer / Worker</strong>. The part that reads messages off the queue and does the actual work, at its own pace.</li><li><strong>Decoupling</strong>. Producer and consumer don&#39;t call each other directly or wait on each other. The queue sits between them.</li><li><strong>Backlog</strong>. How many messages are waiting. Growing means the consumer is falling behind; it is the first number to watch.</li><li><strong>Courier</strong>. The component that carries out work after a payment clears, reading from the queue at its own pace.</li>
       </ul>
     </section>
 
     <section class="block build-it">
-      <h2>2. Build It <span class="badge">Hands-on</span>
+      <h2>3. Build It <span class="badge">Hands-on</span>
           <span class="language-locked">Building in <b data-language-name>Go</b>, <a href="chapter-0.html">change in Chapter 0</a></span>
       </h2>
       
       <p class="technique"><span class="technique-name">Allow it to say it can&#39;t</span>. An assistant would rather produce something than tell you your constraints do not fit. Permission to stop changes that.</p>
       <p class="technique-source">Documented in Anthropic: Reduce hallucinations, Allow Claude to say I don&#39;t know</p>
       <details class="standing-rules">
-        <summary>Every prompt below is copied with these rules, about 496 tokens for the chapter</summary>
+        <summary>Every prompt below is copied with these rules, about 509 tokens for the chapter</summary>
         <pre class="prompt-lang" id="rules-build">Build this in <span data-language-name>Go</span>, standard library only.
 Code in peyva/&lt;component&gt;/, one folder per component.
 Money: exact decimal or integer minor units, never floating point, two decimal places.
@@ -171,7 +181,7 @@ The goal and invariants are in peyva/goal.md, the look in peyva/portal/design.md
         
       </details>
       
-      <p class="prompt-divider"><span class="prompt-step">1 of 2</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~293 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">1 of 2</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~306 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-build">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
@@ -181,7 +191,7 @@ The goal and invariants are in peyva/goal.md, the look in peyva/portal/design.md
 
 Build the Courier. The component that carries out work after a payment has cleared. The Teller hands it the notification and returns immediately; the Courier delivers on its own schedule.
 
-Scope: an in-process queue and a worker, inside each copy. Do not introduce Kafka, RabbitMQ, NATS, Redis, Docker, or any broker or queue library. No retry policies, no dead-letter handling, no backpressure tuning.
+Scope: an in-process queue and a worker, inside each copy. Do not introduce Kafka, RabbitMQ, NATS, Redis, Docker, or any broker or queue library. No retry policies, no dead-letter handling, no backpressure tuning. Expose the backlog length somewhere I can read it.
 
 Several copies run at once now. Say what an in-process queue costs when the copy holding it dies with work still in it, and do not fix it here.
 

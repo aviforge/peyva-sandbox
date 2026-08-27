@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>How Big Is PEYVA? (Capacity Estimation) | Peyva Sandbox</title>
+<title>Giving Up Well: Retries, Timeouts and Backoff | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=2ab8997a0e">
+<link rel="stylesheet" href="styles.css?v=a0a60c96d5">
 </head>
 <body data-chapter-slug="chapter-9">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -65,7 +65,7 @@
     
     
     
-    <li class="active" data-slug="chapter-9">9. How Big Is PEYVA? (Capacity Estimation)</li>
+    <li class="active" data-slug="chapter-9">9. Giving Up Well: Retries, Timeouts and Backoff</li>
     
     
     
@@ -112,6 +112,10 @@
     <li><a href="chapter-20.html" data-slug="chapter-20">20. Putting It All Together</a></li>
     
     
+    
+    <li><a href="chapter-21.html" data-slug="chapter-21">21. Splitting the Vault: Sharding</a></li>
+    
+    
   </ul>
 </nav>
 
@@ -126,70 +130,98 @@
   <div class="chapter-header">
     <button type="button" class="mark-complete" data-mark-complete>Mark chapter as complete</button>
     <p class="chapter-eyebrow">Chapter 9</p>
-    <h1>How Big Is PEYVA? (Capacity Estimation)</h1>
-    <p class="chapter-subtitle">Before starting the trip, we estimate the numbers so we have enough car space, fuel, and time. Same for systems.</p>
+    <h1>Giving Up Well: Retries, Timeouts and Backoff</h1>
+    <p class="chapter-subtitle">A call that has not answered is not a call that failed. Deciding when to stop waiting, and what to do next, is the whole skill.</p>
     <div class="tags">
-      <span class="tag">System Design</span>
+      <span class="tag">Reliability</span>
       <span class="tag">Intermediate</span>
-      <span class="tag">20 min</span>
     </div>
   </div>
 
   <figure class="hero-panel">
-    <a class="hero-link" href="images/chapter-9.webp" target="_blank" rel="noopener"><img src="images/chapter-9.webp" alt="Capacity estimation helps us choose the right technology, plan scaling, and control cost: before we build."></a>
-    <figcaption>Capacity estimation helps us choose the right technology, plan scaling, and control cost: before we build. <a class="hero-expand-hint" href="images/chapter-9.webp" target="_blank" rel="noopener">Click to view full size</a></figcaption>
+    <div class="panel-placeholder">Image pending<br><code>images/chapter-9-retries.webp</code></div>
+    <figcaption>Every call over a network has three outcomes: it worked, it failed, and nobody knows. The third is the one you design for.</figcaption>
   </figure>
 
   
 
   <div class="section-grid">
+    <section class="block why">
+      <h2>1. Why</h2>
+      <ul class="why-list">
+        <li>A remote call has three outcomes, not two: success, failure, and no answer. The third is indistinguishable from a slow success, and a caller that treats it as failure will resend a request that already went through.</li><li>Without a timeout, a call can wait forever. A dead peer does not send a refusal; it sends nothing, and the OS may keep the connection open for minutes. Every call across a process boundary needs a deadline, chosen from how long a good answer actually takes.</li><li>A timeout is not permission to retry. It is permission to retry only an idempotent request. Retrying a payment that carries its reference is safe because the receiver deduplicates it; retrying one without is how a customer pays twice.</li><li>Retrying immediately makes a struggling service worse. Every caller that times out and resends doubles the load at the moment it can least take it, which is a retry storm. Backoff spaces retries out; jitter stops every caller retrying at the same instant.</li><li>Retries are bounded. After some number of attempts the honest answer is &#39;I do not know whether this happened&#39;, and the caller has to surface that rather than loop. A payment stuck in that state is a support ticket, not a bug to hide.</li><li>Some failures should not be retried at all. A 400 will be a 400 again; an insufficient balance will still be insufficient. Retrying those wastes the attempts you have and delays the answer the caller needed.</li><li>The rules for one hop compound across hops. If every layer retries three times, a single request can become twenty-seven at the bottom. Retry once, at the edge that can dedupe, and let the layers underneath fail fast.</li>
+      </ul>
+    </section>
+
     <section class="block">
-      <h2>1. Concepts</h2>
+      <h2>2. Concepts</h2>
       <ul class="concepts">
-        <li><strong>Assumptions</strong>. The starting numbers you estimate: users, transfers per user per day, peak factor, time window.</li><li><strong>Peak Factor</strong>. How much busier the system gets at its busiest moment compared to its average. Traffic isn&#39;t flat.</li><li><strong>TPS</strong>. Transactions per second: the rate the system must actually sustain at peak, not on average.</li><li><strong>Storage Growth</strong>. How much disk space the system needs over time, based on transaction volume and record size.</li>
+        <li><strong>Timeout</strong>. The longest a caller waits before treating a call as unanswered. Chosen from measured latency, not guessed.</li><li><strong>Unknown Outcome</strong>. The call timed out. It may have succeeded, failed, or be about to succeed. The caller cannot tell and must not assume.</li><li><strong>Retry</strong>. Sending the same request again after an unknown outcome. Safe only when the request carries a reference the receiver deduplicates.</li><li><strong>Exponential Backoff</strong>. Waiting longer between each retry: one second, then two, then four. Gives the peer time to recover instead of piling on.</li><li><strong>Jitter</strong>. A random fraction added to each wait so that many callers do not retry in lockstep.</li><li><strong>Retry Storm</strong>. Callers timing out and retrying at once, multiplying load on a service exactly when it is struggling.</li>
       </ul>
     </section>
 
     <section class="block build-it">
-      <h2>2. Build It <span class="badge">Hands-on</span>
+      <h2>3. Build It <span class="badge">Hands-on</span>
           <span class="language-locked">Building in <b data-language-name>Go</b>, <a href="chapter-0.html">change in Chapter 0</a></span>
       </h2>
       
-      <p class="technique"><span class="technique-name">Self-Ask</span>. Hidden guesses become a written list of assumptions you can argue with.</p>
-      <p class="technique-source">Documented in The Prompt Report: Zero-Shot, Self-Ask</p>
+      <p class="technique"><span class="technique-name">Plan-and-Solve</span>. The plan is a table of failure and response. Written first, it is the code&#39;s specification; written after, it is a story about the code.</p>
+      <p class="technique-source">Documented in The Prompt Report: Zero-Shot, Plan-and-Solve</p>
       <details class="standing-rules">
-        <summary>Every prompt below is copied with these rules, about 331 tokens for the chapter</summary>
-        
-        
+        <summary>Every prompt below is copied with these rules, about 725 tokens for the chapter</summary>
+        <pre class="prompt-lang" id="rules-build">Build this in <span data-language-name>Go</span>, standard library only.
+Code in peyva/&lt;component&gt;/, one folder per component.
+Money: exact decimal or integer minor units, never floating point, two decimal places.
+The goal and invariants are in peyva/goal.md.</pre>
+        <pre class="prompt-lang" id="rules-portal">The Portal is plain HTML and CSS. No framework, no build step, no dependencies.
+It lives in peyva/portal/. Anything it needs from the server is <span data-language-name>Go</span>, standard library only.
+One customer&#39;s wallet at a time, never everyone&#39;s at once. A switcher at the top says whose.
+New work joins the menu.
+The goal and invariants are in peyva/goal.md, the look in peyva/portal/design.md.</pre>
         <pre class="prompt-lang" id="rules-thinking">The goal and invariants are in peyva/goal.md.</pre>
       </details>
       
-      <p class="prompt-divider"><span class="prompt-step">1 of 2</span> Assumptions<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~147 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">1 of 3</span> Plan<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~248 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-thinking">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
-        <pre class="prompt">I need to size the infrastructure for a payments system that moves money between accounts. One process today, and I have no idea what it needs to survive.
+        <pre class="prompt">A page sends a payment to a service over a network, and the service records the payment and answers with a reference. The request already carries a reference the service uses to recognise a repeat.
 
-Don&#39;t give me a number yet. Work out which follow-up questions the estimate genuinely depends on, and write them out. Answer each one yourself with an explicit assumption, and label where that assumption came from: industry norm, your own guess, or arithmetic from an earlier answer.
+Before writing any code, make a plan as a table. Rows: every distinct way that call can end, including the response being lost after the money moved, the connection being refused, the call hanging, a 4xx, and a 5xx. Columns: whether the caller can know if money moved, whether retrying is safe, whether retrying is useful, and what the caller should do.
 
-Done when I have your questions and an answer to each, every one labelled with where it came from.</pre>
+Then say how long the timeout should be and how you would find that number from a running system rather than guessing it. Say how many retries, how the wait between them grows, and why the wait should not be exactly the same for every caller.
+
+Done when I have the table, a timeout with a method behind it, and a retry policy that never retries a case where retrying is unsafe or useless.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">2 of 2</span> Estimate<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~184 tokens</span></p>
-      <div class="prompt-wrap" data-prompt-rules="rules-thinking">
+      <p class="prompt-divider"><span class="prompt-step">2 of 3</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~269 tokens</span></p>
+      <div class="prompt-wrap" data-prompt-rules="rules-build">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
-        <pre class="prompt">You worked out the questions a capacity estimate for this payments system depends on, and answered each with a labelled assumption.
+        <pre class="prompt">The Gateway forwards a payment to the Teller and waits for an answer with no deadline, and the Portal resends when it hears nothing.
 
-Use your own answers to work out peak payments per second, Ledger growth over two years, and peak network throughput. Show each formula with the numbers substituted in, so I can check the arithmetic rather than trust it.
+Carry out the plan you wrote. Give every call across a process or network boundary a timeout. On an unknown outcome, retry with the same reference, with exponential backoff and jitter, a small fixed number of times. Never retry a 4xx. After the last attempt, answer the caller with an honest &#39;outcome unknown, quote this reference&#39; rather than a failure.
 
-Then tell me which single assumption the estimate is most sensitive to, what the number becomes if you&#39;re wrong about it by a factor of two, and which of your assumptions you most want me to confirm.
+Then prove it: make the Teller sleep past the timeout on the first attempt only, send one payment, and show me from the Ledger that it was applied once and from the log that it was attempted more than once.
 
-Done when I have a peak-throughput figure and a two-year storage figure I can defend, and I know which assumption to revisit first.</pre>
+Done when a slow first attempt results in exactly one Ledger entry pair, a 400 is never retried, and the log shows the growing gaps between attempts.</pre>
+      </div>
+      
+      <p class="prompt-divider"><span class="prompt-step">3 of 3</span> Portal<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~208 tokens</span></p>
+      <div class="prompt-wrap" data-prompt-rules="rules-portal">
+        <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
+          <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+        </button>
+        <pre class="prompt">Send waits for an answer with no limit, and a customer who gives up and taps again has no idea whether the first tap paid.
+
+Give Send a deadline. Past it, the page says the outcome is unknown and shows the reference, and the button offers to check rather than to send again. Checking asks the server what happened to that reference.
+
+Done when a deliberately slow server leaves the customer with a reference and a way to find out, never with a second payment.</pre>
       </div>
       
       
@@ -197,7 +229,7 @@ Done when I have a peak-throughput figure and a two-year storage figure I can de
 
   </div>
 
-  <p class="quick-tip"><strong>Quick tip:</strong> Being roughly right before you build beats being exactly right after.</p>
+  <p class="quick-tip"><strong>Quick tip:</strong> A retry without an idempotency key is a duplicate payment with extra steps.</p>
 </main>
 </div>
 <script src="app.js?v=aa8908cb82"></script>

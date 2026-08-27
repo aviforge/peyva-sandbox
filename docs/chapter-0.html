@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>What Are We Building? | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=2ab8997a0e">
+<link rel="stylesheet" href="styles.css?v=a0a60c96d5">
 </head>
 <body data-chapter-slug="chapter-0">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -65,7 +65,7 @@
     
     
     
-    <li><a href="chapter-9.html" data-slug="chapter-9">9. How Big Is PEYVA? (Capacity Estimation)</a></li>
+    <li><a href="chapter-9.html" data-slug="chapter-9">9. Giving Up Well: Retries, Timeouts and Backoff</a></li>
     
     
     
@@ -112,6 +112,10 @@
     <li><a href="chapter-20.html" data-slug="chapter-20">20. Putting It All Together</a></li>
     
     
+    
+    <li><a href="chapter-21.html" data-slug="chapter-21">21. Splitting the Vault: Sharding</a></li>
+    
+    
   </ul>
 </nav>
 
@@ -131,7 +135,6 @@
     <div class="tags">
       <span class="tag">Foundations</span>
       <span class="tag">Beginner</span>
-      <span class="tag">15 min</span>
     </div>
   </div>
 
@@ -192,12 +195,14 @@ These hold in every chapter. If a change would break one, the change is wrong.
 
 - Standard library only. No frameworks, no brokers, no third-party libraries.
   The one exception is the runner, a script you are given rather than build.
-- Copies and the proxy are configured only by environment: PEYVA_PORT, and
-  PEYVA_PEERS for the proxy.
+- Every process is configured only by environment: PEYVA_PORT for what it
+  listens on, PEYVA_VAULT for the copies, PEYVA_PEERS for the proxy,
+  PEYVA_PRIMARY for a replica, PEYVA_WARDEN for whoever asks who may write.
 - Settings that differ between runs or machines are config. Settings with only
   one correct value, the money rules above among them, are code and stay in it.
 - Runs on one laptop. No containers, no cloud, no deployment.
-- One process until chapter 10, several after it.
+- One process until chapter 10, several after it. A transaction never spans
+  two of them.
 - Code lives in peyva/&lt;component&gt;/, one folder per component.
 - Money is exact: a decimal type, or integer minor units where the language has
   none. Never floating point. Two decimal places.
@@ -217,9 +222,11 @@ Each appears in the chapter that builds it. Until then it does not exist.
 - Teller: handles one payment end to end, and is the only thing that moves
   money. Chapter 4.
 - Ledger: the append-only record behind every balance. Chapter 7.
-- Runner: starts a given number of copies, says which are alive, and stops all
-  of them. Chapter 10.
+- Runner: starts every process, says which are alive, and stops all of them.
+  Chapter 10.
 - Courier: carries out work after a payment clears. Chapter 12.
+- Warden: grants a time-limited lease to the one Vault allowed to write.
+  Chapter 16.
 - Config: reads every setting from outside the code and checks it. Chapter 19.
 - Reconciler: proves the Vault and the Ledger still agree. Chapter 20.
 </pre>
@@ -329,15 +336,22 @@ the one visual idea chapter 0 committed to. Keep to it rather than restyling.
   
 
   <div class="section-grid">
+    <section class="block why">
+      <h2>1. Why</h2>
+      <ul class="why-list">
+        <li>A wallet is the smallest system in which every distributed systems problem is fatal. A lost message in a chat app is an annoyance; a lost message here is somebody&#39;s money.</li><li>Everything in this book is measured against five invariants: money is never created or lost, no balance goes negative, no payment applies twice, one component owns balances, and every movement is recorded. Learn them now; every later chapter tries to break one.</li><li>The invariants are checkable. At any moment, summing every account should give the amount you seeded, and summing an account&#39;s history should give its balance. If you cannot run that check, you do not know whether your system is correct.</li><li>Money is exact. A float cannot hold 0.10 precisely, and a system that rounds on every transfer creates or destroys money by itself. Decimal or integer minor units, always.</li><li>The book adds a piece only when a failure demands it. A single process with balances in memory is not naive; it is the correct design until a restart, a second caller, or a second machine proves it wrong.</li><li>There is no reference implementation, on purpose. Copying code teaches you the code. Prompting for it, running it, and watching it fail in the way each chapter predicts teaches you the system.</li>
+      </ul>
+    </section>
+
     <section class="block">
-      <h2>1. Concepts</h2>
+      <h2>2. Concepts</h2>
       <ul class="concepts">
-        <li><strong>User</strong>. A person with an identity in the system. Owns exactly one account.</li><li><strong>Account</strong>. A handle, an owner and an amount. The handle is how everyone else refers to it.</li><li><strong>Balance</strong>. How much an account holds. Must never go negative, be lost, or be double-spent.</li><li><strong>Vault</strong>. The component holding every account and what&#39;s in it. Nothing else is allowed to change a balance.</li><li><strong>Transfer</strong>. A request to move money between accounts.</li><li><strong>History</strong>. The record of every movement in and out of an account, in the order it happened.</li>
+        <li><strong>User</strong>. A person with an identity in the system. Owns exactly one account.</li><li><strong>Account</strong>. A handle, an owner and an amount. The handle is how everyone else refers to it.</li><li><strong>Balance</strong>. How much an account holds. Must never go negative, be lost, or be double-spent.</li><li><strong>Vault</strong>. The component holding every account and what&#39;s in it. Nothing else is allowed to change a balance.</li><li><strong>Transfer</strong>. A request to move money between accounts.</li><li><strong>History</strong>. The record of every movement in and out of an account, in the order it happened.</li><li><strong>Invariant</strong>. A statement that must be true of the system at every moment, whatever is happening. The five in goal.md are the whole point of the book.</li>
       </ul>
     </section>
 
     <section class="block build-it">
-      <h2>2. Build It <span class="badge">Hands-on</span>
+      <h2>3. Build It <span class="badge">Hands-on</span>
           <span class="language-locked">Building in <b data-language-name>Go</b>, <a href="#setup">change in Setup</a></span>
       </h2>
       

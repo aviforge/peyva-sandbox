@@ -107,10 +107,20 @@ type ChapterContent struct {
 	Subtitle    string
 	Category    string
 	Difficulty  string
-	EstTime     string
 	QuickTip    string
 	HeroImage   string
 	HeroCaption string
-	Concepts    []ConceptItem
-	BuildIt     BuildIt
+
+	// Why is the chapter's teaching, stated before the vocabulary and the
+	// prompts. Each entry is one claim about how systems behave, short enough
+	// to be checked against a real system and wrong in an obvious way if it
+	// is wrong. The assistant the reader prompts will say a great deal; this
+	// is the part the book stands behind.
+	//
+	// Bullets rather than paragraphs. A reader who has just been told the
+	// fact does not need it three more times in different clothes.
+	Why []string
+
+	Concepts []ConceptItem
+	BuildIt  BuildIt
 }

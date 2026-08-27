@@ -29,7 +29,6 @@
     <div class="tags">
       <span class="tag">{{.Chapter.Category}}</span>
       <span class="tag">{{.Chapter.Difficulty}}</span>
-      <span class="tag">{{.Chapter.EstTime}}</span>
     </div>
   </div>
 
@@ -73,15 +72,22 @@
   {{end}}
 
   <div class="section-grid">
+    <section class="block why">
+      <h2>1. Why</h2>
+      <ul class="why-list">
+        {{range .Chapter.Why}}<li>{{.}}</li>{{end}}
+      </ul>
+    </section>
+
     <section class="block">
-      <h2>1. Concepts</h2>
+      <h2>2. Concepts</h2>
       <ul class="concepts">
         {{range .Chapter.Concepts}}<li><strong>{{.Term}}</strong>. {{.Description}}</li>{{end}}
       </ul>
     </section>
 
     <section class="block build-it">
-      <h2>2. Build It <span class="badge">Hands-on</span>
+      <h2>3. Build It <span class="badge">Hands-on</span>
           <span class="language-locked">Building in <b data-language-name>{{.LanguageName}}</b>, {{if .LanguageIsChosenHere}}<a href="#setup">change in Setup</a>{{else}}<a href="{{.AssetPrefix}}chapter-0.html">change in Chapter 0</a>{{end}}</span>
       </h2>
       {{if .SystemMatters}}<p class="system-locked">{{if .SystemIsChosenHere}}<label class="language-picker">Script for
@@ -110,7 +116,7 @@
       {{if .RunnerScripts}}
       <p class="prompt-divider">The runner</p>
       <ul class="lead">
-        <li>Save this beside your code. Set the two commands at the top to how your project starts.</li>
+        <li>Save this beside your code. Set the commands at the top to how your project starts. Two are blank until the chapter that builds them.</li>
       </ul>
       {{range .RunnerScripts}}
       <div class="prompt-wrap runner-script" data-runner-for="{{.SystemID}}">

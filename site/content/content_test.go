@@ -165,7 +165,7 @@ var componentChapters = map[string]int{
 	"Courier":    12,
 	"Warden":     16,
 	"Config":     19,
-	"Reconciler": 20,
+	"Reconciler": 21,
 }
 
 // A component named in Build It but absent from Concepts is a word the reader

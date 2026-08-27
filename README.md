@@ -46,8 +46,8 @@ JavaScript, TypeScript, Java, C#, C++, Rust, Ruby, PHP, Kotlin and Swift.
 - **17.** [See Everything: Observability](https://aviforge.github.io/peyva-sandbox/chapter-17.html)
 - **18.** [Lock It Down: Security](https://aviforge.github.io/peyva-sandbox/chapter-18.html)
 - **19.** [Operating in Production](https://aviforge.github.io/peyva-sandbox/chapter-19.html)
-- **20.** [Putting It All Together](https://aviforge.github.io/peyva-sandbox/chapter-20.html)
-- **21.** [Splitting the Vault: Sharding](https://aviforge.github.io/peyva-sandbox/chapter-21.html)
+- **20.** [Splitting the Vault: Sharding](https://aviforge.github.io/peyva-sandbox/chapter-20.html)
+- **21.** [Putting It All Together](https://aviforge.github.io/peyva-sandbox/chapter-21.html)
 <!-- toc:end -->
 
 ## Contributing

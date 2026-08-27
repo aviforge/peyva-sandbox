@@ -73,5 +73,5 @@ Each appears in the chapter that builds it. Until then it does not exist.
 - Warden: grants a time-limited lease to the one Vault allowed to write.
   Chapter 16.
 - Config: reads every setting from outside the code and checks it. Chapter 19.
-- Reconciler: proves the Vault and the Ledger still agree. Chapter 20.
+- Reconciler: proves the Vault and the Ledger still agree. Chapter 21.
 `

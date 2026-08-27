@@ -9,8 +9,8 @@ type RoadmapEntry struct {
 // whose Number has no matching ChapterContent in All render as
 // disabled/non-clickable in the sidebar. Titles match the exact wording
 // baked into each chapter's hero image (docs/images/chapter-<N>.webp) where
-// one exists. Chapter 9 and chapter 21 have none yet: 9 replaced the capacity
-// estimation chapter, and 21 was added after the illustrations were drawn.
+// one exists. Chapters 9 and 20 replaced or displaced illustrated chapters,
+// and chapter 21 reuses the finale's illustration with its number corrected.
 var Roadmap = []RoadmapEntry{
 	{0, "What Are We Building?"},
 	{1, "Inside One Computer"},
@@ -32,6 +32,6 @@ var Roadmap = []RoadmapEntry{
 	{17, "See Everything: Observability"},
 	{18, "Lock It Down: Security"},
 	{19, "Operating in Production"},
-	{20, "Putting It All Together"},
-	{21, "Splitting the Vault: Sharding"},
+	{20, "Splitting the Vault: Sharding"},
+	{21, "Putting It All Together"},
 }

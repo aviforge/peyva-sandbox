@@ -17,7 +17,7 @@ import (
 var requiredSections = []string{
 	"1. What",
 	"2. Why",
-	"3. Build It",
+	"3. How",
 }
 
 // pairedTags are counted open against closed. The character class matters:

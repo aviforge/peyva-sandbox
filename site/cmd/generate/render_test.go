@@ -268,6 +268,10 @@ func TestEachPromptHasItsOwnCopyButton(t *testing.T) {
 			num, _ = strconv.Atoi(regexp.MustCompile(`chapter-(\d+)`).FindStringSubmatch(p.name)[1])
 		}
 		want = len(byNumber[num].BuildIt.Prompts)
+		// A sidebar's turns are copied like any other.
+		if aside := byNumber[num].Aside; aside != nil {
+			want += len(aside.BuildIt.Prompts)
+		}
 		// Chapter 0 also carries the files the reader saves before starting.
 		if num == 0 {
 			want += len(content.SetupFiles)

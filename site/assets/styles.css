@@ -310,6 +310,20 @@ body {
   margin: 0 0 10px;
 }
 
+/* A sidebar is a chapter in miniature: its own figure, claims and prompts, set
+   apart by a tinted border so it reads as an aside and not the main thread. */
+.block.aside {
+  border-color: var(--accent);
+}
+
+.aside-panel {
+  margin: 4px 0 16px;
+}
+
+.aside .why-list {
+  margin-bottom: 16px;
+}
+
 /* The concept list is short entries, so it reads better in columns than as one
    long ladder down a wide page. */
 @media (min-width: 900px) {

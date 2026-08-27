@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Making It Safe (Transactions) | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=b292ea4709">
+<link rel="stylesheet" href="styles.css?v=eb155c04fd">
 </head>
 <body data-chapter-slug="chapter-7">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -152,6 +152,8 @@
         <li>A payment is at least three writes: debit one account, credit another, record that it happened. A crash between any two of them leaves money created, destroyed or unexplained. A transaction is the mechanism that makes three writes one event.</li><li>Atomicity and durability are what the database gives you. Consistency in ACID is your invariant, not the database&#39;s: it will happily commit a negative balance if your code asks it to. The database keeps the writes together; you decide what they may say.</li><li>Isolation is the property most people skip and the one that loses money. Two payments from alice, each reading her balance as 100, each checking 20 fits, each debiting 20 from what it read, leave her at 80 with 40 gone. That is a lost update, and it happens inside two perfectly atomic transactions.</li><li>The fix is an isolation level, or a lock, that makes the read and the write one unit. Serialisable isolation makes concurrent transactions behave as if they ran one after another; weaker levels permit named anomalies. SQLite is serialisable because it holds one write lock, which is why this is easy here and hard in a server database.</li><li>Double-entry is the oldest correctness check in finance. Every movement is a debit and a matching credit, so the sum of all entries is always zero and the sum of an account&#39;s entries is always its balance. It turns &#39;is the money right&#39; into arithmetic anyone can run.</li><li>The append-only record is the proof; the balance is a cached answer derived from it. When they disagree, the record wins, which is why nothing ever edits or deletes an entry. A mistake is corrected by another entry.</li>
       </ul>
     </section>
+
+    
 
     <section class="block">
       <h2>2. Concepts</h2>

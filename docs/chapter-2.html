@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Finding Peyva (Processes &amp; Ports) | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=b292ea4709">
+<link rel="stylesheet" href="styles.css?v=eb155c04fd">
 </head>
 <body data-chapter-slug="chapter-2">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -152,6 +152,8 @@
         <li>A port is a rendezvous, not a pipe. The OS hands an address and port pair to one listening process, so a caller who knows the pair knows exactly which process will answer, and a second copy that asks for the same pair is refused.</li><li>That refusal is a feature. &#39;Address already in use&#39; is the OS telling you that two processes cannot both be the front door, which is the first hint that running more than one copy needs someone in front of them.</li><li>Binding to 127.0.0.1 and binding to 0.0.0.0 are different promises. The first is reachable only from this machine; the second from anything that can route to it, which includes the firewall&#39;s opinion.</li><li>A connection is a pair of endpoints and some state the OS holds on both sides. Accepting one costs memory and a file descriptor, and a process that never closes them runs out of both.</li><li>The one front door is a design decision, not an accident. Everything outside reaches the system through it, so it is the one place that can later count, refuse, or redirect every request.</li>
       </ul>
     </section>
+
+    
 
     <section class="block">
       <h2>2. Concepts</h2>

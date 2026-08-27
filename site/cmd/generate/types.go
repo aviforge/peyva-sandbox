@@ -45,6 +45,11 @@ type PageData struct {
 	// Prompts are the chapter's turns, in order, with {os} expanded.
 	Prompts []promptView
 
+	// AsidePrompts and AsideHeroAvailable are the sidebar's, when the chapter
+	// carries one. Nil and false otherwise, and the template renders nothing.
+	AsidePrompts       []promptView
+	AsideHeroAvailable bool
+
 	// HasPortalPrompt and HasThinkingPrompt say which sets of standing rules
 	// this page needs to show. A chapter with no portal work has no use for the
 	// portal's rules sitting above its prompts.

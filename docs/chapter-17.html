@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>See Everything: Observability | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=b292ea4709">
+<link rel="stylesheet" href="styles.css?v=eb155c04fd">
 </head>
 <body data-chapter-slug="chapter-17">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -152,6 +152,8 @@
         <li>A distributed system cannot be debugged by attaching to it. The failure happened an hour ago, on one of three copies, in a request that has finished. The only evidence is what the system chose to write down at the time.</li><li>A log line without the payment reference is a line nobody can find. Correlation is the whole job: every line a payment touches carries its reference, so one grep reconstructs its path across the proxy, a copy, the Vault and the replica.</li><li>Metrics answer &#39;is it wrong&#39;, logs answer &#39;what happened&#39;, and neither answers &#39;where is the time going&#39; across processes. That is a trace: the same reference with a start and end time at each hop. Even without a tracing system, timestamps on the correlated lines give you most of it.</li><li>A health check that returns ok unconditionally is a lie the load balancer believes. Health means the things this process depends on are reachable: the Vault, the lease, the replica&#39;s lag under some bound. Degraded is a real answer.</li><li>The important numbers are the ones that predict failure before it arrives: the outbox backlog, replication lag, the count of unknown-outcome payments. Error rate tells you it already happened.</li><li>Noise is a cost paid by the person reading at 3am. Every line that does not help them is a line they have to read past to find the one that does. Log less, with more in each line.</li>
       </ul>
     </section>
+
+    
 
     <section class="block">
       <h2>2. Concepts</h2>

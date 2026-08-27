@@ -27,9 +27,15 @@ func testRun(t *testing.T) (outDir, indexPath string) {
 		t.Fatalf("creating fixture images dir: %v", err)
 	}
 	for _, c := range content.All {
-		name := filepath.Base(filepath.FromSlash(c.HeroImage))
-		if err := os.WriteFile(filepath.Join(imagesDir, name), []byte("fake-webp"), 0o644); err != nil {
-			t.Fatalf("writing fixture hero %s: %v", name, err)
+		images := []string{c.HeroImage}
+		if c.Aside != nil {
+			images = append(images, c.Aside.HeroImage)
+		}
+		for _, img := range images {
+			name := filepath.Base(filepath.FromSlash(img))
+			if err := os.WriteFile(filepath.Join(imagesDir, name), []byte("fake-webp"), 0o644); err != nil {
+				t.Fatalf("writing fixture hero %s: %v", name, err)
+			}
 		}
 	}
 

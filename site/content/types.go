@@ -123,4 +123,19 @@ type ChapterContent struct {
 
 	Concepts []ConceptItem
 	BuildIt  BuildIt
+
+	// Aside is a sidebar: a short illustrated topic that belongs beside this
+	// chapter rather than in a chapter of its own. It has its own image, its
+	// own claims and its own prompts, and its own technique, because it is a
+	// lesson in its own right that happened not to earn a number.
+	Aside *Aside
+}
+
+// Aside is the sidebar a chapter may carry. See ChapterContent.Aside.
+type Aside struct {
+	Title       string
+	HeroImage   string
+	HeroCaption string
+	Why         []string
+	BuildIt     BuildIt
 }

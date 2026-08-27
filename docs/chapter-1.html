@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Inside One Computer | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=b292ea4709">
+<link rel="stylesheet" href="styles.css?v=eb155c04fd">
 </head>
 <body data-chapter-slug="chapter-1">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -152,6 +152,8 @@
         <li>A process is the unit of failure. When it dies, everything in its memory dies with it, instantly and without warning. Every durability technique in this book is a way of putting something outside the process before that happens.</li><li>The OS can stop a process at any instruction. Between two lines of your code, seconds can pass, the process can be killed, or another process can run. Code that assumes otherwise is already wrong on one machine, before any network is involved.</li><li>Memory and disk differ by roughly a thousand times in latency and by what survives a restart. A design that ignores which one it is reading from is guessing about both speed and safety.</li><li>One core executes one instruction stream at a time. Two things that appear to happen together are being interleaved by the scheduler, and the interleaving is not under your control.</li><li>Every distributed system is several of these. Nothing about a network makes a process more reliable, so understanding what one process can lose is the floor for everything after.</li>
       </ul>
     </section>
+
+    
 
     <section class="block">
       <h2>2. Concepts</h2>

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Across the Wire (Networking) | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=b292ea4709">
+<link rel="stylesheet" href="styles.css?v=eb155c04fd">
 </head>
 <body data-chapter-slug="chapter-3">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -152,6 +152,8 @@
         <li>TCP is a stream of bytes, not a sequence of messages. One write on the sender can arrive as three reads on the receiver, or three writes as one read. Any protocol on top of it has to say where a message ends, with a length prefix, a delimiter, or a header like HTTP&#39;s Content-Length.</li><li>Reading half a request is normal, not an error. Code that assumes one read returns one request works on localhost and breaks on a real network, which is the most common first bug in anything that speaks TCP directly.</li><li>TCP promises order and retransmission while the connection lives. It does not promise delivery: a connection can drop after the sender&#39;s write returned and before the receiver read anything, and neither side is told which bytes made it.</li><li>Underneath, everything travels as packets that can be lost, duplicated, delayed or reordered. TCP hides that from you on one connection; it cannot hide the connection itself failing.</li><li>Reachability is layered: the process must bind to a routable address, the OS firewall must allow the port, and the network must route to the machine. A failure at any layer looks identical from the caller&#39;s side, a timeout.</li><li>The moment a second machine can reach the process, latency stops being zero and failures stop being visible. This is the boundary where system design starts.</li>
       </ul>
     </section>
+
+    
 
     <section class="block">
       <h2>2. Concepts</h2>

@@ -88,25 +88,27 @@ func run(templatesDir, assetsDir, outDir, indexPath string) error {
 	}
 	pageData := func(chapter content.ChapterContent, prefix string) PageData {
 		return PageData{
-			Chapter:           chapter,
-			HeroAvailable:     fileExists(filepath.Join(outDir, filepath.FromSlash(chapter.HeroImage))),
-			Roadmap:           roadmap,
-			AssetPrefix:       prefix,
-			StyleVersion:      styleVersion,
-			ScriptVersion:     scriptVersion,
-			LanguageLine:      languageLine(defaultLanguage),
-			UILine:            uiLine(defaultLanguage),
-			ThinkingLine:      thinkingLine(),
-			ChapterTokens:     totalTokens(promptViews(chapter.BuildIt, defaultLanguage, defaultSystem)),
-			Setup:             setupFor(chapter.Number),
-			Languages:         content.Languages,
-			Prompts:           promptViews(chapter.BuildIt, defaultLanguage, defaultSystem),
-			HasBuildPrompt:    hasBuildPrompt(chapter),
-			HasPortalPrompt:   len(chapter.BuildIt.PortalPrompts()) > 0,
-			HasThinkingPrompt: hasThinkingPrompt(chapter),
-			Systems:           content.Systems,
-			SystemName:        defaultSystem.Prompt,
-			SystemMatters:     namesASystem(chapter) || chapter.Number == content.RunnerChapter,
+			Chapter:            chapter,
+			HeroAvailable:      fileExists(filepath.Join(outDir, filepath.FromSlash(chapter.HeroImage))),
+			Roadmap:            roadmap,
+			AssetPrefix:        prefix,
+			StyleVersion:       styleVersion,
+			ScriptVersion:      scriptVersion,
+			LanguageLine:       languageLine(defaultLanguage),
+			UILine:             uiLine(defaultLanguage),
+			ThinkingLine:       thinkingLine(),
+			ChapterTokens:      totalTokens(promptViews(chapter.BuildIt, defaultLanguage, defaultSystem)) + totalTokens(asidePrompts(chapter, defaultLanguage, defaultSystem)),
+			Setup:              setupFor(chapter.Number),
+			Languages:          content.Languages,
+			Prompts:            promptViews(chapter.BuildIt, defaultLanguage, defaultSystem),
+			AsidePrompts:       asidePrompts(chapter, defaultLanguage, defaultSystem),
+			AsideHeroAvailable: chapter.Aside != nil && fileExists(filepath.Join(outDir, filepath.FromSlash(chapter.Aside.HeroImage))),
+			HasBuildPrompt:     hasBuildPrompt(chapter),
+			HasPortalPrompt:    len(chapter.BuildIt.PortalPrompts()) > 0,
+			HasThinkingPrompt:  hasThinkingPrompt(chapter),
+			Systems:            content.Systems,
+			SystemName:         defaultSystem.Prompt,
+			SystemMatters:      namesASystem(chapter) || chapter.Number == content.RunnerChapter,
 
 			RunnerScripts: runnerScriptsFor(chapter.Number),
 
@@ -326,13 +328,33 @@ func hasBuildPrompt(c content.ChapterContent) bool {
 
 // hasThinkingPrompt reports whether any turn produces an answer rather than a
 // change, which is the one set of rules a page may need beyond the other two.
+// The sidebar's turns count: they are copied with the same rules.
 func hasThinkingPrompt(c content.ChapterContent) bool {
-	for _, p := range c.BuildIt.Prompts {
+	for _, p := range allPrompts(c) {
 		if p.Thinking {
 			return true
 		}
 	}
 	return false
+}
+
+// allPrompts is the chapter's turns and its sidebar's, for checks that care
+// what the page shows rather than which block shows it.
+func allPrompts(c content.ChapterContent) []content.Prompt {
+	out := append([]content.Prompt{}, c.BuildIt.Prompts...)
+	if c.Aside != nil {
+		out = append(out, c.Aside.BuildIt.Prompts...)
+	}
+	return out
+}
+
+// asidePrompts renders the sidebar's turns, or nothing when there is no
+// sidebar.
+func asidePrompts(c content.ChapterContent, lang content.Language, sys content.System) []promptView {
+	if c.Aside == nil {
+		return nil
+	}
+	return promptViews(c.Aside.BuildIt, lang, sys)
 }
 
 // promptViews turns a chapter's prompts into what the page renders: the text

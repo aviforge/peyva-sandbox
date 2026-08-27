@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Decoupling with Messages: Queues | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=b292ea4709">
+<link rel="stylesheet" href="styles.css?v=eb155c04fd">
 </head>
 <body data-chapter-slug="chapter-12">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -152,6 +152,8 @@
         <li>A response should wait for what the caller needs and nothing else. The caller needs to know the money moved. They do not need to wait while a notification is composed and delivered, and making them wait couples the payment&#39;s latency to the slowest thing downstream.</li><li>A queue separates deciding that work must happen from doing it. The producer records the work and moves on; the consumer takes it when it can. Neither has to be fast, or even up, at the same moment as the other.</li><li>A queue in memory is a promise the process cannot keep. Kill the process with ten notifications waiting and they are gone, and nothing anywhere records that they were owed. This chapter builds that flaw on purpose so the next one can fix it in the right place.</li><li>Queues turn overload into a number. If the consumer is slower than the producer, the backlog grows, and its length is the most honest health signal a system has. An unbounded queue hides that until memory runs out.</li><li>Asynchronous work changes what the customer sees. The page must show the payment as done when the money moved, and the notification as a separate thing that happens later, or it lies about one or the other.</li>
       </ul>
     </section>
+
+    
 
     <section class="block">
       <h2>2. Concepts</h2>

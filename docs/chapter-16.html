@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>When Things Fail: CAP / Consistency | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=b292ea4709">
+<link rel="stylesheet" href="styles.css?v=eb155c04fd">
 </head>
 <body data-chapter-slug="chapter-16">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -152,6 +152,8 @@
         <li>CAP is narrower than its slogan. It says that during a network partition a system cannot both answer every request and guarantee every answer reflects the latest write. Partitions are not optional, so the real choice is what to do while one lasts: refuse some requests, or answer some of them wrongly.</li><li>Consistency here means linearisability: every read returns the most recent committed write, as if there were one copy. Availability means every request to a live node gets a non-error response. A system that refuses payments during a partition has chosen consistency; a system that accepts them on both sides has chosen availability and will have to reconcile two histories afterwards.</li><li>The choice is per operation, not per system. A balance enquiry can be served from a replica and labelled stale; a payment cannot, because a debit against a stale balance can send money that has already been spent. Money writes are CP. Money reads can be AP if they say so.</li><li>When there is no partition, the trade-off is latency against consistency instead. Waiting for the replica to acknowledge every write costs a round trip per payment and means promotion loses nothing; not waiting is faster and promotion can lose the tail. That is the PACELC extension, and for money the answer on both sides is: wait.</li><li>Who is primary has to be decided by something other than the primary. A lease is a promise, granted by a third party for a fixed time, that one node may accept writes; it renews before expiry or stops. A node cut off from the grantor loses its lease by the clock, so an isolated old primary stops writing.</li><li>A lease depends on clocks agreeing roughly, which is why it carries a margin: the holder stops writing before the grantor considers it expired. A holder that keeps writing past its lease because its clock is slow is split-brain with a timestamp.</li><li>The grantor in this chapter is one process, and one process is a single point of failure. Real systems make the grantor a majority of several nodes agreeing, which is what Raft and Paxos are for. This book stops at one grantor, and says so, because a correct majority protocol is a book of its own.</li>
       </ul>
     </section>
+
+    
 
     <section class="block">
       <h2>2. Concepts</h2>

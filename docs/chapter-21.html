@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Putting It All Together | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=b292ea4709">
+<link rel="stylesheet" href="styles.css?v=eb155c04fd">
 </head>
 <body data-chapter-slug="chapter-21">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -152,6 +152,8 @@
         <li>Every mechanism in this book protects an invariant at one boundary. Transactions at the database, idempotency at the API, the outbox at the queue, the lease at the primary. A system is correct when every boundary a payment crosses has its mechanism, and wrong at the first one that does not.</li><li>Reconciliation is the check that assumes everything else has a bug. Balances and Ledger entries are written together on each shard, so they should always agree, and the Reconciler exists for the day they do not. It is how real payments systems find out, and it runs constantly, not after an incident.</li><li>A discrepancy is a fact to report, not a thing to fix automatically. The Reconciler says which account, how much, and since when; a person decides which side is right. A reconciler that silently corrects balances is a second writer of balances, which the first invariant forbids.</li><li>Single points of failure are found by walking the payment&#39;s path and asking, at each hop, what happens if this dies now. The Warden is one. The proxy is one. Knowing them is more useful than removing all of them, because removing each costs something and some are worth keeping.</li><li>Over-engineering is real cost with no failure it prevents. Every component here earned its place by a failure a previous chapter demonstrated; a component that cannot name its failure is the one to question.</li><li>Restating a system in your own words is the cheapest test of whether you understand it. Where your description and the code disagree, one of them is wrong, and it is worth finding out which before the next change.</li>
       </ul>
     </section>
+
+    
 
     <section class="block">
       <h2>2. Concepts</h2>

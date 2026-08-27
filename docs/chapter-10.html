@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Growing the Team: Scale Out | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=b292ea4709">
+<link rel="stylesheet" href="styles.css?v=eb155c04fd">
 </head>
 <body data-chapter-slug="chapter-10">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -149,9 +149,53 @@
     <section class="block why">
       <h2>1. Why</h2>
       <ul class="why-list">
-        <li>Copies are interchangeable only if nothing that matters lives inside one of them. A counter in a variable, a cache in a map, a database file on one copy&#39;s disk: each makes that copy different from the others, and a request routed to the wrong one gets a wrong answer.</li><li>So the store cannot be inside the copies. Three copies each holding a database file are three banks with three sets of balances. The Vault becomes its own process, one of it, and the copies become clients of it over the network.</li><li>A transaction cannot span processes. The debit, the credit, the Ledger entries and the idempotency record were one atomic unit because they were in one database in one process. That unit moves into the Vault&#39;s process whole, and the Teller drives it with one call rather than several.</li><li>Scaling out the stateless part does not scale the store. Every payment still ends at one Vault, so the copies buy you concurrency in parsing, validation and waiting, not in writing balances. Knowing which part is the bottleneck is what makes scaling out worth doing.</li><li>A load balancer is a process like any other, and it is now the one that holds the port everyone knows. It can only spread requests it can see fail, which means a copy dying mid-request looks to the balancer like a timeout, and the caller needs the retry rules from before.</li><li>Capacity is arithmetic, done before building. A hundred thousand users making three payments a day is three hundred thousand a day: about three and a half a second on average, thirty-five at a ten-times peak. At a kilobyte per payment, two years of Ledger is two hundred gigabytes. Those numbers say whether you need a second copy of anything.</li>
+        <li>Copies are interchangeable only if nothing that matters lives inside one of them. A counter in a variable, a cache in a map, a database file on one copy&#39;s disk: each makes that copy different from the others, and a request routed to the wrong one gets a wrong answer.</li><li>So the store cannot be inside the copies. Three copies each holding a database file are three banks with three sets of balances. The Vault becomes its own process, one of it, and the copies become clients of it over the network.</li><li>A transaction cannot span processes. The debit, the credit, the Ledger entries and the idempotency record were one atomic unit because they were in one database in one process. That unit moves into the Vault&#39;s process whole, and the Teller drives it with one call rather than several.</li><li>Scaling out the stateless part does not scale the store. Every payment still ends at one Vault, so the copies buy you concurrency in parsing, validation and waiting, not in writing balances. Knowing which part is the bottleneck is what makes scaling out worth doing.</li><li>A load balancer is a process like any other, and it is now the one that holds the port everyone knows. It can only spread requests it can see fail, which means a copy dying mid-request looks to the balancer like a timeout, and the caller needs the retry rules from before.</li><li>Whether any of this is needed is arithmetic, done before building. The sidebar below sizes peyva from a handful of labelled assumptions, and the answer says which part fills up first.</li>
       </ul>
     </section>
+
+    
+    <section class="block aside">
+      <h2>Sidebar: How Big Is PEYVA? (Capacity Estimation) <span class="badge badge-aside">Sidebar</span></h2>
+      <figure class="hero-panel aside-panel">
+        <a class="hero-link" href="images/chapter-10-sidebar.webp" target="_blank" rel="noopener"><img src="images/chapter-10-sidebar.webp" alt="Capacity estimation helps us choose the right technology, plan scaling, and control cost: before we build."></a>
+        <figcaption>Capacity estimation helps us choose the right technology, plan scaling, and control cost: before we build. <a class="hero-expand-hint" href="images/chapter-10-sidebar.webp" target="_blank" rel="noopener">Click to view full size</a></figcaption>
+      </figure>
+      <ul class="why-list">
+        <li>An estimate is a handful of assumptions multiplied out: users, actions per user per day, a peak factor, a record size. Each is a guess, and the value of the exercise is writing the guesses down where they can be argued with.</li><li>A hundred thousand users making three payments a day is three hundred thousand a day: about three and a half a second on average, thirty-five at a ten-times peak. At a kilobyte per payment, two years of Ledger is two hundred gigabytes.</li><li>Peak is what you build for, not average. Traffic is not flat, and a system sized for the average is down at the busiest hour, which is the hour that matters.</li><li>Being roughly right before building beats being exactly right after. The point is the order of magnitude: whether one store on one laptop is enough, or whether the next chapter&#39;s copies are needed at all.</li><li>Sensitivity matters more than the number. Knowing which single assumption moves the answer most tells you which one to go and confirm.</li>
+      </ul>
+      <p class="technique"><span class="technique-name">Self-Ask</span>. Hidden guesses become a written list of assumptions you can argue with.</p>
+      <p class="technique-source">Documented in The Prompt Report: Zero-Shot, Self-Ask</p>
+      
+      <p class="prompt-divider"><span class="prompt-step">1 of 2</span> Assumptions<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~147 tokens</span></p>
+      <div class="prompt-wrap" data-prompt-rules="rules-thinking">
+        <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
+          <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+        </button>
+        <pre class="prompt">I need to size the infrastructure for a payments system that moves money between accounts. One process today, and I have no idea what it needs to survive.
+
+Don&#39;t give me a number yet. Work out which follow-up questions the estimate genuinely depends on, and write them out. Answer each one yourself with an explicit assumption, and label where that assumption came from: industry norm, your own guess, or arithmetic from an earlier answer.
+
+Done when I have your questions and an answer to each, every one labelled with where it came from.</pre>
+      </div>
+      
+      <p class="prompt-divider"><span class="prompt-step">2 of 2</span> Estimate<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~184 tokens</span></p>
+      <div class="prompt-wrap" data-prompt-rules="rules-thinking">
+        <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
+          <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+        </button>
+        <pre class="prompt">You worked out the questions a capacity estimate for this payments system depends on, and answered each with a labelled assumption.
+
+Use your own answers to work out peak payments per second, Ledger growth over two years, and peak network throughput. Show each formula with the numbers substituted in, so I can check the arithmetic rather than trust it.
+
+Then tell me which single assumption the estimate is most sensitive to, what the number becomes if you&#39;re wrong about it by a factor of two, and which of your assumptions you most want me to confirm.
+
+Done when I have a peak-throughput figure and a two-year storage figure I can defend, and I know which assumption to revisit first.</pre>
+      </div>
+      
+    </section>
+    
 
     <section class="block">
       <h2>2. Concepts</h2>
@@ -172,7 +216,7 @@
       <p class="technique"><span class="technique-name">Step-Back Prompting</span>. Reasoning down from what makes any service replaceable beats reasoning up from code that was never going to scale.</p>
       <p class="technique-source">Documented in The Prompt Report: Thought Generation, Step-Back Prompting</p>
       <details class="standing-rules">
-        <summary>Every prompt below is copied with these rules, about 645 tokens for the chapter</summary>
+        <summary>Every prompt below is copied with these rules, about 976 tokens for the chapter</summary>
         <pre class="prompt-lang" id="rules-build">Build this in <span data-language-name>Go</span>, standard library only.
 Code in peyva/&lt;component&gt;/, one folder per component.
 Money: exact decimal or integer minor units, never floating point, two decimal places.

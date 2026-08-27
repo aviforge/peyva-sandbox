@@ -413,17 +413,25 @@ func TestSpellingStaysBritish(t *testing.T) {
 	}
 }
 
-// prose is everything on the page except the prompt bodies.
+// prose is everything on the page except the prompt bodies, sidebar included.
 func prose(c ChapterContent) string {
 	parts := []string{
 		c.Title, c.Subtitle, c.QuickTip, c.HeroCaption,
 		c.BuildIt.Why,
 	}
+	parts = append(parts, c.Why...)
 	for _, x := range c.Concepts {
 		parts = append(parts, x.Term, x.Description)
 	}
 	for _, p := range c.BuildIt.Prompts {
 		parts = append(parts, p.Label)
+	}
+	if a := c.Aside; a != nil {
+		parts = append(parts, a.Title, a.HeroCaption, a.BuildIt.Why)
+		parts = append(parts, a.Why...)
+		for _, p := range a.BuildIt.Prompts {
+			parts = append(parts, p.Label)
+		}
 	}
 	return strings.Join(parts, "\n")
 }
@@ -431,18 +439,7 @@ func prose(c ChapterContent) string {
 // everything is every reader-facing string on a chapter, so a check cannot pass
 // only because the text moved to a field it does not look at.
 func everything(c ChapterContent) string {
-	parts := []string{
-		c.Title, c.Subtitle, c.QuickTip, c.HeroCaption,
-		c.BuildIt.Why,
-	}
-	parts = append(parts, c.Why...)
-	for _, p := range c.BuildIt.Prompts {
-		parts = append(parts, p.Label, p.Text)
-	}
-	for _, x := range c.Concepts {
-		parts = append(parts, x.Term, x.Description)
-	}
-	return strings.Join(parts, "\n")
+	return prose(c) + "\n" + promptText(c)
 }
 
 // Chapter 10 replaces the single process with several copies behind a proxy.
@@ -499,13 +496,65 @@ func TestProseFieldsHoldNoBackticks(t *testing.T) {
 	}
 }
 
-// promptText is every prompt of a chapter joined, for checks that care whether
-// a phrase appears anywhere in what the reader is asked to paste.
+// promptText is every prompt of a chapter joined, sidebar included, for checks
+// that care whether a phrase appears anywhere in what the reader is asked to
+// paste.
 func promptText(c ChapterContent) string {
 	var b strings.Builder
-	for _, p := range c.BuildIt.Prompts {
+	for _, p := range allPrompts(c) {
 		b.WriteString(p.Text)
 		b.WriteString("\n")
 	}
 	return b.String()
+}
+
+// allPrompts is the chapter's turns followed by its sidebar's.
+func allPrompts(c ChapterContent) []Prompt {
+	out := append([]Prompt{}, c.BuildIt.Prompts...)
+	if c.Aside != nil {
+		out = append(out, c.Aside.BuildIt.Prompts...)
+	}
+	return out
+}
+
+// A sidebar is held to the same bar as a chapter: claims of its own, a cited
+// technique no chapter's own Build It already teaches, and prompts that end
+// somewhere checkable.
+func TestEveryAsideMeetsTheChapterBar(t *testing.T) {
+	techniques := map[string]int{}
+	for _, c := range All {
+		techniques[c.BuildIt.Technique] = c.Number
+	}
+	for _, c := range All {
+		a := c.Aside
+		if a == nil {
+			continue
+		}
+		if a.Title == "" || a.HeroImage == "" || a.HeroCaption == "" {
+			t.Errorf("chapter %d: sidebar is missing a title, image or caption", c.Number)
+		}
+		if len(a.Why) < 3 {
+			t.Errorf("chapter %d: sidebar has %d Why bullets, want at least 3", c.Number, len(a.Why))
+		}
+		if a.BuildIt.Technique == "" || a.BuildIt.Why == "" || len(a.BuildIt.Prompts) == 0 {
+			t.Errorf("chapter %d: sidebar Build It is incomplete", c.Number)
+		}
+		if n, ok := techniques[a.BuildIt.Technique]; ok {
+			t.Errorf("chapter %d: sidebar technique %q is already chapter %d's", c.Number, a.BuildIt.Technique, n)
+		}
+		recognised := false
+		for _, corpus := range RecognisedSources {
+			if strings.HasPrefix(a.BuildIt.Source, corpus) {
+				recognised = true
+			}
+		}
+		if !recognised {
+			t.Errorf("chapter %d: sidebar Source %q cites no recognised corpus", c.Number, a.BuildIt.Source)
+		}
+		for _, p := range a.BuildIt.Prompts {
+			if !strings.Contains(p.Text, "Done when") {
+				t.Errorf("chapter %d: sidebar prompt %q is missing a 'Done when' line", c.Number, p.Label)
+			}
+		}
+	}
 }

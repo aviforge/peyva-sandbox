@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Finding Things Fast (Indexes) | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=b292ea4709">
+<link rel="stylesheet" href="styles.css?v=eb155c04fd">
 </head>
 <body data-chapter-slug="chapter-6">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -152,6 +152,8 @@
         <li>Without an index, finding one row means reading every row. That is fine at a thousand accounts and fatal at ten million, and the code looks identical in both cases. Slowness of this kind arrives silently, with growth.</li><li>An index is a second, sorted copy of one column pointing back at the rows. A B-tree keeps it balanced so any lookup takes a handful of page reads however large the table grows, which is why a lookup on a million rows costs about the same as on a thousand.</li><li>Every index is a write amplifier. Each insert or update has to maintain every index on the table, so a table with ten indexes does eleven writes per row. Indexes are bought with write speed.</li><li>An index only helps queries that use its column the way it was sorted. An index on region does nothing for a search on owner, and a query the planner cannot map onto an index scans the table anyway.</li><li>Performance claims are measurements, not reasoning. The same query on the same data is fast or slow depending on the page cache, the disk and the size of the table, and the only honest number is one taken on the machine in question.</li><li>The primary key is an index too. Looking an account up by handle is fast for the same reason a region lookup becomes fast here, and for no other.</li>
       </ul>
     </section>
+
+    
 
     <section class="block">
       <h2>2. Concepts</h2>

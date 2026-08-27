@@ -18,7 +18,39 @@ var Chapter10 = ChapterContent{
 		"A transaction cannot span processes. The debit, the credit, the Ledger entries and the idempotency record were one atomic unit because they were in one database in one process. That unit moves into the Vault's process whole, and the Teller drives it with one call rather than several.",
 		"Scaling out the stateless part does not scale the store. Every payment still ends at one Vault, so the copies buy you concurrency in parsing, validation and waiting, not in writing balances. Knowing which part is the bottleneck is what makes scaling out worth doing.",
 		"A load balancer is a process like any other, and it is now the one that holds the port everyone knows. It can only spread requests it can see fail, which means a copy dying mid-request looks to the balancer like a timeout, and the caller needs the retry rules from before.",
-		"Capacity is arithmetic, done before building. A hundred thousand users making three payments a day is three hundred thousand a day: about three and a half a second on average, thirty-five at a ten-times peak. At a kilobyte per payment, two years of Ledger is two hundred gigabytes. Those numbers say whether you need a second copy of anything.",
+		"Whether any of this is needed is arithmetic, done before building. The sidebar below sizes peyva from a handful of labelled assumptions, and the answer says which part fills up first.",
+	},
+
+	Aside: &Aside{
+		Title:       "How Big Is PEYVA? (Capacity Estimation)",
+		HeroImage:   "images/chapter-10-sidebar.webp",
+		HeroCaption: "Capacity estimation helps us choose the right technology, plan scaling, and control cost: before we build.",
+		Why: []string{
+			"An estimate is a handful of assumptions multiplied out: users, actions per user per day, a peak factor, a record size. Each is a guess, and the value of the exercise is writing the guesses down where they can be argued with.",
+			"A hundred thousand users making three payments a day is three hundred thousand a day: about three and a half a second on average, thirty-five at a ten-times peak. At a kilobyte per payment, two years of Ledger is two hundred gigabytes.",
+			"Peak is what you build for, not average. Traffic is not flat, and a system sized for the average is down at the busiest hour, which is the hour that matters.",
+			"Being roughly right before building beats being exactly right after. The point is the order of magnitude: whether one store on one laptop is enough, or whether the next chapter's copies are needed at all.",
+			"Sensitivity matters more than the number. Knowing which single assumption moves the answer most tells you which one to go and confirm.",
+		},
+		BuildIt: BuildIt{
+			Technique: "Self-Ask",
+			Why:       "Hidden guesses become a written list of assumptions you can argue with.",
+			Source:    "The Prompt Report: Zero-Shot, Self-Ask",
+			Prompts: []Prompt{
+				{Label: "Assumptions", Thinking: true, Text: `I need to size the infrastructure for a payments system that moves money between accounts. One process today, and I have no idea what it needs to survive.
+
+Don't give me a number yet. Work out which follow-up questions the estimate genuinely depends on, and write them out. Answer each one yourself with an explicit assumption, and label where that assumption came from: industry norm, your own guess, or arithmetic from an earlier answer.
+
+Done when I have your questions and an answer to each, every one labelled with where it came from.`},
+				{Label: "Estimate", Thinking: true, Text: `You worked out the questions a capacity estimate for this payments system depends on, and answered each with a labelled assumption.
+
+Use your own answers to work out peak payments per second, Ledger growth over two years, and peak network throughput. Show each formula with the numbers substituted in, so I can check the arithmetic rather than trust it.
+
+Then tell me which single assumption the estimate is most sensitive to, what the number becomes if you're wrong about it by a factor of two, and which of your assumptions you most want me to confirm.
+
+Done when I have a peak-throughput figure and a two-year storage figure I can defend, and I know which assumption to revisit first.`},
+			},
+		},
 	},
 
 	Concepts: []ConceptItem{

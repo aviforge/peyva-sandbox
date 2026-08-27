@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Designing the API | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=b292ea4709">
+<link rel="stylesheet" href="styles.css?v=eb155c04fd">
 </head>
 <body data-chapter-slug="chapter-4">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -152,6 +152,8 @@
         <li>An API is a contract about failure as much as success. The caller has to be able to tell &#39;you asked for something impossible&#39; from &#39;I could not do it right now&#39;, because the correct response differs: fix the request, or try again.</li><li>Status codes carry that distinction. 4xx means the request is wrong and retrying it unchanged will fail again; 5xx means the server is wrong and the same request may succeed later. Get this backwards and every client retries the wrong things.</li><li>Validation happens before any state changes, in full. Debiting the payer and then discovering the recipient does not exist is a bug that creates money out of an error path.</li><li>The reference returned for a payment is the caller&#39;s only handle on what happened. It will be quoted in support tickets, in retries and in the audit trail. Generate it once, and never reuse one.</li><li>Separating the front door from the thing that moves money is not ceremony. Parsing, authentication and rate limiting change often; the rules for moving money must not. Keeping them in different components keeps churn away from the invariants.</li><li>A response of 200 means the money moved and was recorded. Sending it before that is true is a promise the system may not keep, and the caller will act on the promise.</li>
       </ul>
     </section>
+
+    
 
     <section class="block">
       <h2>2. Concepts</h2>

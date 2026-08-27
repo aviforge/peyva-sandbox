@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Reliability Patterns: Transactional Outbox | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=b292ea4709">
+<link rel="stylesheet" href="styles.css?v=eb155c04fd">
 </head>
 <body data-chapter-slug="chapter-13">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -152,6 +152,8 @@
         <li>&#39;Commit, then publish&#39; has a gap, and the gap is not small in any sense that matters. It is a window between two instructions, and a process can die inside any window. Work lost there has no record, so nothing can ever notice it is missing.</li><li>The outbox closes the gap by making the work part of the commit. The payment and the row saying &#39;notify bob&#39; are written in one transaction in the Vault&#39;s database, so either both exist or neither does. The work is durable before anyone tries to do it.</li><li>Doing the work is now a separate loop: read unsent rows, deliver, mark sent. That loop can crash after delivering and before marking, which means the row is delivered again. The outbox trades &#39;possibly never&#39; for &#39;possibly twice&#39;, and twice is the one a receiver can be made to handle.</li><li>At-least-once plus deduplication is the recurring shape of this book. Idempotency keys on payments, an outbox for downstream work: the same idea applied at each place a message crosses a boundary.</li><li>With several copies each running a collector, two of them can pick the same row. Claiming a row with an update the database serialises, or accepting the duplicate and deduping downstream, are the choices; pretending it cannot happen is not one.</li><li>The outbox is a queue that happens to be a table. It has a backlog, a consumer and a producer, and its length is a health signal, exactly as an in-memory queue&#39;s was, except that this one survives a restart.</li>
       </ul>
     </section>
+
+    
 
     <section class="block">
       <h2>2. Concepts</h2>

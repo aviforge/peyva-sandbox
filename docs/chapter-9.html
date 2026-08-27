@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Giving Up Well: Retries, Timeouts and Backoff | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=b292ea4709">
+<link rel="stylesheet" href="styles.css?v=eb155c04fd">
 </head>
 <body data-chapter-slug="chapter-9">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -152,6 +152,8 @@
         <li>A remote call has three outcomes, not two: success, failure, and no answer. The third is indistinguishable from a slow success, and a caller that treats it as failure will resend a request that already went through.</li><li>Without a timeout, a call can wait forever. A dead peer does not send a refusal; it sends nothing, and the OS may keep the connection open for minutes. Every call across a process boundary needs a deadline, chosen from how long a good answer actually takes.</li><li>A timeout is not permission to retry. It is permission to retry only an idempotent request. Retrying a payment that carries its reference is safe because the receiver deduplicates it; retrying one without is how a customer pays twice.</li><li>Retrying immediately makes a struggling service worse. Every caller that times out and resends doubles the load at the moment it can least take it, which is a retry storm. Backoff spaces retries out; jitter stops every caller retrying at the same instant.</li><li>Retries are bounded. After some number of attempts the honest answer is &#39;I do not know whether this happened&#39;, and the caller has to surface that rather than loop. A payment stuck in that state is a support ticket, not a bug to hide.</li><li>Some failures should not be retried at all. A 400 will be a 400 again; an insufficient balance will still be insufficient. Retrying those wastes the attempts you have and delays the answer the caller needed.</li><li>The rules for one hop compound across hops. If every layer retries three times, a single request can become twenty-seven at the bottom. Retry once, at the edge that can dedupe, and let the layers underneath fail fast.</li>
       </ul>
     </section>
+
+    
 
     <section class="block">
       <h2>2. Concepts</h2>

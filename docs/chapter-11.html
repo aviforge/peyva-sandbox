@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Sharing Work: Caching | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=b292ea4709">
+<link rel="stylesheet" href="styles.css?v=eb155c04fd">
 </head>
 <body data-chapter-slug="chapter-11">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -152,6 +152,8 @@
         <li>A cache is a second copy of a value, and every second copy can disagree with the first. The whole difficulty of caching is keeping that disagreement short, bounded, and invisible where it matters.</li><li>Where the cache lives decides who can invalidate it. A cache inside each of three copies can only be invalidated by the copy that did the write; the other two keep serving the old balance. The only process that sees every write to a balance is the one that owns it, so the cache goes there.</li><li>Invalidation must ride the same transaction as the write, or happen after it commits, never before. Drop the cached value, then have the transaction roll back, and the next read repopulates from the truth; drop it before the commit, and a concurrent read can refill the cache with the old value a moment before the new one lands.</li><li>A payment touches two accounts. Invalidating one and not the other is the bug a test with one account will never find.</li><li>Reads of money are not all equal. A balance shown on a page can be a few milliseconds old; a balance checked before a debit cannot be cached at all, because the check and the write have to be one unit. The cache serves the first kind and stays out of the second.</li><li>The failure mode of a cache is not an error. It is a confident, fast, wrong number, which is why cache bugs survive test suites that only check for crashes.</li>
       </ul>
     </section>
+
+    
 
     <section class="block">
       <h2>2. Concepts</h2>

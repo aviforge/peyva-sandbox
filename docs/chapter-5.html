@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Storing Money (Databases) | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=b292ea4709">
+<link rel="stylesheet" href="styles.css?v=eb155c04fd">
 </head>
 <body data-chapter-slug="chapter-5">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -152,6 +152,8 @@
         <li>Durability is a promise about the moment of failure, not about the file. A write that sits in an OS buffer is on its way to disk; it is not there until the database has called fsync and the drive has confirmed. Kill the power in between and the write never happened.</li><li>A database is the code that makes &#39;written&#39; mean something. It orders writes, flushes them, and on restart replays or discards partial ones so the file is never half-updated. Writing your own file format skips all of that.</li><li>Once storage is outside the process, every read is a trip and every write is a wait. Latency that was nanoseconds is now microseconds to milliseconds, which changes what you can afford to do per request.</li><li>Where the truth lives matters more than how fast you can read it. Two copies of a balance, one in memory and one on disk, will disagree the first time one is updated and the other is not. One place is the source of truth; everything else is a view of it.</li><li>SQLite is a real database in one file: transactions, a write-ahead log, crash recovery. It is not a toy, and it is enough to teach every storage idea in this book without a server to install.</li><li>Migration is the ordinary case. Data always outlives the code that first wrote it, so moving records from one home to another without losing any is a skill you will use more often than designing a fresh schema.</li>
       </ul>
     </section>
+
+    
 
     <section class="block">
       <h2>2. Concepts</h2>

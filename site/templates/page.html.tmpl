@@ -79,6 +79,31 @@
       </ul>
     </section>
 
+    {{with .Chapter.Aside}}
+    <section class="block aside">
+      <h2>Sidebar: {{.Title}} <span class="badge badge-aside">Sidebar</span></h2>
+      <figure class="hero-panel aside-panel">
+        {{if $.AsideHeroAvailable}}<a class="hero-link" href="{{$.AssetPrefix}}{{.HeroImage}}" target="_blank" rel="noopener"><img src="{{$.AssetPrefix}}{{.HeroImage}}" alt="{{.HeroCaption}}"></a>{{else}}<div class="panel-placeholder">Image pending<br><code>{{.HeroImage}}</code></div>{{end}}
+        <figcaption>{{.HeroCaption}}{{if $.AsideHeroAvailable}} <a class="hero-expand-hint" href="{{$.AssetPrefix}}{{.HeroImage}}" target="_blank" rel="noopener">Click to view full size</a>{{end}}</figcaption>
+      </figure>
+      <ul class="why-list">
+        {{range .Why}}<li>{{.}}</li>{{end}}
+      </ul>
+      <p class="technique"><span class="technique-name">{{.BuildIt.Technique}}</span>. {{.BuildIt.Why}}</p>
+      <p class="technique-source">Documented in {{.BuildIt.Source}}</p>
+      {{range $.AsidePrompts}}
+      <p class="prompt-divider">{{if .Numbered}}<span class="prompt-step">{{.Step}} of {{.Steps}}</span> {{end}}{{.Label}}<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~{{.Tokens}} tokens</span></p>
+      <div class="prompt-wrap" data-prompt-rules="{{if .Thinking}}rules-thinking{{else if .Portal}}rules-portal{{else}}rules-build{{end}}">
+        <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
+          <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+        </button>
+        <pre class="prompt">{{.Text}}</pre>
+      </div>
+      {{end}}
+    </section>
+    {{end}}
+
     <section class="block">
       <h2>2. Concepts</h2>
       <ul class="concepts">

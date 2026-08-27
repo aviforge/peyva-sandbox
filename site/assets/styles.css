@@ -316,6 +316,13 @@ body {
   font-size: 14px;
 }
 
+/* The one claim Home makes that no chapter does. Accent border so it reads
+   as the point of the site, not one block among three. */
+.block.usp {
+  border-color: var(--accent);
+  margin-bottom: 16px;
+}
+
 /* The find box sits between the Chapters label and the list, in the sidebar
    palette so it reads as part of the navigation rather than a form. */
 .chapter-search {

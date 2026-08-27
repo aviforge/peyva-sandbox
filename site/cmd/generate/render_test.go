@@ -483,6 +483,7 @@ func TestLandingPage(t *testing.T) {
 		"Start with Chapter 0",
 		`href="chapter-0.html"`,
 		"How a chapter works",
+		"No solutions. On purpose.",
 	} {
 		if !strings.Contains(body, want) {
 			t.Errorf("landing page missing %q", want)

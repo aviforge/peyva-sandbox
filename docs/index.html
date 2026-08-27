@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=6c00ba1e30">
+<link rel="stylesheet" href="styles.css?v=dc0b9b95c1">
 </head>
 <body data-chapter-slug="index">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -132,10 +132,14 @@
     <p class="chapter-subtitle">Learn distributed systems by building one. A wallet where alice sends bob $20, and the money arrives exactly once.</p>
   </div>
 
-  <figure class="hero-panel">
-    <a class="hero-link" href="images/chapter-0.webp" target="_blank" rel="noopener"><img src="images/chapter-0.webp" alt="Alice sends Bob $20: the story, and what is really happening underneath."></a>
-    <figcaption>Alice sends Bob $20. That is the whole system, and the whole book. <a class="hero-expand-hint" href="images/chapter-0.webp" target="_blank" rel="noopener">Click to view full size</a></figcaption>
-  </figure>
+  <section class="block usp">
+    <h2>No solutions. On purpose.</h2>
+    <ul class="why-list">
+      <li>Every other course hands you the finished code. You read it, nod, and learn nothing you can use.</li>
+      <li>Here there is none. You prompt for it, run it, and watch it break the way the chapter said it would. Then you work out why.</li>
+      <li>The chapter tells you how it should fail. It never tells you how to fix it. That part is yours, and it is the only part that sticks.</li>
+    </ul>
+  </section>
 
   <div class="section-grid">
     <section class="block">
@@ -144,7 +148,6 @@
         <li>You build peyva, a small payments system, one piece per chapter.</li>
         <li>Each piece is added because the chapter before it showed you a failure. Nothing is there for its own sake.</li>
         <li>By the end: several copies behind a proxy, a store with a follower and a lease, a queue, an outbox, sharding, and a check that the money still adds up.</li>
-        <li>There is no finished code to download. You prompt for it, run it, and see for yourself.</li>
       </ul>
     </section>
 
@@ -154,7 +157,7 @@
         <li>Money is the one kind of data where every distributed systems mistake is visible and costs something.</li>
         <li>Reading about a lost update is forgettable. Watching alice lose 60 on your own machine is not.</li>
         <li>Five rules never break: money is never created or lost, never negative, never paid twice, only one component changes it, every move is written down. Every chapter tries to break one.</li>
-        <li>Your assistant writes the code. You decide what it must do and check that it did. That is the skill.</li>
+        <li>Your assistant writes the code. You decide what it must do, and check that it did. That is the skill, and no solution file teaches it.</li>
       </ul>
     </section>
 

@@ -36,7 +36,7 @@ var SetupFiles = []SetupFile{
 	},
 	{
 		Path:    "Your assistant's instruction file",
-		Purpose: "How your assistant should work: what it may decide alone, when to stop and ask, and how much to say back.",
+		Purpose: "How your assistant should work: what it may decide alone, when to stop and ask, how much to say back, and where to point you when it is done.",
 		Content: AgentRules,
 		Names:   AgentFiles,
 	},
@@ -89,7 +89,21 @@ the one visual idea chapter 0 committed to. Keep to it rather than restyling.
 
 ## Answers
 
-- Say what changed and why, in a line or two.
-- No summary of work I just watched you do, and no restating my request back.
-- Give reasoning, trade-offs and alternatives only when I ask for them.
+- One line when you are done: what changed, and why if that is not obvious.
+- No summary of work I just watched you do. No list of the files you touched,
+  no restating my request, no closing offer of what else you could build.
+- Reasoning, trade-offs and alternatives only when I ask for them.
+- Every word back is a word I pay for. Spend them on the result, not on prose
+  about the result.
+
+## Showing me the result
+
+- Every turn that changed anything ends with where to look, on its own line,
+  last, and nothing after it.
+- That is the Portal address, and above it the one command that has to be
+  running first. A file path while the page opens from disk, an http address
+  with the port on it once something serves it. Never just 'open the browser'.
+- Output you want me to read goes in a table: one row per event, one column per
+  field, a heading on every column. Never a wall of pasted log lines.
+- Show the rows that make the point, and say how many you left out.
 `

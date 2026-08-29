@@ -272,6 +272,12 @@ func languageRules(l content.Language) string {
 	// that has to infer them reads the whole codebase instead, which costs far
 	// more than the one small file this points at.
 	line += "\nThe goal and invariants are in peyva/goal.md."
+	// Where to look is what every Done-when leaves out: it says what will be
+	// true, never which address to open to see it. A reader who has to work
+	// that out has stopped reading the chapter. The assistant's own rules file
+	// says what an address looks like at each stage, and what a table of output
+	// should hold; this is the reminder that both are owed.
+	line += "\nFinish with the command to run and the Portal address. Show output as a table."
 	return line
 }
 
@@ -304,6 +310,10 @@ func uiRules(l content.Language) string {
 	line += "\nOne customer's wallet at a time, never everyone's at once. A switcher at the top says whose."
 	line += "\nNew work joins the menu."
 	line += "\nThe goal and invariants are in peyva/goal.md, the look in peyva/portal/design.md."
+	// Same closing line as a component turn, and for the same reason. A portal
+	// turn is the one most likely to be worth looking at, so it is the last
+	// place the reminder could be dropped from.
+	line += "\nFinish with the command to run and the Portal address. Show output as a table."
 	return line
 }
 

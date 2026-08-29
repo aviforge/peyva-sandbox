@@ -176,20 +176,22 @@
       <p class="technique"><span class="technique-name">Structured output formatting</span>. A runbook read at 2am has to be commands, not prose. Hand over the exact skeleton you want back.</p>
       <p class="technique-source">Documented in Anthropic: Prompting best practices, Control the format of responses</p>
       <details class="standing-rules">
-        <summary>Every prompt below is copied with these rules, about 689 tokens for the chapter</summary>
+        <summary>Every prompt below is copied with these rules, about 748 tokens for the chapter</summary>
         <pre class="prompt-lang" id="rules-build">Build this in <span data-language-name>Go</span>, standard library only.
 Code in peyva/&lt;component&gt;/, one folder per component.
 Money: exact decimal or integer minor units, never floating point, two decimal places.
-The goal and invariants are in peyva/goal.md.</pre>
+The goal and invariants are in peyva/goal.md.
+Finish with the command to run and the Portal address. Show output as a table.</pre>
         <pre class="prompt-lang" id="rules-portal">The Portal is plain HTML and CSS. No framework, no build step, no dependencies.
 It lives in peyva/portal/. Anything it needs from the server is <span data-language-name>Go</span>, standard library only.
 One customer&#39;s wallet at a time, never everyone&#39;s at once. A switcher at the top says whose.
 New work joins the menu.
-The goal and invariants are in peyva/goal.md, the look in peyva/portal/design.md.</pre>
+The goal and invariants are in peyva/goal.md, the look in peyva/portal/design.md.
+Finish with the command to run and the Portal address. Show output as a table.</pre>
         
       </details>
       
-      <p class="prompt-divider"><span class="prompt-step">1 of 3</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~264 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">1 of 3</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~284 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-build">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
@@ -212,7 +214,7 @@ A missing setting means naming it and stopping. Never a default that hides it.
 Done when every setting is sorted, and starting any process without a required one names it and stops.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">2 of 3</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~259 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">2 of 3</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~278 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-build">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
@@ -242,7 +244,7 @@ Every command runs on <span data-os-name>Windows, in PowerShell</span> and can b
 Done when a broken release to one copy fails its health check before the other two are touched, and Fix reverts it without improvising.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">3 of 3</span> Portal<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~166 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">3 of 3</span> Portal<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~186 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-portal">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>

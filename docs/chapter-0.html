@@ -206,7 +206,9 @@ These hold in every chapter. If a change would break one, the change is wrong.
 ## Constraints
 
 - Standard library only. No frameworks, no brokers, no third-party libraries.
-  The one exception is the runner, a script you are given rather than build.
+  Two things are exempt: the runner, a script you are given rather than build,
+  and one database driver, where the language has no SQLite of its own. Name
+  the driver you chose. Nothing else is exempt, and never a second driver.
 - Every process is configured only by environment: PEYVA_PORT for what it
   listens on, PEYVA_VAULT for the copies, PEYVA_PEERS for the proxy,
   PEYVA_PRIMARY for a replica, PEYVA_WARDEN for whoever asks who may write.

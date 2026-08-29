@@ -33,7 +33,7 @@ var Chapter07 = ChapterContent{
 
 	BuildIt: BuildIt{
 		Technique: "Chain-of-thought prompting",
-		Why:       "The failure modes are the hard part here, and thinking first surfaces the hole while it is still cheap.",
+		Why:       "Ask for the reasoning before the code. What a crash between the debit, the credit and the record leaves behind is cheaper worked out now.",
 		Source:    "The Prompt Report: Thought Generation, Chain-of-Thought",
 		Prompts: []Prompt{
 			{Label: "Build", Text: `The Teller moves money by updating two balances. Nothing records that it happened.

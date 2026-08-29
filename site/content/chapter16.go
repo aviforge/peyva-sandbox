@@ -33,7 +33,7 @@ var Chapter16 = ChapterContent{
 
 	BuildIt: BuildIt{
 		Technique: "Tree-of-Thought",
-		Why:       "Several strategies scored against stated criteria puts the choice in the open, where you can disagree with it.",
+		Why:       "Ask for several routes, then have it prune them against stated criteria. Three strategies scored in the open leave you a choice you can disagree with.",
 		Source:    "The Prompt Report: Decomposition, Tree-of-Thought",
 		Prompts: []Prompt{
 			{Label: "Think", Thinking: true, Text: `Balances live in a primary that copies to a follower a moment later. Promotion is by hand. I need to decide what happens when the primary, the follower and the request handlers cannot all reach each other.

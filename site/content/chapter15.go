@@ -32,7 +32,7 @@ var Chapter15 = ChapterContent{
 
 	BuildIt: BuildIt{
 		Technique: "Analogical Prompting",
-		Why:       "Compare its analogy against yours. Where the two differ, one of you is wrong about the design.",
+		Why:       "Ask for a comparison with no computers in it, then check it against your own. Where the two differ, one of you is wrong about the design.",
 		Source:    "The Prompt Report: Thought Generation, Analogical Prompting",
 		Prompts: []Prompt{
 			{Label: "Think", Thinking: true, Text: `A system keeps its records in one file on one disk. If that disk dies, everything dies with it. I want a second copy elsewhere that follows the first, change by change.

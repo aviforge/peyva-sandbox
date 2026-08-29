@@ -31,7 +31,7 @@ var Chapter21 = ChapterContent{
 
 	BuildIt: BuildIt{
 		Technique: "Rephrase and Respond (RaR)",
-		Why:       "The restatement is the cheapest look you will get at what it actually understood.",
+		Why:       "Have it say the problem back in its own words before answering. The restatement is the cheapest look you will get at what it actually understood.",
 		Source:    "The Prompt Report: Zero-Shot, Rephrase and Respond",
 		Prompts: []Prompt{
 			{Label: "Think", Thinking: true, Text: `peyva is: a proxy spreading requests across copies, a Gateway taking requests from outside, a Teller running one payment end to end, two Vault shards that alone change balances and hold the Ledger, a follower tracking a Vault's log, a Warden saying which Vault may write, a Courier doing the work after a payment, and a Portal the customer uses.

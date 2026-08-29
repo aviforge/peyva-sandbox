@@ -32,7 +32,7 @@ var Chapter19 = ChapterContent{
 
 	BuildIt: BuildIt{
 		Technique: "Structured output formatting",
-		Why:       "A runbook read at 2am has to be commands, not prose. Hand over the exact skeleton you want back.",
+		Why:       "Hand over the exact shape you want back, headings and all. A runbook read at 2am has to be commands you can paste, not paragraphs to read.",
 		Source:    "Anthropic: Prompting best practices, Control the format of responses",
 		Prompts: []Prompt{
 			{Label: "Build", Text: `peyva reads settings from the environment in several places: ports, the primary a follower tracks, where each Vault keeps its file, the shared secret.

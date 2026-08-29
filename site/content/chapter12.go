@@ -31,7 +31,7 @@ var Chapter12 = ChapterContent{
 
 	BuildIt: BuildIt{
 		Technique: "Allow it to say it can't",
-		Why:       "An assistant would rather produce something than tell you your constraints do not fit. Permission to stop changes that.",
+		Why:       "Tell it that 'this cannot be done' is an acceptable answer. Without that, it would rather build anything than say your constraints do not fit.",
 		Source:    "Anthropic: Reduce hallucinations, Allow Claude to say I don't know",
 		Prompts: []Prompt{
 			{Label: "Build", Text: `The Teller sends the recipient's notification itself, so the caller waits for it.

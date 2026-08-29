@@ -32,7 +32,7 @@ var Chapter09 = ChapterContent{
 
 	BuildIt: BuildIt{
 		Technique: "Plan-and-Solve",
-		Why:       "The plan is a table of failure and response. Written first, it is the code's specification; written after, it is a story about the code.",
+		Why:       "Ask for the plan first, then build from it. A table of what can go wrong is a specification beforehand and a story about the code afterwards.",
 		Source:    "The Prompt Report: Zero-Shot, Plan-and-Solve",
 		Prompts: []Prompt{
 			{Label: "Think", Thinking: true, Text: `A page sends a payment over a network and gets a reference back. The other side already spots repeats by that reference.

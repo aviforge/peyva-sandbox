@@ -31,7 +31,7 @@ var Chapter14 = ChapterContent{
 
 	BuildIt: BuildIt{
 		Technique: "Least-to-Most Prompting",
-		Why:       "One prompt for a whole multi-stage workflow gets you a sketch of all of it and a working version of none.",
+		Why:       "Break the job into pieces and build them in order, smallest first. A five-stage workflow asked for in one go comes back sketched everywhere and working nowhere.",
 		Source:    "The Prompt Report: Decomposition, Least-to-Most",
 		Prompts: []Prompt{
 			{Label: "Build", Text: `A payment is one step inside the Vault. I want it to run in stages that can be undone if a later stage fails for good.

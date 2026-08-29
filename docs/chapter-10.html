@@ -175,7 +175,7 @@
       <ul class="why-list">
         <li>An estimate is a few guesses multiplied out: how many users, how often, how much busier the peak is, how big a record is.</li><li>100,000 users at three payments a day is 300,000 a day: about 3.5 a second, 35 at a ten times peak.</li><li>At a kilobyte a payment, two years of Ledger is around 220 GB.</li><li>Size for the peak, not the average. The busiest hour is the one that matters.</li><li>Roughly right before you build beats exactly right afterwards. Know which guess moves the answer most.</li>
       </ul>
-      <p class="technique"><span class="technique-name">Self-Ask</span>. Hidden guesses become a written list of assumptions you can argue with.</p>
+      <p class="technique"><span class="technique-name">Self-Ask</span>. Have it ask itself the questions first, and answer them. The guesses behind a capacity estimate come out as a labelled list you can argue with.</p>
       <p class="technique-source">Documented in The Prompt Report: Zero-Shot, Self-Ask</p>
       
       <p class="prompt-divider"><span class="prompt-step">1 of 2</span> Think<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~93 tokens</span></p>
@@ -215,7 +215,7 @@ Done when I have a peak figure and a two-year storage figure, and know which gue
       </h2>
       <p class="choice-gate" data-choice-gate>Two choices first: the language you are building in, and the system you are on. Make them in <a href="chapter-0.html">Chapter 0</a>. The prompts below stay locked until you do.</p>
       <p class="system-locked">Written for <b data-os-name>Windows, in PowerShell</b>, <a href="chapter-0.html">change in Chapter 0</a></p>
-      <p class="technique"><span class="technique-name">Step-Back Prompting</span>. Reasoning down from what makes any service replaceable beats reasoning up from code that was never going to scale.</p>
+      <p class="technique"><span class="technique-name">Step-Back Prompting</span>. Ask the general question before the specific one. What makes any service replaceable is a better place to start than code that was never going to scale.</p>
       <p class="technique-source">Documented in The Prompt Report: Thought Generation, Step-Back Prompting</p>
       <details class="standing-rules">
         <summary>Every prompt below is copied with these rules, about 623 tokens for the chapter</summary>

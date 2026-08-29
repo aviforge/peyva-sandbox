@@ -30,7 +30,7 @@ var Chapter03 = ChapterContent{
 
 	BuildIt: BuildIt{
 		Technique: "Add context and motivation",
-		Why:       "Told where you are and why, it picks commands that run on your machine and warns you about the firewall prompt.",
+		Why:       "Say where you are and why. Told both, it picks commands that run on your machine and warns you before the firewall asks.",
 		Source:    "Anthropic: Prompting best practices, Add context to improve performance",
 		Prompts: []Prompt{
 			{Label: "Build", Text: `My environment: {os}. Run commands here if you can. The Gateway listens on TCP port 9310, and I have a phone on the same Wi-Fi.

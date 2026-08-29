@@ -33,7 +33,7 @@ var Chapter00 = ChapterContent{
 
 	BuildIt: BuildIt{
 		Technique: "Zero-shot prompting",
-		Why:       "The task has one obvious shape. Scaffolding it would cost tokens and buy nothing.",
+		Why:       "Just ask, with no examples and no reasoning steps. The Vault has one obvious shape, so anything more would be scaffolding around a simple job.",
 		Source:    "The Prompt Report: Zero-Shot",
 		Prompts: []Prompt{
 			{Label: "Build", Text: `Build the Vault: the component that holds every account, and the only thing allowed to change a balance.

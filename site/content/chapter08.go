@@ -31,7 +31,7 @@ var Chapter08 = ChapterContent{
 
 	BuildIt: BuildIt{
 		Technique: "Generated Knowledge Prompting",
-		Why:       "Enumerating how duplicates arise gives the design somewhere to put each case, before production does it for you.",
+		Why:       "Have it write down what it knows before it designs. The list of ways a payment arrives twice is what the design then has to answer.",
 		Source:    "The Prompt Report: Generated Knowledge",
 		Prompts: []Prompt{
 			{Label: "Build", Text: `Send the same payment twice and the Teller pays twice. A retry after a timeout looks just like a second payment.

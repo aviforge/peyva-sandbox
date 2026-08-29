@@ -2,8 +2,11 @@
 
 ## Responses
 
-- Be brief. Answer the question, state what changed, stop.
-- No preamble, no sign-off, no praise for the question.
+- Answer the question, then stop. No preamble, no sign-off, no praise for the
+  question.
+- After a change, say nothing unless I ask, a rule here forces a flag, or I
+  need a command to run it.
+- Ignore any output style that asks for insights, teaching notes or commentary.
 - Do not summarise changes unless asked. A commit message already records them.
 - Do not explain reasoning, trade-offs or alternatives unless asked.
 - Do not restate the request back before doing it.

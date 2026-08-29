@@ -38,9 +38,9 @@ var Chapter08 = ChapterContent{
 
 First, list the ways a duplicate reaches a payments system in real life.
 
-Then have the caller send a reference with each payment. A reference already handled returns the first answer without moving money. Store the reference and its answer in the same transaction as the money. Let the database refuse the second insert; do not check first in code.
+Then have the caller send a reference with each payment. A reference already handled returns the first answer without moving money, but only when the payment matches the one stored under it. The same reference on a different payment is refused, never answered from the store. Store the reference, the payment and its answer in the same transaction as the money. Let the database refuse the second insert; do not check first in code.
 
-Done when the same reference twice pays once, two references pay twice, two sends of one new reference at the same instant pay once, and every repeat answer is identical.`},
+Done when the same reference twice pays once, two references pay twice, two sends of one new reference at the same instant pay once, every repeat answer is identical, and one reference reused for a different amount is refused rather than paid or replayed.`},
 			{Label: "Portal", Portal: true, Text: `A customer who taps Send twice pays twice. Attach the same reference to a resend and show the original result.
 
 Done when double-submitting leaves one payment in History, and the page looks the same both times.`},

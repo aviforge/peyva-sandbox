@@ -176,7 +176,7 @@
       <p class="technique"><span class="technique-name">Generated Knowledge Prompting</span>. Have it write down what it knows before it designs. The list of ways a payment arrives twice is what the design then has to answer.</p>
       <p class="technique-source">Documented in The Prompt Report: Generated Knowledge</p>
       <details class="standing-rules">
-        <summary>Every prompt below is copied with these rules, about 402 tokens for the chapter</summary>
+        <summary>Every prompt below is copied with these rules, about 463 tokens for the chapter</summary>
         <pre class="prompt-lang" id="rules-build">Build this in <span data-language-name>Go</span>, standard library only.
 Code in peyva/&lt;component&gt;/, one folder per component.
 Money: exact decimal or integer minor units, never floating point, two decimal places.
@@ -191,7 +191,7 @@ Finish with the command to run and the Portal address. Show output as a table.</
         
       </details>
       
-      <p class="prompt-divider"><span class="prompt-step">1 of 2</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~236 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">1 of 2</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~297 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-build">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
@@ -201,9 +201,9 @@ Finish with the command to run and the Portal address. Show output as a table.</
 
 First, list the ways a duplicate reaches a payments system in real life.
 
-Then have the caller send a reference with each payment. A reference already handled returns the first answer without moving money. Store the reference and its answer in the same transaction as the money. Let the database refuse the second insert; do not check first in code.
+Then have the caller send a reference with each payment. A reference already handled returns the first answer without moving money, but only when the payment matches the one stored under it. The same reference on a different payment is refused, never answered from the store. Store the reference, the payment and its answer in the same transaction as the money. Let the database refuse the second insert; do not check first in code.
 
-Done when the same reference twice pays once, two references pay twice, two sends of one new reference at the same instant pay once, and every repeat answer is identical.</pre>
+Done when the same reference twice pays once, two references pay twice, two sends of one new reference at the same instant pay once, every repeat answer is identical, and one reference reused for a different amount is refused rather than paid or replayed.</pre>
       </div>
       
       <p class="prompt-divider"><span class="prompt-step">2 of 2</span> Portal<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~166 tokens</span></p>

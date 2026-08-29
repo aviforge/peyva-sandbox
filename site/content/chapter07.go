@@ -40,6 +40,8 @@ var Chapter07 = ChapterContent{
 
 Build the Ledger: a record only ever added to. Every payment writes two entries that balance, a debit and a credit with one shared reference, and the balances update in the same transaction. All of it, or none of it.
 
+Alice was seeded with 100 before the Ledger existed, so nothing proves it. Write that in when the Ledger is created: credit her the 100, debit a named source that is not a customer account, one shared reference, the same shape as any other pair.
+
 First: what does the data look like if the process dies between the debit, the credit and the Ledger write? Three cases, who is owed what. Then make them impossible.
 
 Done when a payment leaves two balanced entries, a failure mid-payment leaves none, and alice's entries add up to her balance.`},

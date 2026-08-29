@@ -176,7 +176,7 @@
       <p class="technique"><span class="technique-name">Few-shot (multishot) prompting</span>. Show a few worked examples instead of describing them. Four requests with their exact replies settle field names and status codes that prose would leave open.</p>
       <p class="technique-source">Documented in The Prompt Report: In-Context Learning; Anthropic, Use examples effectively</p>
       <details class="standing-rules">
-        <summary>Every prompt below is copied with these rules, about 559 tokens for the chapter</summary>
+        <summary>Every prompt below is copied with these rules, about 593 tokens for the chapter</summary>
         <pre class="prompt-lang" id="rules-build">Build this in <span data-language-name>Go</span>, standard library only.
 Code in peyva/&lt;component&gt;/, one folder per component.
 Money: exact decimal or integer minor units, never floating point, two decimal places.
@@ -191,7 +191,7 @@ Finish with the command to run and the Portal address. Show output as a table.</
         
       </details>
       
-      <p class="prompt-divider"><span class="prompt-step">1 of 2</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~295 tokens</span></p>
+      <p class="prompt-divider"><span class="prompt-step">1 of 2</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~329 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-build">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
@@ -204,7 +204,7 @@ The Teller handles a payment start to finish: check the request, check the payer
 Match these exactly:
 
   {&#34;from&#34;: &#34;alice&#34;, &#34;to&#34;: &#34;bob&#34;, &#34;amount&#34;: 20}
-  -&gt; 200 {&#34;status&#34;: &#34;success&#34;, &#34;reference&#34;: &#34;tx_7f3b9c2a&#34;}
+  -&gt; 200 {&#34;status&#34;: &#34;success&#34;, &#34;reference&#34;: &#34;tx_4c8a1f6b2e9d05374a1c8f2b6d0e9a35&#34;}
 
   {&#34;from&#34;: &#34;alice&#34;, &#34;to&#34;: &#34;bob&#34;}
   -&gt; 400 {&#34;error&#34;: &#34;amount must be greater than zero&#34;}
@@ -214,6 +214,8 @@ Match these exactly:
 
   not json
   -&gt; 400 {&#34;error&#34;: &#34;invalid JSON body&#34;}
+
+The reference is sixteen random bytes written as thirty-two hex characters, so no two payments ever share one.
 
 Check everything before touching an account. No sign-in, no retries, no disk yet.
 

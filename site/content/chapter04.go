@@ -40,7 +40,7 @@ The Teller handles a payment start to finish: check the request, check the payer
 Match these exactly:
 
   {"from": "alice", "to": "bob", "amount": 20}
-  -> 200 {"status": "success", "reference": "tx_7f3b9c2a"}
+  -> 200 {"status": "success", "reference": "tx_4c8a1f6b2e9d05374a1c8f2b6d0e9a35"}
 
   {"from": "alice", "to": "bob"}
   -> 400 {"error": "amount must be greater than zero"}
@@ -50,6 +50,8 @@ Match these exactly:
 
   not json
   -> 400 {"error": "invalid JSON body"}
+
+The reference is sixteen random bytes written as thirty-two hex characters, so no two payments ever share one.
 
 Check everything before touching an account. No sign-in, no retries, no disk yet.
 

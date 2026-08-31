@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Designing the API | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=649754374d">
+<link rel="stylesheet" href="styles.css?v=add5990e44">
 </head>
 <body data-chapter-slug="chapter-4">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -172,11 +172,11 @@
           <span class="language-locked">Building in <b data-language-name>Go</b>, <a href="chapter-0.html">change in Chapter 0</a></span>
       </h2>
       <p class="choice-gate" data-choice-gate>Two choices first: the language you are building in, and the system you are on. Make them in <a href="chapter-0.html">Chapter 0</a>. The prompts below stay locked until you do.</p>
-      
+      <p class="system-locked">Written for <b data-os-name>Windows, in PowerShell</b>, <a href="chapter-0.html">change in Chapter 0</a></p>
       <p class="technique"><span class="technique-name">Few-shot (multishot) prompting</span>. Show a few worked examples instead of describing them. Four requests with their exact replies settle field names and status codes that prose would leave open.</p>
       <p class="technique-source">Documented in The Prompt Report: In-Context Learning; Anthropic, Use examples effectively</p>
       <details class="standing-rules">
-        <summary>Every prompt below is copied with these rules, about 593 tokens for the chapter</summary>
+        <summary>Every prompt below is copied with these rules, about 623 tokens for the chapter</summary>
         <pre class="prompt-lang" id="rules-build">Build this in <span data-language-name>Go</span>, standard library only.
 Code in peyva/&lt;component&gt;/, one folder per component.
 Money: exact decimal or integer minor units, never floating point, two decimal places.
@@ -191,7 +191,8 @@ Finish with the command to run and the Portal address. Show output as a table.</
         
       </details>
       
-      <p class="prompt-divider"><span class="prompt-step">1 of 2</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~329 tokens</span></p>
+      
+      <p class="prompt-divider"><span class="prompt-step">1 of 3</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~359 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-build">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
@@ -199,9 +200,9 @@ Finish with the command to run and the Portal address. Show output as a table.</
         </button>
         <pre class="prompt">Requests reach the Gateway but nothing acts on them. Have it speak HTTP, and build the Teller behind it.
 
-The Teller handles a payment start to finish: check the request, check the payer has enough, move the money in the Vault, return a reference. Only the Teller moves money. Add an endpoint that opens an account at zero.
+The Teller handles a payment start to finish: check the request, check the payer has enough, move the money in the Vault, return a reference. Only the Teller moves money.
 
-Match these exactly:
+The Gateway takes POST /pay for a payment, POST /accounts with {&#34;handle&#34;: &#34;carol&#34;} to open one, and GET /accounts/carol answers {&#34;handle&#34;: &#34;carol&#34;, &#34;balance&#34;: &#34;0.00&#34;}. Match these exactly:
 
   {&#34;from&#34;: &#34;alice&#34;, &#34;to&#34;: &#34;bob&#34;, &#34;amount&#34;: 20}
   -&gt; 200 {&#34;status&#34;: &#34;success&#34;, &#34;reference&#34;: &#34;tx_4c8a1f6b2e9d05374a1c8f2b6d0e9a35&#34;}
@@ -222,7 +223,68 @@ Check everything before touching an account. No sign-in, no retries, no disk yet
 Done when those four requests give those four answers, and alice drops by 20 only on the first.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">2 of 2</span> Portal<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~264 tokens</span></p>
+      
+      
+      <p class="prompt-divider"><span class="prompt-step">2 of 3</span> Try<span class="prompt-you" title="This turn is yours. Nothing here is sent to the assistant.">You</span></p>
+      <div class="try-turn">
+        <div class="try-text">The four requests the assistant tested, sent by you. With the program running, run this: it sends the good payment, the missing amount, the unknown account and the broken JSON in turn, then reads alice&#39;s balance. If your paths are not /pay and /accounts, ask the assistant to rename them to these. The rest of the book uses them.
+
+You should see: the four answers from the prompt, in order, with their status codes, and alice at 80.00 after them. Only the first one moved money.</div>
+        <p class="try-run">Run from the folder that holds peyva/.</p>
+        
+        <div class="prompt-wrap try-command" data-runner-for="windows">
+          <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this command to clipboard" title="Copy this command">
+            <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          </button>
+          <pre class="prompt">curl.exe -s -X POST http://127.0.0.1:9310/pay -H &#39;Content-Type: application/json&#39; -d &#39;{\&#34;from\&#34;:\&#34;alice\&#34;,\&#34;to\&#34;:\&#34;bob\&#34;,\&#34;amount\&#34;:20}&#39; -w &#39; -&gt; %{http_code}\n&#39;
+curl.exe -s -X POST http://127.0.0.1:9310/pay -H &#39;Content-Type: application/json&#39; -d &#39;{\&#34;from\&#34;:\&#34;alice\&#34;,\&#34;to\&#34;:\&#34;bob\&#34;}&#39; -w &#39; -&gt; %{http_code}\n&#39;
+curl.exe -s -X POST http://127.0.0.1:9310/pay -H &#39;Content-Type: application/json&#39; -d &#39;{\&#34;from\&#34;:\&#34;alice\&#34;,\&#34;to\&#34;:\&#34;nobody\&#34;,\&#34;amount\&#34;:20}&#39; -w &#39; -&gt; %{http_code}\n&#39;
+curl.exe -s -X POST http://127.0.0.1:9310/pay -H &#39;Content-Type: application/json&#39; -d &#39;not json&#39; -w &#39; -&gt; %{http_code}\n&#39;
+curl.exe -s http://127.0.0.1:9310/accounts/alice -w &#39;\n&#39;</pre>
+        </div>
+        
+        <div class="prompt-wrap try-command" data-runner-for="windows-bat">
+          <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this command to clipboard" title="Copy this command">
+            <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          </button>
+          <pre class="prompt">curl.exe -s -X POST http://127.0.0.1:9310/pay -H &#34;Content-Type: application/json&#34; -d &#34;{\&#34;from\&#34;:\&#34;alice\&#34;,\&#34;to\&#34;:\&#34;bob\&#34;,\&#34;amount\&#34;:20}&#34; -w &#34; -&gt; %{http_code}\n&#34;
+curl.exe -s -X POST http://127.0.0.1:9310/pay -H &#34;Content-Type: application/json&#34; -d &#34;{\&#34;from\&#34;:\&#34;alice\&#34;,\&#34;to\&#34;:\&#34;bob\&#34;}&#34; -w &#34; -&gt; %{http_code}\n&#34;
+curl.exe -s -X POST http://127.0.0.1:9310/pay -H &#34;Content-Type: application/json&#34; -d &#34;{\&#34;from\&#34;:\&#34;alice\&#34;,\&#34;to\&#34;:\&#34;nobody\&#34;,\&#34;amount\&#34;:20}&#34; -w &#34; -&gt; %{http_code}\n&#34;
+curl.exe -s -X POST http://127.0.0.1:9310/pay -H &#34;Content-Type: application/json&#34; -d &#34;not json&#34; -w &#34; -&gt; %{http_code}\n&#34;
+curl.exe -s http://127.0.0.1:9310/accounts/alice -w &#34;\n&#34;</pre>
+        </div>
+        
+        <div class="prompt-wrap try-command" data-runner-for="macos">
+          <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this command to clipboard" title="Copy this command">
+            <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          </button>
+          <pre class="prompt">curl -s -X POST http://127.0.0.1:9310/pay -H &#39;Content-Type: application/json&#39; -d &#39;{&#34;from&#34;:&#34;alice&#34;,&#34;to&#34;:&#34;bob&#34;,&#34;amount&#34;:20}&#39; -w &#39; -&gt; %{http_code}\n&#39;
+curl -s -X POST http://127.0.0.1:9310/pay -H &#39;Content-Type: application/json&#39; -d &#39;{&#34;from&#34;:&#34;alice&#34;,&#34;to&#34;:&#34;bob&#34;}&#39; -w &#39; -&gt; %{http_code}\n&#39;
+curl -s -X POST http://127.0.0.1:9310/pay -H &#39;Content-Type: application/json&#39; -d &#39;{&#34;from&#34;:&#34;alice&#34;,&#34;to&#34;:&#34;nobody&#34;,&#34;amount&#34;:20}&#39; -w &#39; -&gt; %{http_code}\n&#39;
+curl -s -X POST http://127.0.0.1:9310/pay -H &#39;Content-Type: application/json&#39; -d &#39;not json&#39; -w &#39; -&gt; %{http_code}\n&#39;
+curl -s http://127.0.0.1:9310/accounts/alice -w &#39;\n&#39;</pre>
+        </div>
+        
+        <div class="prompt-wrap try-command" data-runner-for="linux">
+          <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this command to clipboard" title="Copy this command">
+            <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          </button>
+          <pre class="prompt">curl -s -X POST http://127.0.0.1:9310/pay -H &#39;Content-Type: application/json&#39; -d &#39;{&#34;from&#34;:&#34;alice&#34;,&#34;to&#34;:&#34;bob&#34;,&#34;amount&#34;:20}&#39; -w &#39; -&gt; %{http_code}\n&#39;
+curl -s -X POST http://127.0.0.1:9310/pay -H &#39;Content-Type: application/json&#39; -d &#39;{&#34;from&#34;:&#34;alice&#34;,&#34;to&#34;:&#34;bob&#34;}&#39; -w &#39; -&gt; %{http_code}\n&#39;
+curl -s -X POST http://127.0.0.1:9310/pay -H &#39;Content-Type: application/json&#39; -d &#39;{&#34;from&#34;:&#34;alice&#34;,&#34;to&#34;:&#34;nobody&#34;,&#34;amount&#34;:20}&#39; -w &#39; -&gt; %{http_code}\n&#39;
+curl -s -X POST http://127.0.0.1:9310/pay -H &#39;Content-Type: application/json&#39; -d &#39;not json&#39; -w &#39; -&gt; %{http_code}\n&#39;
+curl -s http://127.0.0.1:9310/accounts/alice -w &#39;\n&#39;</pre>
+        </div>
+        
+      </div>
+
+      
+      
+      <p class="prompt-divider"><span class="prompt-step">3 of 3</span> Portal<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~264 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-portal">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
@@ -243,6 +305,7 @@ Done when those four cases behave as written, and switching to the recipient sho
       </div>
       
       
+      
     </section>
 
   </div>
@@ -250,6 +313,6 @@ Done when those four cases behave as written, and switching to the recipient sho
   <p class="quick-tip"><strong>Quick tip:</strong> Validate before you touch any data. Reject bad requests instead of guessing what the caller meant.</p>
 </main>
 </div>
-<script src="app.js?v=41ed8d207d"></script>
+<script src="app.js?v=19235250e2"></script>
 </body>
 </html>

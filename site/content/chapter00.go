@@ -50,6 +50,14 @@ A switcher at the top says whose. A menu down the side has one entry, Balance, w
 I open the file from disk. This is where the look is set, so commit to the one visual idea the brief asks for.
 
 Done when the page opens on alice at 100.00 and the switcher shows bob at 0.00.`},
+			{Label: "Try", Reader: true, Text: `The page you just opened has the balance written into it. Prove it. With the program running, run this: it changes 100.00 to 999.00 in the file. Reload the page. Then stop the program with Ctrl+C, start it again the way you did before, and reload once more.
+
+You should see: alice at 999.00 after the first reload, and back at 100.00 after the restart. The page is a copy the program writes at startup, not a view of what the Vault holds.`,
+				Commands: Commands(
+					`(Get-Content peyva\portal\index.html -Raw) -replace '100\.00', '999.00' | Set-Content peyva\portal\index.html`,
+					`powershell -Command "(Get-Content peyva\portal\index.html -Raw) -replace '100\.00', '999.00' | Set-Content peyva\portal\index.html"`,
+					`sed -i.bak 's/100\.00/999.00/g' peyva/portal/index.html && rm peyva/portal/index.html.bak`,
+				)},
 		},
 	},
 }

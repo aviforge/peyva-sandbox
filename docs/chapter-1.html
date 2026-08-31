@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Inside One Computer | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=649754374d">
+<link rel="stylesheet" href="styles.css?v=add5990e44">
 </head>
 <body data-chapter-slug="chapter-1">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -172,7 +172,7 @@
           <span class="language-locked">Building in <b data-language-name>Go</b>, <a href="chapter-0.html">change in Chapter 0</a></span>
       </h2>
       <p class="choice-gate" data-choice-gate>Two choices first: the language you are building in, and the system you are on. Make them in <a href="chapter-0.html">Chapter 0</a>. The prompts below stay locked until you do.</p>
-      
+      <p class="system-locked">Written for <b data-os-name>Windows, in PowerShell</b>, <a href="chapter-0.html">change in Chapter 0</a></p>
       <p class="technique"><span class="technique-name">Role prompting</span>. Tell it who to be. A systems engineer at your shoulder explains memory differently from a textbook, and the role decides what it assumes you already know.</p>
       <p class="technique-source">Documented in Anthropic: Prompting best practices, Give Claude a role</p>
       <details class="standing-rules">
@@ -186,7 +186,8 @@ Finish with the command to run and the Portal address. Show output as a table.</
         
       </details>
       
-      <p class="prompt-divider">Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~196 tokens</span></p>
+      
+      <p class="prompt-divider"><span class="prompt-step">1 of 2</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~196 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-build">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
@@ -202,6 +203,50 @@ Done when I can state the process id and its memory use, and say in one sentence
       </div>
       
       
+      
+      <p class="prompt-divider"><span class="prompt-step">2 of 2</span> Try<span class="prompt-you" title="This turn is yours. Nothing here is sent to the assistant.">You</span></p>
+      <div class="try-turn">
+        <div class="try-text">The assistant just read the process table for you. Read it yourself. With the Vault running in one terminal, run this in a second one: it lists your newest processes with their memory. Find the Vault: the one running your language, started a moment ago. Note its id and its memory. Then press Ctrl+C in the Vault&#39;s terminal, start it again, and run the list again.
+
+You should see: a different process id for the same program, and alice back at 100. The number lived in the process you stopped, and the new one never heard of it.</div>
+        <p class="try-run">Run from the folder that holds peyva/.</p>
+        
+        <div class="prompt-wrap try-command" data-runner-for="windows">
+          <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this command to clipboard" title="Copy this command">
+            <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          </button>
+          <pre class="prompt">Get-Process | Sort-Object StartTime -Descending -ErrorAction SilentlyContinue | Select-Object -First 12 Id, ProcessName, @{n=&#39;MB&#39;; e={[math]::Round($_.WorkingSet64 / 1MB, 1)}}</pre>
+        </div>
+        
+        <div class="prompt-wrap try-command" data-runner-for="windows-bat">
+          <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this command to clipboard" title="Copy this command">
+            <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          </button>
+          <pre class="prompt">powershell -Command &#34;Get-Process | Sort-Object StartTime -Descending -ErrorAction SilentlyContinue | Select-Object -First 12 Id, ProcessName, @{n=&#39;MB&#39;; e={[math]::Round($_.WorkingSet64 / 1MB, 1)}}&#34;</pre>
+        </div>
+        
+        <div class="prompt-wrap try-command" data-runner-for="macos">
+          <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this command to clipboard" title="Copy this command">
+            <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          </button>
+          <pre class="prompt">ps -u &#34;$USER&#34; -o pid,rss,etime,comm | tail -15</pre>
+        </div>
+        
+        <div class="prompt-wrap try-command" data-runner-for="linux">
+          <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this command to clipboard" title="Copy this command">
+            <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          </button>
+          <pre class="prompt">ps -u &#34;$USER&#34; -o pid,rss,etime,comm | tail -15</pre>
+        </div>
+        
+      </div>
+
+      
+      
     </section>
 
   </div>
@@ -209,6 +254,6 @@ Done when I can state the process id and its memory use, and say in one sentence
   <p class="quick-tip"><strong>Quick tip:</strong> Right now, everything peyva needs is inside this one computer.</p>
 </main>
 </div>
-<script src="app.js?v=41ed8d207d"></script>
+<script src="app.js?v=19235250e2"></script>
 </body>
 </html>

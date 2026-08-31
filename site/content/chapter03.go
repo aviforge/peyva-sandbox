@@ -45,6 +45,14 @@ Done when the phone, or the second terminal, reaches the Gateway and it logs the
 Show me that TCP carries bytes, not messages. Print each read with its size, then send one message from a client in two writes with a pause between. Say what the Gateway would need in order to know where the message ended.
 
 Done when I have seen one message arrive as more than one read.`},
+			{Label: "Try", Reader: true, Text: `The assistant just showed you a message splitting. See it yourself. With the Gateway running, run this in a second terminal. It opens one connection, sends 'PAY alice', waits two seconds, sends ' bob 20' on the same connection, and hangs up.
+
+You should see: the Gateway print two reads, 9 bytes and then 7, and neither one is the whole message. Nothing on the wire said where 'PAY alice bob 20' ends. That is the framing this chapter is about.`,
+				Commands: Commands(
+					`$c = New-Object System.Net.Sockets.TcpClient('127.0.0.1', 9310); $s = $c.GetStream(); $a = [System.Text.Encoding]::ASCII; $b = $a.GetBytes('PAY alice'); $s.Write($b, 0, $b.Length); Start-Sleep -Seconds 2; $b = $a.GetBytes(' bob 20'); $s.Write($b, 0, $b.Length); Start-Sleep -Seconds 1; $c.Close()`,
+					`powershell -Command "$c = New-Object System.Net.Sockets.TcpClient('127.0.0.1', 9310); $s = $c.GetStream(); $a = [System.Text.Encoding]::ASCII; $b = $a.GetBytes('PAY alice'); $s.Write($b, 0, $b.Length); Start-Sleep -Seconds 2; $b = $a.GetBytes(' bob 20'); $s.Write($b, 0, $b.Length); Start-Sleep -Seconds 1; $c.Close()"`,
+					`bash -c 'exec 3<>/dev/tcp/127.0.0.1/9310; printf "PAY alice" >&3; sleep 2; printf " bob 20" >&3; sleep 1; exec 3>&-'`,
+				)},
 			{Label: "Portal", Portal: true, Text: `The Gateway accepts connections but serves nothing. Have it return peyva/portal/index.html to anything that connects.
 
 Say what changes about how the page loads its stylesheet now it comes over a connection instead of from disk. Leave the Gateway running.

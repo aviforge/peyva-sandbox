@@ -270,20 +270,34 @@ func TestSystemChoiceReachesThePromptsThatNeedIt(t *testing.T) {
 // One copy button per prompt. A chapter that grows the portal has two prompts,
 // because a reader copies one thing at a time and would otherwise get a
 // component and a page in a single paste with no place to stop between them.
+//
+// A Try turn is the exception: its text is read, not copied, so it has no
+// button of its own, and each of its per-system commands has one.
 func TestEachPromptHasItsOwnCopyButton(t *testing.T) {
 	byNumber := map[int]content.ChapterContent{}
 	for _, c := range content.All {
 		byNumber[c.Number] = c
+	}
+	copies := func(prompts []content.Prompt) int {
+		n := 0
+		for _, p := range prompts {
+			if p.Reader {
+				n += len(p.Commands)
+			} else {
+				n++
+			}
+		}
+		return n
 	}
 
 	for _, p := range renderedPages(t) {
 		want := 0
 		num := 0
 		num, _ = strconv.Atoi(regexp.MustCompile(`chapter-(\d+)`).FindStringSubmatch(p.name)[1])
-		want = len(byNumber[num].BuildIt.Prompts)
+		want = copies(byNumber[num].BuildIt.Prompts)
 		// A sidebar's turns are copied like any other.
 		if aside := byNumber[num].Aside; aside != nil {
-			want += len(aside.BuildIt.Prompts)
+			want += copies(aside.BuildIt.Prompts)
 		}
 		// Chapter 0 also carries the files the reader saves before starting.
 		if num == 0 {
@@ -323,10 +337,16 @@ func TestPortalIsCapitalisedEverywhereItIsNamed(t *testing.T) {
 
 // Nothing may be fetched at read time. The site has to work from a clone with
 // no network, which is the promise the README makes.
+//
+// A Try turn's commands are the one place an address belongs: they are text
+// the reader runs against their own machine, and the page fetches nothing by
+// carrying them. Everything outside those blocks is held to the rule.
 func TestEveryPageIsSelfContained(t *testing.T) {
+	tryCommand := regexp.MustCompile(`(?s)<div class="prompt-wrap try-command".*?</div>`)
 	for _, p := range renderedPages(t) {
+		body := tryCommand.ReplaceAllString(p.body, "")
 		for _, unwanted := range []string{"http://", "fetch(", "<iframe"} {
-			if strings.Contains(p.body, unwanted) {
+			if strings.Contains(body, unwanted) {
 				t.Errorf("%s: contains %q, so it is not self-contained", p.name, unwanted)
 			}
 		}

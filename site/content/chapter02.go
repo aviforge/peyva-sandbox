@@ -40,6 +40,14 @@ It does one thing. Claim TCP port 9310, accept connections, log one line per con
 No HTTP, no routes, no JSON, no third-party package. The least code that does exactly this.
 
 Done when a request to port 9310 logs a connection, and a second copy fails with 'address already in use'.`},
+			{Label: "Try", Reader: true, Text: `With the Gateway running, open a second terminal and start another copy the same way. Then run this: it knocks on port 9310 and hangs up.
+
+You should see: the second copy stop with 'address already in use', and one new line in the first Gateway's log with your own address on it. curl complains of an empty reply, which is right: the Gateway hangs up without speaking.`,
+				Commands: Commands(
+					`curl.exe -m 3 http://127.0.0.1:9310/`,
+					`curl.exe -m 3 http://127.0.0.1:9310/`,
+					`curl -m 3 http://127.0.0.1:9310/`,
+				)},
 		},
 	},
 }

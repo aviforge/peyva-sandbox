@@ -46,9 +46,28 @@ Done when I have the table and a retry rule that never retries what is unsafe or
 
 Carry out your plan. A time limit on every call to another program. On no answer, retry with the same reference, waiting longer each time plus a random bit, a few times only. Never retry a 4xx. After the last try, say 'outcome unknown, quote this reference'.
 
-Prove it: make the Teller sleep past the limit on the first try only, send one payment, and show me one Ledger pair and several attempts in the log.
+Prove it: started with PEYVA_SLOW_MS, the Teller sleeps that many milliseconds on its first payment after start and never again. Set it past the limit, send one payment, and show me one Ledger pair and several attempts in the log.
 
 Done when a slow first try pays once, a 400 is never retried, and the gaps in the log grow.`},
+			{Label: "Try", Reader: true, Text: `Make the first payment slow. Stop the program. In the terminal you start it from, set this, then start it the way you did before. Close that terminal when you are done and the setting goes with it.
+
+You should see: the program start as usual. Nothing is slow until the first payment arrives.`,
+				Commands: Commands(
+					`$env:PEYVA_SLOW_MS = '20000'`,
+					`set PEYVA_SLOW_MS=20000`,
+					`export PEYVA_SLOW_MS=20000`,
+				)},
+			{Label: "Try", Reader: true, Text: `Now send one payment and watch the program's log while it runs. When it answers, read alice's history.
+
+You should see: several attempts in the log, the same reference on each, and the gap between them growing. One answer at the end, and one pair in the history, not one per attempt.`,
+				Commands: Commands(
+					`curl.exe -s -m 90 -X POST http://127.0.0.1:9310/pay -H 'Content-Type: application/json' -d '{\"from\":\"alice\",\"to\":\"bob\",\"amount\":20}' -w ' -> %{http_code} in %{time_total}s\n'
+curl.exe -s http://127.0.0.1:9310/accounts/alice/history -w '\n'`,
+					`curl.exe -s -m 90 -X POST http://127.0.0.1:9310/pay -H "Content-Type: application/json" -d "{\"from\":\"alice\",\"to\":\"bob\",\"amount\":20}" -w " -> %{http_code} in %{time_total}s\n"
+curl.exe -s http://127.0.0.1:9310/accounts/alice/history -w "\n"`,
+					`curl -s -m 90 -X POST http://127.0.0.1:9310/pay -H 'Content-Type: application/json' -d '{"from":"alice","to":"bob","amount":20}' -w ' -> %{http_code} in %{time_total}s\n'
+curl -s http://127.0.0.1:9310/accounts/alice/history -w '\n'`,
+				)},
 			{Label: "Portal", Portal: true, Text: `Send waits forever, and a customer who taps again cannot tell whether the first tap paid.
 
 Give Send a deadline. Past it, the page says the outcome is unknown, shows the reference, and offers to check rather than send again.

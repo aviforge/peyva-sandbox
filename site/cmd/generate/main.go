@@ -336,10 +336,11 @@ func promptHTML(prompt string, sys content.System) template.HTML {
 }
 
 // namesASystem reports whether any of a chapter's prompts asks for something
-// system specific.
+// system specific, or hands the reader a command to run, which is system
+// specific by nature.
 func namesASystem(c content.ChapterContent) bool {
-	for _, p := range c.BuildIt.Prompts {
-		if strings.Contains(p.Text, osPlaceholder) {
+	for _, p := range allPrompts(c) {
+		if strings.Contains(p.Text, osPlaceholder) || len(p.Commands) > 0 {
 			return true
 		}
 	}
@@ -355,12 +356,13 @@ func totalTokens(views []promptView) int {
 	return total
 }
 
-// hasBuildPrompt reports whether any turn asks for a component. A chapter made
-// only of thinking turns writes no code, so the rules about where code goes
-// have nothing to apply to.
+// hasBuildPrompt reports whether any turn asks for a component, which is the
+// one kind that carries the language rules. A chapter made only of thinking
+// turns writes no code, so the rules about where code goes have nothing to
+// apply to, and a Try turn asks for nothing.
 func hasBuildPrompt(c content.ChapterContent) bool {
 	for _, p := range c.BuildIt.Prompts {
-		if !p.Thinking && !p.Portal {
+		if !p.Thinking && !p.Portal && !p.Reader {
 			return true
 		}
 	}
@@ -411,13 +413,20 @@ func promptViews(b content.BuildIt, lang content.Language, sys content.System) [
 		case p.Portal:
 			rules = uiRules(lang)
 		}
+		// A Try turn is never sent, so it has no rules and no price.
+		tokens := content.EstimateTokens(rules + "\n\n" + p.Text)
+		if p.Reader {
+			tokens = 0
+		}
 		out = append(out, promptView{
 			Label:    p.Label,
 			Text:     promptHTML(p.Text, sys),
 			Portal:   p.Portal,
 			Thinking: p.Thinking,
+			Reader:   p.Reader,
+			Commands: p.Commands,
 			// What the copy button sends: the rules and the prompt together.
-			Tokens: content.EstimateTokens(rules + "\n\n" + p.Text),
+			Tokens: tokens,
 			// A chapter with one turn does not number it: "1 of 1" is noise.
 			Step:  i + 1,
 			Steps: len(b.Prompts),

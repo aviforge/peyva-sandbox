@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Exactly Once (Idempotency) | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=649754374d">
+<link rel="stylesheet" href="styles.css?v=add5990e44">
 </head>
 <body data-chapter-slug="chapter-8">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -172,11 +172,11 @@
           <span class="language-locked">Building in <b data-language-name>Go</b>, <a href="chapter-0.html">change in Chapter 0</a></span>
       </h2>
       <p class="choice-gate" data-choice-gate>Two choices first: the language you are building in, and the system you are on. Make them in <a href="chapter-0.html">Chapter 0</a>. The prompts below stay locked until you do.</p>
-      
+      <p class="system-locked">Written for <b data-os-name>Windows, in PowerShell</b>, <a href="chapter-0.html">change in Chapter 0</a></p>
       <p class="technique"><span class="technique-name">Generated Knowledge Prompting</span>. Have it write down what it knows before it designs. The list of ways a payment arrives twice is what the design then has to answer.</p>
       <p class="technique-source">Documented in The Prompt Report: Generated Knowledge</p>
       <details class="standing-rules">
-        <summary>Every prompt below is copied with these rules, about 463 tokens for the chapter</summary>
+        <summary>Every prompt below is copied with these rules, about 489 tokens for the chapter</summary>
         <pre class="prompt-lang" id="rules-build">Build this in <span data-language-name>Go</span>, standard library only.
 Code in peyva/&lt;component&gt;/, one folder per component.
 Money: exact decimal or integer minor units, never floating point, two decimal places.
@@ -191,7 +191,8 @@ Finish with the command to run and the Portal address. Show output as a table.</
         
       </details>
       
-      <p class="prompt-divider"><span class="prompt-step">1 of 2</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~297 tokens</span></p>
+      
+      <p class="prompt-divider"><span class="prompt-step">1 of 3</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~323 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-build">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
@@ -201,12 +202,73 @@ Finish with the command to run and the Portal address. Show output as a table.</
 
 First, list the ways a duplicate reaches a payments system in real life.
 
-Then have the caller send a reference with each payment. A reference already handled returns the first answer without moving money, but only when the payment matches the one stored under it. The same reference on a different payment is refused, never answered from the store. Store the reference, the payment and its answer in the same transaction as the money. Let the database refuse the second insert; do not check first in code.
+Then have the caller send a reference with each payment, as &#34;reference&#34; in the body: thirty-two hex characters after tx_, the shape the Teller has been minting. A reference already handled returns the first answer without moving money, but only when the payment matches the one stored under it. The same reference on a different payment is refused, never answered from the store. Store the reference, the payment and its answer in the same transaction as the money. Let the database refuse the second insert; do not check first in code.
 
 Done when the same reference twice pays once, two references pay twice, two sends of one new reference at the same instant pay once, every repeat answer is identical, and one reference reused for a different amount is refused rather than paid or replayed.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">2 of 2</span> Portal<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~166 tokens</span></p>
+      
+      
+      <p class="prompt-divider"><span class="prompt-step">2 of 3</span> Try<span class="prompt-you" title="This turn is yours. Nothing here is sent to the assistant.">You</span></p>
+      <div class="try-turn">
+        <div class="try-text">Send one payment three times, then the same reference with a different amount. Run this with the program running. Run it a second time and every line is a replay: the reference has been seen.
+
+You should see: three identical answers and alice down by 20 once. Then a refusal for the 30, not a payment and not the old answer. The same reference names one payment, and 30 is not it.</div>
+        <p class="try-run">Run from the folder that holds peyva/.</p>
+        
+        <div class="prompt-wrap try-command" data-runner-for="windows">
+          <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this command to clipboard" title="Copy this command">
+            <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          </button>
+          <pre class="prompt">curl.exe -s -X POST http://127.0.0.1:9310/pay -H &#39;Content-Type: application/json&#39; -d &#39;{\&#34;from\&#34;:\&#34;alice\&#34;,\&#34;to\&#34;:\&#34;bob\&#34;,\&#34;amount\&#34;:20,\&#34;reference\&#34;:\&#34;tx_7f3a9c1e5b2d48e0a6c4f1b9d3e7a205\&#34;}&#39; -w &#39; -&gt; %{http_code}\n&#39;
+curl.exe -s -X POST http://127.0.0.1:9310/pay -H &#39;Content-Type: application/json&#39; -d &#39;{\&#34;from\&#34;:\&#34;alice\&#34;,\&#34;to\&#34;:\&#34;bob\&#34;,\&#34;amount\&#34;:20,\&#34;reference\&#34;:\&#34;tx_7f3a9c1e5b2d48e0a6c4f1b9d3e7a205\&#34;}&#39; -w &#39; -&gt; %{http_code}\n&#39;
+curl.exe -s -X POST http://127.0.0.1:9310/pay -H &#39;Content-Type: application/json&#39; -d &#39;{\&#34;from\&#34;:\&#34;alice\&#34;,\&#34;to\&#34;:\&#34;bob\&#34;,\&#34;amount\&#34;:20,\&#34;reference\&#34;:\&#34;tx_7f3a9c1e5b2d48e0a6c4f1b9d3e7a205\&#34;}&#39; -w &#39; -&gt; %{http_code}\n&#39;
+curl.exe -s http://127.0.0.1:9310/accounts/alice -w &#39;\n&#39;
+curl.exe -s -X POST http://127.0.0.1:9310/pay -H &#39;Content-Type: application/json&#39; -d &#39;{\&#34;from\&#34;:\&#34;alice\&#34;,\&#34;to\&#34;:\&#34;bob\&#34;,\&#34;amount\&#34;:30,\&#34;reference\&#34;:\&#34;tx_7f3a9c1e5b2d48e0a6c4f1b9d3e7a205\&#34;}&#39; -w &#39; -&gt; %{http_code}\n&#39;</pre>
+        </div>
+        
+        <div class="prompt-wrap try-command" data-runner-for="windows-bat">
+          <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this command to clipboard" title="Copy this command">
+            <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          </button>
+          <pre class="prompt">curl.exe -s -X POST http://127.0.0.1:9310/pay -H &#34;Content-Type: application/json&#34; -d &#34;{\&#34;from\&#34;:\&#34;alice\&#34;,\&#34;to\&#34;:\&#34;bob\&#34;,\&#34;amount\&#34;:20,\&#34;reference\&#34;:\&#34;tx_7f3a9c1e5b2d48e0a6c4f1b9d3e7a205\&#34;}&#34; -w &#34; -&gt; %{http_code}\n&#34;
+curl.exe -s -X POST http://127.0.0.1:9310/pay -H &#34;Content-Type: application/json&#34; -d &#34;{\&#34;from\&#34;:\&#34;alice\&#34;,\&#34;to\&#34;:\&#34;bob\&#34;,\&#34;amount\&#34;:20,\&#34;reference\&#34;:\&#34;tx_7f3a9c1e5b2d48e0a6c4f1b9d3e7a205\&#34;}&#34; -w &#34; -&gt; %{http_code}\n&#34;
+curl.exe -s -X POST http://127.0.0.1:9310/pay -H &#34;Content-Type: application/json&#34; -d &#34;{\&#34;from\&#34;:\&#34;alice\&#34;,\&#34;to\&#34;:\&#34;bob\&#34;,\&#34;amount\&#34;:20,\&#34;reference\&#34;:\&#34;tx_7f3a9c1e5b2d48e0a6c4f1b9d3e7a205\&#34;}&#34; -w &#34; -&gt; %{http_code}\n&#34;
+curl.exe -s http://127.0.0.1:9310/accounts/alice -w &#34;\n&#34;
+curl.exe -s -X POST http://127.0.0.1:9310/pay -H &#34;Content-Type: application/json&#34; -d &#34;{\&#34;from\&#34;:\&#34;alice\&#34;,\&#34;to\&#34;:\&#34;bob\&#34;,\&#34;amount\&#34;:30,\&#34;reference\&#34;:\&#34;tx_7f3a9c1e5b2d48e0a6c4f1b9d3e7a205\&#34;}&#34; -w &#34; -&gt; %{http_code}\n&#34;</pre>
+        </div>
+        
+        <div class="prompt-wrap try-command" data-runner-for="macos">
+          <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this command to clipboard" title="Copy this command">
+            <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          </button>
+          <pre class="prompt">curl -s -X POST http://127.0.0.1:9310/pay -H &#39;Content-Type: application/json&#39; -d &#39;{&#34;from&#34;:&#34;alice&#34;,&#34;to&#34;:&#34;bob&#34;,&#34;amount&#34;:20,&#34;reference&#34;:&#34;tx_7f3a9c1e5b2d48e0a6c4f1b9d3e7a205&#34;}&#39; -w &#39; -&gt; %{http_code}\n&#39;
+curl -s -X POST http://127.0.0.1:9310/pay -H &#39;Content-Type: application/json&#39; -d &#39;{&#34;from&#34;:&#34;alice&#34;,&#34;to&#34;:&#34;bob&#34;,&#34;amount&#34;:20,&#34;reference&#34;:&#34;tx_7f3a9c1e5b2d48e0a6c4f1b9d3e7a205&#34;}&#39; -w &#39; -&gt; %{http_code}\n&#39;
+curl -s -X POST http://127.0.0.1:9310/pay -H &#39;Content-Type: application/json&#39; -d &#39;{&#34;from&#34;:&#34;alice&#34;,&#34;to&#34;:&#34;bob&#34;,&#34;amount&#34;:20,&#34;reference&#34;:&#34;tx_7f3a9c1e5b2d48e0a6c4f1b9d3e7a205&#34;}&#39; -w &#39; -&gt; %{http_code}\n&#39;
+curl -s http://127.0.0.1:9310/accounts/alice -w &#39;\n&#39;
+curl -s -X POST http://127.0.0.1:9310/pay -H &#39;Content-Type: application/json&#39; -d &#39;{&#34;from&#34;:&#34;alice&#34;,&#34;to&#34;:&#34;bob&#34;,&#34;amount&#34;:30,&#34;reference&#34;:&#34;tx_7f3a9c1e5b2d48e0a6c4f1b9d3e7a205&#34;}&#39; -w &#39; -&gt; %{http_code}\n&#39;</pre>
+        </div>
+        
+        <div class="prompt-wrap try-command" data-runner-for="linux">
+          <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this command to clipboard" title="Copy this command">
+            <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          </button>
+          <pre class="prompt">curl -s -X POST http://127.0.0.1:9310/pay -H &#39;Content-Type: application/json&#39; -d &#39;{&#34;from&#34;:&#34;alice&#34;,&#34;to&#34;:&#34;bob&#34;,&#34;amount&#34;:20,&#34;reference&#34;:&#34;tx_7f3a9c1e5b2d48e0a6c4f1b9d3e7a205&#34;}&#39; -w &#39; -&gt; %{http_code}\n&#39;
+curl -s -X POST http://127.0.0.1:9310/pay -H &#39;Content-Type: application/json&#39; -d &#39;{&#34;from&#34;:&#34;alice&#34;,&#34;to&#34;:&#34;bob&#34;,&#34;amount&#34;:20,&#34;reference&#34;:&#34;tx_7f3a9c1e5b2d48e0a6c4f1b9d3e7a205&#34;}&#39; -w &#39; -&gt; %{http_code}\n&#39;
+curl -s -X POST http://127.0.0.1:9310/pay -H &#39;Content-Type: application/json&#39; -d &#39;{&#34;from&#34;:&#34;alice&#34;,&#34;to&#34;:&#34;bob&#34;,&#34;amount&#34;:20,&#34;reference&#34;:&#34;tx_7f3a9c1e5b2d48e0a6c4f1b9d3e7a205&#34;}&#39; -w &#39; -&gt; %{http_code}\n&#39;
+curl -s http://127.0.0.1:9310/accounts/alice -w &#39;\n&#39;
+curl -s -X POST http://127.0.0.1:9310/pay -H &#39;Content-Type: application/json&#39; -d &#39;{&#34;from&#34;:&#34;alice&#34;,&#34;to&#34;:&#34;bob&#34;,&#34;amount&#34;:30,&#34;reference&#34;:&#34;tx_7f3a9c1e5b2d48e0a6c4f1b9d3e7a205&#34;}&#39; -w &#39; -&gt; %{http_code}\n&#39;</pre>
+        </div>
+        
+      </div>
+
+      
+      
+      <p class="prompt-divider"><span class="prompt-step">3 of 3</span> Portal<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~166 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-portal">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
@@ -218,6 +280,7 @@ Done when double-submitting leaves one payment in History, and the page looks th
       </div>
       
       
+      
     </section>
 
   </div>
@@ -225,6 +288,6 @@ Done when double-submitting leaves one payment in History, and the page looks th
   <p class="quick-tip"><strong>Quick tip:</strong> The client genuinely cannot tell a duplicate response from the real one.</p>
 </main>
 </div>
-<script src="app.js?v=41ed8d207d"></script>
+<script src="app.js?v=19235250e2"></script>
 </body>
 </html>

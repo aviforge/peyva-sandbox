@@ -78,6 +78,27 @@ Show me every place that breaks the principle you just gave, the database file i
 Settings come from the environment only: PEYVA_PORT for everything, PEYVA_VAULT for the copies, PEYVA_PEERS for the proxy. A missing one means say so and exit.
 
 Done when the runner starts the Vault, three copies and the proxy, ten payments across them leave correct balances and one Ledger, and killing a copy mid-traffic fails no request.`},
+			{Label: "Try", Reader: true, Text: `Kill a copy while money is moving. Start everything with the runner, then run this: five payments through the proxy on 9310, then it kills the first copy on 9311, then five more. Then ask the runner what is alive.
+
+You should see: ten answers, each with a reference and none an error, and the runner's status showing one process gone. The proxy stopped sending to a copy that stopped answering, and the other two took the rest.`,
+				Commands: CommandsSplit(
+					`1..5 | ForEach-Object { curl.exe -s -X POST http://127.0.0.1:9310/pay -H 'Content-Type: application/json' -d '{\"from\":\"alice\",\"to\":\"bob\",\"amount\":1}' -w ' -> %{http_code}\n' }
+Get-NetTCPConnection -LocalPort 9311 -State Listen | ForEach-Object { Stop-Process -Id $_.OwningProcess -Force }
+1..5 | ForEach-Object { curl.exe -s -X POST http://127.0.0.1:9310/pay -H 'Content-Type: application/json' -d '{\"from\":\"alice\",\"to\":\"bob\",\"amount\":1}' -w ' -> %{http_code}\n' }
+.\peyva\run.ps1 status`,
+					`for /l %i in (1,1,5) do @curl.exe -s -X POST http://127.0.0.1:9310/pay -H "Content-Type: application/json" -d "{\"from\":\"alice\",\"to\":\"bob\",\"amount\":1}" -w " -> %{http_code}\n"
+for /f "tokens=5" %p in ('netstat -ano ^| findstr ":9311 " ^| findstr LISTENING') do taskkill /PID %p /F
+for /l %i in (1,1,5) do @curl.exe -s -X POST http://127.0.0.1:9310/pay -H "Content-Type: application/json" -d "{\"from\":\"alice\",\"to\":\"bob\",\"amount\":1}" -w " -> %{http_code}\n"
+peyva\run.bat status`,
+					`for i in 1 2 3 4 5; do curl -s -X POST http://127.0.0.1:9310/pay -H 'Content-Type: application/json' -d '{"from":"alice","to":"bob","amount":1}' -w ' -> %{http_code}\n'; done
+kill $(lsof -ti tcp:9311)
+for i in 1 2 3 4 5; do curl -s -X POST http://127.0.0.1:9310/pay -H 'Content-Type: application/json' -d '{"from":"alice","to":"bob","amount":1}' -w ' -> %{http_code}\n'; done
+./peyva/run.sh status`,
+					`for i in 1 2 3 4 5; do curl -s -X POST http://127.0.0.1:9310/pay -H 'Content-Type: application/json' -d '{"from":"alice","to":"bob","amount":1}' -w ' -> %{http_code}\n'; done
+fuser -k 9311/tcp
+for i in 1 2 3 4 5; do curl -s -X POST http://127.0.0.1:9310/pay -H 'Content-Type: application/json' -d '{"from":"alice","to":"bob","amount":1}' -w ' -> %{http_code}\n'; done
+./peyva/run.sh status`,
+				)},
 		},
 	},
 }

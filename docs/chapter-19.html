@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Operating in Production | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=649754374d">
+<link rel="stylesheet" href="styles.css?v=add5990e44">
 </head>
 <body data-chapter-slug="chapter-19">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -191,7 +191,8 @@ Finish with the command to run and the Portal address. Show output as a table.</
         
       </details>
       
-      <p class="prompt-divider"><span class="prompt-step">1 of 3</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~284 tokens</span></p>
+      
+      <p class="prompt-divider"><span class="prompt-step">1 of 4</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~284 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-build">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
@@ -214,7 +215,52 @@ A missing setting means naming it and stopping. Never a default that hides it.
 Done when every setting is sorted, and starting any process without a required one names it and stops.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">2 of 3</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~278 tokens</span></p>
+      
+      
+      <p class="prompt-divider"><span class="prompt-step">2 of 4</span> Try<span class="prompt-you" title="This turn is yours. Nothing here is sent to the assistant.">You</span></p>
+      <div class="try-turn">
+        <div class="try-text">Start something with a setting missing. Stop the runner. In its terminal, run this to unset the port, then run the START_VAULT command from the top of your runner file exactly as it is written there.
+
+You should see: one line naming PEYVA_PORT, and the process gone. Nothing listening, nothing half-started. Start the runner again when you have seen it.</div>
+        <p class="try-run">Run from the folder that holds peyva/.</p>
+        
+        <div class="prompt-wrap try-command" data-runner-for="windows">
+          <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this command to clipboard" title="Copy this command">
+            <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          </button>
+          <pre class="prompt">Remove-Item Env:PEYVA_PORT -ErrorAction SilentlyContinue</pre>
+        </div>
+        
+        <div class="prompt-wrap try-command" data-runner-for="windows-bat">
+          <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this command to clipboard" title="Copy this command">
+            <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          </button>
+          <pre class="prompt">set PEYVA_PORT=</pre>
+        </div>
+        
+        <div class="prompt-wrap try-command" data-runner-for="macos">
+          <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this command to clipboard" title="Copy this command">
+            <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          </button>
+          <pre class="prompt">unset PEYVA_PORT</pre>
+        </div>
+        
+        <div class="prompt-wrap try-command" data-runner-for="linux">
+          <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this command to clipboard" title="Copy this command">
+            <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          </button>
+          <pre class="prompt">unset PEYVA_PORT</pre>
+        </div>
+        
+      </div>
+
+      
+      
+      <p class="prompt-divider"><span class="prompt-step">3 of 4</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~278 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-build">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
@@ -244,7 +290,9 @@ Every command runs on <span data-os-name>Windows, in PowerShell</span> and can b
 Done when a broken release to one copy fails its health check before the other two are touched, and Fix reverts it without improvising.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">3 of 3</span> Portal<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~186 tokens</span></p>
+      
+      
+      <p class="prompt-divider"><span class="prompt-step">4 of 4</span> Portal<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~186 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-portal">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
@@ -258,6 +306,7 @@ Done when I can point the Portal at a different port by editing that one line.</
       </div>
       
       
+      
     </section>
 
   </div>
@@ -265,6 +314,6 @@ Done when I can point the Portal at a different port by editing that one line.</
   <p class="quick-tip"><strong>Quick tip:</strong> Deploy to one copy first: a health check catching a bad release there is far cheaper than catching it everywhere.</p>
 </main>
 </div>
-<script src="app.js?v=41ed8d207d"></script>
+<script src="app.js?v=19235250e2"></script>
 </body>
 </html>

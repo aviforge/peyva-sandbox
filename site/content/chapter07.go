@@ -38,13 +38,33 @@ var Chapter07 = ChapterContent{
 		Prompts: []Prompt{
 			{Label: "Build", Text: `The Teller moves money by updating two balances. Nothing records that it happened.
 
-Build the Ledger: a record only ever added to. Every payment writes two entries that balance, a debit and a credit with one shared reference, and the balances update in the same transaction. All of it, or none of it.
+Build the Ledger: a record only ever added to. Every payment writes two entries that balance, a debit and a credit with one shared reference, and the balances update in the same transaction. All of it, or none of it. Expose GET /accounts/alice/history on the Gateway: her entries, newest first, each with reference, amount and the other party.
 
 Alice was seeded with 100 before the Ledger existed, so nothing proves it. Write that in when the Ledger is created: credit her the 100, debit a named source that is not a customer account, one shared reference, the same shape as any other pair.
 
 First: what does the data look like if the process dies between the debit, the credit and the Ledger write? Three cases, who is owed what. Then make them impossible.
 
 Done when a payment leaves two balanced entries, a failure mid-payment leaves none, and alice's entries add up to her balance.`},
+			{Label: "Try", Reader: true, Text: `Read the record behind the balance. With the program running, run this: it pays bob 20, prints alice's history and her balance, then pays a handle that does not exist and prints the history again.
+
+You should see: two entries the first time, the debit of 20 and the credit of 100 from the seed, adding up to the balance printed under them. The second history is the same as the first. A payment that did not happen leaves no entry.`,
+				Commands: Commands(
+					`curl.exe -s -X POST http://127.0.0.1:9310/pay -H 'Content-Type: application/json' -d '{\"from\":\"alice\",\"to\":\"bob\",\"amount\":20}' -w '\n'
+curl.exe -s http://127.0.0.1:9310/accounts/alice/history -w '\n'
+curl.exe -s http://127.0.0.1:9310/accounts/alice -w '\n'
+curl.exe -s -X POST http://127.0.0.1:9310/pay -H 'Content-Type: application/json' -d '{\"from\":\"alice\",\"to\":\"nobody\",\"amount\":20}' -w '\n'
+curl.exe -s http://127.0.0.1:9310/accounts/alice/history -w '\n'`,
+					`curl.exe -s -X POST http://127.0.0.1:9310/pay -H "Content-Type: application/json" -d "{\"from\":\"alice\",\"to\":\"bob\",\"amount\":20}" -w "\n"
+curl.exe -s http://127.0.0.1:9310/accounts/alice/history -w "\n"
+curl.exe -s http://127.0.0.1:9310/accounts/alice -w "\n"
+curl.exe -s -X POST http://127.0.0.1:9310/pay -H "Content-Type: application/json" -d "{\"from\":\"alice\",\"to\":\"nobody\",\"amount\":20}" -w "\n"
+curl.exe -s http://127.0.0.1:9310/accounts/alice/history -w "\n"`,
+					`curl -s -X POST http://127.0.0.1:9310/pay -H 'Content-Type: application/json' -d '{"from":"alice","to":"bob","amount":20}' -w '\n'
+curl -s http://127.0.0.1:9310/accounts/alice/history -w '\n'
+curl -s http://127.0.0.1:9310/accounts/alice -w '\n'
+curl -s -X POST http://127.0.0.1:9310/pay -H 'Content-Type: application/json' -d '{"from":"alice","to":"nobody","amount":20}' -w '\n'
+curl -s http://127.0.0.1:9310/accounts/alice/history -w '\n'`,
+				)},
 			{Label: "Check", Text: `The Teller checks the payer has enough, then debits them, in one transaction.
 
 Alice holds 100. Two payments of 60 arrive at the same instant. Walk me through both reading 100, both deciding 60 fits, both debiting. What is her balance, and which rule in goal.md broke?

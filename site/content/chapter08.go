@@ -38,9 +38,29 @@ var Chapter08 = ChapterContent{
 
 First, list the ways a duplicate reaches a payments system in real life.
 
-Then have the caller send a reference with each payment. A reference already handled returns the first answer without moving money, but only when the payment matches the one stored under it. The same reference on a different payment is refused, never answered from the store. Store the reference, the payment and its answer in the same transaction as the money. Let the database refuse the second insert; do not check first in code.
+Then have the caller send a reference with each payment, as "reference" in the body: thirty-two hex characters after tx_, the shape the Teller has been minting. A reference already handled returns the first answer without moving money, but only when the payment matches the one stored under it. The same reference on a different payment is refused, never answered from the store. Store the reference, the payment and its answer in the same transaction as the money. Let the database refuse the second insert; do not check first in code.
 
 Done when the same reference twice pays once, two references pay twice, two sends of one new reference at the same instant pay once, every repeat answer is identical, and one reference reused for a different amount is refused rather than paid or replayed.`},
+			{Label: "Try", Reader: true, Text: `Send one payment three times, then the same reference with a different amount. Run this with the program running. Run it a second time and every line is a replay: the reference has been seen.
+
+You should see: three identical answers and alice down by 20 once. Then a refusal for the 30, not a payment and not the old answer. The same reference names one payment, and 30 is not it.`,
+				Commands: Commands(
+					`curl.exe -s -X POST http://127.0.0.1:9310/pay -H 'Content-Type: application/json' -d '{\"from\":\"alice\",\"to\":\"bob\",\"amount\":20,\"reference\":\"tx_7f3a9c1e5b2d48e0a6c4f1b9d3e7a205\"}' -w ' -> %{http_code}\n'
+curl.exe -s -X POST http://127.0.0.1:9310/pay -H 'Content-Type: application/json' -d '{\"from\":\"alice\",\"to\":\"bob\",\"amount\":20,\"reference\":\"tx_7f3a9c1e5b2d48e0a6c4f1b9d3e7a205\"}' -w ' -> %{http_code}\n'
+curl.exe -s -X POST http://127.0.0.1:9310/pay -H 'Content-Type: application/json' -d '{\"from\":\"alice\",\"to\":\"bob\",\"amount\":20,\"reference\":\"tx_7f3a9c1e5b2d48e0a6c4f1b9d3e7a205\"}' -w ' -> %{http_code}\n'
+curl.exe -s http://127.0.0.1:9310/accounts/alice -w '\n'
+curl.exe -s -X POST http://127.0.0.1:9310/pay -H 'Content-Type: application/json' -d '{\"from\":\"alice\",\"to\":\"bob\",\"amount\":30,\"reference\":\"tx_7f3a9c1e5b2d48e0a6c4f1b9d3e7a205\"}' -w ' -> %{http_code}\n'`,
+					`curl.exe -s -X POST http://127.0.0.1:9310/pay -H "Content-Type: application/json" -d "{\"from\":\"alice\",\"to\":\"bob\",\"amount\":20,\"reference\":\"tx_7f3a9c1e5b2d48e0a6c4f1b9d3e7a205\"}" -w " -> %{http_code}\n"
+curl.exe -s -X POST http://127.0.0.1:9310/pay -H "Content-Type: application/json" -d "{\"from\":\"alice\",\"to\":\"bob\",\"amount\":20,\"reference\":\"tx_7f3a9c1e5b2d48e0a6c4f1b9d3e7a205\"}" -w " -> %{http_code}\n"
+curl.exe -s -X POST http://127.0.0.1:9310/pay -H "Content-Type: application/json" -d "{\"from\":\"alice\",\"to\":\"bob\",\"amount\":20,\"reference\":\"tx_7f3a9c1e5b2d48e0a6c4f1b9d3e7a205\"}" -w " -> %{http_code}\n"
+curl.exe -s http://127.0.0.1:9310/accounts/alice -w "\n"
+curl.exe -s -X POST http://127.0.0.1:9310/pay -H "Content-Type: application/json" -d "{\"from\":\"alice\",\"to\":\"bob\",\"amount\":30,\"reference\":\"tx_7f3a9c1e5b2d48e0a6c4f1b9d3e7a205\"}" -w " -> %{http_code}\n"`,
+					`curl -s -X POST http://127.0.0.1:9310/pay -H 'Content-Type: application/json' -d '{"from":"alice","to":"bob","amount":20,"reference":"tx_7f3a9c1e5b2d48e0a6c4f1b9d3e7a205"}' -w ' -> %{http_code}\n'
+curl -s -X POST http://127.0.0.1:9310/pay -H 'Content-Type: application/json' -d '{"from":"alice","to":"bob","amount":20,"reference":"tx_7f3a9c1e5b2d48e0a6c4f1b9d3e7a205"}' -w ' -> %{http_code}\n'
+curl -s -X POST http://127.0.0.1:9310/pay -H 'Content-Type: application/json' -d '{"from":"alice","to":"bob","amount":20,"reference":"tx_7f3a9c1e5b2d48e0a6c4f1b9d3e7a205"}' -w ' -> %{http_code}\n'
+curl -s http://127.0.0.1:9310/accounts/alice -w '\n'
+curl -s -X POST http://127.0.0.1:9310/pay -H 'Content-Type: application/json' -d '{"from":"alice","to":"bob","amount":30,"reference":"tx_7f3a9c1e5b2d48e0a6c4f1b9d3e7a205"}' -w ' -> %{http_code}\n'`,
+				)},
 			{Label: "Portal", Portal: true, Text: `A customer who taps Send twice pays twice. Attach the same reference to a resend and show the original result.
 
 Done when double-submitting leaves one payment in History, and the page looks the same both times.`},

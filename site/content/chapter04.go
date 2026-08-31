@@ -35,9 +35,9 @@ var Chapter04 = ChapterContent{
 		Prompts: []Prompt{
 			{Label: "Build", Text: `Requests reach the Gateway but nothing acts on them. Have it speak HTTP, and build the Teller behind it.
 
-The Teller handles a payment start to finish: check the request, check the payer has enough, move the money in the Vault, return a reference. Only the Teller moves money. Add an endpoint that opens an account at zero.
+The Teller handles a payment start to finish: check the request, check the payer has enough, move the money in the Vault, return a reference. Only the Teller moves money.
 
-Match these exactly:
+The Gateway takes POST /pay for a payment, POST /accounts with {"handle": "carol"} to open one, and GET /accounts/carol answers {"handle": "carol", "balance": "0.00"}. Match these exactly:
 
   {"from": "alice", "to": "bob", "amount": 20}
   -> 200 {"status": "success", "reference": "tx_4c8a1f6b2e9d05374a1c8f2b6d0e9a35"}
@@ -56,6 +56,26 @@ The reference is sixteen random bytes written as thirty-two hex characters, so n
 Check everything before touching an account. No sign-in, no retries, no disk yet.
 
 Done when those four requests give those four answers, and alice drops by 20 only on the first.`},
+			{Label: "Try", Reader: true, Text: `The four requests the assistant tested, sent by you. With the program running, run this: it sends the good payment, the missing amount, the unknown account and the broken JSON in turn, then reads alice's balance. If your paths are not /pay and /accounts, ask the assistant to rename them to these. The rest of the book uses them.
+
+You should see: the four answers from the prompt, in order, with their status codes, and alice at 80.00 after them. Only the first one moved money.`,
+				Commands: Commands(
+					`curl.exe -s -X POST http://127.0.0.1:9310/pay -H 'Content-Type: application/json' -d '{\"from\":\"alice\",\"to\":\"bob\",\"amount\":20}' -w ' -> %{http_code}\n'
+curl.exe -s -X POST http://127.0.0.1:9310/pay -H 'Content-Type: application/json' -d '{\"from\":\"alice\",\"to\":\"bob\"}' -w ' -> %{http_code}\n'
+curl.exe -s -X POST http://127.0.0.1:9310/pay -H 'Content-Type: application/json' -d '{\"from\":\"alice\",\"to\":\"nobody\",\"amount\":20}' -w ' -> %{http_code}\n'
+curl.exe -s -X POST http://127.0.0.1:9310/pay -H 'Content-Type: application/json' -d 'not json' -w ' -> %{http_code}\n'
+curl.exe -s http://127.0.0.1:9310/accounts/alice -w '\n'`,
+					`curl.exe -s -X POST http://127.0.0.1:9310/pay -H "Content-Type: application/json" -d "{\"from\":\"alice\",\"to\":\"bob\",\"amount\":20}" -w " -> %{http_code}\n"
+curl.exe -s -X POST http://127.0.0.1:9310/pay -H "Content-Type: application/json" -d "{\"from\":\"alice\",\"to\":\"bob\"}" -w " -> %{http_code}\n"
+curl.exe -s -X POST http://127.0.0.1:9310/pay -H "Content-Type: application/json" -d "{\"from\":\"alice\",\"to\":\"nobody\",\"amount\":20}" -w " -> %{http_code}\n"
+curl.exe -s -X POST http://127.0.0.1:9310/pay -H "Content-Type: application/json" -d "not json" -w " -> %{http_code}\n"
+curl.exe -s http://127.0.0.1:9310/accounts/alice -w "\n"`,
+					`curl -s -X POST http://127.0.0.1:9310/pay -H 'Content-Type: application/json' -d '{"from":"alice","to":"bob","amount":20}' -w ' -> %{http_code}\n'
+curl -s -X POST http://127.0.0.1:9310/pay -H 'Content-Type: application/json' -d '{"from":"alice","to":"bob"}' -w ' -> %{http_code}\n'
+curl -s -X POST http://127.0.0.1:9310/pay -H 'Content-Type: application/json' -d '{"from":"alice","to":"nobody","amount":20}' -w ' -> %{http_code}\n'
+curl -s -X POST http://127.0.0.1:9310/pay -H 'Content-Type: application/json' -d 'not json' -w ' -> %{http_code}\n'
+curl -s http://127.0.0.1:9310/accounts/alice -w '\n'`,
+				)},
 			{Label: "Portal", Portal: true, Text: `The Portal shows a balance and nothing else. Add Send, and a way to open an account by handle.
 
 No From field: money leaves whoever the switcher names. The forms post to the endpoints you built and show what comes back:

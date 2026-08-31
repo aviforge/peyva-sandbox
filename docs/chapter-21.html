@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Putting It All Together | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=649754374d">
+<link rel="stylesheet" href="styles.css?v=add5990e44">
 </head>
 <body data-chapter-slug="chapter-21">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -172,11 +172,11 @@
           <span class="language-locked">Building in <b data-language-name>Go</b>, <a href="chapter-0.html">change in Chapter 0</a></span>
       </h2>
       <p class="choice-gate" data-choice-gate>Two choices first: the language you are building in, and the system you are on. Make them in <a href="chapter-0.html">Chapter 0</a>. The prompts below stay locked until you do.</p>
-      
+      <p class="system-locked">Written for <b data-os-name>Windows, in PowerShell</b>, <a href="chapter-0.html">change in Chapter 0</a></p>
       <p class="technique"><span class="technique-name">Rephrase and Respond (RaR)</span>. Have it say the problem back in its own words before answering. The restatement is the cheapest look you will get at what it actually understood.</p>
       <p class="technique-source">Documented in The Prompt Report: Zero-Shot, Rephrase and Respond</p>
       <details class="standing-rules">
-        <summary>Every prompt below is copied with these rules, about 736 tokens for the chapter</summary>
+        <summary>Every prompt below is copied with these rules, about 752 tokens for the chapter</summary>
         <pre class="prompt-lang" id="rules-build">Build this in <span data-language-name>Go</span>, standard library only.
 Code in peyva/&lt;component&gt;/, one folder per component.
 Money: exact decimal or integer minor units, never floating point, two decimal places.
@@ -191,7 +191,8 @@ Finish with the command to run and the Portal address. Show output as a table.</
         <pre class="prompt-lang" id="rules-thinking">The goal and invariants are in peyva/goal.md.</pre>
       </details>
       
-      <p class="prompt-divider"><span class="prompt-step">1 of 4</span> Think<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~171 tokens</span></p>
+      
+      <p class="prompt-divider"><span class="prompt-step">1 of 5</span> Think<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~171 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-thinking">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
@@ -204,7 +205,9 @@ Say that back in your own words, not mine: what each part is for, and how a paym
 Done when I have your description and can tell you where we disagree.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">2 of 4</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~272 tokens</span></p>
+      
+      
+      <p class="prompt-divider"><span class="prompt-step">2 of 5</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~288 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-build">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
@@ -212,14 +215,87 @@ Done when I have your description and can tell you where we disagree.</pre>
         </button>
         <pre class="prompt">peyva has two Vault shards holding balances and Ledger entries, payments in progress between them, and nothing checks that any of it still agrees.
 
-Build the Reconciler. On every shard, each account&#39;s Ledger entries must add up to its balance; report any gap with its size. Across the system, every balance plus money in progress equals what was seeded plus what was opened. Flag any payment in progress too long. Check followers too. It reports and never corrects.
+Build the Reconciler. On every shard, each account&#39;s Ledger entries must add up to its balance; report any gap with its size. Across the system, every balance plus money in progress equals what was seeded plus what was opened. Flag any payment in progress too long. Check followers too. It reports and never corrects. GET /reconcile on the Gateway runs it and returns the report.
 
 Then, from the code: which single part failing would hurt customers most, which failure the system handles worst, and which piece is built for more than it carries.
 
 Done when the Reconciler finds nothing on a healthy system, reports the exact gap after I kill a shard mid-payment, and I have your three answers.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">3 of 4</span> Think<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~97 tokens</span></p>
+      
+      
+      <p class="prompt-divider"><span class="prompt-step">3 of 5</span> Try<span class="prompt-you" title="This turn is yours. Nothing here is sent to the assistant.">You</span></p>
+      <div class="try-turn">
+        <div class="try-text">Kill a shard, and let the Reconciler find the gap. With everything running, run this: it runs the Reconciler once, kills the second shard on 9303, pays from alice to carol, dave and erin so that at least one payment stalls on the way to the dead shard, and runs the Reconciler again. If every payment is refused, alice lives on 9303 herself: run it again with 9300 in place of 9303. Then stop and start the runner, wait, and run it a last time.
+
+You should see: nothing to report, then a report naming money in progress with its references and the shard it cannot reach, then nothing to report again once the stalled payments have finished. The money was never lost. For a while, nobody could say where it was, and now something can.</div>
+        <p class="try-run">Run from the folder that holds peyva/.</p>
+        
+        <div class="prompt-wrap try-command" data-runner-for="windows">
+          <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this command to clipboard" title="Copy this command">
+            <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          </button>
+          <pre class="prompt">curl.exe -s http://127.0.0.1:9310/reconcile -w &#39;\n&#39;
+Get-NetTCPConnection -LocalPort 9303 -State Listen | ForEach-Object { Stop-Process -Id $_.OwningProcess -Force }
+&#39;carol&#39;, &#39;dave&#39;, &#39;erin&#39; | ForEach-Object { curl.exe -s -m 15 -X POST http://127.0.0.1:9310/pay -H &#34;Authorization: Bearer $env:PEYVA_TOKEN_ALICE&#34; -H &#39;Content-Type: application/json&#39; -d (&#39;{\&#34;from\&#34;:\&#34;alice\&#34;,\&#34;to\&#34;:\&#34;&#39; &#43; $_ &#43; &#39;\&#34;,\&#34;amount\&#34;:1}&#39;) -w &#39; -&gt; %{http_code}\n&#39; }
+curl.exe -s http://127.0.0.1:9310/reconcile -w &#39;\n&#39;
+.\peyva\run.ps1 stop
+.\peyva\run.ps1 start 3
+Start-Sleep -Seconds 10
+curl.exe -s http://127.0.0.1:9310/reconcile -w &#39;\n&#39;</pre>
+        </div>
+        
+        <div class="prompt-wrap try-command" data-runner-for="windows-bat">
+          <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this command to clipboard" title="Copy this command">
+            <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          </button>
+          <pre class="prompt">curl.exe -s http://127.0.0.1:9310/reconcile -w &#34;\n&#34;
+for /f &#34;tokens=5&#34; %p in (&#39;netstat -ano ^| findstr &#34;:9303 &#34; ^| findstr LISTENING&#39;) do taskkill /PID %p /F
+for %h in (carol dave erin) do @curl.exe -s -m 15 -X POST http://127.0.0.1:9310/pay -H &#34;Authorization: Bearer %PEYVA_TOKEN_ALICE%&#34; -H &#34;Content-Type: application/json&#34; -d &#34;{\&#34;from\&#34;:\&#34;alice\&#34;,\&#34;to\&#34;:\&#34;%h\&#34;,\&#34;amount\&#34;:1}&#34; -w &#34; -&gt; %{http_code}\n&#34;
+curl.exe -s http://127.0.0.1:9310/reconcile -w &#34;\n&#34;
+peyva\run.bat stop
+peyva\run.bat start 3
+timeout /t 10 /nobreak &gt;nul
+curl.exe -s http://127.0.0.1:9310/reconcile -w &#34;\n&#34;</pre>
+        </div>
+        
+        <div class="prompt-wrap try-command" data-runner-for="macos">
+          <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this command to clipboard" title="Copy this command">
+            <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          </button>
+          <pre class="prompt">curl -s http://127.0.0.1:9310/reconcile -w &#39;\n&#39;
+kill $(lsof -ti tcp:9303)
+for h in carol dave erin; do curl -s -m 15 -X POST http://127.0.0.1:9310/pay -H &#34;Authorization: Bearer $PEYVA_TOKEN_ALICE&#34; -H &#39;Content-Type: application/json&#39; -d &#34;{\&#34;from\&#34;:\&#34;alice\&#34;,\&#34;to\&#34;:\&#34;$h\&#34;,\&#34;amount\&#34;:1}&#34; -w &#39; -&gt; %{http_code}\n&#39;; done
+curl -s http://127.0.0.1:9310/reconcile -w &#39;\n&#39;
+./peyva/run.sh stop
+./peyva/run.sh start 3
+sleep 10
+curl -s http://127.0.0.1:9310/reconcile -w &#39;\n&#39;</pre>
+        </div>
+        
+        <div class="prompt-wrap try-command" data-runner-for="linux">
+          <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this command to clipboard" title="Copy this command">
+            <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          </button>
+          <pre class="prompt">curl -s http://127.0.0.1:9310/reconcile -w &#39;\n&#39;
+fuser -k 9303/tcp
+for h in carol dave erin; do curl -s -m 15 -X POST http://127.0.0.1:9310/pay -H &#34;Authorization: Bearer $PEYVA_TOKEN_ALICE&#34; -H &#39;Content-Type: application/json&#39; -d &#34;{\&#34;from\&#34;:\&#34;alice\&#34;,\&#34;to\&#34;:\&#34;$h\&#34;,\&#34;amount\&#34;:1}&#34; -w &#39; -&gt; %{http_code}\n&#39;; done
+curl -s http://127.0.0.1:9310/reconcile -w &#39;\n&#39;
+./peyva/run.sh stop
+./peyva/run.sh start 3
+sleep 10
+curl -s http://127.0.0.1:9310/reconcile -w &#39;\n&#39;</pre>
+        </div>
+        
+      </div>
+
+      
+      
+      <p class="prompt-divider"><span class="prompt-step">4 of 5</span> Think<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~97 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-thinking">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
@@ -232,7 +308,9 @@ Describe it back to me: every screen, what a customer can do on each, and which 
 Done when I have your description and can tell you where we disagree.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">4 of 4</span> Portal<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~196 tokens</span></p>
+      
+      
+      <p class="prompt-divider"><span class="prompt-step">5 of 5</span> Portal<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~196 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-portal">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
@@ -246,6 +324,7 @@ Done when someone who has never seen peyva can use it without being told how.</p
       </div>
       
       
+      
     </section>
 
   </div>
@@ -253,6 +332,6 @@ Done when someone who has never seen peyva can use it without being told how.</p
   <p class="quick-tip"><strong>Quick tip:</strong> No single piece makes a system reliable: only how they cooperate under load and failure.</p>
 </main>
 </div>
-<script src="app.js?v=41ed8d207d"></script>
+<script src="app.js?v=19235250e2"></script>
 </body>
 </html>

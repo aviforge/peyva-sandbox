@@ -41,11 +41,48 @@ Say that back in your own words, not mine: what each part is for, and how a paym
 Done when I have your description and can tell you where we disagree.`},
 			{Label: "Build", Text: `peyva has two Vault shards holding balances and Ledger entries, payments in progress between them, and nothing checks that any of it still agrees.
 
-Build the Reconciler. On every shard, each account's Ledger entries must add up to its balance; report any gap with its size. Across the system, every balance plus money in progress equals what was seeded plus what was opened. Flag any payment in progress too long. Check followers too. It reports and never corrects.
+Build the Reconciler. On every shard, each account's Ledger entries must add up to its balance; report any gap with its size. Across the system, every balance plus money in progress equals what was seeded plus what was opened. Flag any payment in progress too long. Check followers too. It reports and never corrects. GET /reconcile on the Gateway runs it and returns the report.
 
 Then, from the code: which single part failing would hurt customers most, which failure the system handles worst, and which piece is built for more than it carries.
 
 Done when the Reconciler finds nothing on a healthy system, reports the exact gap after I kill a shard mid-payment, and I have your three answers.`},
+			{Label: "Try", Reader: true, Text: `Kill a shard, and let the Reconciler find the gap. With everything running, run this: it runs the Reconciler once, kills the second shard on 9303, pays from alice to carol, dave and erin so that at least one payment stalls on the way to the dead shard, and runs the Reconciler again. If every payment is refused, alice lives on 9303 herself: run it again with 9300 in place of 9303. Then stop and start the runner, wait, and run it a last time.
+
+You should see: nothing to report, then a report naming money in progress with its references and the shard it cannot reach, then nothing to report again once the stalled payments have finished. The money was never lost. For a while, nobody could say where it was, and now something can.`,
+				Commands: CommandsSplit(
+					`curl.exe -s http://127.0.0.1:9310/reconcile -w '\n'
+Get-NetTCPConnection -LocalPort 9303 -State Listen | ForEach-Object { Stop-Process -Id $_.OwningProcess -Force }
+'carol', 'dave', 'erin' | ForEach-Object { curl.exe -s -m 15 -X POST http://127.0.0.1:9310/pay -H "Authorization: Bearer $env:PEYVA_TOKEN_ALICE" -H 'Content-Type: application/json' -d ('{\"from\":\"alice\",\"to\":\"' + $_ + '\",\"amount\":1}') -w ' -> %{http_code}\n' }
+curl.exe -s http://127.0.0.1:9310/reconcile -w '\n'
+.\peyva\run.ps1 stop
+.\peyva\run.ps1 start 3
+Start-Sleep -Seconds 10
+curl.exe -s http://127.0.0.1:9310/reconcile -w '\n'`,
+					`curl.exe -s http://127.0.0.1:9310/reconcile -w "\n"
+for /f "tokens=5" %p in ('netstat -ano ^| findstr ":9303 " ^| findstr LISTENING') do taskkill /PID %p /F
+for %h in (carol dave erin) do @curl.exe -s -m 15 -X POST http://127.0.0.1:9310/pay -H "Authorization: Bearer %PEYVA_TOKEN_ALICE%" -H "Content-Type: application/json" -d "{\"from\":\"alice\",\"to\":\"%h\",\"amount\":1}" -w " -> %{http_code}\n"
+curl.exe -s http://127.0.0.1:9310/reconcile -w "\n"
+peyva\run.bat stop
+peyva\run.bat start 3
+timeout /t 10 /nobreak >nul
+curl.exe -s http://127.0.0.1:9310/reconcile -w "\n"`,
+					`curl -s http://127.0.0.1:9310/reconcile -w '\n'
+kill $(lsof -ti tcp:9303)
+for h in carol dave erin; do curl -s -m 15 -X POST http://127.0.0.1:9310/pay -H "Authorization: Bearer $PEYVA_TOKEN_ALICE" -H 'Content-Type: application/json' -d "{\"from\":\"alice\",\"to\":\"$h\",\"amount\":1}" -w ' -> %{http_code}\n'; done
+curl -s http://127.0.0.1:9310/reconcile -w '\n'
+./peyva/run.sh stop
+./peyva/run.sh start 3
+sleep 10
+curl -s http://127.0.0.1:9310/reconcile -w '\n'`,
+					`curl -s http://127.0.0.1:9310/reconcile -w '\n'
+fuser -k 9303/tcp
+for h in carol dave erin; do curl -s -m 15 -X POST http://127.0.0.1:9310/pay -H "Authorization: Bearer $PEYVA_TOKEN_ALICE" -H 'Content-Type: application/json' -d "{\"from\":\"alice\",\"to\":\"$h\",\"amount\":1}" -w ' -> %{http_code}\n'; done
+curl -s http://127.0.0.1:9310/reconcile -w '\n'
+./peyva/run.sh stop
+./peyva/run.sh start 3
+sleep 10
+curl -s http://127.0.0.1:9310/reconcile -w '\n'`,
+				)},
 			{Label: "Think", Portal: true, Thinking: true, Text: `The wallet page has grown a screen at a time: balance, send, history, a note that a message was delivered, and a sign-in in front.
 
 Describe it back to me: every screen, what a customer can do on each, and which part of the system answers it. Say what you are unsure of.

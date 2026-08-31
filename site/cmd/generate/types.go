@@ -119,6 +119,11 @@ type promptView struct {
 	Text     template.HTML
 	Portal   bool
 	Thinking bool
+	// Reader marks the reader's own turn. It is rendered as instructions and
+	// per-system commands, never as a copyable prompt, and it costs no tokens
+	// because it is never sent.
+	Reader   bool
+	Commands []content.SystemCommand
 	Step     int
 	Steps    int
 	// Tokens is what the prompt costs to send, which is the only part of a

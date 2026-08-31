@@ -36,9 +36,23 @@ var Chapter18 = ChapterContent{
 		Prompts: []Prompt{
 			{Label: "Build", Text: `The Gateway believes the "from" field, so anyone can spend from any account. The Vault takes writes from anything that reaches its port.
 
-Make the Gateway prove who is calling and check they own the account, before the Teller sees the request. Make the Vault take writes only from callers with a shared secret. Every password and key comes from the environment, and a process refuses to start without it.
+Make the Gateway prove who is calling and check they own the account, before the Teller sees the request. Make the Vault take writes only from callers with a shared secret. Callers send Authorization: Bearer with a token per account, read from PEYVA_TOKEN_ALICE and PEYVA_TOKEN_BOB; the Vault's secret is PEYVA_SECRET. Every one comes from the environment, and a process refuses to start without it.
 
 Done when a request with no credential is refused, alice cannot spend from bob's account, and a write sent straight to the Vault without the secret is refused.`},
+			{Label: "Try", Reader: true, Text: `Three ways in, all shut. In the terminal you started the runner from, where the tokens are set, run this: a payment with no credential, then alice's token spending from bob's account, then a payment sent straight to the Vault on 9300 with no secret.
+
+You should see: three refusals with three different reasons, and not one of them moved money. Read alice's history if you doubt it. The last one matters most: it means the Vault's door is locked even from inside the house.`,
+				Commands: Commands(
+					`curl.exe -s -X POST http://127.0.0.1:9310/pay -H 'Content-Type: application/json' -d '{\"from\":\"alice\",\"to\":\"bob\",\"amount\":1}' -w ' -> %{http_code}\n'
+curl.exe -s -X POST http://127.0.0.1:9310/pay -H "Authorization: Bearer $env:PEYVA_TOKEN_ALICE" -H 'Content-Type: application/json' -d '{\"from\":\"bob\",\"to\":\"alice\",\"amount\":1}' -w ' -> %{http_code}\n'
+curl.exe -s -X POST http://127.0.0.1:9300/pay -H 'Content-Type: application/json' -d '{\"from\":\"alice\",\"to\":\"bob\",\"amount\":1}' -w ' -> %{http_code}\n'`,
+					`curl.exe -s -X POST http://127.0.0.1:9310/pay -H "Content-Type: application/json" -d "{\"from\":\"alice\",\"to\":\"bob\",\"amount\":1}" -w " -> %{http_code}\n"
+curl.exe -s -X POST http://127.0.0.1:9310/pay -H "Authorization: Bearer %PEYVA_TOKEN_ALICE%" -H "Content-Type: application/json" -d "{\"from\":\"bob\",\"to\":\"alice\",\"amount\":1}" -w " -> %{http_code}\n"
+curl.exe -s -X POST http://127.0.0.1:9300/pay -H "Content-Type: application/json" -d "{\"from\":\"alice\",\"to\":\"bob\",\"amount\":1}" -w " -> %{http_code}\n"`,
+					`curl -s -X POST http://127.0.0.1:9310/pay -H 'Content-Type: application/json' -d '{"from":"alice","to":"bob","amount":1}' -w ' -> %{http_code}\n'
+curl -s -X POST http://127.0.0.1:9310/pay -H "Authorization: Bearer $PEYVA_TOKEN_ALICE" -H 'Content-Type: application/json' -d '{"from":"bob","to":"alice","amount":1}' -w ' -> %{http_code}\n'
+curl -s -X POST http://127.0.0.1:9300/pay -H 'Content-Type: application/json' -d '{"from":"alice","to":"bob","amount":1}' -w ' -> %{http_code}\n'`,
+				)},
 			{Label: "Think", Thinking: true, Text: `You put a sign-in in front of a payments API, an ownership check before the money, and a shared secret in front of the store.
 
 Write the questions that would show that work to be broken. Specific to this system, these fields and these checks. Nothing that could be asked of any application.

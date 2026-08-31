@@ -39,6 +39,10 @@
     document.body.classList.toggle('needs-choice', needs);
     var buttons = document.querySelectorAll('.build-it [data-copy-prompt]');
     Array.prototype.forEach.call(buttons, function (button) {
+      // A Try turn's commands are the reader's own and name no language, so
+      // the language gate leaves them alone. The system switch hides them
+      // until a system is chosen, which is the only gate they need.
+      if (button.closest('.try-turn')) return;
       button.disabled = needs;
       if (needs) {
         button.setAttribute('title', 'Choose your language and system first');

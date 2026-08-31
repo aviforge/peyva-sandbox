@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Reliability Patterns: Transactional Outbox | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=649754374d">
+<link rel="stylesheet" href="styles.css?v=add5990e44">
 </head>
 <body data-chapter-slug="chapter-13">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -172,7 +172,7 @@
           <span class="language-locked">Building in <b data-language-name>Go</b>, <a href="chapter-0.html">change in Chapter 0</a></span>
       </h2>
       <p class="choice-gate" data-choice-gate>Two choices first: the language you are building in, and the system you are on. Make them in <a href="chapter-0.html">Chapter 0</a>. The prompts below stay locked until you do.</p>
-      
+      <p class="system-locked">Written for <b data-os-name>Windows, in PowerShell</b>, <a href="chapter-0.html">change in Chapter 0</a></p>
       <p class="technique"><span class="technique-name">Contrastive Chain-of-Thought</span>. Show the wrong reasoning next to the right reasoning. Naming the design you do not want stops it being rediscovered, and forces the difference into the open.</p>
       <p class="technique-source">Documented in The Prompt Report: Few-Shot CoT, Contrastive CoT</p>
       <details class="standing-rules">
@@ -186,7 +186,8 @@ Finish with the command to run and the Portal address. Show output as a table.</
         <pre class="prompt-lang" id="rules-thinking">The goal and invariants are in peyva/goal.md.</pre>
       </details>
       
-      <p class="prompt-divider"><span class="prompt-step">1 of 2</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~276 tokens</span></p>
+      
+      <p class="prompt-divider"><span class="prompt-step">1 of 3</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~276 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-build">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
@@ -203,7 +204,64 @@ Build the second. The Vault writes the Courier&#39;s pending work with the money
 Done when killing a copy right after a payment leaves the work saved, any copy delivers it after a restart, and three copies collecting at once deliver each item once.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">2 of 2</span> Check<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~128 tokens</span></p>
+      
+      
+      <p class="prompt-divider"><span class="prompt-step">2 of 3</span> Try<span class="prompt-you" title="This turn is yours. Nothing here is sent to the assistant.">You</span></p>
+      <div class="try-turn">
+        <div class="try-text">Kill the copy that owes a notification. With PEYVA_NOTIFY_MS still set from the last chapter and everything running, run this: it pays through the first copy on 9311 and kills that copy in the same second, while the notification is still in flight. Then it stops and starts the runner.
+
+You should see: within a few seconds of the start, one copy&#39;s line in the runner&#39;s terminal delivering that payment&#39;s notification, once. The work was saved with the money, so it survived the copy. If nothing delivers it, you have found the case the next turn asks about: a claim that died with its copy.</div>
+        <p class="try-run">Run from the folder that holds peyva/.</p>
+        
+        <div class="prompt-wrap try-command" data-runner-for="windows">
+          <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this command to clipboard" title="Copy this command">
+            <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          </button>
+          <pre class="prompt">curl.exe -s -X POST http://127.0.0.1:9311/pay -H &#39;Content-Type: application/json&#39; -d &#39;{\&#34;from\&#34;:\&#34;alice\&#34;,\&#34;to\&#34;:\&#34;bob\&#34;,\&#34;amount\&#34;:1}&#39; -w &#39;\n&#39;
+Get-NetTCPConnection -LocalPort 9311 -State Listen | ForEach-Object { Stop-Process -Id $_.OwningProcess -Force }
+.\peyva\run.ps1 stop
+.\peyva\run.ps1 start 3</pre>
+        </div>
+        
+        <div class="prompt-wrap try-command" data-runner-for="windows-bat">
+          <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this command to clipboard" title="Copy this command">
+            <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          </button>
+          <pre class="prompt">curl.exe -s -X POST http://127.0.0.1:9311/pay -H &#34;Content-Type: application/json&#34; -d &#34;{\&#34;from\&#34;:\&#34;alice\&#34;,\&#34;to\&#34;:\&#34;bob\&#34;,\&#34;amount\&#34;:1}&#34; -w &#34;\n&#34;
+for /f &#34;tokens=5&#34; %p in (&#39;netstat -ano ^| findstr &#34;:9311 &#34; ^| findstr LISTENING&#39;) do taskkill /PID %p /F
+peyva\run.bat stop
+peyva\run.bat start 3</pre>
+        </div>
+        
+        <div class="prompt-wrap try-command" data-runner-for="macos">
+          <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this command to clipboard" title="Copy this command">
+            <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          </button>
+          <pre class="prompt">curl -s -X POST http://127.0.0.1:9311/pay -H &#39;Content-Type: application/json&#39; -d &#39;{&#34;from&#34;:&#34;alice&#34;,&#34;to&#34;:&#34;bob&#34;,&#34;amount&#34;:1}&#39; -w &#39;\n&#39;
+kill $(lsof -ti tcp:9311)
+./peyva/run.sh stop
+./peyva/run.sh start 3</pre>
+        </div>
+        
+        <div class="prompt-wrap try-command" data-runner-for="linux">
+          <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this command to clipboard" title="Copy this command">
+            <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          </button>
+          <pre class="prompt">curl -s -X POST http://127.0.0.1:9311/pay -H &#39;Content-Type: application/json&#39; -d &#39;{&#34;from&#34;:&#34;alice&#34;,&#34;to&#34;:&#34;bob&#34;,&#34;amount&#34;:1}&#39; -w &#39;\n&#39;
+fuser -k 9311/tcp
+./peyva/run.sh stop
+./peyva/run.sh start 3</pre>
+        </div>
+        
+      </div>
+
+      
+      
+      <p class="prompt-divider"><span class="prompt-step">3 of 3</span> Check<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~128 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-thinking">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
@@ -219,6 +277,7 @@ Done when I can point at the instant that separates the two, and I know the two 
       </div>
       
       
+      
     </section>
 
   </div>
@@ -226,6 +285,6 @@ Done when I can point at the instant that separates the two, and I know the two 
   <p class="quick-tip"><strong>Quick tip:</strong> If it isn&#39;t written in the same transaction as the data change, it can be lost.</p>
 </main>
 </div>
-<script src="app.js?v=41ed8d207d"></script>
+<script src="app.js?v=19235250e2"></script>
 </body>
 </html>

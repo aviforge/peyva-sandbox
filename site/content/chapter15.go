@@ -44,13 +44,67 @@ Name the one part of it that matters here.
 Done when I have your comparison and the single part that carries over.`},
 			{Label: "Build", Text: `The Vault is one process with one file, and a payment is saved there and nowhere else.
 
-Give it a log: every saved change, numbered, written in the same transaction as the change. Then let a Vault run as a follower instead. Started with PEYVA_PRIMARY, it applies the primary's log in order from its own last number, and reports both numbers.
+Give it a log: every saved change, numbered, written in the same transaction as the change. Then let a Vault run as a follower instead. Started with PEYVA_PRIMARY, it applies the primary's log in order from its own last number. GET /replication on any Vault reports its own last number and the primary's, and GET /accounts/alice on a Vault answers from its own file.
 
 Add a promotion by hand: tell the follower to stop following and start taking writes. A primary told this has happened refuses every write from then on.
 
 Fill in the runner's START_REPLICA line.
 
 Done when a payment reaches both copies with the same number, stopping the follower during ten payments and restarting it loses none, and you can show how far behind it got.`},
+			{Label: "Try", Reader: true, Text: `Ask both copies the same question. With everything running, run this: it pays, then reads alice from the primary on 9300 and from the follower on 9301, then asks the follower where it has got to.
+
+You should see: the same balance from both, and the follower reporting the same number as the primary. A moment ago it was one behind. It caught up before you could ask.`,
+				Commands: Commands(
+					`curl.exe -s -X POST http://127.0.0.1:9310/pay -H 'Content-Type: application/json' -d '{\"from\":\"alice\",\"to\":\"bob\",\"amount\":1}' -w '\n'
+curl.exe -s http://127.0.0.1:9300/accounts/alice -w '\n'
+curl.exe -s http://127.0.0.1:9301/accounts/alice -w '\n'
+curl.exe -s http://127.0.0.1:9301/replication -w '\n'`,
+					`curl.exe -s -X POST http://127.0.0.1:9310/pay -H "Content-Type: application/json" -d "{\"from\":\"alice\",\"to\":\"bob\",\"amount\":1}" -w "\n"
+curl.exe -s http://127.0.0.1:9300/accounts/alice -w "\n"
+curl.exe -s http://127.0.0.1:9301/accounts/alice -w "\n"
+curl.exe -s http://127.0.0.1:9301/replication -w "\n"`,
+					`curl -s -X POST http://127.0.0.1:9310/pay -H 'Content-Type: application/json' -d '{"from":"alice","to":"bob","amount":1}' -w '\n'
+curl -s http://127.0.0.1:9300/accounts/alice -w '\n'
+curl -s http://127.0.0.1:9301/accounts/alice -w '\n'
+curl -s http://127.0.0.1:9301/replication -w '\n'`,
+				)},
+			{Label: "Try", Reader: true, Text: `Now let it fall behind. This kills the follower on 9301, pays five times, stops and starts the runner, waits, and asks the follower again.
+
+You should see: the follower's number equal to the primary's once more, and alice's balance the same on both. Five changes happened while it was dead. It read them from the log when it came back, in order, and lost none.`,
+				Commands: CommandsSplit(
+					`Get-NetTCPConnection -LocalPort 9301 -State Listen | ForEach-Object { Stop-Process -Id $_.OwningProcess -Force }
+1..5 | ForEach-Object { curl.exe -s -X POST http://127.0.0.1:9310/pay -H 'Content-Type: application/json' -d '{\"from\":\"alice\",\"to\":\"bob\",\"amount\":1}' -w '\n' }
+.\peyva\run.ps1 stop
+.\peyva\run.ps1 start 3
+Start-Sleep -Seconds 5
+curl.exe -s http://127.0.0.1:9301/replication -w '\n'
+curl.exe -s http://127.0.0.1:9300/accounts/alice -w '\n'
+curl.exe -s http://127.0.0.1:9301/accounts/alice -w '\n'`,
+					`for /f "tokens=5" %p in ('netstat -ano ^| findstr ":9301 " ^| findstr LISTENING') do taskkill /PID %p /F
+for /l %i in (1,1,5) do @curl.exe -s -X POST http://127.0.0.1:9310/pay -H "Content-Type: application/json" -d "{\"from\":\"alice\",\"to\":\"bob\",\"amount\":1}" -w "\n"
+peyva\run.bat stop
+peyva\run.bat start 3
+timeout /t 5 /nobreak >nul
+curl.exe -s http://127.0.0.1:9301/replication -w "\n"
+curl.exe -s http://127.0.0.1:9300/accounts/alice -w "\n"
+curl.exe -s http://127.0.0.1:9301/accounts/alice -w "\n"`,
+					`kill $(lsof -ti tcp:9301)
+for i in 1 2 3 4 5; do curl -s -X POST http://127.0.0.1:9310/pay -H 'Content-Type: application/json' -d '{"from":"alice","to":"bob","amount":1}' -w '\n'; done
+./peyva/run.sh stop
+./peyva/run.sh start 3
+sleep 5
+curl -s http://127.0.0.1:9301/replication -w '\n'
+curl -s http://127.0.0.1:9300/accounts/alice -w '\n'
+curl -s http://127.0.0.1:9301/accounts/alice -w '\n'`,
+					`fuser -k 9301/tcp
+for i in 1 2 3 4 5; do curl -s -X POST http://127.0.0.1:9310/pay -H 'Content-Type: application/json' -d '{"from":"alice","to":"bob","amount":1}' -w '\n'; done
+./peyva/run.sh stop
+./peyva/run.sh start 3
+sleep 5
+curl -s http://127.0.0.1:9301/replication -w '\n'
+curl -s http://127.0.0.1:9300/accounts/alice -w '\n'
+curl -s http://127.0.0.1:9301/accounts/alice -w '\n'`,
+				)},
 			{Label: "Check", Thinking: true, Text: `You gave me a comparison for keeping a second copy, then built replication from it.
 
 Where does the comparison break down for real databases, and did it lead you into a mistake in the code?

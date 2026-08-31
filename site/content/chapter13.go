@@ -42,6 +42,27 @@ Reasoning to follow: anything that must happen because of a payment is written i
 Build the second. The Vault writes the Courier's pending work with the money. The Courier in each copy takes work from the Vault, claims each item in one update so two copies cannot both take it, delivers, and marks it done.
 
 Done when killing a copy right after a payment leaves the work saved, any copy delivers it after a restart, and three copies collecting at once deliver each item once.`},
+			{Label: "Try", Reader: true, Text: `Kill the copy that owes a notification. With PEYVA_NOTIFY_MS still set from the last chapter and everything running, run this: it pays through the first copy on 9311 and kills that copy in the same second, while the notification is still in flight. Then it stops and starts the runner.
+
+You should see: within a few seconds of the start, one copy's line in the runner's terminal delivering that payment's notification, once. The work was saved with the money, so it survived the copy. If nothing delivers it, you have found the case the next turn asks about: a claim that died with its copy.`,
+				Commands: CommandsSplit(
+					`curl.exe -s -X POST http://127.0.0.1:9311/pay -H 'Content-Type: application/json' -d '{\"from\":\"alice\",\"to\":\"bob\",\"amount\":1}' -w '\n'
+Get-NetTCPConnection -LocalPort 9311 -State Listen | ForEach-Object { Stop-Process -Id $_.OwningProcess -Force }
+.\peyva\run.ps1 stop
+.\peyva\run.ps1 start 3`,
+					`curl.exe -s -X POST http://127.0.0.1:9311/pay -H "Content-Type: application/json" -d "{\"from\":\"alice\",\"to\":\"bob\",\"amount\":1}" -w "\n"
+for /f "tokens=5" %p in ('netstat -ano ^| findstr ":9311 " ^| findstr LISTENING') do taskkill /PID %p /F
+peyva\run.bat stop
+peyva\run.bat start 3`,
+					`curl -s -X POST http://127.0.0.1:9311/pay -H 'Content-Type: application/json' -d '{"from":"alice","to":"bob","amount":1}' -w '\n'
+kill $(lsof -ti tcp:9311)
+./peyva/run.sh stop
+./peyva/run.sh start 3`,
+					`curl -s -X POST http://127.0.0.1:9311/pay -H 'Content-Type: application/json' -d '{"from":"alice","to":"bob","amount":1}' -w '\n'
+fuser -k 9311/tcp
+./peyva/run.sh stop
+./peyva/run.sh start 3`,
+				)},
 			{Label: "Check", Thinking: true, Text: `You had the Vault write the Courier's pending work in the same transaction as the payment, instead of handing it over afterwards.
 
 Name the exact instant the rejected design loses work and yours does not.

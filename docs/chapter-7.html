@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Making It Safe (Transactions) | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=649754374d">
+<link rel="stylesheet" href="styles.css?v=add5990e44">
 </head>
 <body data-chapter-slug="chapter-7">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -172,11 +172,11 @@
           <span class="language-locked">Building in <b data-language-name>Go</b>, <a href="chapter-0.html">change in Chapter 0</a></span>
       </h2>
       <p class="choice-gate" data-choice-gate>Two choices first: the language you are building in, and the system you are on. Make them in <a href="chapter-0.html">Chapter 0</a>. The prompts below stay locked until you do.</p>
-      
+      <p class="system-locked">Written for <b data-os-name>Windows, in PowerShell</b>, <a href="chapter-0.html">change in Chapter 0</a></p>
       <p class="technique"><span class="technique-name">Chain-of-thought prompting</span>. Ask for the reasoning before the code. What a crash between the debit, the credit and the record leaves behind is cheaper worked out now.</p>
       <p class="technique-source">Documented in The Prompt Report: Thought Generation, Chain-of-Thought</p>
       <details class="standing-rules">
-        <summary>Every prompt below is copied with these rules, about 793 tokens for the chapter</summary>
+        <summary>Every prompt below is copied with these rules, about 825 tokens for the chapter</summary>
         <pre class="prompt-lang" id="rules-build">Build this in <span data-language-name>Go</span>, standard library only.
 Code in peyva/&lt;component&gt;/, one folder per component.
 Money: exact decimal or integer minor units, never floating point, two decimal places.
@@ -191,7 +191,8 @@ Finish with the command to run and the Portal address. Show output as a table.</
         <pre class="prompt-lang" id="rules-thinking">The goal and invariants are in peyva/goal.md.</pre>
       </details>
       
-      <p class="prompt-divider"><span class="prompt-step">1 of 4</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~288 tokens</span></p>
+      
+      <p class="prompt-divider"><span class="prompt-step">1 of 5</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~320 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-build">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
@@ -199,7 +200,7 @@ Finish with the command to run and the Portal address. Show output as a table.</
         </button>
         <pre class="prompt">The Teller moves money by updating two balances. Nothing records that it happened.
 
-Build the Ledger: a record only ever added to. Every payment writes two entries that balance, a debit and a credit with one shared reference, and the balances update in the same transaction. All of it, or none of it.
+Build the Ledger: a record only ever added to. Every payment writes two entries that balance, a debit and a credit with one shared reference, and the balances update in the same transaction. All of it, or none of it. Expose GET /accounts/alice/history on the Gateway: her entries, newest first, each with reference, amount and the other party.
 
 Alice was seeded with 100 before the Ledger existed, so nothing proves it. Write that in when the Ledger is created: credit her the 100, debit a named source that is not a customer account, one shared reference, the same shape as any other pair.
 
@@ -208,7 +209,68 @@ First: what does the data look like if the process dies between the debit, the c
 Done when a payment leaves two balanced entries, a failure mid-payment leaves none, and alice&#39;s entries add up to her balance.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">2 of 4</span> Check<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~220 tokens</span></p>
+      
+      
+      <p class="prompt-divider"><span class="prompt-step">2 of 5</span> Try<span class="prompt-you" title="This turn is yours. Nothing here is sent to the assistant.">You</span></p>
+      <div class="try-turn">
+        <div class="try-text">Read the record behind the balance. With the program running, run this: it pays bob 20, prints alice&#39;s history and her balance, then pays a handle that does not exist and prints the history again.
+
+You should see: two entries the first time, the debit of 20 and the credit of 100 from the seed, adding up to the balance printed under them. The second history is the same as the first. A payment that did not happen leaves no entry.</div>
+        <p class="try-run">Run from the folder that holds peyva/.</p>
+        
+        <div class="prompt-wrap try-command" data-runner-for="windows">
+          <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this command to clipboard" title="Copy this command">
+            <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          </button>
+          <pre class="prompt">curl.exe -s -X POST http://127.0.0.1:9310/pay -H &#39;Content-Type: application/json&#39; -d &#39;{\&#34;from\&#34;:\&#34;alice\&#34;,\&#34;to\&#34;:\&#34;bob\&#34;,\&#34;amount\&#34;:20}&#39; -w &#39;\n&#39;
+curl.exe -s http://127.0.0.1:9310/accounts/alice/history -w &#39;\n&#39;
+curl.exe -s http://127.0.0.1:9310/accounts/alice -w &#39;\n&#39;
+curl.exe -s -X POST http://127.0.0.1:9310/pay -H &#39;Content-Type: application/json&#39; -d &#39;{\&#34;from\&#34;:\&#34;alice\&#34;,\&#34;to\&#34;:\&#34;nobody\&#34;,\&#34;amount\&#34;:20}&#39; -w &#39;\n&#39;
+curl.exe -s http://127.0.0.1:9310/accounts/alice/history -w &#39;\n&#39;</pre>
+        </div>
+        
+        <div class="prompt-wrap try-command" data-runner-for="windows-bat">
+          <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this command to clipboard" title="Copy this command">
+            <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          </button>
+          <pre class="prompt">curl.exe -s -X POST http://127.0.0.1:9310/pay -H &#34;Content-Type: application/json&#34; -d &#34;{\&#34;from\&#34;:\&#34;alice\&#34;,\&#34;to\&#34;:\&#34;bob\&#34;,\&#34;amount\&#34;:20}&#34; -w &#34;\n&#34;
+curl.exe -s http://127.0.0.1:9310/accounts/alice/history -w &#34;\n&#34;
+curl.exe -s http://127.0.0.1:9310/accounts/alice -w &#34;\n&#34;
+curl.exe -s -X POST http://127.0.0.1:9310/pay -H &#34;Content-Type: application/json&#34; -d &#34;{\&#34;from\&#34;:\&#34;alice\&#34;,\&#34;to\&#34;:\&#34;nobody\&#34;,\&#34;amount\&#34;:20}&#34; -w &#34;\n&#34;
+curl.exe -s http://127.0.0.1:9310/accounts/alice/history -w &#34;\n&#34;</pre>
+        </div>
+        
+        <div class="prompt-wrap try-command" data-runner-for="macos">
+          <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this command to clipboard" title="Copy this command">
+            <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          </button>
+          <pre class="prompt">curl -s -X POST http://127.0.0.1:9310/pay -H &#39;Content-Type: application/json&#39; -d &#39;{&#34;from&#34;:&#34;alice&#34;,&#34;to&#34;:&#34;bob&#34;,&#34;amount&#34;:20}&#39; -w &#39;\n&#39;
+curl -s http://127.0.0.1:9310/accounts/alice/history -w &#39;\n&#39;
+curl -s http://127.0.0.1:9310/accounts/alice -w &#39;\n&#39;
+curl -s -X POST http://127.0.0.1:9310/pay -H &#39;Content-Type: application/json&#39; -d &#39;{&#34;from&#34;:&#34;alice&#34;,&#34;to&#34;:&#34;nobody&#34;,&#34;amount&#34;:20}&#39; -w &#39;\n&#39;
+curl -s http://127.0.0.1:9310/accounts/alice/history -w &#39;\n&#39;</pre>
+        </div>
+        
+        <div class="prompt-wrap try-command" data-runner-for="linux">
+          <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this command to clipboard" title="Copy this command">
+            <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          </button>
+          <pre class="prompt">curl -s -X POST http://127.0.0.1:9310/pay -H &#39;Content-Type: application/json&#39; -d &#39;{&#34;from&#34;:&#34;alice&#34;,&#34;to&#34;:&#34;bob&#34;,&#34;amount&#34;:20}&#39; -w &#39;\n&#39;
+curl -s http://127.0.0.1:9310/accounts/alice/history -w &#39;\n&#39;
+curl -s http://127.0.0.1:9310/accounts/alice -w &#39;\n&#39;
+curl -s -X POST http://127.0.0.1:9310/pay -H &#39;Content-Type: application/json&#39; -d &#39;{&#34;from&#34;:&#34;alice&#34;,&#34;to&#34;:&#34;nobody&#34;,&#34;amount&#34;:20}&#39; -w &#39;\n&#39;
+curl -s http://127.0.0.1:9310/accounts/alice/history -w &#39;\n&#39;</pre>
+        </div>
+        
+      </div>
+
+      
+      
+      <p class="prompt-divider"><span class="prompt-step">3 of 5</span> Check<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~220 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-build">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
@@ -223,7 +285,9 @@ Find out from the database&#39;s own documentation whether it already prevents t
 Done when two 60s against 100 leave one applied, one refused, and alice at 40.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">3 of 4</span> Think<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~91 tokens</span></p>
+      
+      
+      <p class="prompt-divider"><span class="prompt-step">4 of 5</span> Think<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~91 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-thinking">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
@@ -236,7 +300,9 @@ What should it show for a payment that failed halfway? Should it appear at all, 
 Done when I know what a half-failed payment looks like on the page, and why.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">4 of 4</span> Portal<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~194 tokens</span></p>
+      
+      
+      <p class="prompt-divider"><span class="prompt-step">5 of 5</span> Portal<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~194 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-portal">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
@@ -250,6 +316,7 @@ Done when History explains alice&#39;s balance without me reading the database.<
       </div>
       
       
+      
     </section>
 
   </div>
@@ -257,6 +324,6 @@ Done when History explains alice&#39;s balance without me reading the database.<
   <p class="quick-tip"><strong>Quick tip:</strong> Nothing is final until COMMIT. That&#39;s what makes ROLLBACK possible.</p>
 </main>
 </div>
-<script src="app.js?v=41ed8d207d"></script>
+<script src="app.js?v=19235250e2"></script>
 </body>
 </html>

@@ -52,6 +52,52 @@ A Vault writes only while its lease is good, and stamps every write with the lea
 Then do what you recommended for writes. If that means waiting for the follower before answering, do that, and refuse payments while it is unreachable.
 
 Done when stopping the Warden stops all writes within one lease, stopping the primary makes the follower take over with nothing lost, and the old primary comes back as a follower.`},
+			{Label: "Try", Reader: true, Text: `Take the Warden away. With everything running, run this: it kills the Warden on 9302, waits ten seconds for every lease to run out, then tries to pay. Then it stops and starts the runner to put the Warden back.
+
+You should see: the payment refused, with a reason that names the lease. Nobody is allowed to write while nobody can say who may. That is the rule you chose, and this is what it costs.`,
+				Commands: CommandsSplit(
+					`Get-NetTCPConnection -LocalPort 9302 -State Listen | ForEach-Object { Stop-Process -Id $_.OwningProcess -Force }
+Start-Sleep -Seconds 10
+curl.exe -s -m 30 -X POST http://127.0.0.1:9310/pay -H 'Content-Type: application/json' -d '{\"from\":\"alice\",\"to\":\"bob\",\"amount\":1}' -w ' -> %{http_code}\n'
+.\peyva\run.ps1 stop
+.\peyva\run.ps1 start 3`,
+					`for /f "tokens=5" %p in ('netstat -ano ^| findstr ":9302 " ^| findstr LISTENING') do taskkill /PID %p /F
+timeout /t 10 /nobreak >nul
+curl.exe -s -m 30 -X POST http://127.0.0.1:9310/pay -H "Content-Type: application/json" -d "{\"from\":\"alice\",\"to\":\"bob\",\"amount\":1}" -w " -> %{http_code}\n"
+peyva\run.bat stop
+peyva\run.bat start 3`,
+					`kill $(lsof -ti tcp:9302)
+sleep 10
+curl -s -m 30 -X POST http://127.0.0.1:9310/pay -H 'Content-Type: application/json' -d '{"from":"alice","to":"bob","amount":1}' -w ' -> %{http_code}\n'
+./peyva/run.sh stop
+./peyva/run.sh start 3`,
+					`fuser -k 9302/tcp
+sleep 10
+curl -s -m 30 -X POST http://127.0.0.1:9310/pay -H 'Content-Type: application/json' -d '{"from":"alice","to":"bob","amount":1}' -w ' -> %{http_code}\n'
+./peyva/run.sh stop
+./peyva/run.sh start 3`,
+				)},
+			{Label: "Try", Reader: true, Text: `Now take the primary away. This kills the Vault on 9300, waits ten seconds, pays, and reads alice from the follower on 9301. Watch the runner's terminal while it waits. Stop and start the runner afterwards.
+
+You should see: the follower's log say it holds the lease, the payment succeed, and the follower's copy of alice showing it. Promotion was nobody's decision. The lease moved, and the writes moved with it.`,
+				Commands: CommandsSplit(
+					`Get-NetTCPConnection -LocalPort 9300 -State Listen | ForEach-Object { Stop-Process -Id $_.OwningProcess -Force }
+Start-Sleep -Seconds 10
+curl.exe -s -m 30 -X POST http://127.0.0.1:9310/pay -H 'Content-Type: application/json' -d '{\"from\":\"alice\",\"to\":\"bob\",\"amount\":1}' -w ' -> %{http_code}\n'
+curl.exe -s http://127.0.0.1:9301/accounts/alice -w '\n'`,
+					`for /f "tokens=5" %p in ('netstat -ano ^| findstr ":9300 " ^| findstr LISTENING') do taskkill /PID %p /F
+timeout /t 10 /nobreak >nul
+curl.exe -s -m 30 -X POST http://127.0.0.1:9310/pay -H "Content-Type: application/json" -d "{\"from\":\"alice\",\"to\":\"bob\",\"amount\":1}" -w " -> %{http_code}\n"
+curl.exe -s http://127.0.0.1:9301/accounts/alice -w "\n"`,
+					`kill $(lsof -ti tcp:9300)
+sleep 10
+curl -s -m 30 -X POST http://127.0.0.1:9310/pay -H 'Content-Type: application/json' -d '{"from":"alice","to":"bob","amount":1}' -w ' -> %{http_code}\n'
+curl -s http://127.0.0.1:9301/accounts/alice -w '\n'`,
+					`fuser -k 9300/tcp
+sleep 10
+curl -s -m 30 -X POST http://127.0.0.1:9310/pay -H 'Content-Type: application/json' -d '{"from":"alice","to":"bob","amount":1}' -w ' -> %{http_code}\n'
+curl -s http://127.0.0.1:9301/accounts/alice -w '\n'`,
+				)},
 			{Label: "Portal", Portal: true, Text: `When the copies disagree, the balance the Portal shows may be behind, and the server now says how far.
 
 Three genuinely different ways for the page to handle that. For each, what a customer believes after reading it. Recommend one, say what it costs, and build it.

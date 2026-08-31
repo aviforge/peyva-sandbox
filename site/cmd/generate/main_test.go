@@ -195,7 +195,7 @@ func TestEveryPageBakesInALanguage(t *testing.T) {
 	buildsCode := map[int]bool{}
 	for _, c := range content.All {
 		for _, prompt := range c.BuildIt.Prompts {
-			if !prompt.Thinking {
+			if !prompt.Thinking && !prompt.Reader {
 				buildsCode[c.Number] = true
 			}
 		}
@@ -271,6 +271,9 @@ func TestEveryPromptOpensWithEnoughToStandOn(t *testing.T) {
 	const minWords = 12
 	for _, c := range content.All {
 		for _, prompt := range c.BuildIt.Prompts {
+			if prompt.Reader {
+				continue
+			}
 			opening := prompt.Text
 			if i := strings.Index(opening, "\n\n"); i > 0 {
 				opening = opening[:i]
@@ -388,7 +391,7 @@ func TestEveryPromptCarriesTheStandingRules(t *testing.T) {
 	buildsCode := map[int]bool{}
 	for _, c := range content.All {
 		for _, prompt := range c.BuildIt.Prompts {
-			if !prompt.Thinking && !prompt.Portal {
+			if !prompt.Thinking && !prompt.Portal && !prompt.Reader {
 				buildsCode[c.Number] = true
 			}
 		}
@@ -467,5 +470,51 @@ func TestStylesheetHidesFilteredChapters(t *testing.T) {
 	// override, or the override loses to the later rule of equal weight.
 	if i, j := strings.Index(css, ".chapter-list li,"), strings.Index(css, ".chapter-list li[hidden]"); i >= 0 && j >= 0 && j < i {
 		t.Error("the [hidden] override is declared before .chapter-list li, so the display rule wins")
+	}
+}
+
+// A Try turn is rendered for the reader, not copied to the assistant: its
+// text has no copy button and no rules, its commands have one each, and every
+// system's command is in the page so the switch needs no reload.
+func TestTryTurnRendersForTheReader(t *testing.T) {
+	outDir, _ := testRun(t)
+
+	found := false
+	for _, c := range content.All {
+		var try content.Prompt
+		for _, p := range c.BuildIt.Prompts {
+			if p.Reader && len(p.Commands) > 0 {
+				try = p
+				break
+			}
+		}
+		if !try.Reader {
+			continue
+		}
+		found = true
+		b, err := os.ReadFile(filepath.Join(outDir, "chapter-"+strconv.Itoa(c.Number)+".html"))
+		if err != nil {
+			t.Fatalf("reading chapter %d: %v", c.Number, err)
+		}
+		body := string(b)
+		for _, want := range []string{`class="try-turn"`, `class="try-text"`, `class="prompt-you"`, "You should see:"} {
+			if !strings.Contains(body, want) {
+				t.Errorf("chapter %d: page is missing %q", c.Number, want)
+			}
+		}
+		for _, s := range content.Systems {
+			if !strings.Contains(body, `class="prompt-wrap try-command" data-runner-for="`+s.ID+`"`) {
+				t.Errorf("chapter %d: no command block for %s", c.Number, s.ID)
+			}
+		}
+		// The text is read, never sent, so it must not sit inside a copyable
+		// prompt block with the standing rules attached.
+		if inPrompt := regexp.MustCompile(`(?s)<pre class="prompt">[^<]*You should see:`); inPrompt.MatchString(body) {
+			t.Errorf("chapter %d: the Try text is rendered as a copyable prompt", c.Number)
+		}
+		break
+	}
+	if !found {
+		t.Skip("no chapter carries a Try turn with commands yet")
 	}
 }

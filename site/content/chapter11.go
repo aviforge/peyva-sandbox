@@ -36,11 +36,25 @@ var Chapter11 = ChapterContent{
 		Prompts: []Prompt{
 			{Label: "Build", Text: `Every balance enquiry reaches the Vault's storage, even for a balance read a moment ago. Three copies sit in front of the Vault, which is its own process.
 
-Add a cache of balances in memory inside the Vault, cleared whenever a payment changes an account. A map safe for several requests at once, no Redis, no library. Enquiries only: the check before a debit never reads the cache.
+Add a cache of balances in memory inside the Vault, cleared whenever a payment changes an account. A map safe for several requests at once, no Redis, no library. Enquiries only: the check before a debit never reads the cache. Log every enquiry with one word for where the answer came from: cache or storage.
 
 First, two sentences on why the cache cannot live in the copies.
 
 Done when a repeated enquiry comes from cache, a payment makes the next enquiry from any copy show the new balance, and a payment's own check never reads the cache.`},
+			{Label: "Try", Reader: true, Text: `Watch the cache fill and empty. With everything running, run this and watch the Vault's lines in the runner's terminal: three reads of alice, a payment, one more read.
+
+You should see: storage, cache, cache, then storage again after the payment. The payment cleared alice from the cache, so the next read had to go to the file, and it came back with the new balance.`,
+				Commands: Commands(
+					`1..3 | ForEach-Object { curl.exe -s http://127.0.0.1:9310/accounts/alice -w '\n' }
+curl.exe -s -X POST http://127.0.0.1:9310/pay -H 'Content-Type: application/json' -d '{\"from\":\"alice\",\"to\":\"bob\",\"amount\":1}' -w '\n'
+curl.exe -s http://127.0.0.1:9310/accounts/alice -w '\n'`,
+					`for /l %i in (1,1,3) do @curl.exe -s http://127.0.0.1:9310/accounts/alice -w "\n"
+curl.exe -s -X POST http://127.0.0.1:9310/pay -H "Content-Type: application/json" -d "{\"from\":\"alice\",\"to\":\"bob\",\"amount\":1}" -w "\n"
+curl.exe -s http://127.0.0.1:9310/accounts/alice -w "\n"`,
+					`for i in 1 2 3; do curl -s http://127.0.0.1:9310/accounts/alice -w '\n'; done
+curl -s -X POST http://127.0.0.1:9310/pay -H 'Content-Type: application/json' -d '{"from":"alice","to":"bob","amount":1}' -w '\n'
+curl -s http://127.0.0.1:9310/accounts/alice -w '\n'`,
+				)},
 			{Label: "Check", Text: `You added a cache of balances inside the Vault, cleared when a payment changes an account.
 
 Try to make it serve an old balance. Check every path that changes a balance clears it. Consider a read and a write at once, a payment rolled back after the clear, a payment touching two accounts, and a read refilling the cache between the clear and the commit.

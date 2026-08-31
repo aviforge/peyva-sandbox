@@ -39,11 +39,44 @@ var Chapter17 = ChapterContent{
 
 Write it for one reader: an on-call engineer, woken at 3am, who did not write this code, looking at yesterday's records for one failed payment.
 
-One event per line, with the payment reference on every line that payment touches, and timestamps fine enough to show where the time went. Counts of payments, failures, unknown outcomes, jobs waiting, and how far behind the follower is. A health address on every process that reports what is actually true, never a hardcoded ok.
+One event per line, with the payment reference on every line that payment touches, and timestamps fine enough to show where the time went. Counts of payments, failures, unknown outcomes, jobs waiting, and how far behind the follower is. GET /health on every process reports what is actually true, never a hardcoded ok.
 
 If a line would not help that person at 3am, leave it out.
 
 Done when one failed reference rebuilds its whole path from the logs alone, and health reports trouble when the follower is unreachable or the lease is not held.`},
+			{Label: "Try", Reader: true, Text: `Follow one failure through the logs. With everything running, run this: it opens dave, closes him on the outside ledger, pays him, and prints the answer with its reference. Copy that reference and search for it in the runner's terminal. Then it asks a copy for its health, kills the follower on 9301, waits, and asks again. Stop and start the runner afterwards.
+
+You should see: every line that payment touched, in order, across the copy, the Vault and the outside ledger, with the time between them. Then health going from fine to trouble, and the trouble naming the follower.`,
+				Commands: CommandsSplit(
+					`curl.exe -s -X POST http://127.0.0.1:9310/accounts -H 'Content-Type: application/json' -d '{\"handle\":\"dave\"}' -w '\n'
+curl.exe -s -X POST http://127.0.0.1:9320/close -H 'Content-Type: application/json' -d '{\"handle\":\"dave\"}' -w '\n'
+curl.exe -s -m 30 -X POST http://127.0.0.1:9310/pay -H 'Content-Type: application/json' -d '{\"from\":\"alice\",\"to\":\"dave\",\"amount\":5}' -w ' -> %{http_code}\n'
+curl.exe -s http://127.0.0.1:9311/health -w '\n'
+Get-NetTCPConnection -LocalPort 9301 -State Listen | ForEach-Object { Stop-Process -Id $_.OwningProcess -Force }
+Start-Sleep -Seconds 5
+curl.exe -s http://127.0.0.1:9311/health -w '\n'`,
+					`curl.exe -s -X POST http://127.0.0.1:9310/accounts -H "Content-Type: application/json" -d "{\"handle\":\"dave\"}" -w "\n"
+curl.exe -s -X POST http://127.0.0.1:9320/close -H "Content-Type: application/json" -d "{\"handle\":\"dave\"}" -w "\n"
+curl.exe -s -m 30 -X POST http://127.0.0.1:9310/pay -H "Content-Type: application/json" -d "{\"from\":\"alice\",\"to\":\"dave\",\"amount\":5}" -w " -> %{http_code}\n"
+curl.exe -s http://127.0.0.1:9311/health -w "\n"
+for /f "tokens=5" %p in ('netstat -ano ^| findstr ":9301 " ^| findstr LISTENING') do taskkill /PID %p /F
+timeout /t 5 /nobreak >nul
+curl.exe -s http://127.0.0.1:9311/health -w "\n"`,
+					`curl -s -X POST http://127.0.0.1:9310/accounts -H 'Content-Type: application/json' -d '{"handle":"dave"}' -w '\n'
+curl -s -X POST http://127.0.0.1:9320/close -H 'Content-Type: application/json' -d '{"handle":"dave"}' -w '\n'
+curl -s -m 30 -X POST http://127.0.0.1:9310/pay -H 'Content-Type: application/json' -d '{"from":"alice","to":"dave","amount":5}' -w ' -> %{http_code}\n'
+curl -s http://127.0.0.1:9311/health -w '\n'
+kill $(lsof -ti tcp:9301)
+sleep 5
+curl -s http://127.0.0.1:9311/health -w '\n'`,
+					`curl -s -X POST http://127.0.0.1:9310/accounts -H 'Content-Type: application/json' -d '{"handle":"dave"}' -w '\n'
+curl -s -X POST http://127.0.0.1:9320/close -H 'Content-Type: application/json' -d '{"handle":"dave"}' -w '\n'
+curl -s -m 30 -X POST http://127.0.0.1:9310/pay -H 'Content-Type: application/json' -d '{"from":"alice","to":"dave","amount":5}' -w ' -> %{http_code}\n'
+curl -s http://127.0.0.1:9311/health -w '\n'
+fuser -k 9301/tcp
+sleep 5
+curl -s http://127.0.0.1:9311/health -w '\n'`,
+				)},
 		},
 	},
 }

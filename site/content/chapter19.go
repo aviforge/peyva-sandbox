@@ -50,6 +50,14 @@ Two decimal places on money is not a setting. When unsure, ask whether I should 
 A missing setting means naming it and stopping. Never a default that hides it.
 
 Done when every setting is sorted, and starting any process without a required one names it and stops.`},
+			{Label: "Try", Reader: true, Text: `Start something with a setting missing. Stop the runner. In its terminal, run this to unset the port, then run the START_VAULT command from the top of your runner file exactly as it is written there.
+
+You should see: one line naming PEYVA_PORT, and the process gone. Nothing listening, nothing half-started. Start the runner again when you have seen it.`,
+				Commands: Commands(
+					`Remove-Item Env:PEYVA_PORT -ErrorAction SilentlyContinue`,
+					`set PEYVA_PORT=`,
+					`unset PEYVA_PORT`,
+				)},
 			{Label: "Build", Text: `peyva runs as a Vault, a follower, a Warden, three copies and a proxy, each with a health address.
 
 Report a version string from every health address. Then write me a rollback runbook for a bad release of the copies, in exactly this shape:

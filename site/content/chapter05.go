@@ -34,11 +34,38 @@ var Chapter05 = ChapterContent{
 		Prompts: []Prompt{
 			{Label: "Build", Text: `The Vault holds balances in memory, so every restart resets alice to her starting amount.
 
-Keep accounts in a file on disk instead, with SQLite. Create it on first run, seed alice only if she is missing, and keep no balance in memory. If your language has no SQLite built in, say so and use the most common driver, preferring one with no C toolchain. Name it. The Gateway and Teller do not change from outside.
+Keep accounts in a file on disk instead, with SQLite. The file is peyva/vault/peyva.db. Create it on first run, seed alice only if she is missing, and keep no balance in memory. If your language has no SQLite built in, say so and use the most common driver, preferring one with no C toolchain. Name it. The Gateway and Teller do not change from outside.
 
 Say what happens between my write returning and the bytes being safe on disk.
 
 Done when a restart still shows alice's balance, and deleting the file is the only thing that loses it.`},
+			{Label: "Try", Reader: true, Text: `Pay, then read. With the program running, run this: it pays bob 20 and reads alice.
+
+You should see: alice at 80.00, or 20 less than she had.`,
+				Commands: Commands(
+					`curl.exe -s -X POST http://127.0.0.1:9310/pay -H 'Content-Type: application/json' -d '{\"from\":\"alice\",\"to\":\"bob\",\"amount\":20}' -w '\n'
+curl.exe -s http://127.0.0.1:9310/accounts/alice -w '\n'`,
+					`curl.exe -s -X POST http://127.0.0.1:9310/pay -H "Content-Type: application/json" -d "{\"from\":\"alice\",\"to\":\"bob\",\"amount\":20}" -w "\n"
+curl.exe -s http://127.0.0.1:9310/accounts/alice -w "\n"`,
+					`curl -s -X POST http://127.0.0.1:9310/pay -H 'Content-Type: application/json' -d '{"from":"alice","to":"bob","amount":20}' -w '\n'
+curl -s http://127.0.0.1:9310/accounts/alice -w '\n'`,
+				)},
+			{Label: "Try", Reader: true, Text: `Now stop the program with Ctrl+C, start it again, and read alice once more.
+
+You should see: the same balance as before the restart. Nothing lived in the process, so stopping it lost nothing.`,
+				Commands: Commands(
+					`curl.exe -s http://127.0.0.1:9310/accounts/alice -w '\n'`,
+					`curl.exe -s http://127.0.0.1:9310/accounts/alice -w "\n"`,
+					`curl -s http://127.0.0.1:9310/accounts/alice -w '\n'`,
+				)},
+			{Label: "Try", Reader: true, Text: `Stop it again. Delete the file with this, start the program, and read alice with the command above.
+
+You should see: alice back at 100.00. Everything lived in the file, so deleting it is the one thing that loses money here.`,
+				Commands: Commands(
+					`Remove-Item peyva\vault\peyva.db`,
+					`del peyva\vault\peyva.db`,
+					`rm peyva/vault/peyva.db`,
+				)},
 			{Label: "Portal", Portal: true, Text: `The Portal's balances are written into the page when the program starts, so they are a second copy of what the Vault holds and they are wrong from the first payment onwards. A restart hides that by rewriting the file.
 
 Have the page ask for a balance, and the Vault answer from its file on disk. No balance is written into the page ahead of time.

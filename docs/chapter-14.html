@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Big Changes Safely: Sagas | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=649754374d">
+<link rel="stylesheet" href="styles.css?v=add5990e44">
 </head>
 <body data-chapter-slug="chapter-14">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -172,11 +172,11 @@
           <span class="language-locked">Building in <b data-language-name>Go</b>, <a href="chapter-0.html">change in Chapter 0</a></span>
       </h2>
       <p class="choice-gate" data-choice-gate>Two choices first: the language you are building in, and the system you are on. Make them in <a href="chapter-0.html">Chapter 0</a>. The prompts below stay locked until you do.</p>
-      
+      <p class="system-locked">Written for <b data-os-name>Windows, in PowerShell</b>, <a href="chapter-0.html">change in Chapter 0</a></p>
       <p class="technique"><span class="technique-name">Least-to-Most Prompting</span>. Break the job into pieces and build them in order, smallest first. A five-stage workflow asked for in one go comes back sketched everywhere and working nowhere.</p>
       <p class="technique-source">Documented in The Prompt Report: Decomposition, Least-to-Most</p>
       <details class="standing-rules">
-        <summary>Every prompt below is copied with these rules, about 468 tokens for the chapter</summary>
+        <summary>Every prompt below is copied with these rules, about 483 tokens for the chapter</summary>
         <pre class="prompt-lang" id="rules-build">Build this in <span data-language-name>Go</span>, standard library only.
 Code in peyva/&lt;component&gt;/, one folder per component.
 Money: exact decimal or integer minor units, never floating point, two decimal places.
@@ -191,7 +191,8 @@ Finish with the command to run and the Portal address. Show output as a table.</
         
       </details>
       
-      <p class="prompt-divider"><span class="prompt-step">1 of 2</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~292 tokens</span></p>
+      
+      <p class="prompt-divider"><span class="prompt-step">1 of 3</span> Build<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~307 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-build">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
@@ -199,20 +200,81 @@ Finish with the command to run and the Portal address. Show output as a table.</
         </button>
         <pre class="prompt">A payment is one step inside the Vault. I want it to run in stages that can be undone if a later stage fails for good.
 
-Build it in five pieces. Stop after each and show me it works.
+Five pieces. Stop after each and show me.
 
 1. A saved record, per payment, of which stages are done.
 2. The existing money movement as stage one.
-3. A stand-in for an outside ledger: a small process with its own file that credits an account, refuses for good on a closed handle, and can be switched off. Stage two credits the recipient there.
+3. A stand-in for an outside ledger: a small process with its own file that credits an account, refuses for good on a closed handle, and can be switched off. It listens on 9320, and POST /close with {&#34;handle&#34;: &#34;carol&#34;} closes a handle for good. Stage two credits the recipient there.
 4. An undo for stage one when stage two fails for good: new Ledger entries pointing at the original, never a deletion.
-5. Kill the copy between the stages, restart, and have the payment carry on.
+5. Kill the copy between stages, restart, and have the payment carry on.
 
 A timeout is not a permanent failure. It retries with the same reference.
 
 Done when a closed recipient puts the money back, and an interrupted payment finishes after a restart.</pre>
       </div>
       
-      <p class="prompt-divider"><span class="prompt-step">2 of 2</span> Portal<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~176 tokens</span></p>
+      
+      
+      <p class="prompt-divider"><span class="prompt-step">2 of 3</span> Try<span class="prompt-you" title="This turn is yours. Nothing here is sent to the assistant.">You</span></p>
+      <div class="try-turn">
+        <div class="try-text">Watch money leave and come back. With everything running, and the outside ledger too, run this: it opens carol, closes her on the outside ledger, pays her 20 from alice, then prints alice&#39;s balance and history.
+
+You should see: alice&#39;s balance unchanged, and two entries for the payment in her history: the debit of 20, and a credit of 20 that points at it and says why. The money was gone for a moment. The record of both halves is what makes that fine.</div>
+        <p class="try-run">Run from the folder that holds peyva/.</p>
+        
+        <div class="prompt-wrap try-command" data-runner-for="windows">
+          <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this command to clipboard" title="Copy this command">
+            <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          </button>
+          <pre class="prompt">curl.exe -s -X POST http://127.0.0.1:9310/accounts -H &#39;Content-Type: application/json&#39; -d &#39;{\&#34;handle\&#34;:\&#34;carol\&#34;}&#39; -w &#39;\n&#39;
+curl.exe -s -X POST http://127.0.0.1:9320/close -H &#39;Content-Type: application/json&#39; -d &#39;{\&#34;handle\&#34;:\&#34;carol\&#34;}&#39; -w &#39;\n&#39;
+curl.exe -s -m 30 -X POST http://127.0.0.1:9310/pay -H &#39;Content-Type: application/json&#39; -d &#39;{\&#34;from\&#34;:\&#34;alice\&#34;,\&#34;to\&#34;:\&#34;carol\&#34;,\&#34;amount\&#34;:20}&#39; -w &#39; -&gt; %{http_code}\n&#39;
+curl.exe -s http://127.0.0.1:9310/accounts/alice -w &#39;\n&#39;
+curl.exe -s http://127.0.0.1:9310/accounts/alice/history -w &#39;\n&#39;</pre>
+        </div>
+        
+        <div class="prompt-wrap try-command" data-runner-for="windows-bat">
+          <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this command to clipboard" title="Copy this command">
+            <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          </button>
+          <pre class="prompt">curl.exe -s -X POST http://127.0.0.1:9310/accounts -H &#34;Content-Type: application/json&#34; -d &#34;{\&#34;handle\&#34;:\&#34;carol\&#34;}&#34; -w &#34;\n&#34;
+curl.exe -s -X POST http://127.0.0.1:9320/close -H &#34;Content-Type: application/json&#34; -d &#34;{\&#34;handle\&#34;:\&#34;carol\&#34;}&#34; -w &#34;\n&#34;
+curl.exe -s -m 30 -X POST http://127.0.0.1:9310/pay -H &#34;Content-Type: application/json&#34; -d &#34;{\&#34;from\&#34;:\&#34;alice\&#34;,\&#34;to\&#34;:\&#34;carol\&#34;,\&#34;amount\&#34;:20}&#34; -w &#34; -&gt; %{http_code}\n&#34;
+curl.exe -s http://127.0.0.1:9310/accounts/alice -w &#34;\n&#34;
+curl.exe -s http://127.0.0.1:9310/accounts/alice/history -w &#34;\n&#34;</pre>
+        </div>
+        
+        <div class="prompt-wrap try-command" data-runner-for="macos">
+          <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this command to clipboard" title="Copy this command">
+            <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          </button>
+          <pre class="prompt">curl -s -X POST http://127.0.0.1:9310/accounts -H &#39;Content-Type: application/json&#39; -d &#39;{&#34;handle&#34;:&#34;carol&#34;}&#39; -w &#39;\n&#39;
+curl -s -X POST http://127.0.0.1:9320/close -H &#39;Content-Type: application/json&#39; -d &#39;{&#34;handle&#34;:&#34;carol&#34;}&#39; -w &#39;\n&#39;
+curl -s -m 30 -X POST http://127.0.0.1:9310/pay -H &#39;Content-Type: application/json&#39; -d &#39;{&#34;from&#34;:&#34;alice&#34;,&#34;to&#34;:&#34;carol&#34;,&#34;amount&#34;:20}&#39; -w &#39; -&gt; %{http_code}\n&#39;
+curl -s http://127.0.0.1:9310/accounts/alice -w &#39;\n&#39;
+curl -s http://127.0.0.1:9310/accounts/alice/history -w &#39;\n&#39;</pre>
+        </div>
+        
+        <div class="prompt-wrap try-command" data-runner-for="linux">
+          <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this command to clipboard" title="Copy this command">
+            <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          </button>
+          <pre class="prompt">curl -s -X POST http://127.0.0.1:9310/accounts -H &#39;Content-Type: application/json&#39; -d &#39;{&#34;handle&#34;:&#34;carol&#34;}&#39; -w &#39;\n&#39;
+curl -s -X POST http://127.0.0.1:9320/close -H &#39;Content-Type: application/json&#39; -d &#39;{&#34;handle&#34;:&#34;carol&#34;}&#39; -w &#39;\n&#39;
+curl -s -m 30 -X POST http://127.0.0.1:9310/pay -H &#39;Content-Type: application/json&#39; -d &#39;{&#34;from&#34;:&#34;alice&#34;,&#34;to&#34;:&#34;carol&#34;,&#34;amount&#34;:20}&#39; -w &#39; -&gt; %{http_code}\n&#39;
+curl -s http://127.0.0.1:9310/accounts/alice -w &#39;\n&#39;
+curl -s http://127.0.0.1:9310/accounts/alice/history -w &#39;\n&#39;</pre>
+        </div>
+        
+      </div>
+
+      
+      
+      <p class="prompt-divider"><span class="prompt-step">3 of 3</span> Portal<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~176 tokens</span></p>
       <div class="prompt-wrap" data-prompt-rules="rules-portal">
         <button type="button" class="prompt-copy" data-copy-prompt aria-label="Copy this prompt to clipboard" title="Copy this prompt">
           <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
@@ -226,6 +288,7 @@ Done when a customer can see that money left and came back, and why.</pre>
       </div>
       
       
+      
     </section>
 
   </div>
@@ -233,6 +296,6 @@ Done when a customer can see that money left and came back, and why.</pre>
   <p class="quick-tip"><strong>Quick tip:</strong> Undo in reverse: the last finished step is the first one undone.</p>
 </main>
 </div>
-<script src="app.js?v=41ed8d207d"></script>
+<script src="app.js?v=19235250e2"></script>
 </body>
 </html>

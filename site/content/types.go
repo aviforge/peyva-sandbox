@@ -48,10 +48,11 @@ type BuildIt struct {
 // to rediscover what one sentence can say, and on a small context window it
 // does not fit at all.
 type Prompt struct {
-	// Label names what kind of turn it is, from a fixed set of four so the
+	// Label names what kind of turn it is, from a fixed set of five so the
 	// same word means the same thing on every page: Think produces an answer
 	// and no code, Build makes a component, Check takes apart what was just
-	// built, Portal builds the Portal. Shown above the block.
+	// built, Portal builds the Portal, Try is the reader's own turn at the
+	// keyboard. Shown above the block.
 	Label string
 	Text  string
 	// Portal marks a turn that builds the page rather than a component, so it
@@ -63,6 +64,48 @@ type Prompt struct {
 	// other. It carries only the pointer to the spec, because the language to
 	// build in and how to round money are rules about work it is not doing.
 	Thinking bool
+
+	// Reader marks a turn the reader performs rather than the assistant: a
+	// command to run, a process to stop, a page to reload, and one thing to
+	// watch for. It is never sent anywhere, so it carries no rules, no token
+	// count and no {os}. Labelled Try.
+	//
+	// It exists because the assistant was running every proof and reporting
+	// it, and a reader who never sees the two reads or the refused second
+	// copy has watched a chapter rather than done one.
+	Reader bool
+
+	// Commands are what the reader runs, one per operating system, verbatim.
+	// The reader authors nothing: anything typed is here with a copy button,
+	// and a step that needs a pause in the middle pauses itself. Empty when
+	// the turn is done in the browser or with Ctrl+C alone.
+	Commands []SystemCommand
+}
+
+// SystemCommand is one Try command for one operating system. SystemID
+// matches System.ID.
+type SystemCommand struct {
+	SystemID string
+	Command  string
+}
+
+// Commands builds a Try turn's list from a PowerShell command, a batch
+// command and a shell command, with macOS and Linux sharing the shell one.
+// Most turns are curl and a pause, which the two Unixes spell the same way.
+func Commands(ps, bat, sh string) []SystemCommand {
+	return CommandsSplit(ps, bat, sh, sh)
+}
+
+// CommandsSplit is Commands for the turns where macOS and Linux differ,
+// which is whenever a process has to be found by its port: macOS ships lsof
+// and Linux ships fuser, and neither reliably has the other.
+func CommandsSplit(ps, bat, mac, linux string) []SystemCommand {
+	return []SystemCommand{
+		{SystemID: "windows", Command: ps},
+		{SystemID: "windows-bat", Command: bat},
+		{SystemID: "macos", Command: mac},
+		{SystemID: "linux", Command: linux},
+	}
 }
 
 // First returns the chapter's opening prompt, or the zero Prompt if it somehow

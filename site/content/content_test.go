@@ -76,8 +76,9 @@ func TestEveryChapterHasRequiredFields(t *testing.T) {
 			}
 			// Every turn ends somewhere the reader can check, not only the
 			// last one. A middle turn without this is a turn nobody can tell
-			// they have finished.
-			if !strings.Contains(prompt.Text, "Done when") {
+			// they have finished. A Try turn ends with 'You should see:'
+			// instead, and its own test holds it to that.
+			if !prompt.Reader && !strings.Contains(prompt.Text, "Done when") {
 				t.Errorf("chapter %d: prompt %q is missing a 'Done when' line", c.Number, prompt.Label)
 			}
 			// A prompt is copied out of the page on its own, so it must not
@@ -389,9 +390,11 @@ func TestSpecListsComponentsInChapterOrder(t *testing.T) {
 // called Minimizing hallucinations in agentic coding.
 func TestSpellingStaysBritish(t *testing.T) {
 	american := regexp.MustCompile(`\b\w+iz(e|ed|ing|ation)\b|\bcolor\w*\b|\bbehavior\w*\b|\bcenter\w*\b|\banalyz\w+\b`)
-	// Words that end in -ise in both, so -ize is not evidence either way.
+	// Words that end in -ise in both, so -ize is not evidence either way, and
+	// the one HTTP header name a prompt has to spell the way the wire does.
 	fine := map[string]bool{
 		"size": true, "sized": true, "sizing": true, "prize": true, "capsize": true,
+		"authorization": true,
 	}
 	for _, c := range All {
 		for _, text := range []string{prose(c), promptText(c)} {
@@ -480,8 +483,9 @@ func TestNothingAfterScaleOutClaimsOneProcess(t *testing.T) {
 func TestProseFieldsHoldNoBackticks(t *testing.T) {
 	for _, c := range All {
 		fields := map[string]string{
-			"Prompts": promptText(c),
-			"Why":     c.BuildIt.Why + strings.Join(c.Why, "\n"),
+			"Prompts":  promptText(c),
+			"Commands": commandText(c),
+			"Why":      c.BuildIt.Why + strings.Join(c.Why, "\n"),
 		}
 		for name, text := range fields {
 			if strings.Contains(text, "`") {
@@ -505,6 +509,18 @@ func promptText(c ChapterContent) string {
 	for _, p := range allPrompts(c) {
 		b.WriteString(p.Text)
 		b.WriteString("\n")
+	}
+	return b.String()
+}
+
+// commandText is every Try command of a chapter joined, sidebar included.
+func commandText(c ChapterContent) string {
+	var b strings.Builder
+	for _, p := range allPrompts(c) {
+		for _, cmd := range p.Commands {
+			b.WriteString(cmd.Command)
+			b.WriteString("\n")
+		}
 	}
 	return b.String()
 }
@@ -533,14 +549,14 @@ func TestPromptsStayShort(t *testing.T) {
 	}
 }
 
-// Four labels, so a reader learns them once. A fifth word on one chapter is
+// Five labels, so a reader learns them once. A sixth word on one chapter is
 // a word they have to work out on that page alone.
 func TestPromptLabelsComeFromTheFixedSet(t *testing.T) {
-	allowed := map[string]bool{"Think": true, "Build": true, "Check": true, "Portal": true}
+	allowed := map[string]bool{"Think": true, "Build": true, "Check": true, "Portal": true, "Try": true}
 	for _, c := range All {
 		for _, p := range allPrompts(c) {
 			if !allowed[p.Label] {
-				t.Errorf("chapter %d: prompt label %q is not one of Think, Build, Check, Portal", c.Number, p.Label)
+				t.Errorf("chapter %d: prompt label %q is not one of Think, Build, Check, Portal, Try", c.Number, p.Label)
 			}
 			if p.Label == "Portal" && !p.Portal {
 				t.Errorf("chapter %d: a turn labelled Portal must be a Portal turn", c.Number)
@@ -587,9 +603,119 @@ func TestEveryAsideMeetsTheChapterBar(t *testing.T) {
 			t.Errorf("chapter %d: sidebar Source %q cites no recognised corpus", c.Number, a.BuildIt.Source)
 		}
 		for _, p := range a.BuildIt.Prompts {
-			if !strings.Contains(p.Text, "Done when") {
+			if !p.Reader && !strings.Contains(p.Text, "Done when") {
 				t.Errorf("chapter %d: sidebar prompt %q is missing a 'Done when' line", c.Number, p.Label)
 			}
 		}
+	}
+}
+
+// tryTurnsThrough is the last chapter whose Try turn has been written. It
+// only ever rises. A chapter at or below it with no Try turn is a chapter
+// the reader watches instead of operates, which is the gap Try turns exist
+// to close.
+const tryTurnsThrough = 21
+
+// buildIts is a chapter's Build It and its sidebar's, each as its own list,
+// because "first turn" and "the turn before" only mean anything inside one
+// list.
+func buildIts(c ChapterContent) []BuildIt {
+	out := []BuildIt{c.BuildIt}
+	if c.Aside != nil {
+		out = append(out, c.Aside.BuildIt)
+	}
+	return out
+}
+
+// A Try turn is the reader's, not the assistant's. It is never sent, so it
+// carries none of what a sent prompt needs, and it ends where the reader
+// should look rather than where the assistant should stop.
+func TestTryTurnsAreTheReadersOwn(t *testing.T) {
+	systemIDs := map[string]bool{}
+	for _, s := range Systems {
+		systemIDs[s.ID] = true
+	}
+	for _, c := range All {
+		hasTry := false
+		for _, b := range buildIts(c) {
+			for i, p := range b.Prompts {
+				if p.Reader != (p.Label == "Try") {
+					t.Errorf("chapter %d: a Try turn and a Reader turn are the same thing; label %q has Reader=%v", c.Number, p.Label, p.Reader)
+				}
+				if !p.Reader {
+					continue
+				}
+				hasTry = true
+				if p.Portal || p.Thinking {
+					t.Errorf("chapter %d: a Try turn is neither Portal nor Thinking", c.Number)
+				}
+				if strings.Contains(p.Text, "{os}") {
+					t.Errorf("chapter %d: a Try turn has no {os}; its commands are per system already", c.Number)
+				}
+				if strings.Contains(p.Text, "Done when") {
+					t.Errorf("chapter %d: a Try turn ends with 'You should see:', not 'Done when'", c.Number)
+				}
+				paragraphs := strings.Split(strings.TrimSpace(p.Text), "\n\n")
+				if last := paragraphs[len(paragraphs)-1]; !strings.HasPrefix(last, "You should see:") {
+					t.Errorf("chapter %d: a Try turn's last paragraph must start 'You should see:', got %q", c.Number, last)
+				}
+				if i == 0 {
+					t.Errorf("chapter %d: a Try turn cannot open a Build It; there is nothing to try yet", c.Number)
+				} else if prev := b.Prompts[i-1]; prev.Thinking || prev.Label == "Check" {
+					t.Errorf("chapter %d: a Try turn follows a Build, Portal or Try turn, not %q", c.Number, prev.Label)
+				}
+				if len(p.Commands) == 0 {
+					continue
+				}
+				seen := map[string]bool{}
+				for _, cmd := range p.Commands {
+					if !systemIDs[cmd.SystemID] {
+						t.Errorf("chapter %d: Try command for unknown system %q", c.Number, cmd.SystemID)
+					}
+					if seen[cmd.SystemID] {
+						t.Errorf("chapter %d: Try turn has two commands for %q", c.Number, cmd.SystemID)
+					}
+					seen[cmd.SystemID] = true
+					if strings.TrimSpace(cmd.Command) == "" {
+						t.Errorf("chapter %d: Try command for %q is empty", c.Number, cmd.SystemID)
+					}
+					if strings.Contains(cmd.Command, "`") {
+						t.Errorf("chapter %d: Try command for %q contains a backtick, which a raw string cannot hold", c.Number, cmd.SystemID)
+					}
+					if cmd.SystemID != "macos" && cmd.SystemID != "linux" && strings.Contains(cmd.Command, "curl ") {
+						t.Errorf("chapter %d: Try command for %q says 'curl', which PowerShell aliases; say curl.exe", c.Number, cmd.SystemID)
+					}
+				}
+				for id := range systemIDs {
+					if !seen[id] {
+						t.Errorf("chapter %d: Try turn has commands but none for %q", c.Number, id)
+					}
+				}
+			}
+		}
+		if c.Number <= tryTurnsThrough && !hasTry {
+			t.Errorf("chapter %d has no Try turn, and every chapter up to %d must", c.Number, tryTurnsThrough)
+		}
+	}
+}
+
+// The two helpers build the per-system list, so a chapter file states each
+// command once and the test above cannot be failed by a missing entry.
+func TestCommandHelpersCoverEverySystem(t *testing.T) {
+	for name, cmds := range map[string][]SystemCommand{
+		"Commands":      Commands("ps", "bat", "sh"),
+		"CommandsSplit": CommandsSplit("ps", "bat", "mac", "linux"),
+	} {
+		if len(cmds) != len(Systems) {
+			t.Errorf("%s returned %d commands, want one per system (%d)", name, len(cmds), len(Systems))
+		}
+	}
+	shared := Commands("ps", "bat", "sh")
+	if shared[2].Command != "sh" || shared[3].Command != "sh" {
+		t.Error("Commands should give macOS and Linux the same shell command")
+	}
+	split := CommandsSplit("ps", "bat", "mac", "linux")
+	if split[2].SystemID != "macos" || split[2].Command != "mac" || split[3].SystemID != "linux" || split[3].Command != "linux" {
+		t.Error("CommandsSplit should give macOS and Linux their own commands, in that order")
 	}
 }

@@ -36,17 +36,37 @@ var Chapter14 = ChapterContent{
 		Prompts: []Prompt{
 			{Label: "Build", Text: `A payment is one step inside the Vault. I want it to run in stages that can be undone if a later stage fails for good.
 
-Build it in five pieces. Stop after each and show me it works.
+Five pieces. Stop after each and show me.
 
 1. A saved record, per payment, of which stages are done.
 2. The existing money movement as stage one.
-3. A stand-in for an outside ledger: a small process with its own file that credits an account, refuses for good on a closed handle, and can be switched off. Stage two credits the recipient there.
+3. A stand-in for an outside ledger: a small process with its own file that credits an account, refuses for good on a closed handle, and can be switched off. It listens on 9320, and POST /close with {"handle": "carol"} closes a handle for good. Stage two credits the recipient there.
 4. An undo for stage one when stage two fails for good: new Ledger entries pointing at the original, never a deletion.
-5. Kill the copy between the stages, restart, and have the payment carry on.
+5. Kill the copy between stages, restart, and have the payment carry on.
 
 A timeout is not a permanent failure. It retries with the same reference.
 
 Done when a closed recipient puts the money back, and an interrupted payment finishes after a restart.`},
+			{Label: "Try", Reader: true, Text: `Watch money leave and come back. With everything running, and the outside ledger too, run this: it opens carol, closes her on the outside ledger, pays her 20 from alice, then prints alice's balance and history.
+
+You should see: alice's balance unchanged, and two entries for the payment in her history: the debit of 20, and a credit of 20 that points at it and says why. The money was gone for a moment. The record of both halves is what makes that fine.`,
+				Commands: Commands(
+					`curl.exe -s -X POST http://127.0.0.1:9310/accounts -H 'Content-Type: application/json' -d '{\"handle\":\"carol\"}' -w '\n'
+curl.exe -s -X POST http://127.0.0.1:9320/close -H 'Content-Type: application/json' -d '{\"handle\":\"carol\"}' -w '\n'
+curl.exe -s -m 30 -X POST http://127.0.0.1:9310/pay -H 'Content-Type: application/json' -d '{\"from\":\"alice\",\"to\":\"carol\",\"amount\":20}' -w ' -> %{http_code}\n'
+curl.exe -s http://127.0.0.1:9310/accounts/alice -w '\n'
+curl.exe -s http://127.0.0.1:9310/accounts/alice/history -w '\n'`,
+					`curl.exe -s -X POST http://127.0.0.1:9310/accounts -H "Content-Type: application/json" -d "{\"handle\":\"carol\"}" -w "\n"
+curl.exe -s -X POST http://127.0.0.1:9320/close -H "Content-Type: application/json" -d "{\"handle\":\"carol\"}" -w "\n"
+curl.exe -s -m 30 -X POST http://127.0.0.1:9310/pay -H "Content-Type: application/json" -d "{\"from\":\"alice\",\"to\":\"carol\",\"amount\":20}" -w " -> %{http_code}\n"
+curl.exe -s http://127.0.0.1:9310/accounts/alice -w "\n"
+curl.exe -s http://127.0.0.1:9310/accounts/alice/history -w "\n"`,
+					`curl -s -X POST http://127.0.0.1:9310/accounts -H 'Content-Type: application/json' -d '{"handle":"carol"}' -w '\n'
+curl -s -X POST http://127.0.0.1:9320/close -H 'Content-Type: application/json' -d '{"handle":"carol"}' -w '\n'
+curl -s -m 30 -X POST http://127.0.0.1:9310/pay -H 'Content-Type: application/json' -d '{"from":"alice","to":"carol","amount":20}' -w ' -> %{http_code}\n'
+curl -s http://127.0.0.1:9310/accounts/alice -w '\n'
+curl -s http://127.0.0.1:9310/accounts/alice/history -w '\n'`,
+				)},
 			{Label: "Portal", Portal: true, Text: `A reversed payment looks like two unrelated rows. Show it as the original and the reversal that answers it, tied together, with the reason.
 
 Build it in three steps and show me each.

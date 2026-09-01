@@ -43,12 +43,12 @@ Show me how the operating system sees it: its process id, its CPU and memory, wh
 I can program. Skip what a program is.
 
 Done when I can state the process id and its memory use, and say in one sentence why nothing survives a restart.`},
-			{Label: "Try", Reader: true, Text: `The assistant just read the process table for you. Read it yourself. With the Vault running in one terminal, run this in a second one: it lists your newest processes with their memory. Find the Vault: the one running your language, started a moment ago. Note its id and its memory. Then press Ctrl+C in the Vault's terminal, start it again, and run the list again.
+			{Label: "Try", Reader: true, Text: `The assistant just read the process table for you. Read it yourself. With the Vault running in one terminal, run this in a second one: it lists your newest processes with their memory in bytes. Find the Vault: the one running your language, started a moment ago. Note its id and its memory. Then press Ctrl+C in the Vault's terminal, start it again, and run the list again.
 
 You should see: a different process id for the same program, and alice back at 100. The number lived in the process you stopped, and the new one never heard of it.`,
 				Commands: Commands(
-					`Get-CimInstance Win32_Process | Sort-Object CreationDate -Descending | Select-Object -First 12 ProcessId, Name, @{n='MB'; e={[int]($_.WorkingSetSize / 1MB)}}`,
-					`powershell -Command "Get-CimInstance Win32_Process | Sort-Object CreationDate -Descending | Select-Object -First 12 ProcessId, Name, @{n='MB'; e={[int]($_.WorkingSetSize / 1MB)}}"`,
+					`Get-CimInstance Win32_Process | Sort-Object CreationDate -Descending | Select-Object -First 12 ProcessId, Name, WorkingSetSize`,
+					`powershell -Command "Get-CimInstance Win32_Process | Sort-Object CreationDate -Descending | Select-Object -First 12 ProcessId, Name, WorkingSetSize"`,
 					`ps -u "$USER" -o pid,rss,etime,comm | tail -15`,
 				)},
 		},

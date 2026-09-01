@@ -207,7 +207,7 @@ Done when I can state the process id and its memory use, and say in one sentence
       
       <p class="prompt-divider"><span class="prompt-step">2 of 2</span> Try<span class="prompt-you" title="This turn is yours. Nothing here is sent to the assistant.">You</span></p>
       <div class="try-turn">
-        <div class="try-text">The assistant just read the process table for you. Read it yourself. With the Vault running in one terminal, run this in a second one: it lists your newest processes with their memory. Find the Vault: the one running your language, started a moment ago. Note its id and its memory. Then press Ctrl+C in the Vault&#39;s terminal, start it again, and run the list again.
+        <div class="try-text">The assistant just read the process table for you. Read it yourself. With the Vault running in one terminal, run this in a second one: it lists your newest processes with their memory in bytes. Find the Vault: the one running your language, started a moment ago. Note its id and its memory. Then press Ctrl+C in the Vault&#39;s terminal, start it again, and run the list again.
 
 You should see: a different process id for the same program, and alice back at 100. The number lived in the process you stopped, and the new one never heard of it.</div>
         <p class="try-run">Run from the folder that holds peyva/.</p>
@@ -217,7 +217,7 @@ You should see: a different process id for the same program, and alice back at 1
             <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
             <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
           </button>
-          <pre class="prompt">Get-CimInstance Win32_Process | Sort-Object CreationDate -Descending | Select-Object -First 12 ProcessId, Name, @{n=&#39;MB&#39;; e={[int]($_.WorkingSetSize / 1MB)}}</pre>
+          <pre class="prompt">Get-CimInstance Win32_Process | Sort-Object CreationDate -Descending | Select-Object -First 12 ProcessId, Name, WorkingSetSize</pre>
         </div>
         
         <div class="prompt-wrap try-command" data-runner-for="windows-bat">
@@ -225,7 +225,7 @@ You should see: a different process id for the same program, and alice back at 1
             <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
             <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
           </button>
-          <pre class="prompt">powershell -Command &#34;Get-CimInstance Win32_Process | Sort-Object CreationDate -Descending | Select-Object -First 12 ProcessId, Name, @{n=&#39;MB&#39;; e={[int]($_.WorkingSetSize / 1MB)}}&#34;</pre>
+          <pre class="prompt">powershell -Command &#34;Get-CimInstance Win32_Process | Sort-Object CreationDate -Descending | Select-Object -First 12 ProcessId, Name, WorkingSetSize&#34;</pre>
         </div>
         
         <div class="prompt-wrap try-command" data-runner-for="macos">

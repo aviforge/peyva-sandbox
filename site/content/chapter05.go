@@ -32,6 +32,7 @@ var Chapter05 = ChapterContent{
 		What:      "Describing what the finished result looks like, so the assistant knows when it is done.",
 		Why:       "Given the finish line, it works out what has to change, including the parts you would have forgotten.",
 		Source:    "Anthropic: Prompting best practices, Provide clear success criteria",
+		SourceURL: AnthropicBestPracticeURL + "#research-and-information-gathering",
 		Prompts: []Prompt{
 			{Label: "Build", Text: `The Vault holds balances in memory, so every restart resets alice to her starting amount.
 

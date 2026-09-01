@@ -34,6 +34,7 @@ var Chapter12 = ChapterContent{
 		What:      "Telling the assistant that 'this cannot be done' is an acceptable answer.",
 		Why:       "Without that permission, it would rather build anything than say your constraints do not fit.",
 		Source:    "Anthropic: Reduce hallucinations, Allow Claude to say I don't know",
+		SourceURL: AnthropicDocsURL + "en/test-and-evaluate/strengthen-guardrails/reduce-hallucinations#basic-hallucination-minimization-strategies",
 		Prompts: []Prompt{
 			{Label: "Build", Text: `The Teller sends the recipient's notification itself, so the caller waits for it.
 

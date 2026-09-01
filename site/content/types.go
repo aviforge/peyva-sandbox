@@ -24,11 +24,16 @@ type ConceptItem struct {
 // corpora in RecognisedSources. A technique the reader can't look up is a
 // technique we invented, and inventing one teaches a vocabulary nobody else
 // speaks, so the citation is a required field, not a nicety.
+//
+// SourceURL is where the citation points. A citation the reader has to
+// search for is a citation most readers will not follow, so the Source text
+// is rendered as a link to it. It must sit on the cited corpus's own site.
 type BuildIt struct {
 	Technique string
 	What      string
 	Why       string
 	Source    string
+	SourceURL string
 
 	// Prompts are the chapter's turns, in the order they are asked. A reader
 	// copies one, reads the answer, and copies the next.
@@ -152,6 +157,16 @@ var RecognisedSources = []string{
 	"The Prompt Report",
 	"Anthropic",
 }
+
+// Where the two corpora live, for SourceURL. The Prompt Report is one paper,
+// so every citation of it links to the same page. Anthropic's prompting
+// advice was once a page per topic and is now one page with a section per
+// topic, so a citation of it appends the section's anchor.
+const (
+	PromptReportURL          = "https://arxiv.org/abs/2406.06608"
+	AnthropicDocsURL         = "https://platform.claude.com/docs/"
+	AnthropicBestPracticeURL = AnthropicDocsURL + "en/build-with-claude/prompt-engineering/claude-prompting-best-practices"
+)
 
 type ChapterContent struct {
 	Number      int

@@ -55,7 +55,8 @@ func TestRunGeneratesChapterZeroPage(t *testing.T) {
 	body := string(pageHTML)
 
 	for _, want := range []string{"What Are We Building?", "1. What", "2. Why",
-		"3. How", "Mark chapter as complete", "Build the Vault", "Inside One Computer", "Zero-shot prompting", "Documented in The Prompt Report"} {
+		"3. How", "Mark chapter as complete", "Build the Vault", "Inside One Computer", "Zero-shot prompting",
+		`Documented in <a href="https://arxiv.org/abs/2406.06608"`} {
 		if !strings.Contains(body, want) {
 			t.Errorf("chapter-0.html missing expected text %q", want)
 		}
@@ -68,7 +69,10 @@ func TestRunGeneratesChapterZeroPage(t *testing.T) {
 		t.Errorf("app.js was not copied: %v", err)
 	}
 
-	for _, unwanted := range []string{"http://", "https://", "fetch("} {
+	// Self-contained means the page loads nothing from the network: no
+	// remote script, stylesheet, image or fetch. A link the reader may
+	// click, such as a citation, is not a load, so plain hrefs are allowed.
+	for _, unwanted := range []string{`src="http`, `<link rel="stylesheet" href="http`, "@import", "fetch("} {
 		if strings.Contains(body, unwanted) {
 			t.Errorf("chapter-0.html unexpectedly contains %q: site must be fully self-contained", unwanted)
 		}

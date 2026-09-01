@@ -37,6 +37,7 @@ var Chapter10 = ChapterContent{
 			What:      "Having the assistant ask itself the smaller questions it needs answered, answer them, then answer yours.",
 			Why:       "The guesses behind a capacity estimate come out as a labelled list you can argue with.",
 			Source:    "The Prompt Report: Zero-Shot, Self-Ask",
+			SourceURL: PromptReportURL,
 			Prompts: []Prompt{
 				{Label: "Think", Thinking: true, Text: `I need to size a payments system. One process today, and no idea what it needs to survive.
 
@@ -67,6 +68,7 @@ Done when I have a peak figure and a two-year storage figure, and know which gue
 		What:      "Asking a broader, more general question first, then using that answer on your specific problem.",
 		Why:       "What makes any service replaceable is a better place to start than code that was never going to scale.",
 		Source:    "The Prompt Report: Thought Generation, Step-Back Prompting",
+		SourceURL: PromptReportURL,
 		Prompts: []Prompt{
 			{Label: "Think", Thinking: true, Text: `I have a service handling payments, and I want several copies of it behind a router.
 

@@ -129,6 +129,25 @@ func TestEveryTechniqueCitesARecognisedSource(t *testing.T) {
 	}
 }
 
+// The citation is a link, and a link that lands somewhere other than the
+// cited corpus is a citation that lies. The Prompt Report is one paper; an
+// Anthropic citation may point anywhere on Anthropic's docs, since its
+// advice is spread over more than one page.
+func TestEverySourceLinksToItsCorpus(t *testing.T) {
+	for _, c := range All {
+		for _, b := range buildIts(c) {
+			switch {
+			case b.SourceURL == "":
+				t.Errorf("chapter %d: %q has no SourceURL", c.Number, b.Source)
+			case strings.HasPrefix(b.Source, "The Prompt Report") && b.SourceURL != PromptReportURL:
+				t.Errorf("chapter %d: %q must link to %s, not %s", c.Number, b.Source, PromptReportURL, b.SourceURL)
+			case strings.HasPrefix(b.Source, "Anthropic") && !strings.HasPrefix(b.SourceURL, AnthropicDocsURL):
+				t.Errorf("chapter %d: %q must link under %s, not %s", c.Number, b.Source, AnthropicDocsURL, b.SourceURL)
+			}
+		}
+	}
+}
+
 // Teaching a range of prompting techniques is a goal of the book, so a
 // repeated technique means a chapter is missing its lesson.
 func TestEveryChapterTeachesADistinctTechnique(t *testing.T) {

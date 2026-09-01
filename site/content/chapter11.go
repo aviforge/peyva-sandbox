@@ -34,6 +34,7 @@ var Chapter11 = ChapterContent{
 		What:      "Having the assistant review its own work, fix what it finds, and repeat until a pass finds nothing.",
 		Why:       "Nothing here crashes, so running the tests will not tell you what is wrong.",
 		Source:    "The Prompt Report: Self-Criticism, Self-Refine",
+		SourceURL: PromptReportURL,
 		Prompts: []Prompt{
 			{Label: "Build", Text: `Every balance enquiry reaches the Vault's storage, even for a balance read a moment ago. Three copies sit in front of the Vault, which is its own process.
 

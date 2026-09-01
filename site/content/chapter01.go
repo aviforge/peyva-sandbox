@@ -34,6 +34,7 @@ var Chapter01 = ChapterContent{
 		What:      "Telling the assistant who to be, such as a systems engineer, before you ask your question.",
 		Why:       "A systems engineer at your shoulder explains memory differently from a textbook, and the role decides what it assumes you already know.",
 		Source:    "Anthropic: Prompting best practices, Give Claude a role",
+		SourceURL: AnthropicBestPracticeURL + "#give-claude-a-role",
 		Prompts: []Prompt{
 			{Label: "Build", Text: `You are a systems engineer beside me, pointing at my screen. I have a program running: a Vault holding one balance in memory.
 

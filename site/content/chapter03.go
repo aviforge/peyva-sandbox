@@ -33,6 +33,7 @@ var Chapter03 = ChapterContent{
 		What:      "Telling the assistant your situation and why you are asking, not only what you want done.",
 		Why:       "Told your machine and your goal, it picks commands that run here and warns you before the firewall asks.",
 		Source:    "Anthropic: Prompting best practices, Add context to improve performance",
+		SourceURL: AnthropicBestPracticeURL + "#add-context-to-improve-performance",
 		Prompts: []Prompt{
 			{Label: "Build", Text: `My environment: {os}. Run commands here if you can. The Gateway listens on TCP port 9310, and I have a phone on the same Wi-Fi.
 

@@ -35,6 +35,7 @@ var Chapter09 = ChapterContent{
 		What:      "Asking for a plan first, then having the assistant carry out that plan.",
 		Why:       "A table of what can go wrong is a specification beforehand and a story about the code afterwards.",
 		Source:    "The Prompt Report: Zero-Shot, Plan-and-Solve",
+		SourceURL: PromptReportURL,
 		Prompts: []Prompt{
 			{Label: "Think", Thinking: true, Text: `A page sends a payment over a network and gets a reference back. The other side already spots repeats by that reference.
 

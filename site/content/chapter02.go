@@ -33,6 +33,7 @@ var Chapter02 = ChapterContent{
 		What:      "Saying what you do not want, so the assistant cannot add things you never asked for.",
 		Why:       "An assistant fills gaps generously, so a request for a listener comes back as an HTTP server until you draw the line.",
 		Source:    "Anthropic: Prompting best practices, Overeagerness",
+		SourceURL: AnthropicBestPracticeURL + "#overeagerness",
 		Prompts: []Prompt{
 			{Label: "Build", Text: `peyva is one process holding the Vault, and nothing can reach it from outside. Build the Gateway: the front door.
 

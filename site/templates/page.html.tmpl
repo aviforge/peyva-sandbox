@@ -121,7 +121,7 @@
       </ul>
       <p class="technique"><span class="technique-name">{{.BuildIt.Technique}}</span> {{.BuildIt.What}}</p>
       <p class="technique-why">Why here: {{.BuildIt.Why}}</p>
-      <p class="technique-source">Documented in <a href="{{.BuildIt.SourceURL}}" target="_blank" rel="noopener">{{.BuildIt.Source}}</a></p>
+      <p class="technique-source">Read more: <a href="{{.BuildIt.SourceURL}}" target="_blank" rel="noopener">{{.BuildIt.Source}}</a></p>
       {{range $.AsidePrompts}}
       {{if .Reader}}{{template "try-turn" .}}{{else}}
       <p class="prompt-divider">{{if .Numbered}}<span class="prompt-step">{{.Step}} of {{.Steps}}</span> {{end}}{{.Label}}<span class="prompt-tokens" title="Roughly what this prompt costs to send, the rules above included. What the assistant then reads and writes is far larger and only your own tool can measure it.">~{{.Tokens}} tokens</span></p>
@@ -145,7 +145,7 @@
       {{if .SystemMatters}}<p class="system-locked">Written for <b data-os-name>{{.SystemName}}</b>, <a href="{{.AssetPrefix}}{{.SystemPickerHref}}">change in Chapter {{.SystemPickerNumber}}</a></p>{{end}}
       <p class="technique"><span class="technique-name">{{.Chapter.BuildIt.Technique}}</span> {{.Chapter.BuildIt.What}}</p>
       <p class="technique-why">Why here: {{.Chapter.BuildIt.Why}}</p>
-      <p class="technique-source">Documented in <a href="{{.Chapter.BuildIt.SourceURL}}" target="_blank" rel="noopener">{{.Chapter.BuildIt.Source}}</a></p>
+      <p class="technique-source">Read more: <a href="{{.Chapter.BuildIt.SourceURL}}" target="_blank" rel="noopener">{{.Chapter.BuildIt.Source}}</a></p>
       <details class="standing-rules">
         <summary>Every prompt below is copied with these rules{{if .ChapterTokens}}, about {{.ChapterTokens}} tokens for the chapter{{end}}</summary>
         {{if .HasBuildPrompt}}<pre class="prompt-lang" id="rules-build">{{.LanguageLine}}</pre>{{end}}

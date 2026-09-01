@@ -144,7 +144,7 @@ func (b BuildIt) filter(portal bool) []Prompt {
 	return out
 }
 
-// RecognisedSources are the corpora a BuildIt.Source may cite. Both are
+// RecognisedSources are the corpora a BuildIt.Source may cite. All are
 // public and checkable:
 //
 //   - "The Prompt Report": Schulhoff et al., arXiv:2406.06608, a systematic
@@ -153,19 +153,29 @@ func (b BuildIt) filter(portal bool) []Prompt {
 //     Decomposition, Ensembling, Self-Criticism).
 //   - "Anthropic": the vendor's own prompt-engineering documentation at
 //     platform.claude.com/docs/en/build-with-claude/prompt-engineering.
+//   - "ACL Anthology": the peer-reviewed papers of the Association for
+//     Computational Linguistics, for a technique the survey only mentions
+//     in passing and the vendor does not name.
 var RecognisedSources = []string{
 	"The Prompt Report",
 	"Anthropic",
+	"ACL Anthology",
 }
 
-// Where the two corpora live, for SourceURL. The Prompt Report is one paper,
-// so every citation of it links to the same page. Anthropic's prompting
-// advice was once a page per topic and is now one page with a section per
-// topic, so a citation of it appends the section's anchor.
+// Where the corpora live, for SourceURL. Each citation links to the section
+// that documents its technique, not to the front of the document: a reader
+// dropped at the top of a ninety-page survey is a reader who closes the tab.
+//
+// The Prompt Report is linked in arXiv's HTML rendering, which gives every
+// section an anchor the PDF cannot, and pinned to one version because the
+// anchors are numbered and a later revision can renumber them. Anthropic's
+// prompting advice was once a page per topic and is now one page with a
+// section per topic, so a citation of it appends the section's anchor.
 const (
-	PromptReportURL          = "https://arxiv.org/abs/2406.06608"
+	PromptReportURL          = "https://arxiv.org/html/2406.06608v6"
 	AnthropicDocsURL         = "https://platform.claude.com/docs/"
 	AnthropicBestPracticeURL = AnthropicDocsURL + "en/build-with-claude/prompt-engineering/claude-prompting-best-practices"
+	ACLAnthologyURL          = "https://aclanthology.org/"
 )
 
 type ChapterContent struct {

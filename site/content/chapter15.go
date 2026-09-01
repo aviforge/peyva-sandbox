@@ -35,7 +35,7 @@ var Chapter15 = ChapterContent{
 		What:      "Asking the assistant to explain the problem through a comparison with something familiar, then reason from that.",
 		Why:       "Where its comparison and yours differ, one of you is wrong about the design.",
 		Source:    "The Prompt Report: Thought Generation, Analogical Prompting",
-		SourceURL: PromptReportURL,
+		SourceURL: PromptReportURL + "#Ch2.S2.SS2.SSS1.Px2",
 		Prompts: []Prompt{
 			{Label: "Think", Thinking: true, Text: `A system keeps its records in one file on one disk. If that disk dies, everything dies with it. I want a second copy elsewhere that follows the first, change by change.
 

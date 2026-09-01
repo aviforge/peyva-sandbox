@@ -130,19 +130,22 @@ func TestEveryTechniqueCitesARecognisedSource(t *testing.T) {
 }
 
 // The citation is a link, and a link that lands somewhere other than the
-// cited corpus is a citation that lies. The Prompt Report is one paper; an
-// Anthropic citation may point anywhere on Anthropic's docs, since its
-// advice is spread over more than one page.
+// cited corpus is a citation that lies. A Prompt Report citation links to a
+// section of the paper, never its front page; an Anthropic citation may
+// point anywhere on Anthropic's docs, since its advice is spread over more
+// than one page; an ACL citation links to a paper in the Anthology.
 func TestEverySourceLinksToItsCorpus(t *testing.T) {
 	for _, c := range All {
 		for _, b := range buildIts(c) {
 			switch {
 			case b.SourceURL == "":
 				t.Errorf("chapter %d: %q has no SourceURL", c.Number, b.Source)
-			case strings.HasPrefix(b.Source, "The Prompt Report") && b.SourceURL != PromptReportURL:
-				t.Errorf("chapter %d: %q must link to %s, not %s", c.Number, b.Source, PromptReportURL, b.SourceURL)
+			case strings.HasPrefix(b.Source, "The Prompt Report") && !strings.HasPrefix(b.SourceURL, PromptReportURL+"#"):
+				t.Errorf("chapter %d: %q must link to a section under %s, not %s", c.Number, b.Source, PromptReportURL, b.SourceURL)
 			case strings.HasPrefix(b.Source, "Anthropic") && !strings.HasPrefix(b.SourceURL, AnthropicDocsURL):
 				t.Errorf("chapter %d: %q must link under %s, not %s", c.Number, b.Source, AnthropicDocsURL, b.SourceURL)
+			case strings.HasPrefix(b.Source, "ACL Anthology") && !strings.HasPrefix(b.SourceURL, ACLAnthologyURL):
+				t.Errorf("chapter %d: %q must link under %s, not %s", c.Number, b.Source, ACLAnthologyURL, b.SourceURL)
 			}
 		}
 	}

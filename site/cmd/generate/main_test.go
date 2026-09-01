@@ -56,7 +56,7 @@ func TestRunGeneratesChapterZeroPage(t *testing.T) {
 
 	for _, want := range []string{"What Are We Building?", "1. What", "2. Why",
 		"3. How", "Mark chapter as complete", "Build the Vault", "Inside One Computer", "Zero-shot prompting",
-		`Read more: <a href="https://arxiv.org/abs/2406.06608"`} {
+		`Read more: <a href="https://arxiv.org/html/2406.06608v6#`} {
 		if !strings.Contains(body, want) {
 			t.Errorf("chapter-0.html missing expected text %q", want)
 		}

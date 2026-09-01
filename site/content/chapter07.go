@@ -36,7 +36,7 @@ var Chapter07 = ChapterContent{
 		What:      "Asking the assistant to think through the problem step by step before it gives an answer.",
 		Why:       "What a crash between the debit, the credit and the record leaves behind is cheaper worked out before the code exists.",
 		Source:    "The Prompt Report: Thought Generation, Chain-of-Thought",
-		SourceURL: PromptReportURL,
+		SourceURL: PromptReportURL + "#Ch2.S2.SS2.SSS0.Px1",
 		Prompts: []Prompt{
 			{Label: "Build", Text: `The Teller moves money by updating two balances. Nothing records that it happened.
 

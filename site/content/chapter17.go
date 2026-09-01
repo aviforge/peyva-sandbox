@@ -35,7 +35,7 @@ var Chapter17 = ChapterContent{
 		What:      "Telling the assistant the tone and voice to write in, and who will read it.",
 		Why:       "Writing logs for one on-call engineer at 3am changes what gets logged, not only how it reads.",
 		Source:    "The Prompt Report: Zero-Shot, Style Prompting",
-		SourceURL: PromptReportURL,
+		SourceURL: PromptReportURL + "#Ch2.S2.SS1.SSS3.Px2",
 		Prompts: []Prompt{
 			{Label: "Build", Text: `The system prints to the console and counts nothing. When something breaks, there is no way to find out what happened.
 

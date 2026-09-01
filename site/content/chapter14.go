@@ -34,7 +34,7 @@ var Chapter14 = ChapterContent{
 		What:      "Breaking a big job into smaller pieces and solving them in order, easiest first, each building on the last.",
 		Why:       "A five-stage workflow asked for in one go comes back sketched everywhere and working nowhere.",
 		Source:    "The Prompt Report: Decomposition, Least-to-Most",
-		SourceURL: PromptReportURL,
+		SourceURL: PromptReportURL + "#Ch2.S2.SS3.SSS0.Px1",
 		Prompts: []Prompt{
 			{Label: "Build", Text: `A payment is one step inside the Vault. I want it to run in stages that can be undone if a later stage fails for good.
 

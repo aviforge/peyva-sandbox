@@ -36,7 +36,7 @@ var Chapter00 = ChapterContent{
 		What:      "Asking for what you want in plain words, with no examples and no step-by-step instructions.",
 		Why:       "The Vault has one obvious shape, so anything more would be scaffolding around a simple job.",
 		Source:    "The Prompt Report: Zero-Shot",
-		SourceURL: PromptReportURL,
+		SourceURL: PromptReportURL + "#Ch2.S2.SS1.SSS3",
 		Prompts: []Prompt{
 			{Label: "Build", Text: `Build the Vault: the component that holds every account, and the only thing allowed to change a balance.
 

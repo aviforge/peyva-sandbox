@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Growing the Team: Scale Out | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=add5990e44">
+<link rel="stylesheet" href="styles.css?v=045a884f9f">
 </head>
 <body data-chapter-slug="chapter-10">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -175,7 +175,8 @@
       <ul class="why-list">
         <li>An estimate is a few guesses multiplied out: how many users, how often, how much busier the peak is, how big a record is.</li><li>100,000 users at three payments a day is 300,000 a day: about 3.5 a second, 35 at a ten times peak.</li><li>At a kilobyte a payment, two years of Ledger is around 220 GB.</li><li>Size for the peak, not the average. The busiest hour is the one that matters.</li><li>Roughly right before you build beats exactly right afterwards. Know which guess moves the answer most.</li>
       </ul>
-      <p class="technique"><span class="technique-name">Self-Ask</span>. Have it ask itself the questions first, and answer them. The guesses behind a capacity estimate come out as a labelled list you can argue with.</p>
+      <p class="technique"><span class="technique-name">Self-Ask</span> Having the assistant ask itself the smaller questions it needs answered, answer them, then answer yours.</p>
+      <p class="technique-why">Why here: The guesses behind a capacity estimate come out as a labelled list you can argue with.</p>
       <p class="technique-source">Documented in The Prompt Report: Zero-Shot, Self-Ask</p>
       
       
@@ -219,7 +220,8 @@ Done when I have a peak figure and a two-year storage figure, and know which gue
       </h2>
       <p class="choice-gate" data-choice-gate>Two choices first: the language you are building in, and the system you are on. Make them in <a href="chapter-0.html">Chapter 0</a>. The prompts below stay locked until you do.</p>
       <p class="system-locked">Written for <b data-os-name>Windows, in PowerShell</b>, <a href="chapter-0.html">change in Chapter 0</a></p>
-      <p class="technique"><span class="technique-name">Step-Back Prompting</span>. Ask the general question before the specific one. What makes any service replaceable is a better place to start than code that was never going to scale.</p>
+      <p class="technique"><span class="technique-name">Step-Back Prompting</span> Asking a broader, more general question first, then using that answer on your specific problem.</p>
+      <p class="technique-why">Why here: What makes any service replaceable is a better place to start than code that was never going to scale.</p>
       <p class="technique-source">Documented in The Prompt Report: Thought Generation, Step-Back Prompting</p>
       <details class="standing-rules">
         <summary>Every prompt below is copied with these rules, about 623 tokens for the chapter</summary>

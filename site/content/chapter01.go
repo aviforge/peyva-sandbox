@@ -31,7 +31,8 @@ var Chapter01 = ChapterContent{
 
 	BuildIt: BuildIt{
 		Technique: "Role prompting",
-		Why:       "Tell it who to be. A systems engineer at your shoulder explains memory differently from a textbook, and the role decides what it assumes you already know.",
+		What:      "Telling the assistant who to be, such as a systems engineer, before you ask your question.",
+		Why:       "A systems engineer at your shoulder explains memory differently from a textbook, and the role decides what it assumes you already know.",
 		Source:    "Anthropic: Prompting best practices, Give Claude a role",
 		Prompts: []Prompt{
 			{Label: "Build", Text: `You are a systems engineer beside me, pointing at my screen. I have a program running: a Vault holding one balance in memory.
@@ -45,8 +46,8 @@ Done when I can state the process id and its memory use, and say in one sentence
 
 You should see: a different process id for the same program, and alice back at 100. The number lived in the process you stopped, and the new one never heard of it.`,
 				Commands: Commands(
-					`Get-Process | Sort-Object StartTime -Descending -ErrorAction SilentlyContinue | Select-Object -First 12 Id, ProcessName, @{n='MB'; e={[math]::Round($_.WorkingSet64 / 1MB, 1)}}`,
-					`powershell -Command "Get-Process | Sort-Object StartTime -Descending -ErrorAction SilentlyContinue | Select-Object -First 12 Id, ProcessName, @{n='MB'; e={[math]::Round($_.WorkingSet64 / 1MB, 1)}}"`,
+					`Get-CimInstance Win32_Process | Sort-Object CreationDate -Descending | Select-Object -First 12 ProcessId, Name, @{n='MB'; e={[int]($_.WorkingSetSize / 1MB)}}`,
+					`powershell -Command "Get-CimInstance Win32_Process | Sort-Object CreationDate -Descending | Select-Object -First 12 ProcessId, Name, @{n='MB'; e={[int]($_.WorkingSetSize / 1MB)}}"`,
 					`ps -u "$USER" -o pid,rss,etime,comm | tail -15`,
 				)},
 		},

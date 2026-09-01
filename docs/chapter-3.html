@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Across the Wire (Networking) | Peyva Sandbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%233b6ef6'/%3E%3Ctext x='12' y='17' font-family='Arial,sans-serif' font-size='14' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=add5990e44">
+<link rel="stylesheet" href="styles.css?v=045a884f9f">
 </head>
 <body data-chapter-slug="chapter-3">
 <button type="button" class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle chapter menu">
@@ -173,7 +173,8 @@
       </h2>
       <p class="choice-gate" data-choice-gate>Two choices first: the language you are building in, and the system you are on. Make them in <a href="chapter-0.html">Chapter 0</a>. The prompts below stay locked until you do.</p>
       <p class="system-locked">Written for <b data-os-name>Windows, in PowerShell</b>, <a href="chapter-0.html">change in Chapter 0</a></p>
-      <p class="technique"><span class="technique-name">Add context and motivation</span>. Say where you are and why. Told both, it picks commands that run on your machine and warns you before the firewall asks.</p>
+      <p class="technique"><span class="technique-name">Add context and motivation</span> Telling the assistant your situation and why you are asking, not only what you want done.</p>
+      <p class="technique-why">Why here: Told your machine and your goal, it picks commands that run here and warns you before the firewall asks.</p>
       <p class="technique-source">Documented in Anthropic: Prompting best practices, Add context to improve performance</p>
       <details class="standing-rules">
         <summary>Every prompt below is copied with these rules, about 591 tokens for the chapter</summary>
@@ -226,9 +227,9 @@ Done when I have seen one message arrive as more than one read.</pre>
       
       <p class="prompt-divider"><span class="prompt-step">3 of 4</span> Try<span class="prompt-you" title="This turn is yours. Nothing here is sent to the assistant.">You</span></p>
       <div class="try-turn">
-        <div class="try-text">The assistant just showed you a message splitting. See it yourself. With the Gateway running, run this in a second terminal. It opens one connection, sends &#39;PAY alice&#39;, waits two seconds, sends &#39; bob 20&#39; on the same connection, and hangs up.
+        <div class="try-text">The assistant just showed you a message splitting. See it yourself. With the Gateway running, run this in a second terminal. It opens one connection, sends &#39;PAY alice&#39;, waits two seconds, sends &#39; bob 20&#39; on the same connection, and hangs up. On Windows each piece carries a line ending and the hang-up comes after four seconds of silence, so curl says nothing.
 
-You should see: the Gateway print two reads, 9 bytes and then 7, and neither one is the whole message. Nothing on the wire said where &#39;PAY alice bob 20&#39; ends. That is the framing this chapter is about.</div>
+You should see: the Gateway print two reads, 9 bytes and then 7 (11 and 9 on Windows), and neither one is the whole message. Nothing on the wire said where &#39;PAY alice bob 20&#39; ends. That is the framing this chapter is about.</div>
         <p class="try-run">Run from the folder that holds peyva/.</p>
         
         <div class="prompt-wrap try-command" data-runner-for="windows">
@@ -236,7 +237,7 @@ You should see: the Gateway print two reads, 9 bytes and then 7, and neither one
             <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
             <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
           </button>
-          <pre class="prompt">$c = New-Object System.Net.Sockets.TcpClient(&#39;127.0.0.1&#39;, 9310); $s = $c.GetStream(); $a = [System.Text.Encoding]::ASCII; $b = $a.GetBytes(&#39;PAY alice&#39;); $s.Write($b, 0, $b.Length); Start-Sleep -Seconds 2; $b = $a.GetBytes(&#39; bob 20&#39;); $s.Write($b, 0, $b.Length); Start-Sleep -Seconds 1; $c.Close()</pre>
+          <pre class="prompt">cmd /c &#34;(echo PAY alice&amp; ping -n 3 127.0.0.1 &gt;nul &amp; echo  bob 20) | curl.exe -s -m 4 telnet://127.0.0.1:9310&#34;</pre>
         </div>
         
         <div class="prompt-wrap try-command" data-runner-for="windows-bat">
@@ -244,7 +245,7 @@ You should see: the Gateway print two reads, 9 bytes and then 7, and neither one
             <svg class="icon-copy" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
             <svg class="icon-copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
           </button>
-          <pre class="prompt">powershell -Command &#34;$c = New-Object System.Net.Sockets.TcpClient(&#39;127.0.0.1&#39;, 9310); $s = $c.GetStream(); $a = [System.Text.Encoding]::ASCII; $b = $a.GetBytes(&#39;PAY alice&#39;); $s.Write($b, 0, $b.Length); Start-Sleep -Seconds 2; $b = $a.GetBytes(&#39; bob 20&#39;); $s.Write($b, 0, $b.Length); Start-Sleep -Seconds 1; $c.Close()&#34;</pre>
+          <pre class="prompt">(echo PAY alice&amp; ping -n 3 127.0.0.1 &gt;nul &amp; echo  bob 20) | curl.exe -s -m 4 telnet://127.0.0.1:9310</pre>
         </div>
         
         <div class="prompt-wrap try-command" data-runner-for="macos">

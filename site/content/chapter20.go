@@ -32,7 +32,8 @@ var Chapter20 = ChapterContent{
 
 	BuildIt: BuildIt{
 		Technique: "Decomposed Prompting",
-		Why:       "Split a request into the separate problems inside it and solve each alone. Routing, the cross-shard payment and the accounting are three jobs wearing one name.",
+		What:      "Splitting one request into the separate problems inside it and solving each one on its own.",
+		Why:       "Routing, the cross-shard payment and the accounting are three jobs wearing one name.",
 		Source:    "The Prompt Report: Decomposition, DECOMP",
 		Prompts: []Prompt{
 			{Label: "Think", Thinking: true, Text: `A payments system keeps every account in one store. I want to split them across two, so writes to different accounts go to different stores.

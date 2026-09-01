@@ -31,7 +31,8 @@ var Chapter08 = ChapterContent{
 
 	BuildIt: BuildIt{
 		Technique: "Generated Knowledge Prompting",
-		Why:       "Have it write down what it knows before it designs. The list of ways a payment arrives twice is what the design then has to answer.",
+		What:      "Asking the assistant to first list what it knows about the problem, then use that list to solve it.",
+		Why:       "The list of ways a payment arrives twice is what the design then has to answer.",
 		Source:    "The Prompt Report: Generated Knowledge",
 		Prompts: []Prompt{
 			{Label: "Build", Text: `Send the same payment twice and the Teller pays twice. A retry after a timeout looks just like a second payment.

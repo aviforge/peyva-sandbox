@@ -514,6 +514,12 @@ body.needs-choice .language-select {
   color: var(--muted);
 }
 
+.technique-why {
+  margin: -6px 0 12px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
 .technique-source {
   margin: -6px 0 12px;
   font-size: 12px;

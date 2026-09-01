@@ -30,7 +30,8 @@ var Chapter13 = ChapterContent{
 
 	BuildIt: BuildIt{
 		Technique: "Contrastive Chain-of-Thought",
-		Why:       "Show the wrong reasoning next to the right reasoning. Naming the design you do not want stops it being rediscovered, and forces the difference into the open.",
+		What:      "Showing an example of wrong reasoning next to right reasoning, so the assistant learns the difference.",
+		Why:       "Naming the design you do not want stops it being rediscovered, and forces the difference into the open.",
 		Source:    "The Prompt Report: Few-Shot CoT, Contrastive CoT",
 		Prompts: []Prompt{
 			{Label: "Build", Text: `The Courier takes work from a queue in memory. If its copy dies with work in it, the work is gone and nothing knows.

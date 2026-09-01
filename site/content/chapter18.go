@@ -31,7 +31,8 @@ var Chapter18 = ChapterContent{
 
 	BuildIt: BuildIt{
 		Technique: "Chain-of-Verification (CoVe)",
-		Why:       "Have it write the questions that would catch its own mistakes, then answer them against what it built. The questions find holes a checklist never mentions.",
+		What:      "Having the assistant write questions that would catch its own mistakes, answer them, then correct itself.",
+		Why:       "Asked against what it just built, the questions find holes a checklist never mentions.",
 		Source:    "The Prompt Report: Self-Criticism, Chain-of-Verification",
 		Prompts: []Prompt{
 			{Label: "Build", Text: `The Gateway believes the "from" field, so anyone can spend from any account. The Vault takes writes from anything that reaches its port.

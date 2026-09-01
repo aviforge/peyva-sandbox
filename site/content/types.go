@@ -10,9 +10,15 @@ type ConceptItem struct {
 // must stand alone: it cannot refer to anything visible only on this page.
 //
 // Technique names the prompt-engineering approach this chapter
-// demonstrates, and Why explains when to reach for it. Teaching a range of
-// prompting techniques is a goal of the book in its own right, so no two
-// chapters use the same one.
+// demonstrates, What says in one plain sentence what that approach is, and
+// Why explains why it suits this chapter. Teaching a range of prompting
+// techniques is a goal of the book in its own right, so no two chapters use
+// the same one.
+//
+// What exists because the name is jargon. Generated Knowledge Prompting means
+// nothing to a reader meeting it for the first time, and the sentence that
+// followed used to assume they had already looked it up. What is the
+// definition a reader can act on without leaving the page.
 //
 // Source cites where the technique is documented, and must name one of the
 // corpora in RecognisedSources. A technique the reader can't look up is a
@@ -20,6 +26,7 @@ type ConceptItem struct {
 // speaks, so the citation is a required field, not a nicety.
 type BuildIt struct {
 	Technique string
+	What      string
 	Why       string
 	Source    string
 

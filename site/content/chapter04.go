@@ -30,7 +30,8 @@ var Chapter04 = ChapterContent{
 
 	BuildIt: BuildIt{
 		Technique: "Few-shot (multishot) prompting",
-		Why:       "Show a few worked examples instead of describing them. Four requests with their exact replies settle field names and status codes that prose would leave open.",
+		What:      "Showing a few examples of the input and the answer you want, so the assistant copies the pattern.",
+		Why:       "Four requests with their exact replies settle field names and status codes that prose would leave open.",
 		Source:    "The Prompt Report: In-Context Learning; Anthropic, Use examples effectively",
 		Prompts: []Prompt{
 			{Label: "Build", Text: `Requests reach the Gateway but nothing acts on them. Have it speak HTTP, and build the Teller behind it.

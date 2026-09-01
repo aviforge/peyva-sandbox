@@ -119,7 +119,8 @@
       <ul class="why-list">
         {{range .Why}}<li>{{.}}</li>{{end}}
       </ul>
-      <p class="technique"><span class="technique-name">{{.BuildIt.Technique}}</span>. {{.BuildIt.Why}}</p>
+      <p class="technique"><span class="technique-name">{{.BuildIt.Technique}}</span> {{.BuildIt.What}}</p>
+      <p class="technique-why">Why here: {{.BuildIt.Why}}</p>
       <p class="technique-source">Documented in {{.BuildIt.Source}}</p>
       {{range $.AsidePrompts}}
       {{if .Reader}}{{template "try-turn" .}}{{else}}
@@ -142,7 +143,8 @@
       </h2>
       <p class="choice-gate" data-choice-gate>Two choices first: the language you are building in, and the system you are on. Make them in {{if .LanguageIsChosenHere}}<a href="#setup">Setup, above</a>{{else}}<a href="{{.AssetPrefix}}chapter-0.html">Chapter 0</a>{{end}}. The prompts below stay locked until you do.</p>
       {{if .SystemMatters}}<p class="system-locked">Written for <b data-os-name>{{.SystemName}}</b>, <a href="{{.AssetPrefix}}{{.SystemPickerHref}}">change in Chapter {{.SystemPickerNumber}}</a></p>{{end}}
-      <p class="technique"><span class="technique-name">{{.Chapter.BuildIt.Technique}}</span>. {{.Chapter.BuildIt.Why}}</p>
+      <p class="technique"><span class="technique-name">{{.Chapter.BuildIt.Technique}}</span> {{.Chapter.BuildIt.What}}</p>
+      <p class="technique-why">Why here: {{.Chapter.BuildIt.Why}}</p>
       <p class="technique-source">Documented in {{.Chapter.BuildIt.Source}}</p>
       <details class="standing-rules">
         <summary>Every prompt below is copied with these rules{{if .ChapterTokens}}, about {{.ChapterTokens}} tokens for the chapter{{end}}</summary>

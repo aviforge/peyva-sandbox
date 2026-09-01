@@ -29,7 +29,8 @@ var Chapter05 = ChapterContent{
 
 	BuildIt: BuildIt{
 		Technique: "Explicit success criteria",
-		Why:       "Describe the finished state, not the steps to it. Given the finish line, it works out what has to change, including the parts you would have forgotten.",
+		What:      "Describing what the finished result looks like, so the assistant knows when it is done.",
+		Why:       "Given the finish line, it works out what has to change, including the parts you would have forgotten.",
 		Source:    "Anthropic: Prompting best practices, Provide clear success criteria",
 		Prompts: []Prompt{
 			{Label: "Build", Text: `The Vault holds balances in memory, so every restart resets alice to her starting amount.

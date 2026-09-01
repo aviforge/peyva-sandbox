@@ -30,7 +30,8 @@ var Chapter02 = ChapterContent{
 
 	BuildIt: BuildIt{
 		Technique: "Constrain the scope",
-		Why:       "Name what you do not want. An assistant fills gaps generously, so a request for a listener comes back as an HTTP server until you draw the line.",
+		What:      "Saying what you do not want, so the assistant cannot add things you never asked for.",
+		Why:       "An assistant fills gaps generously, so a request for a listener comes back as an HTTP server until you draw the line.",
 		Source:    "Anthropic: Prompting best practices, Overeagerness",
 		Prompts: []Prompt{
 			{Label: "Build", Text: `peyva is one process holding the Vault, and nothing can reach it from outside. Build the Gateway: the front door.

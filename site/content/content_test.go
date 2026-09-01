@@ -64,6 +64,9 @@ func TestEveryChapterHasRequiredFields(t *testing.T) {
 		if c.BuildIt.Technique == "" {
 			t.Errorf("chapter %d: BuildIt.Technique is empty", c.Number)
 		}
+		if c.BuildIt.What == "" {
+			t.Errorf("chapter %d: BuildIt.What is empty", c.Number)
+		}
 		if c.BuildIt.Why == "" {
 			t.Errorf("chapter %d: BuildIt.Why is empty", c.Number)
 		}
@@ -295,8 +298,8 @@ func TestConfigChapterStatesBothHalvesOfTheRule(t *testing.T) {
 }
 
 // The Why paragraph says why a technique suits this chapter. It is not the
-// place to define the technique, which is named directly above it and cited in
-// the Source line below it.
+// place to define the technique, which is named directly above it, defined in
+// the What line beside the name, and cited in the Source line below it.
 //
 // It had grown to thirty-nine words on average, twelve of the twenty-one built
 // on the same antithesis: ask for X and you get Y, ask for Z and you get W. Any
@@ -305,9 +308,39 @@ func TestConfigChapterStatesBothHalvesOfTheRule(t *testing.T) {
 func TestWhyStaysShort(t *testing.T) {
 	const maxWords = 28
 	for _, c := range All {
-		if n := len(strings.Fields(c.BuildIt.Why)); n > maxWords {
-			t.Errorf("chapter %d: Why is %d words, over %d. Say why it suits this chapter and stop",
-				c.Number, n, maxWords)
+		for _, b := range buildIts(c) {
+			if n := len(strings.Fields(b.Why)); n > maxWords {
+				t.Errorf("chapter %d: Why is %d words, over %d. Say why it suits this chapter and stop",
+					c.Number, n, maxWords)
+			}
+		}
+	}
+}
+
+// What is the one-line definition of the technique, in plain words, for a
+// reader who has never met the name. One sentence, so it reads as a
+// definition and not as the start of an argument; short, because a definition
+// that needs a paragraph is a definition the reader will skip; and never the
+// name itself, because "role prompting is prompting with a role" defines
+// nothing.
+func TestWhatDefinesTheTechniquePlainly(t *testing.T) {
+	const maxWords = 22
+	for _, c := range All {
+		for _, b := range buildIts(c) {
+			w := strings.TrimSpace(b.What)
+			if n := len(strings.Fields(w)); n > maxWords {
+				t.Errorf("chapter %d: What for %q is %d words, over %d. One plain sentence",
+					c.Number, b.Technique, n, maxWords)
+			}
+			if !strings.HasSuffix(w, ".") {
+				t.Errorf("chapter %d: What for %q must be a sentence ending in a full stop", c.Number, b.Technique)
+			}
+			if strings.Count(w, ". ") > 0 {
+				t.Errorf("chapter %d: What for %q is more than one sentence", c.Number, b.Technique)
+			}
+			if strings.Contains(strings.ToLower(w), strings.ToLower(b.Technique)) {
+				t.Errorf("chapter %d: What for %q repeats the name instead of defining it", c.Number, b.Technique)
+			}
 		}
 	}
 }
@@ -421,7 +454,7 @@ func TestSpellingStaysBritish(t *testing.T) {
 func prose(c ChapterContent) string {
 	parts := []string{
 		c.Title, c.Subtitle, c.QuickTip, c.HeroCaption,
-		c.BuildIt.Why,
+		c.BuildIt.What, c.BuildIt.Why,
 	}
 	parts = append(parts, c.Why...)
 	for _, x := range c.Concepts {
@@ -431,7 +464,7 @@ func prose(c ChapterContent) string {
 		parts = append(parts, p.Label)
 	}
 	if a := c.Aside; a != nil {
-		parts = append(parts, a.Title, a.HeroCaption, a.BuildIt.Why)
+		parts = append(parts, a.Title, a.HeroCaption, a.BuildIt.What, a.BuildIt.Why)
 		parts = append(parts, a.Why...)
 		for _, p := range a.BuildIt.Prompts {
 			parts = append(parts, p.Label)
@@ -485,7 +518,7 @@ func TestProseFieldsHoldNoBackticks(t *testing.T) {
 		fields := map[string]string{
 			"Prompts":  promptText(c),
 			"Commands": commandText(c),
-			"Why":      c.BuildIt.Why + strings.Join(c.Why, "\n"),
+			"Why":      c.BuildIt.What + c.BuildIt.Why + strings.Join(c.Why, "\n"),
 		}
 		for name, text := range fields {
 			if strings.Contains(text, "`") {
@@ -587,7 +620,7 @@ func TestEveryAsideMeetsTheChapterBar(t *testing.T) {
 		if len(a.Why) < 3 {
 			t.Errorf("chapter %d: sidebar has %d Why bullets, want at least 3", c.Number, len(a.Why))
 		}
-		if a.BuildIt.Technique == "" || a.BuildIt.Why == "" || len(a.BuildIt.Prompts) == 0 {
+		if a.BuildIt.Technique == "" || a.BuildIt.What == "" || a.BuildIt.Why == "" || len(a.BuildIt.Prompts) == 0 {
 			t.Errorf("chapter %d: sidebar Build It is incomplete", c.Number)
 		}
 		if n, ok := techniques[a.BuildIt.Technique]; ok {

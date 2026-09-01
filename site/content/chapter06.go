@@ -30,7 +30,8 @@ var Chapter06 = ChapterContent{
 
 	BuildIt: BuildIt{
 		Technique: "Grounding: investigate before claiming",
-		Why:       "Rule out claims about code it has not run. What comes back is measured timings and query plans, not a confident guess about what an index does.",
+		What:      "Telling the assistant to run things and check before it claims anything.",
+		Why:       "What comes back is measured timings and query plans, not a confident guess about what an index does.",
 		Source:    "Anthropic: Prompting best practices, Minimizing hallucinations in agentic coding",
 		Prompts: []Prompt{
 			{Label: "Build", Text: `The Vault stores accounts by owner, and each carries a region that nothing indexes.

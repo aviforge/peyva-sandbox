@@ -31,7 +31,8 @@ var Chapter11 = ChapterContent{
 
 	BuildIt: BuildIt{
 		Technique: "Self-Refine",
-		Why:       "Have it review its own work and fix what it finds, until a pass finds nothing. Nothing here crashes, so running the tests will not tell you.",
+		What:      "Having the assistant review its own work, fix what it finds, and repeat until a pass finds nothing.",
+		Why:       "Nothing here crashes, so running the tests will not tell you what is wrong.",
 		Source:    "The Prompt Report: Self-Criticism, Self-Refine",
 		Prompts: []Prompt{
 			{Label: "Build", Text: `Every balance enquiry reaches the Vault's storage, even for a balance read a moment ago. Three copies sit in front of the Vault, which is its own process.

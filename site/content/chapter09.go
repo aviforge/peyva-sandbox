@@ -32,7 +32,8 @@ var Chapter09 = ChapterContent{
 
 	BuildIt: BuildIt{
 		Technique: "Plan-and-Solve",
-		Why:       "Ask for the plan first, then build from it. A table of what can go wrong is a specification beforehand and a story about the code afterwards.",
+		What:      "Asking for a plan first, then having the assistant carry out that plan.",
+		Why:       "A table of what can go wrong is a specification beforehand and a story about the code afterwards.",
 		Source:    "The Prompt Report: Zero-Shot, Plan-and-Solve",
 		Prompts: []Prompt{
 			{Label: "Think", Thinking: true, Text: `A page sends a payment over a network and gets a reference back. The other side already spots repeats by that reference.

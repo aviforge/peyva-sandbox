@@ -32,7 +32,8 @@ var Chapter17 = ChapterContent{
 
 	BuildIt: BuildIt{
 		Technique: "Style Prompting",
-		Why:       "Name the reader and the voice you want. Writing logs for one on-call engineer at 3am changes what gets logged, not only how it reads.",
+		What:      "Telling the assistant the tone and voice to write in, and who will read it.",
+		Why:       "Writing logs for one on-call engineer at 3am changes what gets logged, not only how it reads.",
 		Source:    "The Prompt Report: Zero-Shot, Style Prompting",
 		Prompts: []Prompt{
 			{Label: "Build", Text: `The system prints to the console and counts nothing. When something breaks, there is no way to find out what happened.
